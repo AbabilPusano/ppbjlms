@@ -24,10 +24,12 @@
         </a>
     </div>
 
-    <div class="home-nav-teacher">
-        <a href="{{ url('/guru/dashboard') }}" class="home-nav-item {{ $activeMenu === 'GURU' ? 'active' : '' }}" aria-label="Guru" title="Guru">
-            <span class="home-nav-icon"><span class="material-symbols-outlined" aria-hidden="true">work</span></span>
-            <span class="home-nav-label">Guru</span>
-        </a>
-    </div>
+    @if (auth()->user()?->role === 'guru')
+        <div class="home-nav-teacher">
+            <a href="{{ route('guru.dashboard') }}" class="home-nav-item {{ $activeMenu === 'GURU' ? 'active' : '' }}" aria-label="Guru" title="Guru">
+                <span class="home-nav-icon"><span class="material-symbols-outlined" aria-hidden="true">work</span></span>
+                <span class="home-nav-label">Guru</span>
+            </a>
+        </div>
+    @endif
 </nav>
