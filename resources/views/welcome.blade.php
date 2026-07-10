@@ -81,9 +81,9 @@
                         <span class="learning-stat-card__label">Step selesai</span>
                         <strong>6</strong>
                     </div>
-                    <button type="button" class="learning-continue-btn" data-ui-only>
+                    <a href="{{ url('/lesson/n5/unit/2/level/3') }}" class="learning-continue-btn">
                         Lanjut Unit 2
-                    </button>
+                    </a>
                 </div>
             </header>
 
@@ -202,9 +202,9 @@
                             <span class="ds-section-eyebrow">Fokus berikutnya</span>
                             <h3>Step 3</h3>
                             <p>Cocokkan huruf siap kamu buka sebagai langkah kecil berikutnya.</p>
-                            <button type="button" class="learning-continue-btn learning-continue-btn--full" data-ui-only>
+                            <a href="{{ url('/lesson/n5/unit/2/level/3') }}" class="learning-continue-btn learning-continue-btn--full">
                                 Buka step aktif
-                            </button>
+                            </a>
                         </div>
 
                         <div class="detail-sidecard">
