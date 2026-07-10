@@ -7,6 +7,7 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -31,5 +32,15 @@ class User extends Authenticatable
             'totalXP' => 'integer',
             'gems' => 'integer',
         ];
+    }
+
+    public function apiTokens(): HasMany
+    {
+        return $this->hasMany(ApiToken::class);
+    }
+
+    public function progress(): HasMany
+    {
+        return $this->hasMany(UserProgress::class, 'userId');
     }
 }

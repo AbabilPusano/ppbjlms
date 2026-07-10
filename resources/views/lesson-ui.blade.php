@@ -11,18 +11,18 @@
             },
             {
                 "type": "select-image",
-                "question": "Which one of these is sushi?",
+                "question": "Pilih kartu yang berarti sushi.",
                 "answer": "sushi",
                 "options": [
-                    { "id": 1, "text": "mizu", "sub": "みず", "image": "💧", "correct": false },
-                    { "id": 2, "text": "sushi", "sub": "すし", "image": "🍣", "correct": true },
-                    { "id": 3, "text": "gohan", "sub": "ごはん", "image": "🍚", "correct": false },
-                    { "id": 4, "text": "ocha", "sub": "おちゃ", "image": "🍵", "correct": false }
+                    { "id": 1, "text": "mizu", "sub": "みず", "image": "水", "correct": false },
+                    { "id": 2, "text": "sushi", "sub": "すし", "image": "寿", "correct": true },
+                    { "id": 3, "text": "gohan", "sub": "ごはん", "image": "飯", "correct": false },
+                    { "id": 4, "text": "ocha", "sub": "おちゃ", "image": "茶", "correct": false }
                 ]
             },
             {
                 "type": "translate-to-ja",
-                "question": "Write this in Japanese",
+                "question": "Susun jawaban dalam bahasa Jepang.",
                 "prompt": "water",
                 "answer": "みず",
                 "correctIds": [1],
@@ -35,18 +35,18 @@
             },
             {
                 "type": "select-image",
-                "question": "Which one of these is tea?",
+                "question": "Pilih kartu yang berarti teh.",
                 "answer": "ocha",
                 "options": [
-                    { "id": 1, "text": "mizu", "sub": "みず", "image": "💧", "correct": false },
-                    { "id": 2, "text": "sushi", "sub": "すし", "image": "🍣", "correct": false },
-                    { "id": 3, "text": "gohan", "sub": "ごはん", "image": "🍚", "correct": false },
-                    { "id": 4, "text": "ocha", "sub": "おちゃ", "image": "🍵", "correct": true }
+                    { "id": 1, "text": "mizu", "sub": "みず", "image": "水", "correct": false },
+                    { "id": 2, "text": "sushi", "sub": "すし", "image": "寿", "correct": false },
+                    { "id": 3, "text": "gohan", "sub": "ごはん", "image": "飯", "correct": false },
+                    { "id": 4, "text": "ocha", "sub": "おちゃ", "image": "茶", "correct": true }
                 ]
             },
             {
                 "type": "translate-to-ja",
-                "question": "Write this in Japanese",
+                "question": "Susun jawaban dalam bahasa Jepang.",
                 "prompt": "rice",
                 "answer": "ごはん",
                 "correctIds": [3],
@@ -62,48 +62,60 @@
 
     <header class="lesson-header">
         <a href="{{ url('/') }}" class="lesson-close" aria-label="Kembali ke dashboard">
-            <span class="material-symbols-outlined" aria-hidden="true">close</span>
+            <span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>
         </a>
+
+        <div class="lesson-header__copy">
+            <span>N5 Hiragana</span>
+            <strong>Unit 1 · Step 1</strong>
+        </div>
+
         <div class="lesson-progress" aria-label="Progress lesson">
             <span data-lesson-progress style="width: 0%"></span>
         </div>
+
         <div class="lesson-lives" aria-label="Nyawa tersisa">
-            <span aria-hidden="true">♥</span>
+            <span class="material-symbols-outlined" aria-hidden="true">favorite</span>
             <strong>5</strong>
         </div>
     </header>
 
     <main class="lesson-main">
         <section class="lesson-screen lesson-screen--new-letter" data-lesson-screen="new-letter" hidden>
-            <span class="lesson-kicker">New letter</span>
+            <div class="lesson-intro-panel">
+                <span class="lesson-kicker">Huruf baru</span>
+                <h1>Kenali bentuknya dulu, baru lanjut pelan-pelan.</h1>
+                <p>Fokus ke satu huruf. Setelah ini kamu akan latihan memilih dan menyusun jawaban.</p>
+            </div>
+
             <div class="lesson-letter-wrap">
                 <div class="lesson-letter-card"><span data-lesson-letter>あ</span></div>
-                <strong data-lesson-reading>a</strong>
+                <div class="lesson-reading-card">
+                    <span>Dibaca</span>
+                    <strong data-lesson-reading>a</strong>
+                </div>
             </div>
         </section>
 
         <section class="lesson-screen lesson-screen--choice" data-lesson-screen="select-image" hidden>
             <div class="lesson-question-copy">
-                <span class="lesson-kicker">New word</span>
-                <h1 data-choice-question>Which one of these is sushi?</h1>
+                <span class="lesson-kicker">Pilih jawaban</span>
+                <h1 data-choice-question>Pilih kartu yang berarti sushi.</h1>
+                <p>Setiap kartu menampilkan romaji, huruf Jepang, dan penanda visual kecil.</p>
             </div>
             <div class="lesson-choice-grid" data-choice-options></div>
         </section>
 
         <section class="lesson-screen lesson-screen--translate" data-lesson-screen="translate-to-ja" hidden>
             <div class="lesson-question-copy">
-                <h1 data-translate-question>Write this in Japanese</h1>
+                <span class="lesson-kicker">Susun kata</span>
+                <h1 data-translate-question>Susun jawaban dalam bahasa Jepang.</h1>
                 <div class="lesson-prompt-row">
                     <div class="lesson-character" aria-hidden="true">
-                        <svg viewBox="0 0 100 130">
-                            <circle cx="50" cy="40" r="30" fill="#fb85bf" />
-                            <rect x="20" y="70" width="60" height="50" rx="15" fill="#d45e99" />
-                            <circle cx="40" cy="35" r="3" fill="white" />
-                            <circle cx="60" cy="35" r="3" fill="white" />
-                            <path d="M45 50 Q50 55 55 50" stroke="white" stroke-width="3" fill="none" />
-                        </svg>
+                        <span class="material-symbols-outlined">translate</span>
                     </div>
                     <div class="lesson-speech">
+                        <small>Prompt</small>
                         <span data-translate-prompt>water</span>
                     </div>
                 </div>
@@ -131,16 +143,16 @@
                         <small>hasil sesi ini</small>
                     </div>
                 </div>
-                <a href="{{ url('/') }}" class="lesson-score-button">Lanjut</a>
+                <a href="{{ url('/') }}" class="lesson-score-button">Kembali ke dashboard</a>
             </div>
         </section>
     </main>
 
     <footer class="lesson-footer" data-lesson-footer>
         <div class="lesson-feedback" data-lesson-feedback>
-            <button type="button" class="lesson-skip" data-lesson-skip>Skip</button>
+            <button type="button" class="lesson-skip" data-lesson-skip>Lewati</button>
         </div>
-        <button type="button" class="lesson-action" data-lesson-action>Continue</button>
+        <button type="button" class="lesson-action" data-lesson-action>Lanjut</button>
     </footer>
 </div>
 @endsection

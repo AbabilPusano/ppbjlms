@@ -41,5 +41,7 @@ class DatabaseSeeder extends Seeder
             'gems' => 0,
             'league' => 'Bronze',
         ]);
+
+        $this->call(LmsContentSeeder::class);
     }
 }

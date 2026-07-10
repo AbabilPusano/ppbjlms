@@ -115,10 +115,13 @@
                 <div class="profile-modal">
                     <span class="ds-section-eyebrow">Session</span>
                     <h2>Keluar dari LMS?</h2>
-                    <p>Modal dummy untuk meniru tampilan konfirmasi logout sumber.</p>
+                    <p>Sesi belajarmu akan diakhiri dan kamu akan kembali ke halaman login.</p>
                     <div class="profile-modal__actions">
                         <button type="button" class="profile-btn profile-btn--ghost" data-close-modal>Batal</button>
-                        <button type="button" class="profile-btn profile-btn--danger" data-close-modal>Keluar</button>
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="profile-btn profile-btn--danger">Keluar</button>
+                        </form>
                     </div>
                 </div>
             </div>
