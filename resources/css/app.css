@@ -6342,6 +6342,219 @@ body {
   font-weight: 500;
 }
 
+.guru-admin-main {
+  background:
+    linear-gradient(135deg, rgba(251, 133, 191, 0.08), transparent 34%),
+    linear-gradient(315deg, rgba(157, 57, 111, 0.08), transparent 42%);
+}
+
+.guru-admin-grid,
+.guru-admin-results {
+  width: min(100%, 1180px);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.guru-admin-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.guru-admin-panel,
+.guru-admin-results {
+  border: 2px solid #e5e7eb;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 18px 42px rgba(17, 24, 39, 0.06);
+}
+
+.guru-admin-panel {
+  padding: 22px;
+  display: grid;
+  gap: 18px;
+}
+
+.guru-admin-panel__head {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.guru-admin-panel__head > .material-symbols-outlined {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #fb85bf, #9d396f);
+  color: #fff;
+}
+
+.guru-admin-panel h2,
+.guru-admin-results h2 {
+  margin: 0;
+  color: #1a1c1c;
+  font-size: 22px;
+  font-weight: 900;
+}
+
+.guru-admin-panel p,
+.guru-admin-results p {
+  margin: 6px 0 0;
+  color: #6b7280;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.guru-admin-field {
+  display: grid;
+  gap: 8px;
+}
+
+.guru-admin-field > span {
+  color: #9ca3af;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.guru-admin-field input {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background: #fff;
+  color: #111827;
+  font: inherit;
+  font-weight: 700;
+}
+
+.guru-admin-field input:focus {
+  outline: none;
+  border-color: rgba(251, 133, 191, 0.74);
+  box-shadow: 0 0 0 4px rgba(251, 133, 191, 0.14);
+}
+
+.guru-admin-field small {
+  color: #6b7280;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.guru-admin-error {
+  padding: 12px 14px;
+  display: grid;
+  gap: 4px;
+  border: 1px solid rgba(220, 38, 38, 0.24);
+  border-radius: 10px;
+  background: #fef2f2;
+  color: #991b1b;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.guru-admin-panel--summary {
+  min-height: 100%;
+}
+
+.guru-admin-panel--summary > strong {
+  color: #9d396f;
+  font-size: 64px;
+  font-weight: 900;
+  line-height: 0.95;
+}
+
+.guru-admin-mini-list {
+  display: grid;
+  gap: 8px;
+}
+
+.guru-admin-mini-list div {
+  padding: 10px 12px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  border-radius: 10px;
+  background: #f8f9fa;
+}
+
+.guru-admin-mini-list span,
+.guru-admin-mini-list small {
+  color: #4b5563;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.guru-admin-mini-list small {
+  color: #9ca3af;
+}
+
+.guru-admin-results {
+  margin-top: 22px;
+  padding: 22px;
+}
+
+.guru-admin-results__head {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.guru-admin-results__head > span {
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(251, 133, 191, 0.12);
+  color: #9d396f;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.guru-admin-table {
+  overflow-x: auto;
+}
+
+.guru-admin-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.guru-admin-table th,
+.guru-admin-table td {
+  padding: 13px 12px;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.guru-admin-table th {
+  color: #9ca3af;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.guru-admin-table td {
+  color: #1f2937;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.guru-admin-table code {
+  padding: 4px 7px;
+  border-radius: 7px;
+  background: #f3f4f6;
+  color: #77174f;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 13px;
+}
+
 .guru-units-main {
   max-width: none;
 }
@@ -7286,6 +7499,10 @@ body {
     grid-template-columns: 1fr;
   }
 
+  .guru-admin-grid {
+    grid-template-columns: 1fr;
+  }
+
   .guru-units-heading {
     flex-direction: column;
   }
@@ -7377,6 +7594,15 @@ body {
 
   .guru-question-tools span {
     margin-left: 0;
+  }
+
+  .guru-admin-panel,
+  .guru-admin-results {
+    padding: 18px;
+  }
+
+  .guru-admin-results__head {
+    flex-direction: column;
   }
 
   .guru-material-detail dl > div {

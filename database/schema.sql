@@ -8,7 +8,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- -------------------------------------------------------------
 ALTER TABLE `users`
   ADD COLUMN `username` VARCHAR(191) NOT NULL AFTER `id`,
-  ADD COLUMN `role` VARCHAR(50) NOT NULL COMMENT "'guru' | 'siswa'" AFTER `password`,
+  ADD COLUMN `role` VARCHAR(50) NOT NULL COMMENT "'admin' | 'guru' | 'siswa'" AFTER `password`,
   ADD COLUMN `bio` TEXT DEFAULT NULL AFTER `email`,
   ADD COLUMN `avatar` VARCHAR(255) DEFAULT NULL AFTER `bio`,
   ADD COLUMN `streak` INT NOT NULL DEFAULT 0 AFTER `avatar`,

@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AdminStudentAccountController;
 use App\Http\Controllers\GuruMaterialApiController;
 use App\Http\Controllers\GuruUnitApiController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentDashboardController;
 use Illuminate\Support\Facades\Route;
 
@@ -11,22 +13,29 @@ Route::post('/login', [AuthController::class, 'login'])->name('login.store');
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
 
 Route::get('/', StudentDashboardController::class)
-    ->middleware(['auth', 'role:siswa,guru'])
+    ->middleware(['auth', 'role:siswa,guru,admin'])
     ->name('student.dashboard');
 
-Route::middleware(['auth', 'role:siswa,guru'])->group(function (): void {
+Route::middleware(['auth', 'role:siswa,guru,admin'])->group(function (): void {
     Route::view('/stories', 'stories-ui')->name('stories.index');
     Route::view('/letters', 'letters-ui')->name('letters.index');
-    Route::view('/profile', 'profile-ui')->name('profile.show');
-    Route::view('/settings/profile', 'settings-profile-ui')->name('profile.edit');
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::get('/settings/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/settings/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::patch('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
     Route::view('/lesson/n5/unit/{unit}/level/{level}', 'lesson-ui')->name('lesson.show');
 });
 
 Route::view('/guru/dashboard', 'guru-dashboard-ui')
-    ->middleware(['auth', 'role:guru'])
+    ->middleware(['auth', 'role:guru,admin'])
     ->name('guru.dashboard');
 
-Route::middleware(['auth', 'role:guru'])->group(function (): void {
+Route::middleware(['auth', 'role:admin'])->group(function (): void {
+    Route::get('/guru/student-accounts', [AdminStudentAccountController::class, 'index'])->name('admin.student-accounts.index');
+    Route::post('/guru/student-accounts', [AdminStudentAccountController::class, 'store'])->name('admin.student-accounts.store');
+});
+
+Route::middleware(['auth', 'role:guru,admin'])->group(function (): void {
     Route::view('/guru/units', 'guru-units-ui')->name('guru.units.index');
     Route::redirect('/guru/materi', '/guru/units')->name('guru.materials.index');
     Route::view('/guru/materi/{material}/questions', 'guru-questions-ui')->name('guru.materials.questions');

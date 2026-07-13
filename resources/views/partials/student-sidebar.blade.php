@@ -24,11 +24,11 @@
         </a>
     </div>
 
-    @if (auth()->user()?->role === 'guru')
+    @if (in_array(auth()->user()?->role, ['guru', 'admin'], true))
         <div class="home-nav-teacher">
             <a href="{{ route('guru.dashboard') }}" class="home-nav-item {{ $activeMenu === 'GURU' ? 'active' : '' }}" aria-label="Guru" title="Guru">
                 <span class="home-nav-icon"><span class="material-symbols-outlined" aria-hidden="true">work</span></span>
-                <span class="home-nav-label">Guru</span>
+                <span class="home-nav-label">{{ auth()->user()?->role === 'admin' ? 'Admin' : 'Guru' }}</span>
             </a>
         </div>
     @endif
