@@ -65,10 +65,9 @@
             <header class="learning-hero">
                 <div class="learning-hero__copy">
                     <span class="learning-hero__eyebrow">Ruang belajar N5</span>
-                    <h1>Lanjut pelan-pelan, tetap kelihatan arahnya.</h1>
+                    <h1>Selamat Datang di Ruang Pembelajaran</h1>
                     <p>
-                        Pilih unit yang lagi kamu jalani, buka step aktif, dan biarkan progresmu
-                        tumbuh sedikit demi sedikit tanpa harus terasa berat.
+                        Mari lanjutkan progres belajarmu hari ini. Silakan pilih modul yang tersedia di bawah ini untuk mulai berlatih.
                     </p>
                 </div>
 
@@ -91,11 +90,10 @@
                 <div class="section-heading">
                     <div>
                         <span class="ds-section-eyebrow">Pilih ritmemu</span>
-                        <h2 class="section-heading__title">Unit belajar yang siap kamu buka</h2>
+                        <h2 class="section-heading__title">Pilihan Modul</h2>
                     </div>
                     <p class="section-heading__desc">
-                        Setiap kartu nunjukin progres dan langkah berikutnya, jadi kamu bisa
-                        lanjut tanpa mikir mulai dari mana lagi.
+                        Daftar materi pelajaran yang sudah bisa kamu akses.
                     </p>
                 </div>
 
@@ -138,8 +136,7 @@
                                 <span class="unit-detail__eyebrow">Unit 2</span>
                                 <h2>Hiragana Awal</h2>
                                 <p>
-                                    Contoh detail unit statis dari tampilan sumber. Semua progress, step,
-                                    dan status di sini adalah dummy data untuk kebutuhan UI.
+                                    Pelajari dasar huruf Hiragana mulai dari huruf vokal, baris ka, dan latihan pengenalan bentuk.
                                 </p>
                             </div>
                             <div class="unit-detail__hero-meta">
@@ -160,12 +157,11 @@
 
                         <div class="section-heading section-heading--compact">
                             <div>
-                                <span class="ds-section-eyebrow">Alur kecil</span>
-                                <h3 class="section-heading__title">Step yang bisa kamu jalani</h3>
+                                <span class="ds-section-eyebrow">Alur Belajar</span>
+                                <h3 class="section-heading__title">Tahapan Belajar</h3>
                             </div>
                             <p class="section-heading__desc">
-                                Step aktif dibuat lebih hangat, step selesai tetap bisa dibuka ulang,
-                                dan sisanya menunggu sampai waktunya kebuka.
+                                Kerjakan materi secara berurutan agar proses belajarmu lebih terarah.
                             </p>
                         </div>
 
@@ -199,18 +195,18 @@
 
                     <aside class="unit-detail__sidebar">
                         <div class="detail-sidecard">
-                            <span class="ds-section-eyebrow">Fokus berikutnya</span>
+                            <span class="ds-section-eyebrow">Selanjutnya</span>
                             <h3>Step 3</h3>
-                            <p>Cocokkan huruf siap kamu buka sebagai langkah kecil berikutnya.</p>
+                            <p>Lanjutkan ke materi berikutnya.</p>
                             <a href="{{ url('/lesson/n5/unit/2/level/3') }}" class="learning-continue-btn learning-continue-btn--full">
                                 Buka step aktif
                             </a>
                         </div>
 
                         <div class="detail-sidecard">
-                            <span class="ds-section-eyebrow">Catatan belajar</span>
-                            <h3>Rangkuman kecil</h3>
-                            <p>Area ringkasan dummy untuk meniru tampilan source tanpa membawa route atau API lesson.</p>
+                            <span class="ds-section-eyebrow">Catatan</span>
+                            <h3>Rangkuman</h3>
+                            <p>Rangkuman materi yang sudah kamu pelajari akan muncul di sini.</p>
                             <button type="button" class="detail-sidecard__ghost" disabled>Segera tersedia</button>
                         </div>
                     </aside>
