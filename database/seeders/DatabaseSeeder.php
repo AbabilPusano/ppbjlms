@@ -29,6 +29,19 @@ class DatabaseSeeder extends Seeder
             'league' => 'Bronze',
         ]);
 
+        User::updateOrCreate(['username' => 'admin'], [
+            'name' => 'Admin',
+            'email' => 'admin@example.com',
+            'password' => Hash::make('password'),
+            'role' => 'admin',
+            'bio' => 'Akun admin LMS PPBJ.',
+            'avatar' => '管',
+            'streak' => 0,
+            'totalXP' => 0,
+            'gems' => 0,
+            'league' => 'Bronze',
+        ]);
+
         User::updateOrCreate(['username' => 'siswa'], [
             'name' => 'Siswa',
             'email' => 'siswa@example.com',
