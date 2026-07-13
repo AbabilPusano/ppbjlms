@@ -24,6 +24,11 @@ class Node extends Model
         return $this->hasMany(Question::class, 'nodeId')->orderBy('order');
     }
 
+    public function steps(): HasMany
+    {
+        return $this->hasMany(NodeStep::class, 'node_id')->orderBy('sort_order')->orderBy('created_at');
+    }
+
     public function progress(): HasMany
     {
         return $this->hasMany(UserProgress::class, 'nodeId');

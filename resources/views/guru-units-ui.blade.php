@@ -48,14 +48,10 @@
                     <span class="material-symbols-outlined" aria-hidden="true">add</span>
                     TAMBAH UNIT
                 </button>
-                <button type="button" class="guru-unit-button" data-open-material-modal>
-                    <span class="material-symbols-outlined" aria-hidden="true">playlist_add</span>
-                    TAMBAH ISI UNIT
-                </button>
-                <button type="button" class="guru-unit-button" data-open-level-modal>
+                <div class="guru-level-select-wrapper">
                     <span class="material-symbols-outlined" aria-hidden="true">tune</span>
-                    PILIH LEVEL
-                </button>
+                    <select class="guru-level-select" data-select-level-inline aria-label="Pilih Level"></select>
+                </div>
             </div>
         </div>
 
@@ -123,26 +119,10 @@
                     <span>Deskripsi</span>
                     <textarea name="description" rows="4"></textarea>
                 </label>
-                <div class="guru-unit-form__grid">
-                    <label>
-                        <span>Kategori Jepang</span>
-                        <input name="category_japanese" type="text" maxlength="191" required>
-                    </label>
-                    <label>
-                        <span>Romaji</span>
-                        <input name="category_romaji" type="text" maxlength="191" required>
-                    </label>
-                </div>
-                <div class="guru-unit-form__grid">
-                    <label>
-                        <span>Urutan</span>
-                        <input name="sort_order" type="number" min="0" step="1">
-                    </label>
-                    <label class="guru-unit-toggle">
-                        <input name="is_active" type="checkbox" checked>
-                        <span>Aktif</span>
-                    </label>
-                </div>
+                <input type="hidden" name="category_japanese" value="学習">
+                <input type="hidden" name="category_romaji" value="gakushu">
+                <input type="hidden" name="sort_order" value="">
+                <input type="hidden" name="is_active" value="1">
                 <p class="guru-unit-form__error" data-unit-form-error hidden></p>
                 <div class="guru-modal__actions">
                     <button type="button" class="guru-unit-button" data-close-guru-modal>Batal</button>
@@ -165,28 +145,16 @@
             </div>
             <form class="guru-unit-form" data-material-form>
                 <input type="hidden" name="id" data-material-id>
-                <label>
-                    <span>Level</span>
-                    <select name="level_id" data-material-level required></select>
-                </label>
+                <input type="hidden" name="level_id" data-material-level>
+                <input type="hidden" name="type" value="lesson">
+                <input type="hidden" name="order" value="">
                 <label>
                     <span>Unit Induk</span>
                     <select name="unit_id" data-material-unit required></select>
                 </label>
                 <label>
-                    <span>Tipe Isi</span>
-                    <select name="type" required>
-                        <option value="lesson">Materi Pembelajaran</option>
-                        <option value="quiz">Quiz</option>
-                    </select>
-                </label>
-                <label>
                     <span>Judul</span>
                     <input name="title" type="text" maxlength="191" required>
-                </label>
-                <label>
-                    <span>Urutan</span>
-                    <input name="order" type="number" min="0" step="1">
                 </label>
                 <p class="guru-unit-form__error" data-material-form-error hidden></p>
                 <div class="guru-modal__actions">

@@ -303,4 +303,21 @@ class GuruMaterialApiController extends Controller
             'order' => $question->order,
         ];
     }
+
+    public function reorder(Request $request): JsonResponse
+    {
+        $request->validate([
+            'materials' => 'required|array',
+            'materials.*.id' => 'required|string|exists:nodes,id',
+            'materials.*.order' => 'required|integer',
+        ]);
+
+        foreach ($request->input('materials') as $item) {
+            Node::query()->where('id', $item['id'])->update([
+                'order' => $item['order'],
+            ]);
+        }
+
+        return response()->json(['message' => 'Urutan isi unit berhasil diperbarui.']);
+    }
 }

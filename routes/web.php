@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminStudentAccountController;
 use App\Http\Controllers\GuruMaterialApiController;
 use App\Http\Controllers\GuruUnitApiController;
+use App\Http\Controllers\GuruStepApiController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentDashboardController;
 use Illuminate\Support\Facades\Route;
@@ -37,7 +38,7 @@ Route::middleware(['auth', 'role:admin'])->group(function (): void {
 
 Route::middleware(['auth', 'role:guru,admin'])->group(function (): void {
     Route::view('/guru/units', 'guru-units-ui')->name('guru.units.index');
-    Route::redirect('/guru/materi', '/guru/units')->name('guru.materials.index');
+    Route::get('/guru/units/{unit}/materials', [GuruUnitApiController::class, 'manageMaterials'])->name('guru.units.materials');
     Route::view('/guru/materi/{material}/questions', 'guru-questions-ui')->name('guru.materials.questions');
 
     Route::prefix('api/guru')->name('guru.api.')->group(function (): void {
@@ -51,10 +52,18 @@ Route::middleware(['auth', 'role:guru,admin'])->group(function (): void {
         Route::post('/materials', [GuruMaterialApiController::class, 'storeMaterial'])->name('materials.store');
         Route::put('/materials/{material}', [GuruMaterialApiController::class, 'updateMaterial'])->name('materials.update');
         Route::delete('/materials/{material}', [GuruMaterialApiController::class, 'destroyMaterial'])->name('materials.destroy');
+        Route::patch('/materials/reorder', [GuruMaterialApiController::class, 'reorder'])->name('materials.reorder');
         Route::get('/materials/{material}/questions', [GuruMaterialApiController::class, 'questions'])->name('materials.questions.index');
         Route::post('/materials/{material}/questions', [GuruMaterialApiController::class, 'storeQuestion'])->name('materials.questions.store');
         Route::get('/questions/template', [GuruMaterialApiController::class, 'questionTemplate'])->name('questions.template');
         Route::put('/questions/{question}', [GuruMaterialApiController::class, 'updateQuestion'])->name('questions.update');
         Route::delete('/questions/{question}', [GuruMaterialApiController::class, 'destroyQuestion'])->name('questions.destroy');
+
+        // Node Steps API routes
+        Route::get('/nodes/{node}/steps', [GuruStepApiController::class, 'index'])->name('steps.index');
+        Route::post('/steps', [GuruStepApiController::class, 'store'])->name('steps.store');
+        Route::put('/steps/{step}', [GuruStepApiController::class, 'update'])->name('steps.update');
+        Route::delete('/steps/{step}', [GuruStepApiController::class, 'destroy'])->name('steps.destroy');
+        Route::patch('/steps/reorder', [GuruStepApiController::class, 'reorder'])->name('steps.reorder');
     });
 });

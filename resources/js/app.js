@@ -222,41 +222,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
       listNode.innerHTML = state.units.map((unit, index) => {
         const unitMaterials = unit.materials || [];
-        const materialRows = unitMaterials.length === 0
-          ? `
-            <div class="guru-unit-material-empty">
-              <span>Belum ada materi di unit ini.</span>
-              <button type="button" class="guru-unit-mini-action" data-open-material-modal data-unit-id="${unit.id}">
-                <span class="material-symbols-outlined" aria-hidden="true">add</span>
-                Tambah Isi
-              </button>
-            </div>
-          `
-          : unitMaterials.map((material, materialIndex) => `
-            <article class="guru-unit-material" data-material-id="${material.id}">
-              <span class="guru-material-type guru-material-type--${material.type}">${labelForType(material.type)}</span>
-              <div class="guru-unit-material__body">
-                <h3>${index + 1}.${materialIndex + 1} ${escapeHtml(material.title)}</h3>
-                <p>${material.type === 'quiz' ? `${material.questions_count || 0} soal tersedia` : 'Konten belajar di dalam unit'}</p>
-              </div>
-              <div class="guru-unit-material__actions">
-                ${material.type === 'quiz'
-                  ? `<a class="guru-unit-button" href="/guru/materi/${material.id}/questions"><span class="material-symbols-outlined" aria-hidden="true">quiz</span>Kelola Soal</a>`
-                  : `<button type="button" class="guru-unit-button" data-material-detail="${material.id}"><span class="material-symbols-outlined" aria-hidden="true">visibility</span>Detail</button>`}
-                <button type="button" class="guru-unit-button" data-edit-material="${material.id}">
-                  <span class="material-symbols-outlined" aria-hidden="true">edit</span>Edit
-                </button>
-                <button type="button" class="guru-unit-button guru-unit-button--danger" data-delete-material="${material.id}">
-                  <span class="material-symbols-outlined" aria-hidden="true">delete</span>Hapus
-                </button>
-              </div>
-            </article>
-          `).join('');
 
         return `
-          <article class="guru-unit-card guru-unit-card--with-materials" data-unit-card="${unit.id}" draggable="true" aria-label="Unit ${escapeHtml(unit.title)} dapat diurutkan dengan drag and drop">
+          <article class="guru-unit-card" data-unit-card="${unit.id}" aria-label="Unit ${escapeHtml(unit.title)} dapat diurutkan dengan drag and drop">
             <div class="guru-unit-card__order">
-              <span class="material-symbols-outlined guru-unit-card__drag" aria-hidden="true">drag_indicator</span>
+              <span class="material-symbols-outlined guru-unit-card__drag" draggable="true" style="cursor: grab;" aria-hidden="true">drag_indicator</span>
               <strong>${index + 1}</strong>
             </div>
             <div class="guru-unit-card__body">
@@ -266,23 +236,20 @@ document.addEventListener('DOMContentLoaded', () => {
               </div>
               <h2>${escapeHtml(unit.title)}</h2>
               <p>${escapeHtml(unit.description || 'Tanpa deskripsi.')}</p>
-              <div class="guru-unit-materials">
-                <div class="guru-unit-materials__head">
-                  <span>${unitMaterials.length} isi unit</span>
-                  <button type="button" class="guru-unit-mini-action" data-open-material-modal data-unit-id="${unit.id}">
-                    <span class="material-symbols-outlined" aria-hidden="true">add</span>
-                    Tambah Isi
-                  </button>
-                </div>
-                <div class="guru-unit-material-list">${materialRows}</div>
+              <div style="margin-top: 8px; font-size: 0.9em; color: #666;">
+                <span>${unitMaterials.length} isi unit tersedia</span>
               </div>
             </div>
-            <div class="guru-unit-card__actions">
-              <button type="button" class="guru-unit-button" data-edit-unit="${unit.id}">
+            <div class="guru-unit-card__actions" style="display: flex; flex-direction: column; gap: 8px; justify-content: center;">
+              <a class="guru-unit-button guru-unit-button--primary" href="/guru/units/${unit.id}/materials" style="display: inline-flex; align-items: center; justify-content: center; text-decoration: none; width: 100%;">
+                <span class="material-symbols-outlined" aria-hidden="true" style="margin-right: 4px;">account_tree</span>
+                KELOLA ISI
+              </a>
+              <button type="button" class="guru-unit-button" data-edit-unit="${unit.id}" style="width: 100%;">
                 <span class="material-symbols-outlined" aria-hidden="true">edit</span>
                 EDIT
               </button>
-              <button type="button" class="guru-unit-button guru-unit-button--danger" data-delete-unit="${unit.id}">
+              <button type="button" class="guru-unit-button guru-unit-button--danger" data-delete-unit="${unit.id}" style="width: 100%;">
                 <span class="material-symbols-outlined" aria-hidden="true">delete</span>
                 HAPUS
               </button>
@@ -347,14 +314,27 @@ document.addEventListener('DOMContentLoaded', () => {
       if (unit && unitForm) {
         unitForm.elements.title.value = unit.title || '';
         unitForm.elements.description.value = unit.description || '';
-        unitForm.elements.category_japanese.value = unit.category_japanese || '';
-        unitForm.elements.category_romaji.value = unit.category_romaji || '';
-        unitForm.elements.sort_order.value = unit.sort_order ?? '';
-        unitForm.elements.is_active.checked = Boolean(unit.is_active);
+        if (unitForm.elements.category_japanese) unitForm.elements.category_japanese.value = unit.category_japanese || '学習';
+        if (unitForm.elements.category_romaji) unitForm.elements.category_romaji.value = unit.category_romaji || 'gakushu';
+        if (unitForm.elements.sort_order) unitForm.elements.sort_order.value = unit.sort_order ?? '';
+        if (unitForm.elements.is_active) {
+          if (unitForm.elements.is_active.type === 'checkbox') {
+            unitForm.elements.is_active.checked = Boolean(unit.is_active);
+          } else {
+            unitForm.elements.is_active.value = unit.is_active ? '1' : '0';
+          }
+        }
       } else if (unitForm) {
-        unitForm.elements.category_japanese.value = '学習';
-        unitForm.elements.category_romaji.value = 'gakushu';
-        unitForm.elements.sort_order.value = state.units.length;
+        if (unitForm.elements.category_japanese) unitForm.elements.category_japanese.value = '学習';
+        if (unitForm.elements.category_romaji) unitForm.elements.category_romaji.value = 'gakushu';
+        if (unitForm.elements.sort_order) unitForm.elements.sort_order.value = '';
+        if (unitForm.elements.is_active) {
+          if (unitForm.elements.is_active.type === 'checkbox') {
+            unitForm.elements.is_active.checked = true;
+          } else {
+            unitForm.elements.is_active.value = '1';
+          }
+        }
       }
 
       openModal(unitModal);
@@ -367,12 +347,16 @@ document.addEventListener('DOMContentLoaded', () => {
       if (materialModalTitle) materialModalTitle.textContent = material ? 'Edit Isi Unit' : 'Tambah Isi Unit';
 
       const unitId = material?.unit_id || selectedUnitId || state.units[0]?.id || '';
-      if (material && materialForm) {
-        materialForm.elements.title.value = material.title || '';
-        materialForm.elements.type.value = material.type || 'lesson';
-        materialForm.elements.order.value = material.order ?? '';
-      } else if (materialForm) {
-        materialForm.elements.order.value = '';
+      const unit = state.units.find((u) => String(u.id) === String(unitId));
+      const levelId = unit ? unit.level_id : (state.activeLevelId || '');
+
+      if (materialForm) {
+        if (materialForm.elements.level_id) materialForm.elements.level_id.value = String(levelId);
+        if (materialForm.elements.type) materialForm.elements.type.value = material?.type || 'lesson';
+        if (materialForm.elements.order) materialForm.elements.order.value = material?.order ?? '';
+        if (material && materialForm.elements.title) {
+          materialForm.elements.title.value = material.title || '';
+        }
       }
 
       renderLevelControls();
@@ -399,9 +383,11 @@ document.addEventListener('DOMContentLoaded', () => {
         level_id: Number(formData.get('level_id')),
         title: String(formData.get('title') || ''),
         description: String(formData.get('description') || ''),
-        category_japanese: String(formData.get('category_japanese') || ''),
-        category_romaji: String(formData.get('category_romaji') || ''),
-        is_active: unitForm.elements.is_active.checked,
+        category_japanese: String(formData.get('category_japanese') || '学習'),
+        category_romaji: String(formData.get('category_romaji') || 'gakushu'),
+        is_active: unitForm.elements.is_active
+          ? (unitForm.elements.is_active.type === 'checkbox' ? unitForm.elements.is_active.checked : String(formData.get('is_active')) === '1')
+          : true,
       };
       const sortOrder = String(formData.get('sort_order') || '');
       if (sortOrder !== '') payload.sort_order = Number(sortOrder);
@@ -439,6 +425,8 @@ document.addEventListener('DOMContentLoaded', () => {
         type: String(formData.get('type') || 'lesson'),
         title: String(formData.get('title') || ''),
       };
+      const levelId = formData.get('level_id');
+      if (levelId) payload.level_id = Number(levelId);
       const order = String(formData.get('order') || '');
       if (order !== '') payload.order = Number(order);
 
@@ -494,15 +482,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const saveUnitOrder = async (orderedIds, previousUnits) => {
       try {
-        const payload = await fetchJson('/api/guru/units/reorder', {
+        await fetchJson('/api/guru/units/reorder', {
           method: 'PATCH',
           body: JSON.stringify({
             level_id: Number(state.activeLevelId),
             unit_ids: orderedIds,
           }),
         });
-        state.units = payload.data.units || [];
-        renderUnits();
+        await loadUnits();
       } catch (error) {
         state.units = previousUnits;
         renderUnits();
@@ -524,6 +511,40 @@ document.addEventListener('DOMContentLoaded', () => {
       state.units = nextUnits;
       renderUnits();
       saveUnitOrder(nextUnits.map((unit) => unit.id), previousUnits);
+    };
+
+    const moveMaterial = async (unitId, draggedId, targetId) => {
+      if (draggedId === targetId) return;
+
+      const unit = state.units.find((u) => String(u.id) === String(unitId));
+      if (!unit) return;
+
+      const items = Array.from(unit.materials || []);
+      const draggedIndex = items.findIndex((item) => String(item.id) === String(draggedId));
+      const targetIndex = items.findIndex((item) => String(item.id) === String(targetId));
+
+      if (draggedIndex === -1 || targetIndex === -1) return;
+
+      const [removed] = items.splice(draggedIndex, 1);
+      items.splice(targetIndex, 0, removed);
+
+      const reordered = items.map((item, idx) => ({
+        id: item.id,
+        order: idx + 1,
+      }));
+
+      unit.materials = items.map((item, idx) => ({ ...item, order: idx + 1 }));
+      renderUnits();
+
+      try {
+        await fetchJson('/api/guru/materials/reorder', {
+          method: 'PATCH',
+          body: JSON.stringify({ materials: reordered }),
+        });
+      } catch (error) {
+        console.error('Material reorder error:', error);
+        loadUnits();
+      }
     };
 
     root.addEventListener('click', (event) => {
@@ -592,7 +613,23 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     root.addEventListener('dragstart', (event) => {
-      const card = event.target instanceof Element ? event.target.closest('[data-unit-card]') : null;
+      // ONLY allow dragging if drag handle icon was clicked
+      if (!event.target.classList.contains('guru-unit-card__drag') && !event.target.closest('.guru-unit-card__drag')) {
+        if (event.target.classList.contains('guru-material-drag-handle') || event.target.closest('.guru-material-drag-handle')) {
+          const row = event.target.closest('.guru-unit-material');
+          if (row) {
+            row.classList.add('is-dragging-material');
+            event.dataTransfer.effectAllowed = 'move';
+            event.dataTransfer.setData('text/material-id', row.getAttribute('data-material-id'));
+            event.dataTransfer.setData('text/parent-unit-id', row.closest('[data-unit-card]').getAttribute('data-unit-card'));
+          }
+          return;
+        }
+        event.preventDefault();
+        return;
+      }
+
+      const card = event.target.closest('[data-unit-card]');
       if (!card) return;
 
       card.classList.add('is-dragging');
@@ -601,6 +638,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     root.addEventListener('dragover', (event) => {
+      const isMaterial = event.dataTransfer.types.includes('text/material-id');
+      if (isMaterial) {
+        const row = event.target instanceof Element ? event.target.closest('.guru-unit-material') : null;
+        if (!row) return;
+        event.preventDefault();
+        event.dataTransfer.dropEffect = 'move';
+        root.querySelectorAll('.guru-unit-material.is-drag-over-material').forEach((item) => {
+          if (item !== row) item.classList.remove('is-drag-over-material');
+        });
+        row.classList.add('is-drag-over-material');
+        return;
+      }
+
       const card = event.target instanceof Element ? event.target.closest('[data-unit-card]') : null;
       if (!card) return;
 
@@ -613,6 +663,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     root.addEventListener('dragleave', (event) => {
+      const row = event.target instanceof Element ? event.target.closest('.guru-unit-material') : null;
+      if (row && !row.contains(event.relatedTarget)) {
+        row.classList.remove('is-drag-over-material');
+      }
+
       const card = event.target instanceof Element ? event.target.closest('[data-unit-card]') : null;
       if (card && !card.contains(event.relatedTarget)) {
         card.classList.remove('is-drag-over');
@@ -620,6 +675,27 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     root.addEventListener('drop', (event) => {
+      const isMaterial = event.dataTransfer.types.includes('text/material-id');
+      if (isMaterial) {
+        const row = event.target instanceof Element ? event.target.closest('.guru-unit-material') : null;
+        if (!row) return;
+        event.preventDefault();
+
+        const draggedId = event.dataTransfer.getData('text/material-id');
+        const parentUnitId = event.dataTransfer.getData('text/parent-unit-id');
+        const targetId = row.getAttribute('data-material-id');
+        const targetParentUnitId = row.closest('[data-unit-card]').getAttribute('data-unit-card');
+
+        if (parentUnitId === targetParentUnitId) {
+          moveMaterial(parentUnitId, draggedId, targetId);
+        }
+
+        root.querySelectorAll('.guru-unit-material.is-drag-over-material').forEach((item) => {
+          item.classList.remove('is-drag-over-material');
+        });
+        return;
+      }
+
       const card = event.target instanceof Element ? event.target.closest('[data-unit-card]') : null;
       if (!card) return;
 
@@ -631,6 +707,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     root.addEventListener('dragend', () => {
+      root.querySelectorAll('.guru-unit-material.is-dragging-material').forEach((item) => {
+        item.classList.remove('is-dragging-material');
+      });
       root.querySelectorAll('[data-unit-card].is-dragging, [data-unit-card].is-drag-over').forEach((item) => {
         item.classList.remove('is-dragging', 'is-drag-over');
       });
@@ -664,24 +743,17 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('[data-guru-materials]').forEach((root) => {
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
     const state = {
-      levels: [],
-      activeLevelId: window.localStorage.getItem('guru.activeLevelId') || null,
+      unitId: window.currentUnitId || null,
+      levelId: window.currentLevelId || null,
       units: [],
     };
 
-    const activeLevelNode = root.querySelector('[data-material-active-level]');
-    const unitCountNode = root.querySelector('[data-material-unit-count]');
-    const materialCountNode = root.querySelector('[data-material-count]');
-    const quizCountNode = root.querySelector('[data-material-quiz-count]');
-    const levelTabs = root.querySelector('[data-material-level-tabs]');
     const loadingNode = root.querySelector('[data-materials-loading]');
     const errorNode = root.querySelector('[data-materials-error]');
     const errorMessageNode = root.querySelector('[data-materials-error-message]');
     const emptyNode = root.querySelector('[data-materials-empty]');
     const listNode = root.querySelector('[data-material-unit-list]');
     const materialModal = root.querySelector('[data-material-modal]');
-    const levelModal = root.querySelector('[data-material-level-modal]');
-    const levelOptions = root.querySelector('[data-material-level-options]');
     const detailModal = root.querySelector('[data-material-detail-modal]');
     const detailTitle = root.querySelector('[data-material-detail-title]');
     const detailType = root.querySelector('[data-material-detail-type]');
@@ -689,8 +761,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const detailOrder = root.querySelector('[data-material-detail-order]');
     const materialForm = root.querySelector('[data-material-form]');
     const materialIdInput = root.querySelector('[data-material-id]');
-    const materialLevelSelect = root.querySelector('[data-material-level]');
-    const materialUnitSelect = root.querySelector('[data-material-unit]');
     const materialModalTitle = root.querySelector('[data-material-modal-title]');
     const materialFormError = root.querySelector('[data-material-form-error]');
 
@@ -721,8 +791,6 @@ document.addEventListener('DOMContentLoaded', () => {
       return payload;
     };
 
-    const activeLevel = () => state.levels.find((level) => String(level.id) === String(state.activeLevelId));
-
     const setLoading = (isLoading) => {
       if (loadingNode) loadingNode.hidden = !isLoading;
       if (listNode) listNode.hidden = isLoading;
@@ -738,61 +806,20 @@ document.addEventListener('DOMContentLoaded', () => {
       if (errorMessageNode) errorMessageNode.textContent = message;
     };
 
-    const renderLevelControls = () => {
-      const current = activeLevel();
-      if (activeLevelNode) activeLevelNode.textContent = current?.code || '-';
-
-      if (levelTabs) {
-        levelTabs.innerHTML = state.levels.map((level) => `
-          <button type="button" class="${String(level.id) === String(state.activeLevelId) ? 'is-active' : ''}" data-select-material-level="${level.id}">
-            ${escapeHtml(level.code)}
-          </button>
-        `).join('');
-      }
-
-      if (materialLevelSelect) {
-        materialLevelSelect.innerHTML = state.levels
-          .map((level) => `<option value="${level.id}">${escapeHtml(level.code)} - ${escapeHtml(level.name)}</option>`)
-          .join('');
-        if (state.activeLevelId) materialLevelSelect.value = String(state.activeLevelId);
-      }
-
-      if (levelOptions) {
-        levelOptions.innerHTML = state.levels.map((level) => `
-          <button type="button" class="${String(level.id) === String(state.activeLevelId) ? 'is-active' : ''}" data-select-material-level="${level.id}">
-            <span>${escapeHtml(level.code)}</span>
-            <strong>${escapeHtml(level.name)}</strong>
-            <small>${level.units_count ?? 0} unit</small>
-          </button>
-        `).join('');
-      }
-    };
-
-    const renderUnitSelect = (selectedUnitId = '') => {
-      if (!materialUnitSelect) return;
-
-      materialUnitSelect.innerHTML = state.units.map((unit) => `
-        <option value="${unit.id}">${escapeHtml(unit.title)}</option>
-      `).join('');
-
-      if (selectedUnitId) {
-        materialUnitSelect.value = String(selectedUnitId);
-      }
-    };
-
     const labelForType = (type) => (type === 'quiz' ? 'Quiz' : 'Materi Pembelajaran');
 
     const renderMaterials = () => {
-      renderLevelControls();
-      renderUnitSelect();
-
-      const materials = state.units.flatMap((unit) => unit.materials || []);
-      if (unitCountNode) unitCountNode.textContent = String(state.units.length);
-      if (materialCountNode) materialCountNode.textContent = String(materials.length);
-      if (quizCountNode) quizCountNode.textContent = String(materials.filter((material) => material.type === 'quiz').length);
-
       if (!listNode) return;
-      if (state.units.length === 0) {
+
+      const unit = state.units.find((u) => String(u.id) === String(state.unitId));
+      if (!unit) {
+        listNode.hidden = true;
+        if (emptyNode) emptyNode.hidden = false;
+        return;
+      }
+
+      const unitMaterials = unit.materials || [];
+      if (unitMaterials.length === 0) {
         listNode.hidden = true;
         if (emptyNode) emptyNode.hidden = false;
         return;
@@ -801,66 +828,45 @@ document.addEventListener('DOMContentLoaded', () => {
       listNode.hidden = false;
       if (emptyNode) emptyNode.hidden = true;
 
-      listNode.innerHTML = state.units.map((unit, unitIndex) => {
-        const unitMaterials = unit.materials || [];
-        const content = unitMaterials.length === 0
-          ? `
-            <div class="guru-material-empty">
-              <span class="material-symbols-outlined" aria-hidden="true">playlist_add</span>
-              <p>Belum ada materi di unit ini.</p>
-              <button type="button" class="guru-unit-button" data-open-material-modal data-unit-id="${unit.id}">Tambah Isi Unit</button>
+      listNode.innerHTML = unitMaterials.map((material, materialIndex) => `
+        <article class="guru-unit-card" data-unit-card="${material.id}" aria-label="Materi dapat diurutkan dengan drag and drop">
+          <div class="guru-unit-card__order">
+            <span class="material-symbols-outlined guru-unit-card__drag" draggable="true" style="cursor: grab;" aria-hidden="true">drag_indicator</span>
+            <strong>${materialIndex + 1}</strong>
+          </div>
+          <div class="guru-unit-card__body">
+            <div class="guru-unit-card__meta">
+              <span>${escapeHtml(labelForType(material.type).toUpperCase())}</span>
             </div>
-          `
-          : unitMaterials.map((material, materialIndex) => `
-            <article class="guru-material-row" data-material-id="${material.id}">
-              <div class="guru-material-row__index">${unitIndex + 1}.${materialIndex + 1}</div>
-              <div class="guru-material-row__body">
-                <span class="guru-material-type guru-material-type--${material.type}">${labelForType(material.type)}</span>
-                <h3>${escapeHtml(material.title)}</h3>
-                <p>${material.type === 'quiz' ? `${material.questions_count || 0} soal tersedia` : 'Konten belajar di dalam unit'}</p>
-              </div>
-              <div class="guru-material-row__actions">
-                ${material.type === 'quiz'
-                  ? `<a class="guru-unit-button" href="/guru/materi/${material.id}/questions"><span class="material-symbols-outlined" aria-hidden="true">quiz</span>Kelola Soal</a>`
-                  : `<button type="button" class="guru-unit-button" data-material-detail="${material.id}"><span class="material-symbols-outlined" aria-hidden="true">visibility</span>Detail</button>`}
-                <button type="button" class="guru-unit-button" data-edit-material="${material.id}">
-                  <span class="material-symbols-outlined" aria-hidden="true">edit</span>Edit
-                </button>
-                <button type="button" class="guru-unit-button guru-unit-button--danger" data-delete-material="${material.id}">
-                  <span class="material-symbols-outlined" aria-hidden="true">delete</span>Hapus
-                </button>
-              </div>
-            </article>
-          `).join('');
-
-        return `
-          <article class="guru-material-unit">
-            <header class="guru-material-unit__head">
-              <div>
-                <span>${escapeHtml(activeLevel()?.code || '')}</span>
-                <h2>${escapeHtml(unit.title)}</h2>
-                <p>${escapeHtml(unit.description || 'Tanpa deskripsi.')}</p>
-              </div>
-              <strong>${unitMaterials.length} isi</strong>
-            </header>
-            <div class="guru-material-unit__list">${content}</div>
-          </article>
-        `;
-      }).join('');
+            <h2>${escapeHtml(material.title)}</h2>
+            <p>${material.type === 'quiz' ? `${material.questions_count || 0} soal tersedia` : 'Konten belajar di dalam unit'}</p>
+          </div>
+          <div class="guru-unit-card__actions" style="display: flex; flex-direction: column; gap: 8px; justify-content: center;">
+            <a class="guru-unit-button guru-unit-button--primary" href="/guru/materi/${material.id}/questions" style="display: inline-flex; align-items: center; justify-content: center; text-decoration: none; width: 100%;">
+              <span class="material-symbols-outlined" aria-hidden="true" style="margin-right: 4px;">menu_book</span>
+              KELOLA LANGKAH
+            </a>
+            <button type="button" class="guru-unit-button" data-edit-material="${material.id}" style="width: 100%;">
+              <span class="material-symbols-outlined" aria-hidden="true">edit</span>
+              EDIT
+            </button>
+            <button type="button" class="guru-unit-button guru-unit-button--danger" data-delete-material="${material.id}" style="width: 100%;">
+              <span class="material-symbols-outlined" aria-hidden="true">delete</span>
+              HAPUS
+            </button>
+          </div>
+        </article>
+      `).join('');
     };
 
     const loadMaterials = async () => {
-      const level = activeLevel();
-      if (!level) {
-        state.units = [];
-        renderMaterials();
-        return;
-      }
+      if (!state.levelId) return;
 
       setLoading(true);
       try {
-        const payload = await fetchJson(`/api/guru/levels/${level.id}/materials`);
-        state.units = payload.data.units || [];
+        const payload = await fetchJson(`/api/guru/levels/${state.levelId}/materials`);
+        const allUnits = payload.data.units || [];
+        state.units = allUnits.filter((unit) => String(unit.id) === String(state.unitId));
         if (loadingNode) loadingNode.hidden = true;
         if (errorNode) errorNode.hidden = true;
         renderMaterials();
@@ -869,28 +875,11 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     };
 
-    const loadLevels = async () => {
-      setLoading(true);
-      try {
-        const payload = await fetchJson('/api/guru/levels');
-        state.levels = payload.data || [];
-        const hasStoredLevel = state.levels.some((level) => String(level.id) === String(state.activeLevelId));
-        state.activeLevelId = hasStoredLevel
-          ? state.activeLevelId
-          : (state.levels.find((level) => level.code === 'N5')?.id || state.levels[0]?.id || null);
-        if (state.activeLevelId) window.localStorage.setItem('guru.activeLevelId', state.activeLevelId);
-        await loadMaterials();
-      } catch (error) {
-        setError(error.message || 'Gagal memuat level.');
-      }
-    };
-
     const findMaterial = (materialId) => {
       for (const unit of state.units) {
         const material = (unit.materials || []).find((item) => String(item.id) === String(materialId));
         if (material) return { material, unit };
       }
-
       return { material: null, unit: null };
     };
 
@@ -902,29 +891,20 @@ document.addEventListener('DOMContentLoaded', () => {
       if (modal) modal.hidden = true;
     };
 
-    const openMaterialModal = (material = null, selectedUnitId = '') => {
+    const openMaterialModal = (material = null) => {
       materialForm?.reset();
       if (materialFormError) materialFormError.hidden = true;
       if (materialIdInput) materialIdInput.value = material?.id || '';
       if (materialModalTitle) materialModalTitle.textContent = material ? 'Edit Isi Unit' : 'Tambah Isi Unit';
 
-      const unitId = material?.unit_id || selectedUnitId || state.units[0]?.id || '';
       if (material && materialForm) {
-        materialForm.elements.title.value = material.title || '';
-        materialForm.elements.type.value = material.type || 'lesson';
-        materialForm.elements.order.value = material.order ?? '';
-      } else if (materialForm) {
-        materialForm.elements.order.value = '';
+        if (materialForm.elements.title) materialForm.elements.title.value = material.title || '';
       }
-
-      renderLevelControls();
-      renderUnitSelect(unitId);
       openModal(materialModal);
     };
 
     const openDetailModal = (material, unit) => {
       if (!material) return;
-
       if (detailTitle) detailTitle.textContent = material.title || 'Materi Pembelajaran';
       if (detailType) detailType.textContent = labelForType(material.type);
       if (detailUnit) detailUnit.textContent = unit?.title || '-';
@@ -938,29 +918,23 @@ document.addEventListener('DOMContentLoaded', () => {
       const formData = new FormData(materialForm);
       const id = formData.get('id');
       const payload = {
-        unit_id: String(formData.get('unit_id') || ''),
-        type: String(formData.get('type') || 'lesson'),
+        unit_id: state.unitId,
+        level_id: Number(state.levelId),
+        type: 'lesson',
         title: String(formData.get('title') || ''),
       };
-      const order = String(formData.get('order') || '');
-      if (order !== '') payload.order = Number(order);
 
       const submit = root.querySelector('[data-material-submit]');
       if (submit) submit.disabled = true;
       if (materialFormError) materialFormError.hidden = true;
 
       try {
-        const response = await fetchJson(id ? `/api/guru/materials/${id}` : '/api/guru/materials', {
+        await fetchJson(id ? `/api/guru/materials/${id}` : '/api/guru/materials', {
           method: id ? 'PUT' : 'POST',
           body: JSON.stringify(payload),
         });
-
         closeModal(materialModal);
         await loadMaterials();
-
-        if (!id && response.data?.type === 'quiz') {
-          window.location.href = `/guru/materi/${response.data.id}/questions`;
-        }
       } catch (error) {
         if (materialFormError) {
           materialFormError.textContent = error.message || 'Isi unit gagal disimpan.';
@@ -983,29 +957,51 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     };
 
+    const moveMaterial = async (draggedId, targetId) => {
+      if (draggedId === targetId) return;
+
+      const unit = state.units.find((u) => String(u.id) === String(state.unitId));
+      if (!unit) return;
+
+      const items = Array.from(unit.materials || []);
+      const draggedIndex = items.findIndex((item) => String(item.id) === String(draggedId));
+      const targetIndex = items.findIndex((item) => String(item.id) === String(targetId));
+
+      if (draggedIndex === -1 || targetIndex === -1) return;
+
+      const [removed] = items.splice(draggedIndex, 1);
+      items.splice(targetIndex, 0, removed);
+
+      const reordered = items.map((item, idx) => ({
+        id: item.id,
+        order: idx + 1,
+      }));
+
+      unit.materials = items.map((item, idx) => ({ ...item, order: idx + 1 }));
+      renderMaterials();
+
+      try {
+        await fetchJson('/api/guru/materials/reorder', {
+          method: 'PATCH',
+          body: JSON.stringify({ materials: reordered }),
+        });
+      } catch (error) {
+        console.error('Material reorder error:', error);
+        loadMaterials();
+      }
+    };
+
     root.addEventListener('click', (event) => {
       const target = event.target instanceof Element ? event.target : null;
       if (!target) return;
 
-      const levelButton = target.closest('[data-select-material-level]');
-      if (levelButton) {
-        state.activeLevelId = levelButton.getAttribute('data-select-material-level');
-        window.localStorage.setItem('guru.activeLevelId', state.activeLevelId);
-        closeModal(levelModal);
-        loadMaterials();
-      }
-
-      if (target.closest('[data-open-material-level-modal]')) {
-        openModal(levelModal);
+      if (target.closest('[data-close-guru-modal]')) {
+        closeModal(target.closest('.guru-modal-overlay'));
       }
 
       const openButton = target.closest('[data-open-material-modal]');
       if (openButton) {
-        openMaterialModal(null, openButton.getAttribute('data-unit-id') || '');
-      }
-
-      if (target.closest('[data-close-guru-modal]')) {
-        closeModal(target.closest('.guru-modal-overlay'));
+        openMaterialModal();
       }
 
       const detailButton = target.closest('[data-material-detail]');
@@ -1036,10 +1032,65 @@ document.addEventListener('DOMContentLoaded', () => {
       saveMaterial();
     });
 
-    materialLevelSelect?.addEventListener('change', () => {
-      state.activeLevelId = materialLevelSelect.value;
-      window.localStorage.setItem('guru.activeLevelId', state.activeLevelId);
-      loadMaterials();
+    root.addEventListener('dragstart', (event) => {
+      if (!event.target.classList.contains('guru-unit-card__drag') && !event.target.closest('.guru-unit-card__drag')) {
+        event.preventDefault();
+        return;
+      }
+      const card = event.target.closest('.guru-unit-card');
+      if (card) {
+        card.classList.add('is-dragging-unit');
+        event.dataTransfer.effectAllowed = 'move';
+        event.dataTransfer.setData('text/material-id', card.getAttribute('data-unit-card'));
+      }
+    });
+
+    root.addEventListener('dragover', (event) => {
+      const isMaterial = event.dataTransfer.types.includes('text/material-id');
+      if (isMaterial) {
+        const card = event.target instanceof Element ? event.target.closest('.guru-unit-card') : null;
+        if (!card) return;
+        event.preventDefault();
+        event.dataTransfer.dropEffect = 'move';
+        root.querySelectorAll('.guru-unit-card.is-drag-over-unit').forEach((item) => {
+          if (item !== card) item.classList.remove('is-drag-over-unit');
+        });
+        card.classList.add('is-drag-over-unit');
+      }
+    });
+
+    root.addEventListener('dragleave', (event) => {
+      const card = event.target instanceof Element ? event.target.closest('.guru-unit-card') : null;
+      if (card && !card.contains(event.relatedTarget)) {
+        card.classList.remove('is-drag-over-unit');
+      }
+    });
+
+    root.addEventListener('drop', (event) => {
+      const isMaterial = event.dataTransfer.types.includes('text/material-id');
+      if (isMaterial) {
+        const card = event.target instanceof Element ? event.target.closest('.guru-unit-card') : null;
+        if (!card) return;
+        event.preventDefault();
+
+        const draggedId = event.dataTransfer.getData('text/material-id');
+        const targetId = card.getAttribute('data-unit-card');
+
+        moveMaterial(draggedId, targetId);
+
+        root.querySelectorAll('.guru-unit-card.is-drag-over-unit').forEach((item) => {
+          item.classList.remove('is-drag-over-unit');
+        });
+      }
+    });
+
+    root.addEventListener('dragend', () => {
+      root.querySelectorAll('.guru-unit-card.is-dragging-unit').forEach((item) => {
+        item.classList.remove('is-dragging-unit');
+      });
+      root.querySelectorAll('.guru-unit-card.is-drag-over-unit').forEach((item) => {
+        item.classList.remove('is-drag-over-unit');
+      });
     });
 
     root.querySelectorAll('.guru-modal-overlay').forEach((modal) => {
@@ -1048,16 +1099,15 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    loadLevels();
+    loadMaterials();
   });
 
   document.querySelectorAll('[data-guru-questions]').forEach((root) => {
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
-    const materialId = root.getAttribute('data-material-id');
+    const nodeId = root.getAttribute('data-material-id');
     const state = {
-      material: null,
-      unit: null,
-      questions: [],
+      node: null,
+      steps: [],
     };
 
     const titleNode = root.querySelector('[data-question-title]');
@@ -1067,13 +1117,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const errorMessageNode = root.querySelector('[data-questions-error-message]');
     const emptyNode = root.querySelector('[data-questions-empty]');
     const listNode = root.querySelector('[data-question-list]');
-    const questionModal = root.querySelector('[data-question-modal]');
-    const questionForm = root.querySelector('[data-question-form]');
-    const questionIdInput = root.querySelector('[data-question-id]');
-    const questionTypeSelect = root.querySelector('[data-question-type]');
-    const questionModalTitle = root.querySelector('[data-question-modal-title]');
-    const questionFormError = root.querySelector('[data-question-form-error]');
-    const toolNote = root.querySelector('[data-question-tool-note]');
+    const stepModal = root.querySelector('[data-question-modal]');
+    const stepForm = root.querySelector('[data-question-form]');
+    const stepIdInput = root.querySelector('[data-question-id]');
+    const stepTypeSelect = root.querySelector('[data-question-type]');
+    const quizTypeSelect = root.querySelector('[data-quiz-type]');
+    const stepModalTitle = root.querySelector('[data-question-modal-title]');
+    const stepFormError = root.querySelector('[data-question-form-error]');
 
     const escapeHtml = (value) => String(value ?? '')
       .replaceAll('&', '&amp;')
@@ -1117,25 +1167,26 @@ document.addEventListener('DOMContentLoaded', () => {
       if (errorMessageNode) errorMessageNode.textContent = message;
     };
 
-    const labelForQuestion = (type) => (type === 'new-letter' ? 'Huruf Baru' : 'Pilihan Ganda');
-
-    const renderQuestionFields = () => {
-      const type = questionTypeSelect?.value || 'new-letter';
+    const renderStepFields = () => {
+      const type = stepTypeSelect?.value || 'text';
       root.querySelectorAll('[data-question-fields]').forEach((fields) => {
         fields.hidden = fields.getAttribute('data-question-fields') !== type;
       });
+
+      if (type === 'quiz') {
+        const quizType = quizTypeSelect?.value || 'multiple_choice';
+        root.querySelectorAll('[data-quiz-fields]').forEach((fields) => {
+          fields.hidden = fields.getAttribute('data-quiz-fields') !== quizType;
+        });
+      }
     };
 
-    const renderQuestions = () => {
-      if (titleNode) titleNode.textContent = state.material?.title ? `List Soal: ${state.material.title}` : 'List Soal Quiz';
-      if (subtitleNode) {
-        subtitleNode.textContent = state.unit
-          ? `${state.unit.level || '-'} / ${state.unit.title || 'Unit'}`
-          : 'Kelola soal huruf baru dan pilihan ganda untuk quiz ini.';
-      }
+    const renderSteps = () => {
+      if (titleNode) titleNode.textContent = state.node?.title ? `Langkah Belajar: ${state.node.title}` : 'Langkah Pembelajaran';
+      if (subtitleNode) subtitleNode.textContent = 'Kelola urutan dan isi langkah belajar (teks, pengenalan huruf, kuis).';
 
       if (!listNode) return;
-      if (state.questions.length === 0) {
+      if (state.steps.length === 0) {
         listNode.hidden = true;
         if (emptyNode) emptyNode.hidden = false;
         return;
@@ -1144,43 +1195,57 @@ document.addEventListener('DOMContentLoaded', () => {
       listNode.hidden = false;
       if (emptyNode) emptyNode.hidden = true;
 
-      listNode.innerHTML = state.questions.map((question, index) => {
-        const options = question.options || [];
+      listNode.innerHTML = state.steps.map((step, index) => {
+        let contentHtml = '';
+        if (step.type === 'text') {
+          contentHtml = `<p class="guru-step-preview-text">${escapeHtml(step.content || '').substring(0, 120)}...</p>`;
+        } else if (step.type === 'character') {
+          contentHtml = `<p><strong>Huruf:</strong> ${escapeHtml(step.character_symbol || '-')} &nbsp;&nbsp;|&nbsp;&nbsp; <strong>Cara Baca:</strong> ${escapeHtml(step.character_pronunciation || '-')}</p>`;
+        } else if (step.type === 'quiz') {
+          const options = step.quiz_options || [];
+          contentHtml = `
+            <p><strong>Pertanyaan:</strong> ${escapeHtml(step.quiz_query || '-')}</p>
+            <small style="color: #666;">Pilihan: ${options.map((opt, idx) => `[${idx === step.quiz_correct_index ? '<b>' + escapeHtml(opt) + '</b>' : escapeHtml(opt)}]`).join(' / ')}</small>
+          `;
+        }
+
         return `
-          <article class="guru-question-card" data-question-card="${question.id}">
-            <div class="guru-question-card__number">${index + 1}</div>
+          <article class="guru-question-card" data-question-card="${step.id}" draggable="true">
+            <div class="guru-question-card__number" style="cursor: grab;">
+              <span class="material-symbols-outlined" style="font-size: 18px; color: #aaa; vertical-align: middle; margin-right: 4px;">drag_indicator</span>
+              ${index + 1}
+            </div>
             <div class="guru-question-card__body">
-              <span class="guru-material-type">${labelForQuestion(question.type)}</span>
-              <h2>${question.type === 'new-letter' ? escapeHtml(question.letter || '-') : escapeHtml(question.question_text || '-')}</h2>
-              <p>${question.type === 'new-letter'
-                ? `Cara baca: ${escapeHtml(question.reading || '-')}`
-                : options.map((option) => `${escapeHtml(option.key)}. ${escapeHtml(option.text)}`).join(' / ')}</p>
+              <span class="guru-material-type guru-material-type--${step.type}">${step.type_label}</span>
+              <div style="margin-top: 8px;">${contentHtml}</div>
             </div>
             <div class="guru-unit-card__actions">
-              <button type="button" class="guru-unit-button" data-edit-question="${question.id}">
+              <button type="button" class="guru-unit-button" data-edit-question="${step.id}">
                 <span class="material-symbols-outlined" aria-hidden="true">edit</span>Edit
               </button>
-              <button type="button" class="guru-unit-button guru-unit-button--danger" data-delete-question="${question.id}">
+              <button type="button" class="guru-unit-button guru-unit-button--danger" data-delete-question="${step.id}">
                 <span class="material-symbols-outlined" aria-hidden="true">delete</span>Hapus
               </button>
             </div>
           </article>
         `;
       }).join('');
+
+      // Setup drag and drop for steps
+      setupDragAndDrop();
     };
 
-    const loadQuestions = async () => {
+    const loadSteps = async () => {
       setLoading(true);
       try {
-        const payload = await fetchJson(`/api/guru/materials/${materialId}/questions`);
-        state.material = payload.data.material;
-        state.unit = payload.data.unit;
-        state.questions = payload.data.questions || [];
+        const payload = await fetchJson(`/api/guru/nodes/${nodeId}/steps`);
+        state.node = payload.data.node;
+        state.steps = payload.data.steps || [];
         if (loadingNode) loadingNode.hidden = true;
         if (errorNode) errorNode.hidden = true;
-        renderQuestions();
+        renderSteps();
       } catch (error) {
-        setError(error.message || 'Gagal memuat soal.');
+        setError(error.message || 'Gagal memuat langkah.');
       }
     };
 
@@ -1192,86 +1257,171 @@ document.addEventListener('DOMContentLoaded', () => {
       if (modal) modal.hidden = true;
     };
 
-    const optionValue = (question, key) => (question.options || []).find((option) => option.key === key)?.text || '';
+    const openStepModal = (step = null) => {
+      stepForm?.reset();
+      if (stepFormError) stepFormError.hidden = true;
+      if (stepIdInput) stepIdInput.value = step?.id || '';
+      if (stepModalTitle) stepModalTitle.textContent = step ? 'Edit Langkah' : 'Tambah Langkah';
 
-    const openQuestionModal = (question = null) => {
-      questionForm?.reset();
-      if (questionFormError) questionFormError.hidden = true;
-      if (questionIdInput) questionIdInput.value = question?.id || '';
-      if (questionModalTitle) questionModalTitle.textContent = question ? 'Edit Soal' : 'Tambah Soal';
+      if (step && stepForm) {
+        stepForm.elements.type.value = step.type || 'text';
+        stepForm.elements.sort_order.value = step.sort_order ?? '';
 
-      if (question && questionForm) {
-        questionForm.elements.type.value = question.type || 'new-letter';
-        questionForm.elements.order.value = question.order ?? '';
-        questionForm.elements.letter.value = question.letter || '';
-        questionForm.elements.reading.value = question.reading || '';
-        questionForm.elements.question_text.value = question.question_text || '';
-        questionForm.elements.choice_letter.value = question.letter || '';
-        questionForm.elements.option_a.value = optionValue(question, 'A');
-        questionForm.elements.option_b.value = optionValue(question, 'B');
-        questionForm.elements.option_c.value = optionValue(question, 'C');
-        questionForm.elements.option_d.value = optionValue(question, 'D');
-        questionForm.elements.correct_answer.value = question.correct_answer || 'A';
+        if (step.type === 'text') {
+          stepForm.elements.content.value = step.content || '';
+        } else if (step.type === 'character') {
+          stepForm.elements.character_symbol.value = step.character_symbol || '';
+          stepForm.elements.character_pronunciation.value = step.character_pronunciation || '';
+        } else if (step.type === 'quiz') {
+          stepForm.elements.quiz_instruction.value = step.quiz_instruction || 'PILIH JAWABAN YANG BENAR';
+          stepForm.elements.quiz_query.value = step.quiz_query || '';
+          stepForm.elements.quiz_option_0.value = step.quiz_options?.[0] || '';
+          stepForm.elements.quiz_option_1.value = step.quiz_options?.[1] || '';
+          stepForm.elements.quiz_option_2.value = step.quiz_options?.[2] || '';
+          stepForm.elements.quiz_option_3.value = step.quiz_options?.[3] || '';
+          stepForm.elements.quiz_correct_index.value = String(step.quiz_correct_index ?? 0);
+        }
+      } else if (stepForm) {
+        stepForm.elements.type.value = 'text';
+        stepForm.elements.sort_order.value = '';
       }
 
-      renderQuestionFields();
-      openModal(questionModal);
+      renderStepFields();
+      openModal(stepModal);
     };
 
-    const saveQuestion = async () => {
-      if (!questionForm) return;
+    const saveStep = async () => {
+      if (!stepForm) return;
 
-      const formData = new FormData(questionForm);
+      const formData = new FormData(stepForm);
       const id = formData.get('id');
-      const type = String(formData.get('type') || 'new-letter');
-      const payload = { type };
-      const order = String(formData.get('order') || '');
-      if (order !== '') payload.order = Number(order);
+      const type = String(formData.get('type') || 'text');
 
-      if (type === 'new-letter') {
-        payload.letter = String(formData.get('letter') || '');
-        payload.reading = String(formData.get('reading') || '');
-      } else {
-        payload.question_text = String(formData.get('question_text') || '');
-        payload.letter = String(formData.get('choice_letter') || '');
-        payload.option_a = String(formData.get('option_a') || '');
-        payload.option_b = String(formData.get('option_b') || '');
-        payload.option_c = String(formData.get('option_c') || '');
-        payload.option_d = String(formData.get('option_d') || '');
-        payload.correct_answer = String(formData.get('correct_answer') || 'A');
+      const payload = {
+        node_id: nodeId,
+        type,
+      };
+
+      const sortOrder = formData.get('sort_order');
+      if (sortOrder !== '' && sortOrder !== null) {
+        payload.sort_order = Number(sortOrder);
+      }
+
+      if (type === 'text') {
+        payload.content = String(formData.get('content') || '');
+      } else if (type === 'character') {
+        payload.character_symbol = String(formData.get('character_symbol') || '');
+        payload.character_pronunciation = String(formData.get('character_pronunciation') || '');
+      } else if (type === 'quiz') {
+        payload.quiz_instruction = String(formData.get('quiz_instruction') || 'PILIH JAWABAN YANG BENAR');
+        payload.quiz_query = String(formData.get('quiz_query') || '');
+        payload.quiz_options = [
+          String(formData.get('quiz_option_0') || ''),
+          String(formData.get('quiz_option_1') || ''),
+          String(formData.get('quiz_option_2') || ''),
+          String(formData.get('quiz_option_3') || ''),
+        ];
+        payload.quiz_correct_index = Number(formData.get('quiz_correct_index') || 0);
       }
 
       const submit = root.querySelector('[data-question-submit]');
       if (submit) submit.disabled = true;
-      if (questionFormError) questionFormError.hidden = true;
+      if (stepFormError) stepFormError.hidden = true;
 
       try {
-        await fetchJson(id ? `/api/guru/questions/${id}` : `/api/guru/materials/${materialId}/questions`, {
+        await fetchJson(id ? `/api/guru/steps/${id}` : '/api/guru/steps', {
           method: id ? 'PUT' : 'POST',
           body: JSON.stringify(payload),
         });
-        closeModal(questionModal);
-        await loadQuestions();
+        closeModal(stepModal);
+        await loadSteps();
       } catch (error) {
-        if (questionFormError) {
-          questionFormError.textContent = error.message || 'Soal gagal disimpan.';
-          questionFormError.hidden = false;
+        if (stepFormError) {
+          stepFormError.textContent = error.message || 'Langkah gagal disimpan.';
+          stepFormError.hidden = false;
         }
       } finally {
         if (submit) submit.disabled = false;
       }
     };
 
-    const deleteQuestion = async (question) => {
-      if (!question || !window.confirm('Hapus soal ini?')) return;
+    const deleteStep = async (step) => {
+      if (!step || !window.confirm('Hapus langkah pembelajaran ini?')) return;
 
       setLoading(true);
       try {
-        await fetchJson(`/api/guru/questions/${question.id}`, { method: 'DELETE' });
-        await loadQuestions();
+        await fetchJson(`/api/guru/steps/${step.id}`, { method: 'DELETE' });
+        await loadSteps();
       } catch (error) {
-        setError(error.message || 'Soal gagal dihapus.');
+        setError(error.message || 'Langkah gagal dihapus.');
       }
+    };
+
+    const moveStep = async (draggedId, targetId) => {
+      if (draggedId === targetId) return;
+
+      const items = Array.from(state.steps);
+      const draggedIndex = items.findIndex((item) => String(item.id) === String(draggedId));
+      const targetIndex = items.findIndex((item) => String(item.id) === String(targetId));
+
+      if (draggedIndex === -1 || targetIndex === -1) return;
+
+      const [removed] = items.splice(draggedIndex, 1);
+      items.splice(targetIndex, 0, removed);
+
+      const reordered = items.map((item, idx) => ({
+        id: item.id,
+        sort_order: idx + 1,
+      }));
+
+      // Update locally
+      state.steps = items.map((item, idx) => ({ ...item, sort_order: idx + 1 }));
+      renderSteps();
+
+      try {
+        await fetchJson('/api/guru/steps/reorder', {
+          method: 'PATCH',
+          body: JSON.stringify({ steps: reordered }),
+        });
+      } catch (error) {
+        console.error('Reorder error:', error);
+        loadSteps();
+      }
+    };
+
+    const setupDragAndDrop = () => {
+      let draggedId = null;
+
+      listNode.querySelectorAll('[data-question-card]').forEach((card) => {
+        card.addEventListener('dragstart', (event) => {
+          draggedId = card.getAttribute('data-question-card');
+          card.classList.add('is-dragging');
+          if (event.dataTransfer) {
+            event.dataTransfer.effectAllowed = 'move';
+            event.dataTransfer.setData('text/plain', draggedId);
+          }
+        });
+
+        card.addEventListener('dragover', (event) => {
+          event.preventDefault();
+          card.classList.add('is-drag-over');
+        });
+
+        card.addEventListener('dragleave', () => {
+          card.classList.remove('is-drag-over');
+        });
+
+        card.addEventListener('drop', (event) => {
+          event.preventDefault();
+          card.classList.remove('is-drag-over');
+          const targetId = card.getAttribute('data-question-card');
+          moveStep(draggedId, targetId);
+        });
+
+        card.addEventListener('dragend', () => {
+          card.classList.remove('is-dragging');
+        });
+      });
     };
 
     root.addEventListener('click', (event) => {
@@ -1279,7 +1429,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!target) return;
 
       if (target.closest('[data-open-question-modal]')) {
-        openQuestionModal();
+        openStepModal();
       }
 
       if (target.closest('[data-close-guru-modal]')) {
@@ -1288,35 +1438,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const editButton = target.closest('[data-edit-question]');
       if (editButton) {
-        const question = state.questions.find((item) => String(item.id) === String(editButton.getAttribute('data-edit-question')));
-        openQuestionModal(question);
+        const step = state.steps.find((item) => String(item.id) === String(editButton.getAttribute('data-edit-question')));
+        openStepModal(step);
       }
 
       const deleteButton = target.closest('[data-delete-question]');
       if (deleteButton) {
-        const question = state.questions.find((item) => String(item.id) === String(deleteButton.getAttribute('data-delete-question')));
-        deleteQuestion(question);
+        const step = state.steps.find((item) => String(item.id) === String(deleteButton.getAttribute('data-delete-question')));
+        deleteStep(step);
       }
 
       if (target.closest('[data-retry-questions]')) {
-        loadQuestions();
-      }
-
-      if (target.closest('[data-export-questions], [data-import-questions], [data-question-template]')) {
-        if (toolNote) {
-          toolNote.hidden = false;
-          window.setTimeout(() => {
-            toolNote.hidden = true;
-          }, 2600);
-        }
+        loadSteps();
       }
     });
 
-    questionTypeSelect?.addEventListener('change', renderQuestionFields);
+    stepTypeSelect?.addEventListener('change', renderStepFields);
+    quizTypeSelect?.addEventListener('change', renderStepFields);
 
-    questionForm?.addEventListener('submit', (event) => {
+    stepForm?.addEventListener('submit', (event) => {
       event.preventDefault();
-      saveQuestion();
+      saveStep();
     });
 
     root.querySelectorAll('.guru-modal-overlay').forEach((modal) => {
@@ -1325,7 +1467,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    loadQuestions();
+    loadSteps();
   });
 
   document.querySelectorAll('[data-lesson]').forEach((lessonRoot) => {

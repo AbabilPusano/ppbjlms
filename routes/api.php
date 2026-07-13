@@ -27,6 +27,7 @@ Route::prefix('v1')->name('api.v1.')->group(function (): void {
 
         Route::get('/nodes/{node}', [LmsController::class, 'node'])->name('nodes.show');
         Route::get('/nodes/{node}/questions', [LmsController::class, 'nodeQuestions'])->name('nodes.questions');
+        Route::get('/nodes/{node}/steps', [LmsController::class, 'nodeSteps'])->name('nodes.steps');
         Route::post('/nodes/{node}/complete', [ProgressController::class, 'complete'])->name('nodes.complete');
 
         Route::get('/stories', [LmsController::class, 'stories'])->name('stories.index');

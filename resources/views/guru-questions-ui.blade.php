@@ -1,4 +1,4 @@
-@extends('layouts.lms-ui', ['title' => 'Kelola Soal Quiz - LMS PPBJ'])
+@extends('layouts.lms-ui', ['title' => 'Kelola Langkah Pembelajaran - LMS PPBJ'])
 
 @section('body')
 <div class="guru-shell" data-guru-questions data-material-id="{{ request()->route('material') }}">
@@ -7,7 +7,7 @@
             <span class="material-symbols-outlined" aria-hidden="true">menu</span>
         </button>
         <div>
-            <p>Kelola Soal</p>
+            <p>Kelola Langkah Pembelajaran</p>
         </div>
         <div class="guru-user">
             <div>
@@ -45,57 +45,43 @@
                     <span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>
                     Kembali ke Unit
                 </a>
-                <h1 data-question-title>LIST SOAL</h1>
-                <p data-question-subtitle>Memuat quiz...</p>
+                <h1 data-question-title>LANGKAH PEMBELAJARAN</h1>
+                <p data-question-subtitle>Memuat unit...</p>
             </div>
             <div class="guru-units-toolbar">
                 <button type="button" class="guru-unit-button guru-unit-button--primary" data-open-question-modal>
                     <span class="material-symbols-outlined" aria-hidden="true">add</span>
-                    TAMBAH SOAL
-                </button>
-                <button type="button" class="guru-unit-button" data-export-questions>
-                    <span class="material-symbols-outlined" aria-hidden="true">file_download</span>
-                    EXPORT XLSX
-                </button>
-                <button type="button" class="guru-unit-button" data-import-questions>
-                    <span class="material-symbols-outlined" aria-hidden="true">file_upload</span>
-                    IMPORT XLSX
-                </button>
-                <button type="button" class="guru-unit-button" data-question-template>
-                    <span class="material-symbols-outlined" aria-hidden="true">description</span>
-                    TEMPLATE
+                    TAMBAH LANGKAH
                 </button>
             </div>
         </div>
 
         <section class="guru-units-state" data-questions-loading>
             <span class="material-symbols-outlined" aria-hidden="true">progress_activity</span>
-            <p>Memuat soal quiz...</p>
+            <p>Memuat langkah pembelajaran...</p>
         </section>
 
         <section class="guru-units-state guru-units-state--error" data-questions-error hidden>
             <span class="material-symbols-outlined" aria-hidden="true">error</span>
-            <p data-questions-error-message>Gagal memuat soal.</p>
+            <p data-questions-error-message>Gagal memuat langkah.</p>
             <button type="button" class="guru-unit-button" data-retry-questions>Coba lagi</button>
         </section>
 
         <section class="guru-units-state" data-questions-empty hidden>
-            <span class="material-symbols-outlined" aria-hidden="true">quiz</span>
-            <p>Belum ada soal untuk quiz ini.</p>
-            <button type="button" class="guru-unit-button guru-unit-button--primary" data-open-question-modal>Tambah soal pertama</button>
+            <span class="material-symbols-outlined" aria-hidden="true">school</span>
+            <p>Belum ada langkah pembelajaran untuk unit ini.</p>
+            <button type="button" class="guru-unit-button guru-unit-button--primary" data-open-question-modal>Tambah langkah pertama</button>
         </section>
 
-        <p class="guru-tool-note" data-question-tool-note hidden>Export, import, dan template disiapkan sebagai aksi MVP. Integrasi XLSX penuh bisa disambungkan berikutnya.</p>
-
-        <section class="guru-question-list" data-question-list aria-label="Daftar soal"></section>
+        <section class="guru-question-list" data-question-list aria-label="Daftar langkah"></section>
     </main>
 
     <div class="guru-modal-overlay" data-question-modal hidden>
         <div class="guru-modal" role="dialog" aria-modal="true" aria-labelledby="question-modal-title">
             <div class="guru-modal__head">
                 <div>
-                    <span>Soal Quiz</span>
-                    <h2 id="question-modal-title" data-question-modal-title>Tambah Soal</h2>
+                    <span>Langkah Pembelajaran</span>
+                    <h2 id="question-modal-title" data-question-modal-title>Tambah Langkah</h2>
                 </div>
                 <button type="button" class="guru-icon-button" data-close-guru-modal aria-label="Tutup modal">
                     <span class="material-symbols-outlined" aria-hidden="true">close</span>
@@ -104,65 +90,86 @@
             <form class="guru-unit-form" data-question-form>
                 <input type="hidden" name="id" data-question-id>
                 <label>
-                    <span>Tipe Soal</span>
+                    <span>Tipe Langkah</span>
                     <select name="type" data-question-type required>
-                        <option value="new-letter">Huruf Baru</option>
-                        <option value="multiple-choice">Pilihan Ganda</option>
+                        <option value="text">Teks Pengantar</option>
+                        <option value="character">Huruf Baru</option>
+                        <option value="quiz">Kuis Pilihan Ganda</option>
                     </select>
                 </label>
-                <div data-question-fields="new-letter">
+
+                <!-- TEXT STEP FIELDS -->
+                <div data-question-fields="text">
+                    <label>
+                        <span>Isi Konten Teks</span>
+                        <textarea name="content" rows="6" placeholder="Masukkan konten teks penjelasan..."></textarea>
+                    </label>
+                </div>
+
+                <!-- CHARACTER STEP FIELDS -->
+                <div data-question-fields="character" hidden>
                     <div class="guru-unit-form__grid">
                         <label>
-                            <span>Huruf</span>
-                            <input name="letter" type="text" maxlength="20">
+                            <span>Simbol Huruf</span>
+                            <input name="character_symbol" type="text" maxlength="50" placeholder="Contoh: あ">
                         </label>
                         <label>
-                            <span>Cara Baca</span>
-                            <input name="reading" type="text" maxlength="50">
+                            <span>Cara Baca (Romaji/Arti)</span>
+                            <input name="character_pronunciation" type="text" maxlength="100" placeholder="Contoh: a">
                         </label>
                     </div>
                 </div>
-                <div data-question-fields="multiple-choice" hidden>
+
+                <!-- QUIZ TYPE SELECT -->
+                <div data-question-fields="quiz" hidden>
                     <label>
-                        <span>Pertanyaan</span>
-                        <textarea name="question_text" rows="3"></textarea>
-                    </label>
-                    <label>
-                        <span>Huruf yang Dibahas</span>
-                        <input name="choice_letter" type="text" maxlength="20">
-                    </label>
-                    <div class="guru-unit-form__grid">
-                        <label>
-                            <span>Pilihan A</span>
-                            <input name="option_a" type="text" maxlength="191">
-                        </label>
-                        <label>
-                            <span>Pilihan B</span>
-                            <input name="option_b" type="text" maxlength="191">
-                        </label>
-                        <label>
-                            <span>Pilihan C</span>
-                            <input name="option_c" type="text" maxlength="191">
-                        </label>
-                        <label>
-                            <span>Pilihan D</span>
-                            <input name="option_d" type="text" maxlength="191">
-                        </label>
-                    </div>
-                    <label>
-                        <span>Jawaban Benar</span>
-                        <select name="correct_answer">
-                            <option value="A">A</option>
-                            <option value="B">B</option>
-                            <option value="C">C</option>
-                            <option value="D">D</option>
+                        <span>Tipe Kuis</span>
+                        <select name="quiz_type" data-quiz-type required>
+                            <option value="multiple_choice" selected>Pilihan Ganda</option>
                         </select>
                     </label>
+
+                    <!-- MULTIPLE CHOICE FIELDS -->
+                    <div data-quiz-fields="multiple_choice" style="margin-top: 16px;">
+                        <label>
+                            <span>Instruksi Kuis (Perintah)</span>
+                            <input name="quiz_instruction" type="text" placeholder="Contoh: PILIH JAWABAN YANG BENAR" value="PILIH JAWABAN YANG BENAR">
+                        </label>
+                        <label>
+                            <span>Pertanyaan (Kalimat)</span>
+                            <input name="quiz_query" type="text" placeholder="Contoh: あ">
+                        </label>
+                        <div class="guru-unit-form__grid">
+                            <label>
+                                <span>Pilihan 1 (Index 0)</span>
+                                <input name="quiz_option_0" type="text" placeholder="Pilihan 1">
+                            </label>
+                            <label>
+                                <span>Pilihan 2 (Index 1)</span>
+                                <input name="quiz_option_1" type="text" placeholder="Pilihan 2">
+                            </label>
+                            <label>
+                                <span>Pilihan 3 (Index 2)</span>
+                                <input name="quiz_option_2" type="text" placeholder="Pilihan 3">
+                            </label>
+                            <label>
+                                <span>Pilihan 4 (Index 3)</span>
+                                <input name="quiz_option_3" type="text" placeholder="Pilihan 4">
+                            </label>
+                        </div>
+                        <label>
+                            <span>Pilihan Jawaban yang Benar</span>
+                            <select name="quiz_correct_index">
+                                <option value="0">Pilihan 1</option>
+                                <option value="1">Pilihan 2</option>
+                                <option value="2">Pilihan 3</option>
+                                <option value="3">Pilihan 4</option>
+                            </select>
+                        </label>
+                    </div>
                 </div>
-                <label>
-                    <span>Urutan</span>
-                    <input name="order" type="number" min="0" step="1">
-                </label>
+
+                <input type="hidden" name="sort_order" value="">
                 <p class="guru-unit-form__error" data-question-form-error hidden></p>
                 <div class="guru-modal__actions">
                     <button type="button" class="guru-unit-button" data-close-guru-modal>Batal</button>

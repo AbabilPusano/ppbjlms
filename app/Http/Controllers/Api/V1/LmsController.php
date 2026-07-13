@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\V1\NodeResource;
 use App\Http\Resources\Api\V1\QuestionResource;
+use App\Http\Resources\Api\V1\NodeStepResource;
 use App\Http\Resources\Api\V1\SectionResource;
 use App\Http\Resources\Api\V1\StoryResource;
 use App\Http\Resources\Api\V1\UnitResource;
@@ -72,6 +73,11 @@ class LmsController extends Controller
     public function nodeQuestions(Node $node): JsonResponse
     {
         return $this->ok(QuestionResource::collection($node->questions));
+    }
+
+    public function nodeSteps(Node $node): JsonResponse
+    {
+        return $this->ok(NodeStepResource::collection($node->steps));
     }
 
     public function stories(Request $request): JsonResponse

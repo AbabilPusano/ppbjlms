@@ -6509,6 +6509,15 @@ body {
   box-shadow: 0 20px 48px rgba(157, 57, 111, 0.12);
 }
 
+.guru-unit-material.is-dragging-material {
+  opacity: 0.5;
+}
+
+.guru-unit-material.is-drag-over-material {
+  background: rgba(251, 133, 191, 0.05) !important;
+  outline: 2px dashed rgba(157, 57, 111, 0.4);
+}
+
 .guru-unit-card__order {
   display: flex;
   flex-direction: column;
@@ -8800,4 +8809,31 @@ body {
   .login-form-head h2 {
     font-size: 40px;
   }
+}
+
+/* Drag and Drop Styling Overrides */
+.guru-unit-card {
+  transition: transform 0.2s ease, opacity 0.2s ease, border-color 0.2s ease;
+}
+.guru-unit-card.is-dragging-unit {
+  opacity: 0.4;
+  border: 2px dashed var(--accent-soft) !important;
+  background: var(--accent-tint) !important;
+}
+.guru-unit-card.is-drag-over-unit {
+  border-top: 3px solid var(--accent) !important;
+  transform: translateY(2px);
+}
+
+.guru-material-row {
+  transition: transform 0.2s ease, opacity 0.2s ease, border-color 0.2s ease;
+}
+.guru-material-row.is-dragging-material {
+  opacity: 0.4;
+  border: 2px dashed var(--accent-soft) !important;
+  background: var(--accent-tint) !important;
+}
+.guru-material-row.is-drag-over-material {
+  border-top: 3px solid var(--accent) !important;
+  transform: translateY(2px);
 }

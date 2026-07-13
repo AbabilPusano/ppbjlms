@@ -48,6 +48,12 @@ class GuruUnitApiController extends Controller
         ]);
     }
 
+    public function manageMaterials(Unit $unit): \Illuminate\Contracts\View\View
+    {
+        $unit->load('level');
+        return view('guru-materials-ui', compact('unit'));
+    }
+
     public function store(Request $request): JsonResponse
     {
         $validated = $this->validateUnit($request);

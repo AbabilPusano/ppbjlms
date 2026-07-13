@@ -1,6 +1,10 @@
 @extends('layouts.lms-ui', ['title' => 'Kelola Materi - LMS PPBJ'])
 
 @section('body')
+<script>
+    window.currentUnitId = "{{ $unit->id }}";
+    window.currentLevelId = "{{ $unit->level_id }}";
+</script>
 <div class="guru-shell" data-guru-materials>
     <header class="guru-topbar">
         <button type="button" class="guru-hamburger" data-guru-menu aria-label="Toggle menu">
@@ -27,8 +31,7 @@
         <p class="guru-menu-label">Menu Utama</p>
         <nav class="guru-nav" aria-label="Navigasi guru">
             <a href="{{ route('guru.dashboard') }}"><span class="material-symbols-outlined">home</span>Dashboard</a>
-            <a href="{{ route('guru.units.index') }}"><span class="material-symbols-outlined">category</span>Unit Pembelajaran</a>
-            <a href="{{ route('guru.materials.index') }}" class="active"><span class="material-symbols-outlined">account_tree</span>Materi<i></i></a>
+            <a href="{{ route('guru.units.index') }}" class="active"><span class="material-symbols-outlined">category</span>Unit Pembelajaran<i></i></a>
             <a href="#" data-ui-only><span class="material-symbols-outlined">groups</span>Siswa</a>
             <a href="#" data-ui-only><span class="material-symbols-outlined">fact_check</span>Penilaian</a>
             <a href="#" data-ui-only><span class="material-symbols-outlined">settings</span>Pengaturan</a>
@@ -42,45 +45,20 @@
     <main class="guru-main guru-units-main guru-materials-main">
         <div class="guru-heading guru-units-heading">
             <div>
-                <h1>KELOLA MATERI PEMBELAJARAN</h1>
-                <p>Susun alur belajar dengan struktur Level, Unit Pembelajaran, Isi Unit, dan Soal.</p>
+                <h1>KELOLA ISI UNIT: {{ $unit->title }}</h1>
+                <p>Level: {{ $unit->level->name }} | {{ $unit->description }}</p>
             </div>
             <div class="guru-units-toolbar">
                 <a href="{{ route('guru.units.index') }}" class="guru-unit-button">
-                    <span class="material-symbols-outlined" aria-hidden="true">add_box</span>
-                    TAMBAH UNIT
+                    <span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>
+                    KEMBALI KE UNIT
                 </a>
                 <button type="button" class="guru-unit-button guru-unit-button--primary" data-open-material-modal>
                     <span class="material-symbols-outlined" aria-hidden="true">add</span>
                     TAMBAH ISI UNIT
                 </button>
-                <button type="button" class="guru-unit-button" data-open-material-level-modal>
-                    <span class="material-symbols-outlined" aria-hidden="true">tune</span>
-                    PILIH LEVEL
-                </button>
             </div>
         </div>
-
-        <section class="guru-material-tabs" data-material-level-tabs aria-label="Pilih level"></section>
-
-        <section class="guru-units-summary guru-material-summary" aria-label="Ringkasan materi">
-            <div>
-                <span>Level aktif</span>
-                <strong data-material-active-level>N5</strong>
-            </div>
-            <div>
-                <span>Unit</span>
-                <strong data-material-unit-count>0</strong>
-            </div>
-            <div>
-                <span>Isi unit</span>
-                <strong data-material-count>0</strong>
-            </div>
-            <div>
-                <span>Quiz</span>
-                <strong data-material-quiz-count>0</strong>
-            </div>
-        </section>
 
         <section class="guru-units-state" data-materials-loading>
             <span class="material-symbols-outlined" aria-hidden="true">progress_activity</span>
@@ -95,11 +73,11 @@
 
         <section class="guru-units-state" data-materials-empty hidden>
             <span class="material-symbols-outlined" aria-hidden="true">menu_book</span>
-            <p>Belum ada unit pada level ini.</p>
-            <a href="{{ route('guru.units.index') }}" class="guru-unit-button guru-unit-button--primary">Tambah unit pertama</a>
+            <p>Belum ada isi unit pada unit ini.</p>
+            <button type="button" class="guru-unit-button guru-unit-button--primary" data-open-material-modal>Tambah isi unit pertama</button>
         </section>
 
-        <section class="guru-material-unit-list" data-material-unit-list aria-label="Daftar materi pembelajaran"></section>
+        <section class="guru-units-list" data-material-unit-list aria-label="Daftar materi pembelajaran"></section>
     </main>
 
     <div class="guru-modal-overlay" data-material-modal hidden>
@@ -115,28 +93,13 @@
             </div>
             <form class="guru-unit-form" data-material-form>
                 <input type="hidden" name="id" data-material-id>
-                <label>
-                    <span>Level</span>
-                    <select name="level_id" data-material-level required></select>
-                </label>
-                <label>
-                    <span>Unit Induk</span>
-                    <select name="unit_id" data-material-unit required></select>
-                </label>
-                <label>
-                    <span>Tipe Isi</span>
-                    <select name="type" required>
-                        <option value="lesson">Materi Pembelajaran</option>
-                        <option value="quiz">Quiz</option>
-                    </select>
-                </label>
+                <input type="hidden" name="level_id" data-material-level value="{{ $unit->level_id }}">
+                <input type="hidden" name="unit_id" data-material-unit value="{{ $unit->id }}">
+                <input type="hidden" name="type" value="lesson">
+                <input type="hidden" name="order" value="">
                 <label>
                     <span>Judul</span>
-                    <input name="title" type="text" maxlength="191" required>
-                </label>
-                <label>
-                    <span>Urutan</span>
-                    <input name="order" type="number" min="0" step="1">
+                    <input name="title" type="text" maxlength="191" required placeholder="Contoh: Kolom A">
                 </label>
                 <p class="guru-unit-form__error" data-material-form-error hidden></p>
                 <div class="guru-modal__actions">
