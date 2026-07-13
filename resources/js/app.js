@@ -77,18 +77,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const activeLevelNode = root.querySelector('[data-active-level]');
     const unitCountNode = root.querySelector('[data-unit-count]');
+    const materialCountNode = root.querySelector('[data-material-count]');
+    const quizCountNode = root.querySelector('[data-quiz-count]');
     const loadingNode = root.querySelector('[data-units-loading]');
     const errorNode = root.querySelector('[data-units-error]');
     const errorMessageNode = root.querySelector('[data-units-error-message]');
     const emptyNode = root.querySelector('[data-units-empty]');
     const listNode = root.querySelector('[data-unit-list]');
     const unitModal = root.querySelector('[data-unit-modal]');
+    const materialModal = root.querySelector('[data-material-modal]');
+    const detailModal = root.querySelector('[data-material-detail-modal]');
+    const detailTitle = root.querySelector('[data-material-detail-title]');
+    const detailType = root.querySelector('[data-material-detail-type]');
+    const detailUnit = root.querySelector('[data-material-detail-unit]');
+    const detailOrder = root.querySelector('[data-material-detail-order]');
     const levelModal = root.querySelector('[data-level-modal]');
     const unitForm = root.querySelector('[data-unit-form]');
     const unitIdInput = root.querySelector('[data-unit-id]');
     const unitLevelSelect = root.querySelector('[data-unit-level]');
     const unitModalTitle = root.querySelector('[data-unit-modal-title]');
     const unitFormError = root.querySelector('[data-unit-form-error]');
+    const materialForm = root.querySelector('[data-material-form]');
+    const materialIdInput = root.querySelector('[data-material-id]');
+    const materialLevelSelect = root.querySelector('[data-material-level]');
+    const materialUnitSelect = root.querySelector('[data-material-unit]');
+    const materialModalTitle = root.querySelector('[data-material-modal-title]');
+    const materialFormError = root.querySelector('[data-material-form-error]');
     const levelOptions = root.querySelector('[data-level-options]');
 
     const escapeHtml = (value) => String(value ?? '')
@@ -146,6 +160,13 @@ document.addEventListener('DOMContentLoaded', () => {
           .join('');
       }
 
+      if (materialLevelSelect) {
+        materialLevelSelect.innerHTML = state.levels
+          .map((level) => `<option value="${level.id}">${escapeHtml(level.code)} - ${escapeHtml(level.name)}</option>`)
+          .join('');
+        if (state.activeLevelId) materialLevelSelect.value = String(state.activeLevelId);
+      }
+
       if (levelOptions) {
         levelOptions.innerHTML = state.levels.map((level) => `
           <button type="button" class="${String(level.id) === String(state.activeLevelId) ? 'is-active' : ''}" data-select-level="${level.id}">
@@ -157,9 +178,36 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     };
 
+    const renderUnitSelect = (selectedUnitId = '') => {
+      if (!materialUnitSelect) return;
+
+      materialUnitSelect.innerHTML = state.units.map((unit) => `
+        <option value="${unit.id}">${escapeHtml(unit.title)}</option>
+      `).join('');
+
+      if (selectedUnitId) {
+        materialUnitSelect.value = String(selectedUnitId);
+      }
+    };
+
+    const labelForType = (type) => (type === 'quiz' ? 'Quiz' : 'Materi Pembelajaran');
+
+    const findMaterial = (materialId) => {
+      for (const unit of state.units) {
+        const material = (unit.materials || []).find((item) => String(item.id) === String(materialId));
+        if (material) return { material, unit };
+      }
+
+      return { material: null, unit: null };
+    };
+
     const renderUnits = () => {
+      const materials = state.units.flatMap((unit) => unit.materials || []);
       if (unitCountNode) unitCountNode.textContent = String(state.units.length);
+      if (materialCountNode) materialCountNode.textContent = String(materials.length);
+      if (quizCountNode) quizCountNode.textContent = String(materials.filter((material) => material.type === 'quiz').length);
       renderLevelControls();
+      renderUnitSelect();
 
       if (!listNode) return;
 
@@ -172,39 +220,76 @@ document.addEventListener('DOMContentLoaded', () => {
       listNode.hidden = false;
       if (emptyNode) emptyNode.hidden = true;
 
-      listNode.innerHTML = state.units.map((unit, index) => `
-        <article class="guru-unit-card" data-unit-card="${unit.id}">
-          <div class="guru-unit-card__order">
-            <strong>${index + 1}</strong>
-            <div>
-              <button type="button" class="guru-icon-button" data-reorder-unit="${unit.id}" data-direction="up" ${index === 0 ? 'disabled' : ''} aria-label="Naikkan unit">
-                <span class="material-symbols-outlined" aria-hidden="true">keyboard_arrow_up</span>
-              </button>
-              <button type="button" class="guru-icon-button" data-reorder-unit="${unit.id}" data-direction="down" ${index === state.units.length - 1 ? 'disabled' : ''} aria-label="Turunkan unit">
-                <span class="material-symbols-outlined" aria-hidden="true">keyboard_arrow_down</span>
+      listNode.innerHTML = state.units.map((unit, index) => {
+        const unitMaterials = unit.materials || [];
+        const materialRows = unitMaterials.length === 0
+          ? `
+            <div class="guru-unit-material-empty">
+              <span>Belum ada materi di unit ini.</span>
+              <button type="button" class="guru-unit-mini-action" data-open-material-modal data-unit-id="${unit.id}">
+                <span class="material-symbols-outlined" aria-hidden="true">add</span>
+                Tambah Isi
               </button>
             </div>
-          </div>
-          <div class="guru-unit-card__body">
-            <div class="guru-unit-card__meta">
-              <span>${escapeHtml(unit.category_japanese)}</span>
-              <small>${escapeHtml(unit.category_romaji)}</small>
+          `
+          : unitMaterials.map((material, materialIndex) => `
+            <article class="guru-unit-material" data-material-id="${material.id}">
+              <span class="guru-material-type guru-material-type--${material.type}">${labelForType(material.type)}</span>
+              <div class="guru-unit-material__body">
+                <h3>${index + 1}.${materialIndex + 1} ${escapeHtml(material.title)}</h3>
+                <p>${material.type === 'quiz' ? `${material.questions_count || 0} soal tersedia` : 'Konten belajar di dalam unit'}</p>
+              </div>
+              <div class="guru-unit-material__actions">
+                ${material.type === 'quiz'
+                  ? `<a class="guru-unit-button" href="/guru/materi/${material.id}/questions"><span class="material-symbols-outlined" aria-hidden="true">quiz</span>Kelola Soal</a>`
+                  : `<button type="button" class="guru-unit-button" data-material-detail="${material.id}"><span class="material-symbols-outlined" aria-hidden="true">visibility</span>Detail</button>`}
+                <button type="button" class="guru-unit-button" data-edit-material="${material.id}">
+                  <span class="material-symbols-outlined" aria-hidden="true">edit</span>Edit
+                </button>
+                <button type="button" class="guru-unit-button guru-unit-button--danger" data-delete-material="${material.id}">
+                  <span class="material-symbols-outlined" aria-hidden="true">delete</span>Hapus
+                </button>
+              </div>
+            </article>
+          `).join('');
+
+        return `
+          <article class="guru-unit-card guru-unit-card--with-materials" data-unit-card="${unit.id}" draggable="true" aria-label="Unit ${escapeHtml(unit.title)} dapat diurutkan dengan drag and drop">
+            <div class="guru-unit-card__order">
+              <span class="material-symbols-outlined guru-unit-card__drag" aria-hidden="true">drag_indicator</span>
+              <strong>${index + 1}</strong>
             </div>
-            <h2>${escapeHtml(unit.title)}</h2>
-            <p>${escapeHtml(unit.description || 'Tanpa deskripsi.')}</p>
-          </div>
-          <div class="guru-unit-card__actions">
-            <button type="button" class="guru-unit-button" data-edit-unit="${unit.id}">
-              <span class="material-symbols-outlined" aria-hidden="true">edit</span>
-              EDIT
-            </button>
-            <button type="button" class="guru-unit-button guru-unit-button--danger" data-delete-unit="${unit.id}">
-              <span class="material-symbols-outlined" aria-hidden="true">delete</span>
-              HAPUS
-            </button>
-          </div>
-        </article>
-      `).join('');
+            <div class="guru-unit-card__body">
+              <div class="guru-unit-card__meta">
+                <span>${escapeHtml(unit.category_japanese)}</span>
+                <small>${escapeHtml(unit.category_romaji)}</small>
+              </div>
+              <h2>${escapeHtml(unit.title)}</h2>
+              <p>${escapeHtml(unit.description || 'Tanpa deskripsi.')}</p>
+              <div class="guru-unit-materials">
+                <div class="guru-unit-materials__head">
+                  <span>${unitMaterials.length} isi unit</span>
+                  <button type="button" class="guru-unit-mini-action" data-open-material-modal data-unit-id="${unit.id}">
+                    <span class="material-symbols-outlined" aria-hidden="true">add</span>
+                    Tambah Isi
+                  </button>
+                </div>
+                <div class="guru-unit-material-list">${materialRows}</div>
+              </div>
+            </div>
+            <div class="guru-unit-card__actions">
+              <button type="button" class="guru-unit-button" data-edit-unit="${unit.id}">
+                <span class="material-symbols-outlined" aria-hidden="true">edit</span>
+                EDIT
+              </button>
+              <button type="button" class="guru-unit-button guru-unit-button--danger" data-delete-unit="${unit.id}">
+                <span class="material-symbols-outlined" aria-hidden="true">delete</span>
+                HAPUS
+              </button>
+            </div>
+          </article>
+        `;
+      }).join('');
     };
 
     const loadUnits = async () => {
@@ -217,7 +302,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       setLoading(true);
       try {
-        const payload = await fetchJson(`/api/guru/levels/${level.id}/units`);
+        const payload = await fetchJson(`/api/guru/levels/${level.id}/materials`);
         state.units = payload.data.units || [];
         if (loadingNode) loadingNode.hidden = true;
         if (errorNode) errorNode.hidden = true;
@@ -275,6 +360,36 @@ document.addEventListener('DOMContentLoaded', () => {
       openModal(unitModal);
     };
 
+    const openMaterialModal = (material = null, selectedUnitId = '') => {
+      materialForm?.reset();
+      if (materialFormError) materialFormError.hidden = true;
+      if (materialIdInput) materialIdInput.value = material?.id || '';
+      if (materialModalTitle) materialModalTitle.textContent = material ? 'Edit Isi Unit' : 'Tambah Isi Unit';
+
+      const unitId = material?.unit_id || selectedUnitId || state.units[0]?.id || '';
+      if (material && materialForm) {
+        materialForm.elements.title.value = material.title || '';
+        materialForm.elements.type.value = material.type || 'lesson';
+        materialForm.elements.order.value = material.order ?? '';
+      } else if (materialForm) {
+        materialForm.elements.order.value = '';
+      }
+
+      renderLevelControls();
+      renderUnitSelect(unitId);
+      openModal(materialModal);
+    };
+
+    const openDetailModal = (material, unit) => {
+      if (!material) return;
+
+      if (detailTitle) detailTitle.textContent = material.title || 'Materi Pembelajaran';
+      if (detailType) detailType.textContent = labelForType(material.type);
+      if (detailUnit) detailUnit.textContent = unit?.title || '-';
+      if (detailOrder) detailOrder.textContent = String(material.order ?? '-');
+      openModal(detailModal);
+    };
+
     const saveUnit = async () => {
       if (!unitForm) return;
 
@@ -314,6 +429,57 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     };
 
+    const saveMaterial = async () => {
+      if (!materialForm) return;
+
+      const formData = new FormData(materialForm);
+      const id = formData.get('id');
+      const payload = {
+        unit_id: String(formData.get('unit_id') || ''),
+        type: String(formData.get('type') || 'lesson'),
+        title: String(formData.get('title') || ''),
+      };
+      const order = String(formData.get('order') || '');
+      if (order !== '') payload.order = Number(order);
+
+      const submit = root.querySelector('[data-material-submit]');
+      if (submit) submit.disabled = true;
+      if (materialFormError) materialFormError.hidden = true;
+
+      try {
+        const response = await fetchJson(id ? `/api/guru/materials/${id}` : '/api/guru/materials', {
+          method: id ? 'PUT' : 'POST',
+          body: JSON.stringify(payload),
+        });
+
+        closeModal(materialModal);
+        await loadUnits();
+
+        if (!id && response.data?.type === 'quiz') {
+          window.location.href = `/guru/materi/${response.data.id}/questions`;
+        }
+      } catch (error) {
+        if (materialFormError) {
+          materialFormError.textContent = error.message || 'Isi unit gagal disimpan.';
+          materialFormError.hidden = false;
+        }
+      } finally {
+        if (submit) submit.disabled = false;
+      }
+    };
+
+    const deleteMaterial = async (material) => {
+      if (!material || !window.confirm(`Hapus isi unit "${material.title}"?`)) return;
+
+      setLoading(true);
+      try {
+        await fetchJson(`/api/guru/materials/${material.id}`, { method: 'DELETE' });
+        await loadUnits();
+      } catch (error) {
+        setError(error.message || 'Isi unit gagal dihapus.');
+      }
+    };
+
     const deleteUnit = async (unit) => {
       if (!unit || !window.confirm(`Hapus unit "${unit.title}"?`)) return;
 
@@ -326,16 +492,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     };
 
-    const reorderUnit = async (unitId, direction) => {
-      const currentIndex = state.units.findIndex((unit) => String(unit.id) === String(unitId));
-      const targetIndex = direction === 'up' ? currentIndex - 1 : currentIndex + 1;
-      if (currentIndex < 0 || targetIndex < 0 || targetIndex >= state.units.length) return;
-
-      const orderedIds = state.units.map((unit) => unit.id);
-      const [moved] = orderedIds.splice(currentIndex, 1);
-      orderedIds.splice(targetIndex, 0, moved);
-
-      setLoading(true);
+    const saveUnitOrder = async (orderedIds, previousUnits) => {
       try {
         const payload = await fetchJson('/api/guru/units/reorder', {
           method: 'PATCH',
@@ -345,11 +502,28 @@ document.addEventListener('DOMContentLoaded', () => {
           }),
         });
         state.units = payload.data.units || [];
-        if (loadingNode) loadingNode.hidden = true;
         renderUnits();
       } catch (error) {
+        state.units = previousUnits;
+        renderUnits();
         setError(error.message || 'Urutan unit gagal disimpan.');
       }
+    };
+
+    const moveUnit = (draggedId, targetId) => {
+      if (!draggedId || !targetId || String(draggedId) === String(targetId)) return;
+
+      const previousUnits = [...state.units];
+      const fromIndex = state.units.findIndex((unit) => String(unit.id) === String(draggedId));
+      const toIndex = state.units.findIndex((unit) => String(unit.id) === String(targetId));
+      if (fromIndex < 0 || toIndex < 0) return;
+
+      const nextUnits = [...state.units];
+      const [moved] = nextUnits.splice(fromIndex, 1);
+      nextUnits.splice(toIndex, 0, moved);
+      state.units = nextUnits;
+      renderUnits();
+      saveUnitOrder(nextUnits.map((unit) => unit.id), previousUnits);
     };
 
     root.addEventListener('click', (event) => {
@@ -358,6 +532,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (target.closest('[data-open-unit-modal]')) {
         openUnitModal();
+      }
+
+      const openMaterialButton = target.closest('[data-open-material-modal]');
+      if (openMaterialButton) {
+        openMaterialModal(null, openMaterialButton.getAttribute('data-unit-id') || '');
       }
 
       if (target.closest('[data-open-level-modal]')) {
@@ -389,14 +568,72 @@ document.addEventListener('DOMContentLoaded', () => {
         deleteUnit(unit);
       }
 
-      const reorderButton = target.closest('[data-reorder-unit]');
-      if (reorderButton) {
-        reorderUnit(reorderButton.getAttribute('data-reorder-unit'), reorderButton.getAttribute('data-direction'));
+      const detailButton = target.closest('[data-material-detail]');
+      if (detailButton) {
+        const { material, unit } = findMaterial(detailButton.getAttribute('data-material-detail'));
+        openDetailModal(material, unit);
+      }
+
+      const editMaterialButton = target.closest('[data-edit-material]');
+      if (editMaterialButton) {
+        const { material } = findMaterial(editMaterialButton.getAttribute('data-edit-material'));
+        openMaterialModal(material);
+      }
+
+      const deleteMaterialButton = target.closest('[data-delete-material]');
+      if (deleteMaterialButton) {
+        const { material } = findMaterial(deleteMaterialButton.getAttribute('data-delete-material'));
+        deleteMaterial(material);
       }
 
       if (target.closest('[data-retry-units]')) {
         loadUnits();
       }
+    });
+
+    root.addEventListener('dragstart', (event) => {
+      const card = event.target instanceof Element ? event.target.closest('[data-unit-card]') : null;
+      if (!card) return;
+
+      card.classList.add('is-dragging');
+      event.dataTransfer.effectAllowed = 'move';
+      event.dataTransfer.setData('text/plain', card.getAttribute('data-unit-card'));
+    });
+
+    root.addEventListener('dragover', (event) => {
+      const card = event.target instanceof Element ? event.target.closest('[data-unit-card]') : null;
+      if (!card) return;
+
+      event.preventDefault();
+      event.dataTransfer.dropEffect = 'move';
+      root.querySelectorAll('[data-unit-card].is-drag-over').forEach((item) => {
+        if (item !== card) item.classList.remove('is-drag-over');
+      });
+      card.classList.add('is-drag-over');
+    });
+
+    root.addEventListener('dragleave', (event) => {
+      const card = event.target instanceof Element ? event.target.closest('[data-unit-card]') : null;
+      if (card && !card.contains(event.relatedTarget)) {
+        card.classList.remove('is-drag-over');
+      }
+    });
+
+    root.addEventListener('drop', (event) => {
+      const card = event.target instanceof Element ? event.target.closest('[data-unit-card]') : null;
+      if (!card) return;
+
+      event.preventDefault();
+      const draggedId = event.dataTransfer.getData('text/plain');
+      const targetId = card.getAttribute('data-unit-card');
+      root.querySelectorAll('[data-unit-card].is-drag-over').forEach((item) => item.classList.remove('is-drag-over'));
+      moveUnit(draggedId, targetId);
+    });
+
+    root.addEventListener('dragend', () => {
+      root.querySelectorAll('[data-unit-card].is-dragging, [data-unit-card].is-drag-over').forEach((item) => {
+        item.classList.remove('is-dragging', 'is-drag-over');
+      });
     });
 
     root.querySelectorAll('.guru-modal-overlay').forEach((modal) => {
@@ -408,6 +645,17 @@ document.addEventListener('DOMContentLoaded', () => {
     unitForm?.addEventListener('submit', (event) => {
       event.preventDefault();
       saveUnit();
+    });
+
+    materialForm?.addEventListener('submit', (event) => {
+      event.preventDefault();
+      saveMaterial();
+    });
+
+    materialLevelSelect?.addEventListener('change', () => {
+      state.activeLevelId = materialLevelSelect.value;
+      window.localStorage.setItem('guru.activeLevelId', state.activeLevelId);
+      loadUnits();
     });
 
     loadLevels();

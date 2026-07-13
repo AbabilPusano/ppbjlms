@@ -28,7 +28,6 @@
         <nav class="guru-nav" aria-label="Navigasi guru">
             <a href="{{ route('guru.dashboard') }}"><span class="material-symbols-outlined">home</span>Dashboard</a>
             <a href="{{ route('guru.units.index') }}" class="active"><span class="material-symbols-outlined">category</span>Unit Pembelajaran<i></i></a>
-            <a href="{{ route('guru.materials.index') }}"><span class="material-symbols-outlined">account_tree</span>Materi</a>
             <a href="#" data-ui-only><span class="material-symbols-outlined">checklist</span>Penilaian</a>
             <a href="#" data-ui-only><span class="material-symbols-outlined">settings</span>Pengaturan</a>
         </nav>
@@ -41,13 +40,17 @@
     <main class="guru-main guru-units-main">
         <div class="guru-heading guru-units-heading">
             <div>
-                <h1>KELOLA UNIT</h1>
-                <p>Atur unit pembelajaran berdasarkan level aktif dan urutan tampilnya.</p>
+                <h1>KELOLA UNIT PEMBELAJARAN</h1>
+                <p>Atur unit, materi pembelajaran, quiz, dan soal dari satu halaman.</p>
             </div>
             <div class="guru-units-toolbar">
                 <button type="button" class="guru-unit-button guru-unit-button--primary" data-open-unit-modal>
                     <span class="material-symbols-outlined" aria-hidden="true">add</span>
                     TAMBAH UNIT
+                </button>
+                <button type="button" class="guru-unit-button" data-open-material-modal>
+                    <span class="material-symbols-outlined" aria-hidden="true">playlist_add</span>
+                    TAMBAH ISI UNIT
                 </button>
                 <button type="button" class="guru-unit-button" data-open-level-modal>
                     <span class="material-symbols-outlined" aria-hidden="true">tune</span>
@@ -64,6 +67,14 @@
             <div>
                 <span>Jumlah unit</span>
                 <strong data-unit-count>0</strong>
+            </div>
+            <div>
+                <span>Isi unit</span>
+                <strong data-material-count>0</strong>
+            </div>
+            <div>
+                <span>Quiz</span>
+                <strong data-quiz-count>0</strong>
             </div>
         </section>
 
@@ -138,6 +149,82 @@
                     <button type="submit" class="guru-unit-button guru-unit-button--primary" data-unit-submit>Simpan</button>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <div class="guru-modal-overlay" data-material-modal hidden>
+        <div class="guru-modal" role="dialog" aria-modal="true" aria-labelledby="material-modal-title">
+            <div class="guru-modal__head">
+                <div>
+                    <span>Isi Unit</span>
+                    <h2 id="material-modal-title" data-material-modal-title>Tambah Isi Unit</h2>
+                </div>
+                <button type="button" class="guru-icon-button" data-close-guru-modal aria-label="Tutup modal">
+                    <span class="material-symbols-outlined" aria-hidden="true">close</span>
+                </button>
+            </div>
+            <form class="guru-unit-form" data-material-form>
+                <input type="hidden" name="id" data-material-id>
+                <label>
+                    <span>Level</span>
+                    <select name="level_id" data-material-level required></select>
+                </label>
+                <label>
+                    <span>Unit Induk</span>
+                    <select name="unit_id" data-material-unit required></select>
+                </label>
+                <label>
+                    <span>Tipe Isi</span>
+                    <select name="type" required>
+                        <option value="lesson">Materi Pembelajaran</option>
+                        <option value="quiz">Quiz</option>
+                    </select>
+                </label>
+                <label>
+                    <span>Judul</span>
+                    <input name="title" type="text" maxlength="191" required>
+                </label>
+                <label>
+                    <span>Urutan</span>
+                    <input name="order" type="number" min="0" step="1">
+                </label>
+                <p class="guru-unit-form__error" data-material-form-error hidden></p>
+                <div class="guru-modal__actions">
+                    <button type="button" class="guru-unit-button" data-close-guru-modal>Batal</button>
+                    <button type="submit" class="guru-unit-button guru-unit-button--primary" data-material-submit>Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="guru-modal-overlay" data-material-detail-modal hidden>
+        <div class="guru-modal guru-modal--small" role="dialog" aria-modal="true" aria-labelledby="material-detail-title">
+            <div class="guru-modal__head">
+                <div>
+                    <span>Detail Materi</span>
+                    <h2 id="material-detail-title" data-material-detail-title>Materi Pembelajaran</h2>
+                </div>
+                <button type="button" class="guru-icon-button" data-close-guru-modal aria-label="Tutup modal">
+                    <span class="material-symbols-outlined" aria-hidden="true">close</span>
+                </button>
+            </div>
+            <div class="guru-material-detail">
+                <dl>
+                    <div>
+                        <dt>Tipe</dt>
+                        <dd data-material-detail-type>-</dd>
+                    </div>
+                    <div>
+                        <dt>Unit Induk</dt>
+                        <dd data-material-detail-unit>-</dd>
+                    </div>
+                    <div>
+                        <dt>Urutan</dt>
+                        <dd data-material-detail-order>-</dd>
+                    </div>
+                </dl>
+                <p>Konten detail materi bisa disambungkan ke editor rich text pada tahap berikutnya.</p>
+            </div>
         </div>
     </div>
 

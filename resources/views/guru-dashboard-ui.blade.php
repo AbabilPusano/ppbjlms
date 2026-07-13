@@ -28,7 +28,6 @@
         <nav class="guru-nav" aria-label="Navigasi guru">
             <a href="{{ route('guru.dashboard') }}" class="active"><span class="material-symbols-outlined">home</span>Dashboard<i></i></a>
             <a href="{{ route('guru.units.index') }}"><span class="material-symbols-outlined">category</span>Unit Pembelajaran</a>
-            <a href="{{ route('guru.materials.index') }}"><span class="material-symbols-outlined">account_tree</span>Materi</a>
             <a href="#" data-ui-only><span class="material-symbols-outlined">checklist</span>Penilaian</a>
             <a href="#" data-ui-only><span class="material-symbols-outlined">settings</span>Pengaturan</a>
         </nav>
@@ -53,11 +52,7 @@
             </a>
             <a href="{{ route('guru.units.index') }}" class="guru-card guru-card--white guru-card--wide">
                 <span class="material-symbols-outlined">category</span>
-                <div><h3>Kelola Unit</h3><p>Detail unit pembelajaran per section.</p></div>
-            </a>
-            <a href="{{ route('guru.materials.index') }}" class="guru-card guru-card--white">
-                <span class="material-symbols-outlined">account_tree</span>
-                <div><h3>Kelola Materi</h3><p>Susun isi unit, materi pembelajaran, dan quiz.</p></div>
+                <div><h3>Kelola Unit & Materi</h3><p>Susun unit, isi pembelajaran, quiz, dan soal dari satu tempat.</p></div>
             </a>
             <a href="#" class="guru-card guru-card--purple" data-ui-only>
                 <span class="material-symbols-outlined">inventory_2</span>

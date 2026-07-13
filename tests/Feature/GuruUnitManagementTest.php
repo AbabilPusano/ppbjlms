@@ -22,18 +22,24 @@ class GuruUnitManagementTest extends TestCase
             ->assertOk()
             ->assertSee('KELOLA UNIT')
             ->assertSee('TAMBAH UNIT')
+            ->assertSee('TAMBAH ISI UNIT')
+            ->assertSee('Isi unit')
             ->assertSee('PILIH LEVEL')
             ->assertDontSee('Modal dummy');
     }
 
-    public function test_guru_can_open_materials_management_page_without_technical_node_label(): void
+    public function test_old_materials_page_redirects_to_combined_units_page_without_technical_node_label(): void
     {
         $guru = User::factory()->create(['role' => 'guru']);
 
         $this->actingAs($guru)
             ->get('/guru/materi')
+            ->assertRedirect('/guru/units');
+
+        $this->actingAs($guru)
+            ->get('/guru/units')
             ->assertOk()
-            ->assertSee('KELOLA MATERI PEMBELAJARAN')
+            ->assertSee('KELOLA UNIT PEMBELAJARAN')
             ->assertSee('TAMBAH ISI UNIT')
             ->assertSee('Unit Induk')
             ->assertDontSee('Tambah Node')

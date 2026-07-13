@@ -27,24 +27,23 @@
         <p class="guru-menu-label">Menu Utama</p>
         <nav class="guru-nav" aria-label="Navigasi guru">
             <a href="{{ route('guru.dashboard') }}"><span class="material-symbols-outlined">home</span>Dashboard</a>
-            <a href="{{ route('guru.units.index') }}"><span class="material-symbols-outlined">category</span>Unit Pembelajaran</a>
-            <a href="{{ route('guru.materials.index') }}" class="active"><span class="material-symbols-outlined">account_tree</span>Materi<i></i></a>
+            <a href="{{ route('guru.units.index') }}" class="active"><span class="material-symbols-outlined">category</span>Unit Pembelajaran<i></i></a>
             <a href="#" data-ui-only><span class="material-symbols-outlined">groups</span>Siswa</a>
             <a href="#" data-ui-only><span class="material-symbols-outlined">fact_check</span>Penilaian</a>
             <a href="#" data-ui-only><span class="material-symbols-outlined">settings</span>Pengaturan</a>
         </nav>
 
         <div class="guru-back">
-            <a href="{{ route('guru.materials.index') }}"><span class="material-symbols-outlined">arrow_back</span>Kembali ke Materi</a>
+            <a href="{{ route('guru.units.index') }}"><span class="material-symbols-outlined">arrow_back</span>Kembali ke Unit</a>
         </div>
     </aside>
 
     <main class="guru-main guru-units-main guru-materials-main">
         <div class="guru-heading guru-units-heading">
             <div>
-                <a href="{{ route('guru.materials.index') }}" class="guru-inline-back">
+                <a href="{{ route('guru.units.index') }}" class="guru-inline-back">
                     <span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>
-                    Kembali ke Materi
+                    Kembali ke Unit
                 </a>
                 <h1 data-question-title>LIST SOAL</h1>
                 <p data-question-subtitle>Memuat quiz...</p>

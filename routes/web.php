@@ -28,7 +28,7 @@ Route::view('/guru/dashboard', 'guru-dashboard-ui')
 
 Route::middleware(['auth', 'role:guru'])->group(function (): void {
     Route::view('/guru/units', 'guru-units-ui')->name('guru.units.index');
-    Route::view('/guru/materi', 'guru-materials-ui')->name('guru.materials.index');
+    Route::redirect('/guru/materi', '/guru/units')->name('guru.materials.index');
     Route::view('/guru/materi/{material}/questions', 'guru-questions-ui')->name('guru.materials.questions');
 
     Route::prefix('api/guru')->name('guru.api.')->group(function (): void {
