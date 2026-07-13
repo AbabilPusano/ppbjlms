@@ -7,7 +7,7 @@
 <div class="guru-shell">
     <header class="guru-topbar">
         <button type="button" class="guru-hamburger" data-guru-menu aria-label="Toggle menu">
-            <span class="material-symbols-outlined" aria-hidden="true">menu</span>
+            <span class="material-symbols-outlined " aria-hidden="true">menu</span>
         </button>
         <div>
             <p>Generate Akun Siswa</p>
