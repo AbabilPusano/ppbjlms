@@ -5,11 +5,87 @@ Dokumen ini adalah checklist besar untuk melanjutkan project dari kondisi sekara
 ## Status Singkat Saat Ini
 
 - Project target: Laravel 13 + Blade + Vite/Tailwind.
-- UI dummy/static sudah ada untuk dashboard belajar, login, stories, letters, profile, edit profile, guru dashboard, dan lesson flow.
-- Backend LMS belum aktif: belum ada controller, API route, service, policy, request validation, atau model domain selain `User`.
-- Database LMS sudah mulai dibuat lewat migration, tetapi belum ada Eloquent model/relationship/seeder lengkap.
+- UI masih campuran: dashboard `/` sudah mulai database-driven, sedangkan stories, letters, profile, edit profile, guru dashboard, dan lesson flow masih banyak yang dummy/static.
+- API mobile sudah ada di `routes/api.php` dengan prefix `/api/v1`.
+- Login web masih pakai session Laravel, login mobile sudah pakai Bearer token custom.
+- Model domain awal sudah ada: `Section`, `Unit`, `Node`, `Question`, `Story`, `UserProgress`, `ApiToken`.
+- Seeder konten awal sudah ada untuk `sections`, `units`, dan `nodes`; `questions` belum lengkap karena data JSON dari Neon belum utuh.
+- Dashboard `/` sudah mengambil `sections`, `units`, `nodes`, dan `user_progress` dari database.
 - Build Vite sudah bisa jalan, tetapi Node lokal masih `20.18.0`; Vite minta `20.19+` atau `22.12+`.
 - Ada perubahan lokal `.env.example` terhapus yang belum jelas asalnya dan belum di-commit.
+
+## TODO Selanjutnya Paling Dekat
+
+Checklist ini urutan kerja paling masuk akal dari kondisi project sekarang.
+
+### A. Bereskan Data dan Seeder
+
+- [ ] Export data `questions` dari Neon dalam bentuk JSON utuh, bukan screenshot.
+- [ ] Masukkan data `questions` ke `LmsContentSeeder`.
+- [ ] Tambahkan data `relatedCharacters` untuk question kalau memang dipakai lesson.
+- [ ] Seed `stories` setelah tabel stories di Neon sudah ada datanya.
+- [ ] Jalankan `php artisan migrate:fresh --seed` dan pastikan dashboard muncul dengan data lengkap.
+- [ ] Cek apakah semua ID dari Neon lama cocok dengan relasi Laravel sekarang.
+
+### B. Rapikan Schema Database
+
+- [ ] Putuskan mau tetap pakai camelCase (`sectionId`, `unitId`, `nodeId`) atau migrasi ke snake_case (`section_id`, `unit_id`, `node_id`).
+- [ ] Kalau tetap camelCase, pastikan semua model sudah set foreign key manual.
+- [ ] Audit timestamp tabel LMS: migration pakai `timestamps(3)`, tapi Laravel model default pakai `created_at`/`updated_at`.
+- [ ] Perbaiki atau hapus `database/schema.sql` karena ada typo `gems AFTER gems`.
+- [ ] Tambahkan model `QuestionResponse`.
+
+### C. Integrasi Halaman Student ke Database
+
+- [x] Dashboard `/` ambil unit, step, dan progress dari database.
+- [ ] Halaman lesson `/lesson/n5/unit/{unit}/level/{level}` ambil node/question dari database.
+- [ ] Simpan jawaban user ke `question_responses`.
+- [ ] Saat lesson selesai, simpan progress ke `user_progress`.
+- [ ] Halaman profile ambil data user login dari database.
+- [ ] Halaman edit profile benar-benar update user.
+- [ ] Halaman stories ambil data dari tabel `stories`.
+- [ ] Halaman letters ambil data dari database atau tentukan tetap static.
+
+### D. Lengkapi API Mobile
+
+- [x] API login mobile `/api/v1/login`.
+- [x] API profile `/api/v1/me`.
+- [x] API section/unit/node/progress dasar.
+- [ ] API ambil lesson detail lengkap termasuk questions.
+- [ ] API submit jawaban quiz.
+- [ ] API hitung skor lesson.
+- [ ] API update progress setelah node selesai.
+- [ ] Buat dokumentasi endpoint untuk mobile, minimal Postman collection atau markdown.
+- [ ] Pertimbangkan ganti token custom ke Laravel Sanctum sebelum production.
+
+### E. Admin/Guru
+
+- [ ] Buat CRUD section.
+- [ ] Buat CRUD unit.
+- [ ] Buat CRUD node.
+- [ ] Buat CRUD question.
+- [ ] Buat CRUD story.
+- [ ] Buat fitur reorder unit/node/question.
+- [ ] Batasi semua route guru pakai middleware role `guru`.
+
+### F. Testing dan Stabilitas
+
+- [x] Test API dasar.
+- [x] Test dashboard database-driven.
+- [ ] Test seeder `LmsContentSeeder`.
+- [ ] Test lesson flow setelah terhubung ke DB.
+- [ ] Test submit question response.
+- [ ] Test role guru/siswa.
+- [ ] Jalankan `php artisan test` sebelum commit.
+- [ ] Jalankan `vendor\bin\pint --test` sebelum commit.
+
+### G. Housekeeping Sebelum Commit
+
+- [ ] Putuskan `.env.example` mau direstore atau memang dihapus.
+- [ ] Cek perubahan `.agents/` apakah perlu masuk git atau di-ignore.
+- [ ] Update Node.js ke minimal `20.19`.
+- [ ] Jalankan `npm run build` setelah Node update.
+- [ ] Commit perubahan API, dashboard DB, seeder, dan test dalam commit yang rapi.
 
 ## 1. Housekeeping Awal
 
@@ -90,35 +166,35 @@ Dokumen ini adalah checklist besar untuk melanjutkan project dari kondisi sekara
 
 ## 6. Eloquent Model dan Relationship
 
-- [ ] Update `User` fillable untuk `username`, `role`, `bio`, `avatar`, `streak`, `totalXP`, `gems`, `league`.
-- [ ] Tambahkan casts di `User`: `streak`, `totalXP`, `gems`.
-- [ ] Buat model `Section`.
-- [ ] Buat model `Unit`.
-- [ ] Buat model `Node`.
-- [ ] Buat model `Question`.
-- [ ] Buat model `Story`.
-- [ ] Buat model `UserProgress`.
+- [x] Update `User` fillable untuk `username`, `role`, `bio`, `avatar`, `streak`, `totalXP`, `gems`, `league`.
+- [x] Tambahkan casts di `User`: `streak`, `totalXP`, `gems`.
+- [x] Buat model `Section`.
+- [x] Buat model `Unit`.
+- [x] Buat model `Node`.
+- [x] Buat model `Question`.
+- [x] Buat model `Story`.
+- [x] Buat model `UserProgress`.
 - [ ] Buat model `QuestionResponse`.
 - [ ] Definisikan relationship:
-  - [ ] `Section hasMany Unit`.
-  - [ ] `Section hasMany Story`.
-  - [ ] `Unit belongsTo Section`.
-  - [ ] `Unit hasMany Node`.
-  - [ ] `Node belongsTo Unit`.
-  - [ ] `Node hasMany Question`.
-  - [ ] `Question belongsTo Node`.
-  - [ ] `User hasMany UserProgress`.
+  - [x] `Section hasMany Unit`.
+  - [x] `Section hasMany Story`.
+  - [x] `Unit belongsTo Section`.
+  - [x] `Unit hasMany Node`.
+  - [x] `Node belongsTo Unit`.
+  - [x] `Node hasMany Question`.
+  - [x] `Question belongsTo Node`.
+  - [x] `User hasMany UserProgress`.
   - [ ] `User hasMany QuestionResponse`.
-- [ ] Tambahkan casts JSON untuk `options`, `correctAnswer`, `relatedCharacters`, `content`.
-- [ ] Jika ID pakai string, set `$incrementing = false` dan `$keyType = 'string'`.
+- [x] Tambahkan casts JSON untuk `options`, `correctAnswer`, `relatedCharacters`, `content`.
+- [x] Jika ID pakai string, set `$incrementing = false` dan `$keyType = 'string'`.
 - [ ] Tentukan strategi ID: UUID, ULID, atau string manual.
 
 ## 7. Seeder dan Dummy Data Backend
 
-- [ ] Update `DatabaseSeeder` agar user test memiliki `username` dan `role`, karena migration membuat kolom itu required.
-- [ ] Buat `SectionSeeder`: N5, N4, N3, N2, N1.
-- [ ] Buat `UnitSeeder`: beberapa unit per section.
-- [ ] Buat `NodeSeeder`: lesson, practice, quiz, guidebook.
+- [x] Update `DatabaseSeeder` agar user test memiliki `username` dan `role`, karena migration membuat kolom itu required.
+- [x] Buat seed section awal: N5, N4, N3, N2, N1.
+- [x] Buat seed unit awal dari data Neon.
+- [x] Buat seed node awal dari data Neon.
 - [ ] Buat `QuestionSeeder` dengan format JSON yang final.
 - [ ] Buat `StorySeeder` dengan content reader yang final.
 - [ ] Buat `UserProgressSeeder`.
@@ -127,11 +203,11 @@ Dokumen ini adalah checklist besar untuk melanjutkan project dari kondisi sekara
 
 ## 8. Auth dan Session
 
-- [ ] Tentukan auth stack: Laravel session biasa, Sanctum, Breeze, Fortify, atau custom.
-- [ ] Buat login real untuk username/password.
-- [ ] Buat logout real.
-- [ ] Buat middleware auth untuk halaman student yang butuh login.
-- [ ] Buat middleware role guru/admin.
+- [x] Tentukan auth web sementara: Laravel session custom.
+- [x] Buat login real untuk username/password.
+- [x] Buat logout real.
+- [x] Buat middleware auth untuk halaman student yang butuh login.
+- [x] Buat middleware role guru/admin.
 - [ ] Tentukan role final: `guru`, `siswa`, mungkin `admin`.
 - [ ] Buat policy/authorization untuk resource guru.
 - [ ] Tambahkan CSRF handling untuk form/API yang memakai session.
@@ -161,17 +237,17 @@ Dokumen ini adalah checklist besar untuk melanjutkan project dari kondisi sekara
 
 ## 10. API/Data Contract
 
-- [ ] Definisikan endpoint `GET /api/session/me`.
-- [ ] Definisikan endpoint `POST /login`.
-- [ ] Definisikan endpoint `POST /logout`.
-- [ ] Definisikan endpoint `GET /api/lms/sections`.
-- [ ] Definisikan endpoint `GET /api/lms/units`.
-- [ ] Definisikan endpoint `GET /api/lms/nodes`.
+- [x] Definisikan endpoint `GET /api/v1/me`.
+- [x] Definisikan endpoint `POST /api/v1/login`.
+- [x] Definisikan endpoint `POST /api/v1/logout`.
+- [x] Definisikan endpoint `GET /api/v1/sections`.
+- [x] Definisikan endpoint `GET /api/v1/sections/{section}/units`.
+- [x] Definisikan endpoint `GET /api/v1/units/{unit}/nodes`.
 - [ ] Definisikan endpoint `GET /api/lms/questions?nodeId=...`.
 - [ ] Definisikan endpoint `POST /api/lms/questions/responses`.
-- [ ] Definisikan endpoint `GET /api/lms/progress`.
-- [ ] Definisikan endpoint `POST /api/lms/progress`.
-- [ ] Definisikan endpoint `GET /api/lms/stories`.
+- [x] Definisikan endpoint `GET /api/v1/progress`.
+- [x] Definisikan endpoint `POST /api/v1/nodes/{node}/complete`.
+- [x] Definisikan endpoint `GET /api/v1/stories`.
 - [ ] Definisikan endpoint `GET /api/lms/stories/{id}`.
 - [ ] Definisikan endpoint CRUD guru untuk sections/units/nodes/questions/stories.
 - [ ] Buat format response standar: `data`, `message`, `errors`.
@@ -207,7 +283,7 @@ Dokumen ini adalah checklist besar untuk melanjutkan project dari kondisi sekara
 
 ## 13. Integrasi UI ke Backend
 
-- [ ] Ganti dummy dashboard belajar dengan query unit/node/progress.
+- [x] Ganti dummy dashboard belajar dengan query unit/node/progress.
 - [ ] Ganti lesson dummy dengan questions dari database.
 - [ ] Simpan response lesson ke backend.
 - [ ] Simpan progress node selesai ke backend.
@@ -284,13 +360,13 @@ Dokumen ini adalah checklist besar untuk melanjutkan project dari kondisi sekara
 
 ## 19. Prioritas Disarankan
 
-1. [ ] Bereskan housekeeping: `.env.example`, Node version, branch/commit.
-2. [ ] Audit dan perbaiki migration/schema.
-3. [ ] Buat model Eloquent dan relationship.
-4. [ ] Buat seeder yang bisa menjalankan data LMS awal.
-5. [ ] Implement auth login/logout real.
-6. [ ] Implement backend dashboard belajar dan lesson.
-7. [ ] Integrasikan UI student ke backend.
-8. [ ] Implement story reader.
-9. [ ] Implement guru CRUD backend + UI.
-10. [ ] Tambahkan test dan dokumentasi setup/deploy.
+1. [ ] Lengkapi export `questions` dari Neon lalu masukkan ke seeder.
+2. [ ] Jalankan `migrate:fresh --seed` dan cek dashboard `/`.
+3. [ ] Integrasikan halaman lesson ke database.
+4. [ ] Simpan jawaban quiz dan progress lesson ke backend.
+5. [ ] Integrasikan profile dan edit profile ke user login.
+6. [ ] Tambahkan stories DB setelah datanya tersedia.
+7. [ ] Buat CRUD guru untuk section/unit/node/question/story.
+8. [ ] Putuskan `.env.example`, `.agents/`, dan update Node version.
+9. [ ] Dokumentasikan API mobile.
+10. [ ] Tambahkan test untuk lesson, question response, dan role guru.

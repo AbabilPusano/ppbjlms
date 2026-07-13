@@ -1,6 +1,10 @@
 @extends('layouts.lms-ui', ['title' => 'Dashboard Guru - LMS PPBJ'])
 
 @section('body')
+@php($currentUser = auth()->user())
+@php($isAdmin = $currentUser?->role === 'admin')
+@php($roleLabel = $isAdmin ? 'Admin' : 'Guru')
+
 <div class="guru-shell">
     <header class="guru-topbar">
         <button type="button" class="guru-hamburger" data-guru-menu aria-label="Toggle menu">
@@ -11,10 +15,10 @@
         </div>
         <div class="guru-user">
             <div>
-                <p>Guru</p>
-                <span>Administrator</span>
+                <p>{{ $currentUser?->name ?? $roleLabel }}</p>
+                <span>{{ ucfirst($currentUser?->role ?? 'guru') }}</span>
             </div>
-            <strong>G</strong>
+            <strong>{{ strtoupper(substr($currentUser?->name ?? $roleLabel, 0, 1)) }}</strong>
         </div>
     </header>
 
@@ -26,11 +30,13 @@
 
         <p class="guru-menu-label">Menu Utama</p>
         <nav class="guru-nav" aria-label="Navigasi guru">
-            <a href="#" class="active" data-ui-only><span class="material-symbols-outlined">home</span>Home<i></i></a>
-            <a href="#" data-ui-only><span class="material-symbols-outlined">category</span>Units</a>
-            <a href="#" data-ui-only><span class="material-symbols-outlined">account_tree</span>Materi</a>
-            <a href="#" data-ui-only><span class="material-symbols-outlined">inventory_2</span>Bank Soal</a>
-            <a href="#" data-ui-only><span class="material-symbols-outlined">menu_book</span>Stories</a>
+            <a href="{{ route('guru.dashboard') }}" class="active"><span class="material-symbols-outlined">home</span>Dashboard<i></i></a>
+            <a href="{{ route('guru.units.index') }}"><span class="material-symbols-outlined">category</span>Unit Pembelajaran</a>
+            @if ($isAdmin)
+                <a href="{{ route('admin.student-accounts.index') }}"><span class="material-symbols-outlined">person_add</span>Generate Akun</a>
+            @endif
+            <a href="#" data-ui-only><span class="material-symbols-outlined">checklist</span>Penilaian</a>
+            <a href="#" data-ui-only><span class="material-symbols-outlined">settings</span>Pengaturan</a>
         </nav>
 
         <div class="guru-back">
@@ -51,13 +57,9 @@
                 <span class="material-symbols-outlined">menu_book</span>
                 <div><h3>Kelola Stories</h3><p>Kelola cerita dari setiap Section N5 sampai N1.</p></div>
             </a>
-            <a href="#" class="guru-card guru-card--white guru-card--wide" data-ui-only>
+            <a href="{{ route('guru.units.index') }}" class="guru-card guru-card--white guru-card--wide">
                 <span class="material-symbols-outlined">category</span>
-                <div><h3>Kelola Unit</h3><p>Detail unit pembelajaran per section.</p></div>
-            </a>
-            <a href="#" class="guru-card guru-card--white" data-ui-only>
-                <span class="material-symbols-outlined">account_tree</span>
-                <div><h3>Kelola Materi</h3><p>Hubungkan antar materi dan node.</p></div>
+                <div><h3>Kelola Unit & Materi</h3><p>Susun unit, isi pembelajaran, quiz, dan soal dari satu tempat.</p></div>
             </a>
             <a href="#" class="guru-card guru-card--purple" data-ui-only>
                 <span class="material-symbols-outlined">inventory_2</span>
@@ -67,6 +69,12 @@
                 <span class="material-symbols-outlined">groups</span>
                 <div><h3>Data Siswa</h3><p>Pantau progres siswa.</p><small>Segera Hadir</small></div>
             </div>
+            @if ($isAdmin)
+                <a href="{{ route('admin.student-accounts.index') }}" class="guru-card guru-card--white guru-card--wide">
+                    <span class="material-symbols-outlined">person_add</span>
+                    <div><h3>Generate Akun Siswa</h3><p>Buat akun login siswa secara cepat dengan username dan password otomatis.</p></div>
+                </a>
+            @endif
         </div>
 
         <section class="guru-stats">

@@ -14,7 +14,7 @@ return new class extends Migration
         // 1. Modifikasi tabel users bawaan Laravel
         Schema::table('users', function (Blueprint $table) {
             $table->string('username', 191)->unique()->after('id');
-            $table->string('role', 50)->comment('guru | siswa')->after('password');
+            $table->string('role', 50)->comment('admin | guru | siswa')->after('password');
             $table->text('bio')->nullable()->after('email');
             $table->string('avatar', 255)->nullable()->after('bio');
             $table->integer('streak')->default(0)->after('avatar');
