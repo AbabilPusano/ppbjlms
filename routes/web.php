@@ -24,7 +24,7 @@ Route::middleware(['auth', 'role:siswa,guru,admin'])->group(function (): void {
     Route::get('/settings/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/settings/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::patch('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
-    Route::view('/lesson/n5/unit/{unit}/level/{level}', 'lesson-ui')->name('lesson.show');
+    Route::get('/lesson/n5/unit/{unit}/level/{level}', [StudentDashboardController::class, 'showLesson'])->name('lesson.show');
 });
 
 Route::view('/guru/dashboard', 'guru-dashboard-ui')
