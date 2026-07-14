@@ -4748,7 +4748,8 @@ body {
   transition: background 160ms ease, border-color 160ms ease, color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
 }
 
-.letters-tab svg {
+.letters-tab svg,
+.letters-tab .material-symbols-outlined {
   width: 20px;
   height: 20px;
   grid-row: span 2;

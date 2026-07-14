@@ -2,6 +2,8 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('[data-letter-tab]').forEach((tab) => {
     tab.addEventListener('click', () => {
       const target = tab.getAttribute('data-letter-tab');
+      const label  = tab.getAttribute('data-letter-label') || target;
+      const count  = tab.getAttribute('data-letter-count') || '';
 
       document.querySelectorAll('[data-letter-tab]').forEach((item) => {
         item.classList.toggle('letters-tab--active', item === tab);
@@ -10,6 +12,12 @@ document.addEventListener('DOMContentLoaded', () => {
       document.querySelectorAll('[data-letter-panel]').forEach((panel) => {
         panel.hidden = panel.getAttribute('data-letter-panel') !== target;
       });
+
+      // Update hero stats
+      const setLabel = document.getElementById('letters-active-set');
+      const setCount = document.getElementById('letters-count');
+      if (setLabel) setLabel.textContent = label;
+      if (setCount) setCount.textContent = count;
     });
   });
 

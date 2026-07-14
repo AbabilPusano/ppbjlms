@@ -3,10 +3,12 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminStudentAccountController;
 use App\Http\Controllers\GuruMaterialApiController;
+use App\Http\Controllers\GuruStoryController;
 use App\Http\Controllers\GuruUnitApiController;
 use App\Http\Controllers\GuruStepApiController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentDashboardController;
+use App\Http\Controllers\StudentStoryController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -18,7 +20,8 @@ Route::get('/', StudentDashboardController::class)
     ->name('student.dashboard');
 
 Route::middleware(['auth', 'role:siswa,guru,admin'])->group(function (): void {
-    Route::view('/stories', 'stories-ui')->name('stories.index');
+    Route::get('/stories', [StudentStoryController::class, 'index'])->name('stories.index');
+    Route::get('/stories/{story}', [StudentStoryController::class, 'show'])->name('stories.show');
     Route::view('/letters', 'letters-ui')->name('letters.index');
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::get('/settings/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -41,7 +44,16 @@ Route::middleware(['auth', 'role:guru,admin'])->group(function (): void {
     Route::get('/guru/units/{unit}/materials', [GuruUnitApiController::class, 'manageMaterials'])->name('guru.units.materials');
     Route::view('/guru/materi/{material}/questions', 'guru-questions-ui')->name('guru.materials.questions');
 
+    // Stories CRUD for Guru
+    Route::get('/guru/stories', [GuruStoryController::class, 'index'])->name('guru.stories.index');
+    Route::get('/guru/stories/create', [GuruStoryController::class, 'create'])->name('guru.stories.create');
+    Route::post('/guru/stories', [GuruStoryController::class, 'store'])->name('guru.stories.store');
+    Route::delete('/guru/stories/{story}', [GuruStoryController::class, 'destroy'])->name('guru.stories.destroy');
+
     Route::prefix('api/guru')->name('guru.api.')->group(function (): void {
+        // AI Story Generation endpoint
+        Route::post('/stories/generate', [GuruStoryController::class, 'generate'])->name('stories.generate');
+
         Route::get('/levels', [GuruUnitApiController::class, 'levels'])->name('levels.index');
         Route::get('/levels/{level}/units', [GuruUnitApiController::class, 'units'])->name('levels.units.index');
         Route::post('/units', [GuruUnitApiController::class, 'store'])->name('units.store');

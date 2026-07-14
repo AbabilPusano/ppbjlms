@@ -186,7 +186,7 @@
                                     <span class="ds-section-eyebrow">Fokus berikutnya</span>
                                     <h3>{{ $focusStep ? 'Step ' . $focusStep['index'] : $currentUnit['name'] }}</h3>
                                     <p>
-                                        {{ $focusStep ? $focusStep['title'] . ' siap kamu buka sebagai langkah kecil berikutnya.' : 'Semua step di unit ini sudah selesai.' }}
+                                        {{ $focusStep ? $focusStep['title'] . ' bisa kamu buka sebagai langkah kecil berikutnya.' : 'Semua step di unit ini sudah selesai.' }}
                                     </p>
                                     @if ($focusStep)
                                         <a href="{{ $focusStep['url'] }}" class="learning-continue-btn learning-continue-btn--full">

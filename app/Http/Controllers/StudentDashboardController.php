@@ -181,7 +181,7 @@ class StudentDashboardController extends Controller
     private function nextUnitLabel(string $status, int $completed, int $total): string
     {
         return match ($status) {
-            'completed' => 'Siap diulang',
+            'completed' => 'Mulai ulang',
             'in_progress' => 'Lanjut step '.min($completed + 1, max($total, 1)),
             'locked' => 'Selesaikan unit sebelumnya',
             default => $total > 0 ? 'Mulai step 1' : 'Belum ada step',
