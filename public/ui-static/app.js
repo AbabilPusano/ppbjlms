@@ -104,6 +104,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const materialModalTitle = root.querySelector('[data-material-modal-title]');
     const materialFormError = root.querySelector('[data-material-form-error]');
     const levelOptions = root.querySelector('[data-level-options]');
+    const deleteSelectedBtn = root.querySelector('[data-delete-selected]');
+    const selectedCountSpan = root.querySelector('[data-selected-count]');
+    const selectAllContainer = root.querySelector('[data-select-all-container]');
+    const selectAllCheckbox = root.querySelector('#select-all-units');
 
     const escapeHtml = (value) => String(value ?? '')
       .replaceAll('&', '&amp;')
@@ -138,6 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (listNode) listNode.hidden = isLoading;
       if (emptyNode) emptyNode.hidden = true;
       if (errorNode) errorNode.hidden = true;
+      if (selectAllContainer) selectAllContainer.style.display = 'none';
     };
 
     const setError = (message) => {
@@ -146,6 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (emptyNode) emptyNode.hidden = true;
       if (errorNode) errorNode.hidden = false;
       if (errorMessageNode) errorMessageNode.textContent = message;
+      if (selectAllContainer) selectAllContainer.style.display = 'none';
     };
 
     const activeLevel = () => state.levels.find((level) => String(level.id) === String(state.activeLevelId));
@@ -201,6 +207,22 @@ document.addEventListener('DOMContentLoaded', () => {
       return { material: null, unit: null };
     };
 
+    const updateDeleteSelectedButton = () => {
+      if (!listNode) return;
+      const checkedBoxes = listNode.querySelectorAll('.unit-checkbox:checked');
+      const count = checkedBoxes.length;
+      if (deleteSelectedBtn) {
+        deleteSelectedBtn.style.display = count > 0 ? 'inline-flex' : 'none';
+      }
+      if (selectedCountSpan) {
+        selectedCountSpan.textContent = count;
+      }
+      if (selectAllCheckbox) {
+        const allBoxes = listNode.querySelectorAll('.unit-checkbox');
+        selectAllCheckbox.checked = allBoxes.length > 0 && count === allBoxes.length;
+      }
+    };
+
     const renderUnits = () => {
       const materials = state.units.flatMap((unit) => unit.materials || []);
       if (unitCountNode) unitCountNode.textContent = String(state.units.length);
@@ -208,6 +230,14 @@ document.addEventListener('DOMContentLoaded', () => {
       if (quizCountNode) quizCountNode.textContent = String(materials.filter((material) => material.type === 'quiz').length);
       renderLevelControls();
       renderUnitSelect();
+
+      if (selectAllContainer) {
+        selectAllContainer.style.display = state.units.length > 0 ? 'flex' : 'none';
+      }
+      if (selectAllCheckbox) {
+        selectAllCheckbox.checked = false;
+      }
+      updateDeleteSelectedButton();
 
       if (!listNode) return;
 
@@ -240,7 +270,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 <span>${unitMaterials.length} isi unit tersedia</span>
               </div>
             </div>
-            <div class="guru-unit-card__actions" style="display: flex; flex-direction: column; gap: 8px; justify-content: center;">
+            <div class="guru-unit-card__actions" style="display: flex; flex-direction: column; gap: 8px; justify-content: center; align-items: flex-end;">
+              <div style="display: flex; align-items: center; gap: 8px; width: 100%; justify-content: flex-end; margin-bottom: 4px;">
+                <input type="checkbox" class="unit-checkbox" value="${unit.id}" style="width: 20px; height: 20px; cursor: pointer; accent-color: var(--accent);">
+              </div>
               <a class="guru-unit-button guru-unit-button--primary" href="/guru/units/${unit.id}/materials" style="display: inline-flex; align-items: center; justify-content: center; text-decoration: none; width: 100%;">
                 <span class="material-symbols-outlined" aria-hidden="true" style="margin-right: 4px;">account_tree</span>
                 KELOLA ISI
@@ -248,10 +281,6 @@ document.addEventListener('DOMContentLoaded', () => {
               <button type="button" class="guru-unit-button" data-edit-unit="${unit.id}" style="width: 100%;">
                 <span class="material-symbols-outlined" aria-hidden="true">edit</span>
                 EDIT
-              </button>
-              <button type="button" class="guru-unit-button guru-unit-button--danger" data-delete-unit="${unit.id}" style="width: 100%;">
-                <span class="material-symbols-outlined" aria-hidden="true">delete</span>
-                HAPUS
               </button>
             </div>
           </article>
@@ -737,6 +766,36 @@ document.addEventListener('DOMContentLoaded', () => {
       loadUnits();
     });
 
+    listNode?.addEventListener('change', (event) => {
+      if (event.target instanceof HTMLInputElement && event.target.classList.contains('unit-checkbox')) {
+        updateDeleteSelectedButton();
+      }
+    });
+
+    selectAllCheckbox?.addEventListener('change', () => {
+      if (!selectAllCheckbox) return;
+      const isChecked = selectAllCheckbox.checked;
+      listNode?.querySelectorAll('.unit-checkbox').forEach((box) => {
+        box.checked = isChecked;
+      });
+      updateDeleteSelectedButton();
+    });
+
+    deleteSelectedBtn?.addEventListener('click', async () => {
+      const checkedBoxes = listNode?.querySelectorAll('.unit-checkbox:checked');
+      if (!checkedBoxes) return;
+      const ids = Array.from(checkedBoxes).map((box) => box.value);
+      if (ids.length === 0 || !window.confirm(`Hapus ${ids.length} unit terpilih secara bersamaan?`)) return;
+
+      setLoading(true);
+      try {
+        await Promise.all(ids.map(id => fetchJson(`/api/guru/units/${id}`, { method: 'DELETE' })));
+        await loadLevels();
+      } catch (error) {
+        setError(error.message || 'Gagal menghapus beberapa unit.');
+      }
+    });
+
     loadLevels();
   });
 
@@ -766,6 +825,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const importModal = root.querySelector('[data-material-import-modal]');
     const importForm = root.querySelector('[data-material-import-form]');
     const importFormError = root.querySelector('[data-material-import-error]');
+    const deleteSelectedBtn = root.querySelector('[data-delete-selected]');
+    const selectedCountSpan = root.querySelector('[data-selected-count]');
+    const selectAllContainer = root.querySelector('[data-select-all-container]');
+    const selectAllCheckbox = root.querySelector('#select-all-materials');
 
     const escapeHtml = (value) => String(value ?? '')
       .replaceAll('&', '&amp;')
@@ -799,6 +862,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (listNode) listNode.hidden = isLoading;
       if (emptyNode) emptyNode.hidden = true;
       if (errorNode) errorNode.hidden = true;
+      if (selectAllContainer) selectAllContainer.style.display = 'none';
     };
 
     const setError = (message) => {
@@ -807,9 +871,26 @@ document.addEventListener('DOMContentLoaded', () => {
       if (emptyNode) emptyNode.hidden = true;
       if (errorNode) errorNode.hidden = false;
       if (errorMessageNode) errorMessageNode.textContent = message;
+      if (selectAllContainer) selectAllContainer.style.display = 'none';
     };
 
     const labelForType = (type) => (type === 'quiz' ? 'Quiz' : 'Materi Pembelajaran');
+
+    const updateDeleteSelectedButton = () => {
+      if (!listNode) return;
+      const checkedBoxes = listNode.querySelectorAll('.material-checkbox:checked');
+      const count = checkedBoxes.length;
+      if (deleteSelectedBtn) {
+        deleteSelectedBtn.style.display = count > 0 ? 'inline-flex' : 'none';
+      }
+      if (selectedCountSpan) {
+        selectedCountSpan.textContent = count;
+      }
+      if (selectAllCheckbox) {
+        const allBoxes = listNode.querySelectorAll('.material-checkbox');
+        selectAllCheckbox.checked = allBoxes.length > 0 && count === allBoxes.length;
+      }
+    };
 
     const renderMaterials = () => {
       if (!listNode) return;
@@ -822,6 +903,15 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       const unitMaterials = unit.materials || [];
+
+      if (selectAllContainer) {
+        selectAllContainer.style.display = unitMaterials.length > 0 ? 'flex' : 'none';
+      }
+      if (selectAllCheckbox) {
+        selectAllCheckbox.checked = false;
+      }
+      updateDeleteSelectedButton();
+
       if (unitMaterials.length === 0) {
         listNode.hidden = true;
         if (emptyNode) emptyNode.hidden = false;
@@ -844,7 +934,10 @@ document.addEventListener('DOMContentLoaded', () => {
             <h2>${escapeHtml(material.title)}</h2>
             <p>${material.type === 'quiz' ? `${material.questions_count || 0} soal tersedia` : 'Konten belajar di dalam unit'}</p>
           </div>
-          <div class="guru-unit-card__actions" style="display: flex; flex-direction: column; gap: 8px; justify-content: center;">
+          <div class="guru-unit-card__actions" style="display: flex; flex-direction: column; gap: 8px; justify-content: center; align-items: flex-end;">
+            <div style="display: flex; align-items: center; gap: 8px; width: 100%; justify-content: flex-end; margin-bottom: 4px;">
+              <input type="checkbox" class="material-checkbox" value="${material.id}" style="width: 20px; height: 20px; cursor: pointer; accent-color: var(--accent);">
+            </div>
             <a class="guru-unit-button guru-unit-button--primary" href="/guru/materi/${material.id}/questions" style="display: inline-flex; align-items: center; justify-content: center; text-decoration: none; width: 100%;">
               <span class="material-symbols-outlined" aria-hidden="true" style="margin-right: 4px;">menu_book</span>
               KELOLA LANGKAH
@@ -852,10 +945,6 @@ document.addEventListener('DOMContentLoaded', () => {
             <button type="button" class="guru-unit-button" data-edit-material="${material.id}" style="width: 100%;">
               <span class="material-symbols-outlined" aria-hidden="true">edit</span>
               EDIT
-            </button>
-            <button type="button" class="guru-unit-button guru-unit-button--danger" data-delete-material="${material.id}" style="width: 100%;">
-              <span class="material-symbols-outlined" aria-hidden="true">delete</span>
-              HAPUS
             </button>
           </div>
         </article>
@@ -1031,6 +1120,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const { material } = findMaterial(deleteButton.getAttribute('data-delete-material'));
         deleteMaterial(material);
       }
+
+      if (target.closest('[data-retry-materials]')) {
+        loadMaterials();
+      }
     });
 
     materialForm?.addEventListener('submit', (event) => {
@@ -1198,6 +1291,36 @@ document.addEventListener('DOMContentLoaded', () => {
       modal.addEventListener('click', (event) => {
         if (event.target === modal) closeModal(modal);
       });
+    });
+
+    listNode?.addEventListener('change', (event) => {
+      if (event.target instanceof HTMLInputElement && event.target.classList.contains('material-checkbox')) {
+        updateDeleteSelectedButton();
+      }
+    });
+
+    selectAllCheckbox?.addEventListener('change', () => {
+      if (!selectAllCheckbox) return;
+      const isChecked = selectAllCheckbox.checked;
+      listNode?.querySelectorAll('.material-checkbox').forEach((box) => {
+        box.checked = isChecked;
+      });
+      updateDeleteSelectedButton();
+    });
+
+    deleteSelectedBtn?.addEventListener('click', async () => {
+      const checkedBoxes = listNode?.querySelectorAll('.material-checkbox:checked');
+      if (!checkedBoxes) return;
+      const ids = Array.from(checkedBoxes).map((box) => box.value);
+      if (ids.length === 0 || !window.confirm(`Hapus ${ids.length} isi unit terpilih secara bersamaan?`)) return;
+
+      setLoading(true);
+      try {
+        await Promise.all(ids.map(id => fetchJson(`/api/guru/materials/${id}`, { method: 'DELETE' })));
+        await loadMaterials();
+      } catch (error) {
+        setError(error.message || 'Gagal menghapus beberapa isi unit.');
+      }
     });
 
     loadMaterials();

@@ -49,6 +49,10 @@
                 <p>Level: {{ $unit->level->name }} | {{ $unit->description }}</p>
             </div>
             <div class="guru-units-toolbar" style="display: flex; gap: 8px; align-items: center;">
+                <button type="button" class="guru-unit-button guru-unit-button--danger" data-delete-selected style="display: none; align-items: center; justify-content: center; gap: 4px;">
+                    <span class="material-symbols-outlined" aria-hidden="true">delete_sweep</span>
+                    HAPUS TERPILIH (<span data-selected-count>0</span>)
+                </button>
                 <a href="{{ route('guru.units.index') }}" class="guru-unit-button">
                     <span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>
                     KEMBALI KE UNIT
@@ -80,6 +84,11 @@
             <p>Belum ada isi unit pada unit ini.</p>
             <button type="button" class="guru-unit-button guru-unit-button--primary" data-open-material-modal>Tambah isi unit pertama</button>
         </section>
+
+        <div class="guru-select-all-container" data-select-all-container style="display: none; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; background-color: var(--card-bg, #fff); padding: 12px 16px; border-radius: 8px; border: 1px solid var(--border, #eaecf0);">
+            <label for="select-all-materials" style="cursor: pointer; font-size: 14px; font-weight: 500; color: var(--text-main);">Pilih Semua Isi Unit</label>
+            <input type="checkbox" id="select-all-materials" style="width: 18px; height: 18px; cursor: pointer; accent-color: var(--accent);">
+        </div>
 
         <section class="guru-units-list" data-material-unit-list aria-label="Daftar materi pembelajaran"></section>
     </main>

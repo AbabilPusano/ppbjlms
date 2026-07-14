@@ -1,0 +1,4288 @@
+[
+    {
+        "title": "a-o",
+        "steps": [
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "あい",
+                "quiz_options": [
+                    "cinta",
+                    "malam",
+                    "menyingkat",
+                    "museum"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "cinta",
+                "quiz_options": [
+                    "ちょう",
+                    "あい",
+                    "ひょうばん",
+                    "きのう"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "あう",
+                "quiz_options": [
+                    "malam",
+                    "teh hijau",
+                    "bertemu",
+                    "daging"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "bertemu",
+                "quiz_options": [
+                    "あか",
+                    "わに",
+                    "あう",
+                    "うそ"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "うえ",
+                "quiz_options": [
+                    "atas",
+                    "topi",
+                    "masyarakat \/ IPS",
+                    "berkumur"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "atas",
+                "quiz_options": [
+                    "しゅくだい",
+                    "きゅう",
+                    "うえ",
+                    "ひょう"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "え",
+                "quiz_options": [
+                    "kereta bawah tanah",
+                    "ikan",
+                    "gambar",
+                    "serangga"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "gambar",
+                "quiz_options": [
+                    "みょうばん",
+                    "ひょうばん",
+                    "ひく",
+                    "え"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "あお",
+                "quiz_options": [
+                    "meliuk-liuk",
+                    "musik",
+                    "mentimun",
+                    "biru"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "biru",
+                "quiz_options": [
+                    "おば",
+                    "みょうばん",
+                    "あお",
+                    "りゃくす"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "いい",
+                "quiz_options": [
+                    "pesanan",
+                    "baik",
+                    "liburan \/ perjalanan",
+                    "awan"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "baik",
+                "quiz_options": [
+                    "いい",
+                    "やさい",
+                    "せかい",
+                    "おちゃ"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "いいえ",
+                "quiz_options": [
+                    "tidak",
+                    "macan tutul",
+                    "tamu \/ pelanggan",
+                    "wajah"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "tidak",
+                "quiz_options": [
+                    "ひゃくえん",
+                    "いいえ",
+                    "うそ",
+                    "かず"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "いえ",
+                "quiz_options": [
+                    "obat",
+                    "dahi",
+                    "mulut",
+                    "rumah"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "rumah",
+                "quiz_options": [
+                    "ぶた",
+                    "さんぽ",
+                    "かず",
+                    "いえ"
+                ],
+                "quiz_correct_index": 3
+            }
+        ]
+    },
+    {
+        "title": "ka-ko",
+        "steps": [
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "かう",
+                "quiz_options": [
+                    "keluarga",
+                    "membeli",
+                    "merah",
+                    "anjing"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "membeli",
+                "quiz_options": [
+                    "くろ",
+                    "ねこ",
+                    "かう",
+                    "にゅーす"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "あか",
+                "quiz_options": [
+                    "dunia",
+                    "mesin",
+                    "kuda nil",
+                    "merah"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "merah",
+                "quiz_options": [
+                    "みょう",
+                    "にゅうがく",
+                    "えんぴつ",
+                    "あか"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "えき",
+                "quiz_options": [
+                    "hujan",
+                    "kamar",
+                    "stasiun",
+                    "pajak"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "stasiun",
+                "quiz_options": [
+                    "えき",
+                    "はし",
+                    "ぜい",
+                    "むし"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "かお",
+                "quiz_options": [
+                    "kecap asin",
+                    "aneh \/ ajaib",
+                    "bunga",
+                    "wajah"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "wajah",
+                "quiz_options": [
+                    "えき",
+                    "しょうゆ",
+                    "かお",
+                    "きょうと"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "きかい",
+                "quiz_options": [
+                    "uang",
+                    "mesin",
+                    "angin \/ flu",
+                    "lama \/ kuno"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "mesin",
+                "quiz_options": [
+                    "どこ",
+                    "むし",
+                    "きかい",
+                    "ゆめ"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "かい",
+                "quiz_options": [
+                    "pekerjaan rumah (PR)",
+                    "gula",
+                    "kerang",
+                    "pagi"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "kerang",
+                "quiz_options": [
+                    "かい",
+                    "しゅみ",
+                    "りょくちゃ",
+                    "りょうし"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "け",
+                "quiz_options": [
+                    "meliuk-liuk",
+                    "bulu",
+                    "malam",
+                    "biru"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "bulu",
+                "quiz_options": [
+                    "かいぎ",
+                    "け",
+                    "りゅう",
+                    "にほん"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "きこく",
+                "quiz_options": [
+                    "kereta bawah tanah",
+                    "pulang ke tanah air",
+                    "tiket",
+                    "bermunculan"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "pulang ke tanah air",
+                "quiz_options": [
+                    "きかい",
+                    "しゅみ",
+                    "きこく",
+                    "ごご"
+                ],
+                "quiz_correct_index": 2
+            }
+        ]
+    },
+    {
+        "title": "ga-go",
+        "steps": [
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "がいこく",
+                "quiz_options": [
+                    "kuda nil",
+                    "luar negeri",
+                    "gunung es",
+                    "polisi"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "luar negeri",
+                "quiz_options": [
+                    "がいこく",
+                    "がくせい",
+                    "しっぽ",
+                    "にく"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "うがい",
+                "quiz_options": [
+                    "roti",
+                    "buku",
+                    "memar \/ tanda lahir",
+                    "berkumur"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "berkumur",
+                "quiz_options": [
+                    "うがい",
+                    "ふね",
+                    "ほし",
+                    "え"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "かぎ",
+                "quiz_options": [
+                    "kereta listrik",
+                    "mesin",
+                    "kunci",
+                    "lapar"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "kunci",
+                "quiz_options": [
+                    "りょうり",
+                    "ぜい",
+                    "かい",
+                    "かぎ"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "あご",
+                "quiz_options": [
+                    "laut",
+                    "lagu \/ melodi",
+                    "sembilan",
+                    "dagu"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "dagu",
+                "quiz_options": [
+                    "じこ",
+                    "へや",
+                    "にく",
+                    "あご"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "ごご",
+                "quiz_options": [
+                    "penginapan tradisional Jepang",
+                    "sore",
+                    "kapal",
+                    "merah"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "sore",
+                "quiz_options": [
+                    "かいぎ",
+                    "にく",
+                    "ごご",
+                    "ぎゅうにゅう"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "かいぎ",
+                "quiz_options": [
+                    "rapat",
+                    "menyingkat",
+                    "aneh \/ ajaib",
+                    "masuk rumah sakit"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "rapat",
+                "quiz_options": [
+                    "かいぎ",
+                    "みみ",
+                    "きのう",
+                    "さんみゃく"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "けが",
+                "quiz_options": [
+                    "musik",
+                    "bertemu",
+                    "mimpi",
+                    "luka"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "luka",
+                "quiz_options": [
+                    "がくせい",
+                    "ぺこぺこ",
+                    "けが",
+                    "みょうじ"
+                ],
+                "quiz_correct_index": 2
+            }
+        ]
+    },
+    {
+        "title": "sa-so",
+        "steps": [
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "あさ",
+                "quiz_options": [
+                    "teh hijau",
+                    "mesin",
+                    "pagi",
+                    "kamar"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "pagi",
+                "quiz_options": [
+                    "あさ",
+                    "やま",
+                    "ひゃくえん",
+                    "がいこく"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "しお",
+                "quiz_options": [
+                    "garam",
+                    "rasa",
+                    "bohong",
+                    "telepon"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "garam",
+                "quiz_options": [
+                    "しお",
+                    "おば",
+                    "けいさつ",
+                    "あか"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "うす",
+                "quiz_options": [
+                    "denyut nadi",
+                    "lesung",
+                    "obat",
+                    "masakan \/ memasak"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "lesung",
+                "quiz_options": [
+                    "みょうじ",
+                    "うす",
+                    "けいさつ",
+                    "にょろにょろ"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "せき",
+                "quiz_options": [
+                    "batuk \/ tempat duduk",
+                    "sembilan",
+                    "seratus",
+                    "masuk rumah sakit"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "batuk \/ tempat duduk",
+                "quiz_options": [
+                    "ひと",
+                    "せき",
+                    "りょうり",
+                    "ふね"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "うそ",
+                "quiz_options": [
+                    "kacang",
+                    "bertemu",
+                    "bohong",
+                    "membaca"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "bohong",
+                "quiz_options": [
+                    "あめ",
+                    "あお",
+                    "うそ",
+                    "りょこう"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "せかい",
+                "quiz_options": [
+                    "luar negeri",
+                    "dunia",
+                    "siulan angin",
+                    "teh hijau"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "dunia",
+                "quiz_options": [
+                    "きゅうり",
+                    "いいえ",
+                    "れきし",
+                    "せかい"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "さんさい",
+                "quiz_options": [
+                    "umur 3 tahun",
+                    "urin",
+                    "roti",
+                    "mentimun"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "umur 3 tahun",
+                "quiz_options": [
+                    "ちょっと",
+                    "やま",
+                    "ふるい",
+                    "さんさい"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "がくせい",
+                "quiz_options": [
+                    "siswa",
+                    "teh hijau",
+                    "kemarin",
+                    "membeli"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "siswa",
+                "quiz_options": [
+                    "にゅーす",
+                    "けいさつ",
+                    "りょこう",
+                    "がくせい"
+                ],
+                "quiz_correct_index": 3
+            }
+        ]
+    },
+    {
+        "title": "za-zo",
+        "steps": [
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "そうじ",
+                "quiz_options": [
+                    "sepatu",
+                    "mesin",
+                    "kupu-kupu",
+                    "bersih-bersih"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "bersih-bersih",
+                "quiz_options": [
+                    "そうじ",
+                    "きのう",
+                    "あう",
+                    "うそ"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "じこ",
+                "quiz_options": [
+                    "masuk sekolah",
+                    "kereta listrik",
+                    "kecelakaan",
+                    "siulan angin"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "kecelakaan",
+                "quiz_options": [
+                    "じこ",
+                    "よいこ",
+                    "えんぴつ",
+                    "しゃしん"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "かず",
+                "quiz_options": [
+                    "sayuran",
+                    "harimau",
+                    "jumlah",
+                    "Kyoto"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "jumlah",
+                "quiz_options": [
+                    "みかん",
+                    "みょう",
+                    "かず",
+                    "やま"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "あざ",
+                "quiz_options": [
+                    "rapat",
+                    "memar \/ tanda lahir",
+                    "gula",
+                    "kereta listrik"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "memar \/ tanda lahir",
+                "quiz_options": [
+                    "みゃく",
+                    "にゅうがく",
+                    "ひょう",
+                    "あざ"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "あじ",
+                "quiz_options": [
+                    "musim panas",
+                    "jalan-jalan",
+                    "rasa",
+                    "mata"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "rasa",
+                "quiz_options": [
+                    "おちゃ",
+                    "ぺこぺこ",
+                    "りゅうがく",
+                    "あじ"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "かぜ",
+                "quiz_options": [
+                    "keluarga",
+                    "topeng tradisional lucu",
+                    "jumlah",
+                    "angin \/ flu"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "angin \/ flu",
+                "quiz_options": [
+                    "みゅーじあむ",
+                    "かぜ",
+                    "せかい",
+                    "へび"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "ぜい",
+                "quiz_options": [
+                    "hari ini",
+                    "pajak",
+                    "cinta",
+                    "hobi"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "pajak",
+                "quiz_options": [
+                    "ぜい",
+                    "みょうじ",
+                    "せき",
+                    "さかな"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "かぞく",
+                "quiz_options": [
+                    "lagu \/ melodi",
+                    "keluarga",
+                    "salju",
+                    "hobi"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "keluarga",
+                "quiz_options": [
+                    "りゅうがく",
+                    "かぞく",
+                    "とぶ",
+                    "きょう"
+                ],
+                "quiz_correct_index": 1
+            }
+        ]
+    },
+    {
+        "title": "ta-to",
+        "steps": [
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "たこ",
+                "quiz_options": [
+                    "masuk rumah sakit",
+                    "kedelai",
+                    "gurita",
+                    "langit"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "gurita",
+                "quiz_options": [
+                    "かう",
+                    "けが",
+                    "どこ",
+                    "たこ"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "くち",
+                "quiz_options": [
+                    "mulut",
+                    "cinta",
+                    "gurita",
+                    "rapat"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "mulut",
+                "quiz_options": [
+                    "くち",
+                    "そうじ",
+                    "ほん",
+                    "みゅーじあむ"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "くつ",
+                "quiz_options": [
+                    "penginapan tradisional Jepang",
+                    "sepatu",
+                    "sebentar \/ sedikit",
+                    "serangga"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "sepatu",
+                "quiz_options": [
+                    "くつ",
+                    "えき",
+                    "ぎゅうにゅう",
+                    "あい"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "さとう",
+                "quiz_options": [
+                    "foto",
+                    "masyarakat \/ IPS",
+                    "nama keluarga \/ marga",
+                    "gula"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "gula",
+                "quiz_options": [
+                    "さとう",
+                    "ちゅうしゃ",
+                    "ひょっとこ",
+                    "りょうり"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "ちず",
+                "quiz_options": [
+                    "berita",
+                    "sudut",
+                    "direktur",
+                    "peta"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "peta",
+                "quiz_options": [
+                    "やさい",
+                    "きゅう",
+                    "ちず",
+                    "はる"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "くつした",
+                "quiz_options": [
+                    "kaos kaki",
+                    "keluarga",
+                    "membeli",
+                    "siswa"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "kaos kaki",
+                "quiz_options": [
+                    "やま",
+                    "さかな",
+                    "ひょっとこ",
+                    "くつした"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "けいさつ",
+                "quiz_options": [
+                    "Cina",
+                    "polisi",
+                    "meliuk-liuk",
+                    "bermunculan"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "polisi",
+                "quiz_options": [
+                    "けいさつ",
+                    "きっぷ",
+                    "えき",
+                    "ちず"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "ちかてつ",
+                "quiz_options": [
+                    "sejarah",
+                    "mana",
+                    "kereta bawah tanah",
+                    "anak baik"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "kereta bawah tanah",
+                "quiz_options": [
+                    "ゆき",
+                    "でぐち",
+                    "ちかてつ",
+                    "けいさつ"
+                ],
+                "quiz_correct_index": 2
+            }
+        ]
+    },
+    {
+        "title": "da-do",
+        "steps": [
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "うで",
+                "quiz_options": [
+                    "tamu \/ pelanggan",
+                    "jalan keluar",
+                    "sebentar \/ sedikit",
+                    "lengan"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "lengan",
+                "quiz_options": [
+                    "がいこく",
+                    "よむ",
+                    "くろ",
+                    "うで"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "でぐち",
+                "quiz_options": [
+                    "garam",
+                    "jalan keluar",
+                    "membaca buku",
+                    "sungai"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "jalan keluar",
+                "quiz_options": [
+                    "にょう",
+                    "でぐち",
+                    "えんぴつ",
+                    "ちょっと"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "どこ",
+                "quiz_options": [
+                    "mana",
+                    "orang",
+                    "dagu",
+                    "rumah"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "mana",
+                "quiz_options": [
+                    "しゅみ",
+                    "どこ",
+                    "ひょうばん",
+                    "きょう"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "だいがく",
+                "quiz_options": [
+                    "museum",
+                    "universitas",
+                    "gunung es",
+                    "berkumur"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "universitas",
+                "quiz_options": [
+                    "しゃしん",
+                    "みみ",
+                    "だいがく",
+                    "きょうりゅう"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "おでこ",
+                "quiz_options": [
+                    "sayuran",
+                    "dahi",
+                    "membaca",
+                    "serangga"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "dahi",
+                "quiz_options": [
+                    "ごご",
+                    "さんさい",
+                    "しお",
+                    "おでこ"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "だいず",
+                "quiz_options": [
+                    "uang",
+                    "luar negeri",
+                    "membaca buku",
+                    "kedelai"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "kedelai",
+                "quiz_options": [
+                    "ちょう",
+                    "さんぽ",
+                    "くすり",
+                    "だいず"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "かど",
+                "quiz_options": [
+                    "sungai",
+                    "sudut",
+                    "denyut nadi",
+                    "pensil"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "sudut",
+                "quiz_options": [
+                    "ちょう",
+                    "りゅう",
+                    "あご",
+                    "かど"
+                ],
+                "quiz_correct_index": 3
+            }
+        ]
+    },
+    {
+        "title": "na-no",
+        "steps": [
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "さかな",
+                "quiz_options": [
+                    "ikan",
+                    "sekolah di luar negeri",
+                    "bohong",
+                    "pegunungan"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "ikan",
+                "quiz_options": [
+                    "さかな",
+                    "かば",
+                    "せかい",
+                    "みかん"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "いぬ",
+                "quiz_options": [
+                    "sembilan",
+                    "anjing",
+                    "lapar",
+                    "nelayan"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "anjing",
+                "quiz_options": [
+                    "いぬ",
+                    "あか",
+                    "まめ",
+                    "おば"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "ねこ",
+                "quiz_options": [
+                    "kemarin",
+                    "musim dingin",
+                    "gula",
+                    "kucing"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "kucing",
+                "quiz_options": [
+                    "ちょう",
+                    "ねこ",
+                    "おば",
+                    "さっぱり"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "なつ",
+                "quiz_options": [
+                    "dahi",
+                    "musim panas",
+                    "rumah",
+                    "menarik"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "musim panas",
+                "quiz_options": [
+                    "みょう",
+                    "きゅう",
+                    "なつ",
+                    "りゅうがく"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "かね",
+                "quiz_options": [
+                    "sekolah di luar negeri",
+                    "kamar",
+                    "mesin",
+                    "uang"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "uang",
+                "quiz_options": [
+                    "ぼうし",
+                    "きょく",
+                    "かね",
+                    "め"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "くに",
+                "quiz_options": [
+                    "negara",
+                    "ular",
+                    "memar \/ tanda lahir",
+                    "persik"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "negara",
+                "quiz_options": [
+                    "にゅーす",
+                    "さっぱり",
+                    "くに",
+                    "くつ"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "にく",
+                "quiz_options": [
+                    "daging",
+                    "bohong",
+                    "langit",
+                    "umur 3 tahun"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "daging",
+                "quiz_options": [
+                    "あめ",
+                    "りゅう",
+                    "にく",
+                    "とら"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "きのう",
+                "quiz_options": [
+                    "kemarin",
+                    "besok malam",
+                    "jembatan",
+                    "jumlah"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "kemarin",
+                "quiz_options": [
+                    "ぶた",
+                    "きのう",
+                    "ちかてつ",
+                    "えき"
+                ],
+                "quiz_correct_index": 1
+            }
+        ]
+    },
+    {
+        "title": "ha-ho",
+        "steps": [
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "はな",
+                "quiz_options": [
+                    "mentimun",
+                    "segar",
+                    "persik",
+                    "bunga"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "bunga",
+                "quiz_options": [
+                    "ひゃくえん",
+                    "いいえ",
+                    "はな",
+                    "むし"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "ひと",
+                "quiz_options": [
+                    "gula",
+                    "orang",
+                    "siulan angin",
+                    "jumlah"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "orang",
+                "quiz_options": [
+                    "ひと",
+                    "おば",
+                    "きょく",
+                    "ちゅうしゃ"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "ふね",
+                "quiz_options": [
+                    "kapal",
+                    "bulu",
+                    "dagu",
+                    "bibi"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "kapal",
+                "quiz_options": [
+                    "おもちゃ",
+                    "みみ",
+                    "ぱん",
+                    "ふね"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "ほし",
+                "quiz_options": [
+                    "masuk rumah sakit",
+                    "hujan",
+                    "bintang",
+                    "mata"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "bintang",
+                "quiz_options": [
+                    "けいさつ",
+                    "きゅう",
+                    "かわ",
+                    "ほし"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "へや",
+                "quiz_options": [
+                    "kamar",
+                    "bulu",
+                    "negara",
+                    "daging"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "kamar",
+                "quiz_options": [
+                    "きょく",
+                    "はな",
+                    "くつ",
+                    "へや"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "はし",
+                "quiz_options": [
+                    "jembatan",
+                    "pagi",
+                    "babi",
+                    "musik"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "jembatan",
+                "quiz_options": [
+                    "ちず",
+                    "くつした",
+                    "はし",
+                    "とら"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "ひく",
+                "quiz_options": [
+                    "menarik",
+                    "biru",
+                    "sepatu",
+                    "luar negeri"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "menarik",
+                "quiz_options": [
+                    "ひく",
+                    "ちょうめ",
+                    "かい",
+                    "りょこう"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "ほね",
+                "quiz_options": [
+                    "universitas",
+                    "macan tutul",
+                    "tulang",
+                    "awan"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "tulang",
+                "quiz_options": [
+                    "しょうゆ",
+                    "ほね",
+                    "しお",
+                    "かい"
+                ],
+                "quiz_correct_index": 1
+            }
+        ]
+    },
+    {
+        "title": "ba-bo",
+        "steps": [
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "かば",
+                "quiz_options": [
+                    "mana",
+                    "jeruk",
+                    "rasa",
+                    "kuda nil"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "kuda nil",
+                "quiz_options": [
+                    "じこ",
+                    "さとう",
+                    "かば",
+                    "そら"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "へび",
+                "quiz_options": [
+                    "gunung",
+                    "pegunungan",
+                    "luka",
+                    "ular"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "ular",
+                "quiz_options": [
+                    "しゅみ",
+                    "かお",
+                    "へび",
+                    "かど"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "ぶた",
+                "quiz_options": [
+                    "negara",
+                    "babi",
+                    "nama keluarga \/ marga",
+                    "pekerjaan rumah (PR)"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "babi",
+                "quiz_options": [
+                    "ほんをよむ",
+                    "そら",
+                    "えき",
+                    "ぶた"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "かべ",
+                "quiz_options": [
+                    "jumlah",
+                    "gurita",
+                    "dinding",
+                    "topi"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "dinding",
+                "quiz_options": [
+                    "りょくちゃ",
+                    "あい",
+                    "かべ",
+                    "ほし"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "ぼうし",
+                "quiz_options": [
+                    "rapat",
+                    "topi",
+                    "apel",
+                    "menyingkat"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "topi",
+                "quiz_options": [
+                    "かわ",
+                    "かぎ",
+                    "かど",
+                    "ぼうし"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "かばん",
+                "quiz_options": [
+                    "tas",
+                    "gula",
+                    "foto",
+                    "kereta bawah tanah"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "tas",
+                "quiz_options": [
+                    "かばん",
+                    "うそ",
+                    "ほね",
+                    "しゅくだい"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "とぶ",
+                "quiz_options": [
+                    "terbang",
+                    "biru",
+                    "sebentar \/ sedikit",
+                    "dinding"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "terbang",
+                "quiz_options": [
+                    "め",
+                    "きょうかしょ",
+                    "あか",
+                    "とぶ"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "おば",
+                "quiz_options": [
+                    "babi",
+                    "peta",
+                    "bibi",
+                    "luar negeri"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "bibi",
+                "quiz_options": [
+                    "かわ",
+                    "しゃかい",
+                    "おば",
+                    "たこ"
+                ],
+                "quiz_correct_index": 2
+            }
+        ]
+    },
+    {
+        "title": "pa-po",
+        "steps": [
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "ぱん",
+                "quiz_options": [
+                    "telinga",
+                    "sebentar \/ sedikit",
+                    "roti",
+                    "baik"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "roti",
+                "quiz_options": [
+                    "りょくちゃ",
+                    "にょう",
+                    "もも",
+                    "ぱん"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "えんぴつ",
+                "quiz_options": [
+                    "telepon",
+                    "dinosaurus",
+                    "bermunculan",
+                    "pensil"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "pensil",
+                "quiz_options": [
+                    "じこ",
+                    "しっぽ",
+                    "さんみゃく",
+                    "えんぴつ"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "さんぽ",
+                "quiz_options": [
+                    "mata",
+                    "jembatan",
+                    "jalan-jalan",
+                    "tidak"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "jalan-jalan",
+                "quiz_options": [
+                    "さんぽ",
+                    "きょうかしょ",
+                    "かお",
+                    "ひく"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "きっぷ",
+                "quiz_options": [
+                    "pajak",
+                    "batuk \/ tempat duduk",
+                    "telinga",
+                    "tiket"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "tiket",
+                "quiz_options": [
+                    "ちず",
+                    "くち",
+                    "きっぷ",
+                    "みょうばん"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "こっぷ",
+                "quiz_options": [
+                    "sejarah",
+                    "blok \/ distrik",
+                    "merah",
+                    "gelas"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "gelas",
+                "quiz_options": [
+                    "へび",
+                    "あお",
+                    "しお",
+                    "こっぷ"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "さっぱり",
+                "quiz_options": [
+                    "kereta bawah tanah",
+                    "salju",
+                    "bintang",
+                    "segar"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "segar",
+                "quiz_options": [
+                    "さっぱり",
+                    "かお",
+                    "たこ",
+                    "ちょうめ"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "ぺこぺこ",
+                "quiz_options": [
+                    "kecelakaan",
+                    "lapar",
+                    "tamu \/ pelanggan",
+                    "jembatan"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "lapar",
+                "quiz_options": [
+                    "ぺこぺこ",
+                    "きゅうり",
+                    "ほん",
+                    "ひょうばん"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "しっぽ",
+                "quiz_options": [
+                    "langit",
+                    "ekor",
+                    "reputasi",
+                    "kecelakaan"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "ekor",
+                "quiz_options": [
+                    "しっぽ",
+                    "しお",
+                    "そら",
+                    "はな"
+                ],
+                "quiz_correct_index": 0
+            }
+        ]
+    },
+    {
+        "title": "ma-mo",
+        "steps": [
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "まめ",
+                "quiz_options": [
+                    "tas",
+                    "kacang",
+                    "besok malam",
+                    "musim dingin"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "kacang",
+                "quiz_options": [
+                    "いえ",
+                    "まめ",
+                    "へび",
+                    "きょう"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "みみ",
+                "quiz_options": [
+                    "membaca buku",
+                    "sungai",
+                    "telinga",
+                    "gelas"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "telinga",
+                "quiz_options": [
+                    "さんぽ",
+                    "あい",
+                    "みょうじ",
+                    "みみ"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "むし",
+                "quiz_options": [
+                    "buku",
+                    "membaca buku",
+                    "serangga",
+                    "pajak"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "serangga",
+                "quiz_options": [
+                    "りょかん",
+                    "せかい",
+                    "そうじ",
+                    "むし"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "め",
+                "quiz_options": [
+                    "sembilan",
+                    "mata",
+                    "urin",
+                    "bersih-bersih"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "mata",
+                "quiz_options": [
+                    "うそ",
+                    "ふるい",
+                    "にゅういん",
+                    "め"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "もも",
+                "quiz_options": [
+                    "Jepang",
+                    "pesanan",
+                    "tulang",
+                    "persik"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "persik",
+                "quiz_options": [
+                    "かう",
+                    "もも",
+                    "りょくちゃ",
+                    "きょう"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "うみ",
+                "quiz_options": [
+                    "laut",
+                    "penginapan tradisional Jepang",
+                    "pekerjaan rumah (PR)",
+                    "nama keluarga \/ marga"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "laut",
+                "quiz_options": [
+                    "うみ",
+                    "いぬ",
+                    "め",
+                    "いいえ"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "くも",
+                "quiz_options": [
+                    "babi",
+                    "awan",
+                    "jalan keluar",
+                    "menyingkat"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "awan",
+                "quiz_options": [
+                    "おちゃ",
+                    "きょう",
+                    "くも",
+                    "にょきにょき"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "あめ",
+                "quiz_options": [
+                    "gunung",
+                    "hujan",
+                    "memar \/ tanda lahir",
+                    "biru"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "hujan",
+                "quiz_options": [
+                    "にょろにょろ",
+                    "ちょう",
+                    "あめ",
+                    "きこく"
+                ],
+                "quiz_correct_index": 2
+            }
+        ]
+    },
+    {
+        "title": "ya-yo",
+        "steps": [
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "やま",
+                "quiz_options": [
+                    "masakan \/ memasak",
+                    "gunung",
+                    "seratus yen",
+                    "bintang"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "gunung",
+                "quiz_options": [
+                    "へび",
+                    "やま",
+                    "しゅくだい",
+                    "せき"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "ゆき",
+                "quiz_options": [
+                    "awan",
+                    "biru",
+                    "menyingkat",
+                    "salju"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "salju",
+                "quiz_options": [
+                    "ぎゅうにゅう",
+                    "け",
+                    "でぐち",
+                    "ゆき"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "よる",
+                "quiz_options": [
+                    "garam",
+                    "malam",
+                    "merah",
+                    "sepatu"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "malam",
+                "quiz_options": [
+                    "ひょうげん",
+                    "おもちゃ",
+                    "しゃちょう",
+                    "よる"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "やさい",
+                "quiz_options": [
+                    "musim panas",
+                    "kucing",
+                    "sayuran",
+                    "universitas"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "sayuran",
+                "quiz_options": [
+                    "がくせい",
+                    "みゅーじあむ",
+                    "おちゃ",
+                    "やさい"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "ゆめ",
+                "quiz_options": [
+                    "bibi",
+                    "tulang",
+                    "reputasi",
+                    "mimpi"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "mimpi",
+                "quiz_options": [
+                    "とぶ",
+                    "ゆめ",
+                    "わに",
+                    "にく"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "よむ",
+                "quiz_options": [
+                    "garam",
+                    "membaca",
+                    "mulut",
+                    "konyaku"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "membaca",
+                "quiz_options": [
+                    "くつ",
+                    "よむ",
+                    "おば",
+                    "うす"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "ふゆ",
+                "quiz_options": [
+                    "bermunculan",
+                    "musim dingin",
+                    "baik",
+                    "telinga"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "musim dingin",
+                "quiz_options": [
+                    "かね",
+                    "もも",
+                    "ふゆ",
+                    "えき"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "よいこ",
+                "quiz_options": [
+                    "foto",
+                    "pulang ke tanah air",
+                    "macan tutul",
+                    "anak baik"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "anak baik",
+                "quiz_options": [
+                    "かど",
+                    "ぜい",
+                    "しゃしん",
+                    "よいこ"
+                ],
+                "quiz_correct_index": 3
+            }
+        ]
+    },
+    {
+        "title": "ra-ro",
+        "steps": [
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "とら",
+                "quiz_options": [
+                    "roti",
+                    "harimau",
+                    "berkumur",
+                    "langit"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "harimau",
+                "quiz_options": [
+                    "にく",
+                    "ひょうげん",
+                    "とら",
+                    "にょう"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "りんご",
+                "quiz_options": [
+                    "laut",
+                    "buaya",
+                    "apel",
+                    "topi"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "apel",
+                "quiz_options": [
+                    "りんご",
+                    "やさい",
+                    "あじ",
+                    "にゅういん"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "はる",
+                "quiz_options": [
+                    "salju",
+                    "seratus",
+                    "Cina",
+                    "musim semi"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "musim semi",
+                "quiz_options": [
+                    "みょうにち",
+                    "かば",
+                    "わに",
+                    "はる"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "れきし",
+                "quiz_options": [
+                    "obat",
+                    "sejarah",
+                    "Cina",
+                    "sembilan"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "sejarah",
+                "quiz_options": [
+                    "はる",
+                    "へび",
+                    "ひょうざん",
+                    "れきし"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "くろ",
+                "quiz_options": [
+                    "berita",
+                    "lengan",
+                    "hitam",
+                    "kapal"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "hitam",
+                "quiz_options": [
+                    "くろ",
+                    "むし",
+                    "ちゅうしゃ",
+                    "わに"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "そら",
+                "quiz_options": [
+                    "langit",
+                    "ekspresi",
+                    "dagu",
+                    "gunung es"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "langit",
+                "quiz_options": [
+                    "きこく",
+                    "ひょう",
+                    "そら",
+                    "かず"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "くすり",
+                "quiz_options": [
+                    "topeng tradisional lucu",
+                    "obat",
+                    "peta",
+                    "teh"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "obat",
+                "quiz_options": [
+                    "れきし",
+                    "かう",
+                    "かい",
+                    "くすり"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "ふるい",
+                "quiz_options": [
+                    "kereta listrik",
+                    "lama \/ kuno",
+                    "sayuran",
+                    "batuk \/ tempat duduk"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "lama \/ kuno",
+                "quiz_options": [
+                    "ふるい",
+                    "うみ",
+                    "しょうゆ",
+                    "かわ"
+                ],
+                "quiz_correct_index": 0
+            }
+        ]
+    },
+    {
+        "title": "wa wo n",
+        "steps": [
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "わに",
+                "quiz_options": [
+                    "buaya",
+                    "sekolah di luar negeri",
+                    "salju",
+                    "pekerjaan rumah (PR)"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "buaya",
+                "quiz_options": [
+                    "くつした",
+                    "かぞく",
+                    "わに",
+                    "りゅう"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "ほん",
+                "quiz_options": [
+                    "aneh \/ ajaib",
+                    "buku",
+                    "masuk sekolah",
+                    "sungai"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "buku",
+                "quiz_options": [
+                    "あめ",
+                    "にゅういん",
+                    "かぜ",
+                    "ほん"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "にほん",
+                "quiz_options": [
+                    "baik",
+                    "anak baik",
+                    "Jepang",
+                    "foto"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "Jepang",
+                "quiz_options": [
+                    "むし",
+                    "にほん",
+                    "たこ",
+                    "りゃくす"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "みかん",
+                "quiz_options": [
+                    "jeruk",
+                    "jalan-jalan",
+                    "hujan",
+                    "masuk sekolah"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "jeruk",
+                "quiz_options": [
+                    "がくせい",
+                    "かべ",
+                    "みかん",
+                    "ひゃく"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "かわ",
+                "quiz_options": [
+                    "lama \/ kuno",
+                    "membeli",
+                    "sungai",
+                    "kunci"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "sungai",
+                "quiz_options": [
+                    "かわ",
+                    "ゆめ",
+                    "きょう",
+                    "いいえ"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "でんわ",
+                "quiz_options": [
+                    "telepon",
+                    "bulu",
+                    "daging",
+                    "buaya"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "telepon",
+                "quiz_options": [
+                    "たこ",
+                    "でんわ",
+                    "くろ",
+                    "しんかんせん"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "しんかんせん",
+                "quiz_options": [
+                    "dinding",
+                    "siswa",
+                    "susu sapi",
+                    "kereta cepat"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "kereta cepat",
+                "quiz_options": [
+                    "ちゅうもん",
+                    "じこ",
+                    "しんかんせん",
+                    "ちず"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "ほんをよむ",
+                "quiz_options": [
+                    "merah",
+                    "berkumur",
+                    "membaca buku",
+                    "seratus yen"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "membaca buku",
+                "quiz_options": [
+                    "ほん",
+                    "ちゅうごく",
+                    "ほんをよむ",
+                    "ひょっとこ"
+                ],
+                "quiz_correct_index": 2
+            }
+        ]
+    },
+    {
+        "title": "kya-kyo",
+        "steps": [
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "きゃく",
+                "quiz_options": [
+                    "harimau",
+                    "hobi",
+                    "ikan",
+                    "tamu \/ pelanggan"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "tamu \/ pelanggan",
+                "quiz_options": [
+                    "ひょっとこ",
+                    "きゃく",
+                    "ひょう",
+                    "あう"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "きゅう",
+                "quiz_options": [
+                    "pegunungan",
+                    "sepatu",
+                    "masuk rumah sakit",
+                    "sembilan"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "sembilan",
+                "quiz_options": [
+                    "きゅう",
+                    "しゃちょう",
+                    "しゃかい",
+                    "りょうり"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "きょう",
+                "quiz_options": [
+                    "mulut",
+                    "tas",
+                    "hari ini",
+                    "wajah"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "hari ini",
+                "quiz_options": [
+                    "りゅうがく",
+                    "くち",
+                    "きょう",
+                    "しっぽ"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "きょうりゅう",
+                "quiz_options": [
+                    "meliuk-liuk",
+                    "awan",
+                    "merah",
+                    "dinosaurus"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "dinosaurus",
+                "quiz_options": [
+                    "でんしゃ",
+                    "がいこく",
+                    "にく",
+                    "きょうりゅう"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "きゅうり",
+                "quiz_options": [
+                    "mentimun",
+                    "musim dingin",
+                    "hari ini",
+                    "tidak"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "mentimun",
+                "quiz_options": [
+                    "かお",
+                    "け",
+                    "きゅうり",
+                    "なつ"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "きょうと",
+                "quiz_options": [
+                    "tiket",
+                    "Kyoto",
+                    "luka",
+                    "kecap asin"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "Kyoto",
+                "quiz_options": [
+                    "しお",
+                    "あご",
+                    "ひょう",
+                    "きょうと"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "きょく",
+                "quiz_options": [
+                    "Kyoto",
+                    "lagu \/ melodi",
+                    "membeli",
+                    "musim semi"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "lagu \/ melodi",
+                "quiz_options": [
+                    "おちゃ",
+                    "きょく",
+                    "あご",
+                    "うで"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "きょうかしょ",
+                "quiz_options": [
+                    "direktur",
+                    "topi",
+                    "buku pelajaran",
+                    "gelas"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "buku pelajaran",
+                "quiz_options": [
+                    "しお",
+                    "きょうかしょ",
+                    "くすり",
+                    "うがい"
+                ],
+                "quiz_correct_index": 1
+            }
+        ]
+    },
+    {
+        "title": "sha-sho",
+        "steps": [
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "しゃしん",
+                "quiz_options": [
+                    "kecap asin",
+                    "seratus",
+                    "foto",
+                    "bibi"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "foto",
+                "quiz_options": [
+                    "きょうと",
+                    "さんみゃく",
+                    "しゃしん",
+                    "あう"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "しゅみ",
+                "quiz_options": [
+                    "hobi",
+                    "pesanan",
+                    "penginapan tradisional Jepang",
+                    "serangga"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "hobi",
+                "quiz_options": [
+                    "ねこ",
+                    "しゅみ",
+                    "だいず",
+                    "こっぷ"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "しょくどう",
+                "quiz_options": [
+                    "kapal",
+                    "kantin \/ ruang makan",
+                    "batuk \/ tempat duduk",
+                    "seratus"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "kantin \/ ruang makan",
+                "quiz_options": [
+                    "いぬ",
+                    "しょくどう",
+                    "あい",
+                    "せき"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "しゃかい",
+                "quiz_options": [
+                    "pagi",
+                    "pegunungan",
+                    "masyarakat \/ IPS",
+                    "mesin"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "masyarakat \/ IPS",
+                "quiz_options": [
+                    "しょくどう",
+                    "りょくちゃ",
+                    "しゃちょう",
+                    "しゃかい"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "しゅくだい",
+                "quiz_options": [
+                    "pekerjaan rumah (PR)",
+                    "hujan",
+                    "persik",
+                    "peta"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "pekerjaan rumah (PR)",
+                "quiz_options": [
+                    "みゃく",
+                    "きょう",
+                    "しゅくだい",
+                    "ちょう"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "しょうゆ",
+                "quiz_options": [
+                    "kecap asin",
+                    "mentimun",
+                    "masyarakat \/ IPS",
+                    "seratus yen"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "kecap asin",
+                "quiz_options": [
+                    "にょう",
+                    "しょうゆ",
+                    "け",
+                    "くつした"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "しゃちょう",
+                "quiz_options": [
+                    "berita",
+                    "mimpi",
+                    "direktur",
+                    "pesanan"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "direktur",
+                "quiz_options": [
+                    "うがい",
+                    "よいこ",
+                    "しゃちょう",
+                    "りょうし"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "でんしゃ",
+                "quiz_options": [
+                    "kereta listrik",
+                    "bermunculan",
+                    "awan",
+                    "sejarah"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "kereta listrik",
+                "quiz_options": [
+                    "みょうばん",
+                    "しょくどう",
+                    "でんしゃ",
+                    "こんにゃく"
+                ],
+                "quiz_correct_index": 2
+            }
+        ]
+    },
+    {
+        "title": "cha-cho",
+        "steps": [
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "おちゃ",
+                "quiz_options": [
+                    "hobi",
+                    "mesin",
+                    "jalan keluar",
+                    "teh"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "teh",
+                "quiz_options": [
+                    "ゆき",
+                    "ちゅうもん",
+                    "おちゃ",
+                    "ほし"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "ちゅうもん",
+                "quiz_options": [
+                    "kecelakaan",
+                    "pesanan",
+                    "musim dingin",
+                    "buku"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "pesanan",
+                "quiz_options": [
+                    "きょう",
+                    "さんぽ",
+                    "まめ",
+                    "ちゅうもん"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "ちょう",
+                "quiz_options": [
+                    "lagu \/ melodi",
+                    "menarik",
+                    "kupu-kupu",
+                    "salju"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "kupu-kupu",
+                "quiz_options": [
+                    "きょう",
+                    "いいえ",
+                    "ちょう",
+                    "きっぷ"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "ちょっと",
+                "quiz_options": [
+                    "membaca buku",
+                    "mesin",
+                    "tiket",
+                    "sebentar \/ sedikit"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "sebentar \/ sedikit",
+                "quiz_options": [
+                    "かば",
+                    "ちゅうごく",
+                    "きゅうり",
+                    "ちょっと"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "ちゅうごく",
+                "quiz_options": [
+                    "Cina",
+                    "hari ini",
+                    "anak baik",
+                    "membaca buku"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "Cina",
+                "quiz_options": [
+                    "きゅう",
+                    "ちゅうごく",
+                    "しお",
+                    "へや"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "ちゅうしゃ",
+                "quiz_options": [
+                    "kuda nil",
+                    "tidak",
+                    "suntikan",
+                    "gunung es"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "suntikan",
+                "quiz_options": [
+                    "はな",
+                    "ひく",
+                    "ちゅうしゃ",
+                    "かぜ"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "ちょうめ",
+                "quiz_options": [
+                    "memar \/ tanda lahir",
+                    "blok \/ distrik",
+                    "pekerjaan rumah (PR)",
+                    "gunung"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "blok \/ distrik",
+                "quiz_options": [
+                    "みゅーじっく",
+                    "ちず",
+                    "ちょうめ",
+                    "かい"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "おもちゃ",
+                "quiz_options": [
+                    "gunung",
+                    "liburan \/ perjalanan",
+                    "mainan",
+                    "harimau"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "mainan",
+                "quiz_options": [
+                    "ゆめ",
+                    "おもちゃ",
+                    "ふるい",
+                    "くつ"
+                ],
+                "quiz_correct_index": 1
+            }
+        ]
+    },
+    {
+        "title": "nya-nyo",
+        "steps": [
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "こんにゃく",
+                "quiz_options": [
+                    "pegunungan",
+                    "konyaku",
+                    "uang",
+                    "musim semi"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "konyaku",
+                "quiz_options": [
+                    "あめ",
+                    "えんぴつ",
+                    "さっぱり",
+                    "こんにゃく"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "ぎゅうにゅう",
+                "quiz_options": [
+                    "susu sapi",
+                    "kacang",
+                    "sebentar \/ sedikit",
+                    "lama \/ kuno"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "susu sapi",
+                "quiz_options": [
+                    "ふね",
+                    "ふゆ",
+                    "ぎゅうにゅう",
+                    "しょくどう"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "にゅうがく",
+                "quiz_options": [
+                    "masyarakat \/ IPS",
+                    "membaca",
+                    "masuk sekolah",
+                    "kamar"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "masuk sekolah",
+                "quiz_options": [
+                    "にゅうがく",
+                    "とら",
+                    "かばん",
+                    "ゆき"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "にゅういん",
+                "quiz_options": [
+                    "masuk rumah sakit",
+                    "negara",
+                    "kupu-kupu",
+                    "sudut"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "masuk rumah sakit",
+                "quiz_options": [
+                    "でぐち",
+                    "にゅういん",
+                    "こんにゃく",
+                    "ひょうげん"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "にゅーす",
+                "quiz_options": [
+                    "masuk sekolah",
+                    "menyingkat",
+                    "pekerjaan rumah (PR)",
+                    "berita"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "berita",
+                "quiz_options": [
+                    "え",
+                    "にゅーす",
+                    "ひゅうひゅう",
+                    "りょくちゃ"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "にょう",
+                "quiz_options": [
+                    "mulut",
+                    "urin",
+                    "Jepang",
+                    "pulang ke tanah air"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "urin",
+                "quiz_options": [
+                    "きっぷ",
+                    "まめ",
+                    "にょう",
+                    "かず"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "にょろにょろ",
+                "quiz_options": [
+                    "menyingkat",
+                    "meliuk-liuk",
+                    "wajah",
+                    "pajak"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "meliuk-liuk",
+                "quiz_options": [
+                    "はる",
+                    "にょろにょろ",
+                    "しゃしん",
+                    "こっぷ"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "にょきにょき",
+                "quiz_options": [
+                    "kamar",
+                    "garam",
+                    "bermunculan",
+                    "universitas"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "bermunculan",
+                "quiz_options": [
+                    "ひょうばん",
+                    "きゅう",
+                    "しんかんせん",
+                    "にょきにょき"
+                ],
+                "quiz_correct_index": 3
+            }
+        ]
+    },
+    {
+        "title": "hya-hyo",
+        "steps": [
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "ひゃく",
+                "quiz_options": [
+                    "obat",
+                    "kacang",
+                    "seratus",
+                    "teh"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "seratus",
+                "quiz_options": [
+                    "ひゃく",
+                    "ほね",
+                    "とぶ",
+                    "ちょっと"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "ひょう",
+                "quiz_options": [
+                    "direktur",
+                    "kacang",
+                    "kerang",
+                    "macan tutul"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "macan tutul",
+                "quiz_options": [
+                    "みゅーじっく",
+                    "ひく",
+                    "くつ",
+                    "ひょう"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "ひょうばん",
+                "quiz_options": [
+                    "konyaku",
+                    "reputasi",
+                    "buku pelajaran",
+                    "kamar"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "reputasi",
+                "quiz_options": [
+                    "くろ",
+                    "いいえ",
+                    "ひょうばん",
+                    "かい"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "ひゅうひゅう",
+                "quiz_options": [
+                    "siulan angin",
+                    "berkumur",
+                    "menarik",
+                    "anjing"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "siulan angin",
+                "quiz_options": [
+                    "にゅういん",
+                    "あか",
+                    "ひゅうひゅう",
+                    "うす"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "ひゃくえん",
+                "quiz_options": [
+                    "seratus yen",
+                    "bintang",
+                    "serangga",
+                    "denyut nadi"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "seratus yen",
+                "quiz_options": [
+                    "きょうりゅう",
+                    "みゅーじあむ",
+                    "あめ",
+                    "ひゃくえん"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "ひょうげん",
+                "quiz_options": [
+                    "ekspresi",
+                    "gunung",
+                    "kereta bawah tanah",
+                    "garam"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "ekspresi",
+                "quiz_options": [
+                    "ひょうげん",
+                    "おちゃ",
+                    "とら",
+                    "うす"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "ひょっとこ",
+                "quiz_options": [
+                    "topeng tradisional lucu",
+                    "musim semi",
+                    "kereta cepat",
+                    "ekspresi"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "topeng tradisional lucu",
+                "quiz_options": [
+                    "きょう",
+                    "ひょっとこ",
+                    "ちゅうごく",
+                    "あざ"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "ひょうざん",
+                "quiz_options": [
+                    "seratus",
+                    "memar \/ tanda lahir",
+                    "ekor",
+                    "gunung es"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "gunung es",
+                "quiz_options": [
+                    "かう",
+                    "ちょっと",
+                    "ひょうざん",
+                    "かど"
+                ],
+                "quiz_correct_index": 2
+            }
+        ]
+    },
+    {
+        "title": "mya-myo",
+        "steps": [
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "みゃく",
+                "quiz_options": [
+                    "denyut nadi",
+                    "tamu \/ pelanggan",
+                    "luar negeri",
+                    "ekor"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "denyut nadi",
+                "quiz_options": [
+                    "ぎゅうにゅう",
+                    "みゅーじあむ",
+                    "じこ",
+                    "みゃく"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "みょうじ",
+                "quiz_options": [
+                    "dagu",
+                    "pegunungan",
+                    "sembilan",
+                    "nama keluarga \/ marga"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "nama keluarga \/ marga",
+                "quiz_options": [
+                    "きゃく",
+                    "みゅーじっく",
+                    "みょうじ",
+                    "ほし"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "みょう",
+                "quiz_options": [
+                    "ular",
+                    "bohong",
+                    "angin \/ flu",
+                    "aneh \/ ajaib"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "aneh \/ ajaib",
+                "quiz_options": [
+                    "みょう",
+                    "きょく",
+                    "こんにゃく",
+                    "みみ"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "みゅーじっく",
+                "quiz_options": [
+                    "seratus",
+                    "sudut",
+                    "denyut nadi",
+                    "musik"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "musik",
+                "quiz_options": [
+                    "みゅーじっく",
+                    "りゅう",
+                    "みみ",
+                    "いぬ"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "みゅーじあむ",
+                "quiz_options": [
+                    "universitas",
+                    "tiket",
+                    "urin",
+                    "museum"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "museum",
+                "quiz_options": [
+                    "きょうと",
+                    "かば",
+                    "うえ",
+                    "みゅーじあむ"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "みょうばん",
+                "quiz_options": [
+                    "kedelai",
+                    "teh",
+                    "besok malam",
+                    "persik"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "besok malam",
+                "quiz_options": [
+                    "ぱん",
+                    "ひゃくえん",
+                    "みょうばん",
+                    "よいこ"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "みょうにち",
+                "quiz_options": [
+                    "nelayan",
+                    "cinta",
+                    "besok",
+                    "Cina"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "besok",
+                "quiz_options": [
+                    "あか",
+                    "えき",
+                    "りょこう",
+                    "みょうにち"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "さんみゃく",
+                "quiz_options": [
+                    "teh hijau",
+                    "kapal",
+                    "negara",
+                    "pegunungan"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "pegunungan",
+                "quiz_options": [
+                    "だいがく",
+                    "みょう",
+                    "さんみゃく",
+                    "おもちゃ"
+                ],
+                "quiz_correct_index": 2
+            }
+        ]
+    },
+    {
+        "title": "rya-ryo",
+        "steps": [
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "りょこう",
+                "quiz_options": [
+                    "macan tutul",
+                    "anjing",
+                    "topi",
+                    "liburan \/ perjalanan"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "liburan \/ perjalanan",
+                "quiz_options": [
+                    "え",
+                    "かぞく",
+                    "くつ",
+                    "りょこう"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "りょうり",
+                "quiz_options": [
+                    "dagu",
+                    "teh",
+                    "suntikan",
+                    "masakan \/ memasak"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "masakan \/ memasak",
+                "quiz_options": [
+                    "りょうり",
+                    "うす",
+                    "しょうゆ",
+                    "ほし"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "りゅう",
+                "quiz_options": [
+                    "buaya",
+                    "naga",
+                    "telepon",
+                    "atas"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "naga",
+                "quiz_options": [
+                    "しゅくだい",
+                    "ひゅうひゅう",
+                    "りゅう",
+                    "ひょうばん"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "りょかん",
+                "quiz_options": [
+                    "penginapan tradisional Jepang",
+                    "bulu",
+                    "kereta listrik",
+                    "wajah"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "penginapan tradisional Jepang",
+                "quiz_options": [
+                    "だいがく",
+                    "しゃちょう",
+                    "とら",
+                    "りょかん"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "りゅうがく",
+                "quiz_options": [
+                    "kaos kaki",
+                    "ekspresi",
+                    "sekolah di luar negeri",
+                    "laut"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "sekolah di luar negeri",
+                "quiz_options": [
+                    "しお",
+                    "きゅうり",
+                    "りゅうがく",
+                    "そうじ"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "りょうし",
+                "quiz_options": [
+                    "jeruk",
+                    "bibi",
+                    "awan",
+                    "nelayan"
+                ],
+                "quiz_correct_index": 3
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "nelayan",
+                "quiz_options": [
+                    "まめ",
+                    "りょうり",
+                    "りょうし",
+                    "えき"
+                ],
+                "quiz_correct_index": 2
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "りょくちゃ",
+                "quiz_options": [
+                    "teh hijau",
+                    "ekspresi",
+                    "merah",
+                    "hujan"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "teh hijau",
+                "quiz_options": [
+                    "りょくちゃ",
+                    "かぎ",
+                    "きょく",
+                    "ぜい"
+                ],
+                "quiz_correct_index": 0
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH JAWABAN YANG BENAR",
+                "quiz_query": "りゃくす",
+                "quiz_options": [
+                    "lesung",
+                    "menyingkat",
+                    "memar \/ tanda lahir",
+                    "penginapan tradisional Jepang"
+                ],
+                "quiz_correct_index": 1
+            },
+            {
+                "type": "quiz",
+                "quiz_instruction": "PILIH ARTI JEPANG YANG BENAR",
+                "quiz_query": "menyingkat",
+                "quiz_options": [
+                    "ちかてつ",
+                    "しゃちょう",
+                    "りゃくす",
+                    "くち"
+                ],
+                "quiz_correct_index": 2
+            }
+        ]
+    }
+]
