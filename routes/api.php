@@ -32,6 +32,10 @@ Route::prefix('v1')->name('api.v1.')->group(function (): void {
 
         Route::get('/stories', [LmsController::class, 'stories'])->name('stories.index');
         Route::get('/progress', [ProgressController::class, 'index'])->name('progress.index');
+
+        // Profile updates
+        Route::patch('/profile', [AuthController::class, 'updateProfile'])->name('profile.update');
+        Route::patch('/profile/password', [AuthController::class, 'updatePassword'])->name('profile.password.update');
     });
 
     // Web session authenticated complete endpoint helper

@@ -74,4 +74,50 @@ class AuthController extends Controller
             'message' => 'Logout berhasil.',
         ]);
     }
+
+    public function updateProfile(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:191'],
+        ]);
+
+        $request->user()->update([
+            'name' => $validated['name'],
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Profil berhasil diperbarui.',
+            'data' => new UserResource($request->user()),
+        ]);
+    }
+
+    public function updatePassword(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'current_password' => ['required'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+
+        $user = $request->user();
+
+        if (!Hash::check($validated['current_password'], $user->password)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Password saat ini salah.',
+                'errors' => [
+                    'current_password' => ['Password saat ini salah.']
+                ]
+            ], 422);
+        }
+
+        $user->update([
+            'password' => Hash::make($validated['password']),
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Password berhasil diperbarui.',
+        ]);
+    }
 }
