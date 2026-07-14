@@ -48,11 +48,15 @@
                 <h1>KELOLA ISI UNIT: {{ $unit->title }}</h1>
                 <p>Level: {{ $unit->level->name }} | {{ $unit->description }}</p>
             </div>
-            <div class="guru-units-toolbar">
+            <div class="guru-units-toolbar" style="display: flex; gap: 8px; align-items: center;">
                 <a href="{{ route('guru.units.index') }}" class="guru-unit-button">
                     <span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>
                     KEMBALI KE UNIT
                 </a>
+                <button type="button" class="guru-unit-button" data-open-import-modal style="background-color: var(--background); border: 1px solid var(--border); color: var(--text-main); display: inline-flex; align-items: center; justify-content: center; gap: 4px;">
+                    <span class="material-symbols-outlined" aria-hidden="true">upload_file</span>
+                    TAMBAH BANYAK
+                </button>
                 <button type="button" class="guru-unit-button guru-unit-button--primary" data-open-material-modal>
                     <span class="material-symbols-outlined" aria-hidden="true">add</span>
                     TAMBAH ISI UNIT
@@ -153,6 +157,47 @@
                 </button>
             </div>
             <div class="guru-level-options" data-material-level-options></div>
+        </div>
+    </div>
+    <div class="guru-modal-overlay" data-material-import-modal hidden>
+        <div class="guru-modal" role="dialog" aria-modal="true" aria-labelledby="material-import-modal-title">
+            <div class="guru-modal__head">
+                <div>
+                    <span>Bulk Import</span>
+                    <h2 id="material-import-modal-title">Tambah Banyak (Isi Unit)</h2>
+                </div>
+                <button type="button" class="guru-icon-button" data-close-guru-modal aria-label="Tutup modal">
+                    <span class="material-symbols-outlined" aria-hidden="true">close</span>
+                </button>
+            </div>
+            <form class="guru-unit-form" data-material-import-form>
+                <div style="margin-bottom: 16px; background-color: rgba(var(--accent-rgb), 0.05); padding: 12px; border-radius: 8px; border-left: 4px solid var(--accent);">
+                    <p style="margin: 0; font-size: 14px; color: var(--text-main);">Silakan unggah file JSON yang berisi daftar materi beserta langkah pembelajarannya.</p>
+                </div>
+                <div class="guru-upload-zone" id="upload-zone" aria-label="Area seret dan lepas berkas JSON">
+                    <input name="file" type="file" id="file-input" accept=".json" required style="display: none;">
+                    <div class="guru-upload-zone__content" id="upload-zone-content">
+                        <span class="material-symbols-outlined guru-upload-zone__icon" aria-hidden="true">upload</span>
+                        <p><strong>Click to upload</strong> or drag and drop file here</p>
+                        <span>Maximum file size 10MB and must be .json format</span>
+                    </div>
+                    <div class="guru-upload-zone__file-name" id="file-name-display" hidden>
+                        <span class="material-symbols-outlined" aria-hidden="true">description</span>
+                        <span id="file-name-text">filename.json</span>
+                        <button type="button" class="guru-upload-zone__clear" id="file-clear-btn" aria-label="Hapus file">&times;</button>
+                    </div>
+                </div>
+                <p class="guru-unit-form__error" data-material-import-error hidden></p>
+                <div class="guru-modal__actions" style="margin-top: 24px; display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                    <a href="{{ route('guru.materials.import-template') }}" class="guru-unit-button" style="background-color: var(--background); border: 1px solid var(--border); color: var(--text-main); display: inline-flex; align-items: center; justify-content: center; gap: 4px; text-decoration: none;">
+                        <span class="material-symbols-outlined" aria-hidden="true">download</span>Download Template JSON
+                    </a>
+                    <div style="display: flex; gap: 8px;">
+                        <button type="button" class="guru-unit-button" data-close-guru-modal>Batal</button>
+                        <button type="submit" class="guru-unit-button guru-unit-button--primary" data-material-import-submit>Unggah & Import</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>

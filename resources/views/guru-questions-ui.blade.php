@@ -48,7 +48,15 @@
                 <h1 data-question-title>LANGKAH PEMBELAJARAN</h1>
                 <p data-question-subtitle>Memuat unit...</p>
             </div>
-            <div class="guru-units-toolbar">
+            <div class="guru-units-toolbar" style="display: flex; gap: 8px; align-items: center;">
+                <button type="button" class="guru-unit-button guru-unit-button--danger" data-delete-selected style="display: none; align-items: center; justify-content: center; gap: 4px;">
+                    <span class="material-symbols-outlined" aria-hidden="true">delete_sweep</span>
+                    HAPUS TERPILIH (<span data-selected-count>0</span>)
+                </button>
+                <button type="button" class="guru-unit-button" data-open-import-modal style="background-color: var(--background); border: 1px solid var(--border); color: var(--text-main); display: inline-flex; align-items: center; justify-content: center; gap: 4px;">
+                    <span class="material-symbols-outlined" aria-hidden="true">upload_file</span>
+                    TAMBAH BANYAK
+                </button>
                 <button type="button" class="guru-unit-button guru-unit-button--primary" data-open-question-modal>
                     <span class="material-symbols-outlined" aria-hidden="true">add</span>
                     TAMBAH LANGKAH
@@ -72,6 +80,11 @@
             <p>Belum ada langkah pembelajaran untuk unit ini.</p>
             <button type="button" class="guru-unit-button guru-unit-button--primary" data-open-question-modal>Tambah langkah pertama</button>
         </section>
+
+        <div class="guru-select-all-container" data-select-all-container style="display: none; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; background-color: var(--card-bg, #fff); padding: 12px 16px; border-radius: 8px; border: 1px solid var(--border, #eaecf0);">
+            <label for="select-all-steps" style="cursor: pointer; font-size: 14px; font-weight: 500; color: var(--text-main);">Pilih Semua Langkah</label>
+            <input type="checkbox" id="select-all-steps" style="width: 18px; height: 18px; cursor: pointer; accent-color: var(--accent);">
+        </div>
 
         <section class="guru-question-list" data-question-list aria-label="Daftar langkah"></section>
     </main>
@@ -174,6 +187,48 @@
                 <div class="guru-modal__actions">
                     <button type="button" class="guru-unit-button" data-close-guru-modal>Batal</button>
                     <button type="submit" class="guru-unit-button guru-unit-button--primary" data-question-submit>Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="guru-modal-overlay" data-step-import-modal hidden>
+        <div class="guru-modal" role="dialog" aria-modal="true" aria-labelledby="step-import-modal-title">
+            <div class="guru-modal__head">
+                <div>
+                    <span>Bulk Import</span>
+                    <h2 id="step-import-modal-title">Tambah Banyak (Langkah Pembelajaran)</h2>
+                </div>
+                <button type="button" class="guru-icon-button" data-close-guru-modal aria-label="Tutup modal">
+                    <span class="material-symbols-outlined" aria-hidden="true">close</span>
+                </button>
+            </div>
+            <form class="guru-unit-form" data-step-import-form>
+                <div style="margin-bottom: 16px; background-color: rgba(var(--accent-rgb), 0.05); padding: 12px; border-radius: 8px; border-left: 4px solid var(--accent);">
+                    <p style="margin: 0; font-size: 14px; color: var(--text-main);">Silakan unggah file Excel yang berisi daftar langkah pembelajaran.</p>
+                </div>
+                <div class="guru-upload-zone" id="upload-zone" aria-label="Area seret dan lepas berkas Excel">
+                    <input name="file" type="file" id="file-input" accept=".xlsx,.xls" required style="display: none;">
+                    <div class="guru-upload-zone__content" id="upload-zone-content">
+                        <span class="material-symbols-outlined guru-upload-zone__icon" aria-hidden="true">upload</span>
+                        <p><strong>Click to upload</strong> or drag and drop file here</p>
+                        <span>Maximum file size 10MB and must be .xlsx or .xls format</span>
+                    </div>
+                    <div class="guru-upload-zone__file-name" id="file-name-display" hidden>
+                        <span class="material-symbols-outlined" aria-hidden="true">description</span>
+                        <span id="file-name-text">filename.xlsx</span>
+                        <button type="button" class="guru-upload-zone__clear" id="file-clear-btn" aria-label="Hapus file">&times;</button>
+                    </div>
+                </div>
+                <p class="guru-unit-form__error" data-step-import-error hidden></p>
+                <div class="guru-modal__actions" style="margin-top: 24px; display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                    <a href="{{ route('guru.steps.import-template') }}" class="guru-unit-button" style="background-color: var(--background); border: 1px solid var(--border); color: var(--text-main); display: inline-flex; align-items: center; justify-content: center; gap: 4px; text-decoration: none;">
+                        <span class="material-symbols-outlined" aria-hidden="true">download</span>Download Template Excel
+                    </a>
+                    <div style="display: flex; gap: 8px;">
+                        <button type="button" class="guru-unit-button" data-close-guru-modal>Batal</button>
+                        <button type="submit" class="guru-unit-button guru-unit-button--primary" data-step-import-submit>Unggah & Import</button>
+                    </div>
                 </div>
             </form>
         </div>

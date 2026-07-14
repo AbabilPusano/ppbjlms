@@ -8,6 +8,8 @@ use App\Models\Question;
 use App\Models\Unit;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use App\Models\NodeStep;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
@@ -319,5 +321,111 @@ class GuruMaterialApiController extends Controller
         }
 
         return response()->json(['message' => 'Urutan isi unit berhasil diperbarui.']);
+    }
+
+    public function downloadTemplate(): \Symfony\Component\HttpFoundation\Response
+    {
+        $template = [
+            [
+                "title" => "Hanya Node Tanpa Isi"
+            ],
+            [
+                "title" => "Node dengan 1 Isi",
+                "steps" => [
+                    [
+                        "type" => "text",
+                        "content" => "Ini adalah isi teks pengantar."
+                    ]
+                ]
+            ],
+            [
+                "title" => "Node dengan 3 Isi Berbeda",
+                "steps" => [
+                    [
+                        "type" => "text",
+                        "content" => "Pengantar belajar hiragana あ."
+                    ],
+                    [
+                        "type" => "character",
+                        "character_symbol" => "あ",
+                        "character_pronunciation" => "a"
+                    ],
+                    [
+                        "type" => "quiz",
+                        "quiz_instruction" => "PILIH JAWABAN YANG BENAR",
+                        "quiz_query" => "a",
+                        "quiz_options" => ["a", "i", "u", "e"],
+                        "quiz_correct_index" => 0
+                    ]
+                ]
+            ]
+        ];
+
+        return response()->json($template, 200, [
+            'Content-Disposition' => 'attachment; filename="template-isi-unit.json"'
+        ], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+    }
+
+    public function import(Request $request, Unit $unit): JsonResponse
+    {
+        $request->validate([
+            'file' => 'required|file|mimes:json,txt'
+        ]);
+
+        $file = $request->file('file');
+        $content = file_get_contents($file->getRealPath());
+        $data = json_decode($content, true);
+
+        if (!is_array($data)) {
+            return response()->json(['message' => 'Format file JSON tidak valid. Harus berupa array.'], 422);
+        }
+
+        try {
+            DB::transaction(function () use ($data, $unit) {
+                foreach ($data as $nodeData) {
+                    if (empty($nodeData['title'])) {
+                        throw new \InvalidArgumentException('Setiap node wajib memiliki judul ("title").');
+                    }
+
+                    // Get next sort order for nodes (materials)
+                    $nextMaterialOrder = ((int) Node::query()->where('unitId', $unit->id)->max('order')) + 1;
+
+                    $node = Node::query()->create([
+                        'id' => (string) Str::ulid(),
+                        'unitId' => $unit->id,
+                        'title' => $nodeData['title'],
+                        'type' => 'lesson',
+                        'order' => $nextMaterialOrder,
+                    ]);
+
+                    // Create steps if present
+                    if (isset($nodeData['steps']) && is_array($nodeData['steps'])) {
+                        foreach ($nodeData['steps'] as $idx => $stepData) {
+                            if (empty($stepData['type']) || !in_array($stepData['type'], ['text', 'character', 'quiz'])) {
+                                throw new \InvalidArgumentException('Tipe langkah tidak valid. Harus "text", "character", atau "quiz".');
+                            }
+
+                            NodeStep::query()->create([
+                                'id' => (string) Str::ulid(),
+                                'node_id' => $node->id,
+                                'type' => $stepData['type'],
+                                'content' => $stepData['content'] ?? null,
+                                'character_symbol' => $stepData['character_symbol'] ?? null,
+                                'character_pronunciation' => $stepData['character_pronunciation'] ?? null,
+                                'quiz_instruction' => $stepData['quiz_instruction'] ?? null,
+                                'quiz_query' => $stepData['quiz_query'] ?? null,
+                                'quiz_options' => $stepData['quiz_options'] ?? null,
+                                'quiz_correct_index' => isset($stepData['quiz_correct_index']) ? (int)$stepData['quiz_correct_index'] : null,
+                                'sort_order' => $idx + 1,
+                            ]);
+                        }
+                    }
+                }
+            });
+        } catch (\InvalidArgumentException $e) {
+            return response()->json(['message' => $e->getMessage()], 422);
+        }
+
+        return response()->json(['message' => 'Bulk import berhasil diselesaikan.']);
     }
 }

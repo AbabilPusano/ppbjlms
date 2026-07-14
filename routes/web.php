@@ -39,6 +39,8 @@ Route::middleware(['auth', 'role:admin'])->group(function (): void {
 Route::middleware(['auth', 'role:guru,admin'])->group(function (): void {
     Route::view('/guru/units', 'guru-units-ui')->name('guru.units.index');
     Route::get('/guru/units/{unit}/materials', [GuruUnitApiController::class, 'manageMaterials'])->name('guru.units.materials');
+    Route::get('/guru/materials/import-template', [GuruMaterialApiController::class, 'downloadTemplate'])->name('guru.materials.import-template');
+    Route::get('/guru/steps/import-template', [GuruStepApiController::class, 'downloadTemplate'])->name('guru.steps.import-template');
     Route::view('/guru/materi/{material}/questions', 'guru-questions-ui')->name('guru.materials.questions');
 
     Route::prefix('api/guru')->name('guru.api.')->group(function (): void {
@@ -48,6 +50,7 @@ Route::middleware(['auth', 'role:guru,admin'])->group(function (): void {
         Route::put('/units/{unit}', [GuruUnitApiController::class, 'update'])->name('units.update');
         Route::delete('/units/{unit}', [GuruUnitApiController::class, 'destroy'])->name('units.destroy');
         Route::patch('/units/reorder', [GuruUnitApiController::class, 'reorder'])->name('units.reorder');
+        Route::post('/units/{unit}/import', [GuruMaterialApiController::class, 'import'])->name('units.import');
         Route::get('/levels/{level}/materials', [GuruMaterialApiController::class, 'materials'])->name('levels.materials.index');
         Route::post('/materials', [GuruMaterialApiController::class, 'storeMaterial'])->name('materials.store');
         Route::put('/materials/{material}', [GuruMaterialApiController::class, 'updateMaterial'])->name('materials.update');
@@ -61,6 +64,7 @@ Route::middleware(['auth', 'role:guru,admin'])->group(function (): void {
 
         // Node Steps API routes
         Route::get('/nodes/{node}/steps', [GuruStepApiController::class, 'index'])->name('steps.index');
+        Route::post('/nodes/{node}/import-steps', [GuruStepApiController::class, 'importSteps'])->name('nodes.import-steps');
         Route::post('/steps', [GuruStepApiController::class, 'store'])->name('steps.store');
         Route::put('/steps/{step}', [GuruStepApiController::class, 'update'])->name('steps.update');
         Route::delete('/steps/{step}', [GuruStepApiController::class, 'destroy'])->name('steps.destroy');
