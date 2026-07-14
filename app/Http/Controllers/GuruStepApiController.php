@@ -6,6 +6,7 @@ use App\Models\Node;
 use App\Models\NodeStep;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class GuruStepApiController extends Controller
@@ -135,5 +136,132 @@ class GuruStepApiController extends Controller
             'created_at' => $step->created_at?->toISOString(),
             'updated_at' => $step->updated_at?->toISOString(),
         ];
+    }
+
+    public function downloadTemplate(): \Symfony\Component\HttpFoundation\Response
+    {
+        $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        $headers = [
+            'Tipe',
+            'Konten Teks',
+            'Simbol Huruf',
+            'Cara Baca',
+            'Instruksi Kuis',
+            'Pertanyaan',
+            'Pilihan 1',
+            'Pilihan 2',
+            'Pilihan 3',
+            'Pilihan 4',
+            'Jawaban Benar (1-4)'
+        ];
+
+        $data = [
+            ['text', 'Ini adalah isi teks pengantar', '', '', '', '', '', '', '', '', ''],
+            ['character', '', 'あ', 'a', '', '', '', '', '', '', ''],
+            ['quiz', '', '', '', 'PILIH JAWABAN YANG BENAR', 'あ', 'a', 'i', 'u', 'e', '1']
+        ];
+
+        // Write headers
+        foreach ($headers as $colIdx => $header) {
+            $sheet->setCellValue([$colIdx + 1, 1], $header);
+        }
+
+        // Write data
+        foreach ($data as $rowIdx => $row) {
+            foreach ($row as $colIdx => $value) {
+                $sheet->setCellValue([$colIdx + 1, $rowIdx + 2], $value);
+            }
+        }
+
+        // Auto-size columns and wrap text
+        foreach (range(1, count($headers)) as $col) {
+            $sheet->getColumnDimensionByColumn($col)->setAutoSize(true);
+        }
+        $sheet->getStyle('A1:K100')->getAlignment()->setWrapText(true);
+
+        $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+        $tempFile = tempnam(sys_get_temp_dir(), 'xlsx');
+        $writer->save($tempFile);
+
+        $content = file_get_contents($tempFile);
+        unlink($tempFile);
+
+        return response($content, 200, [
+            'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'Content-Disposition' => 'attachment; filename="template-langkah-pembelajaran.xlsx"'
+        ]);
+    }
+
+    public function importSteps(Request $request, Node $node): JsonResponse
+    {
+        $request->validate([
+            'file' => 'required|file|mimes:xlsx,xls'
+        ]);
+
+        $file = $request->file('file');
+
+        try {
+            $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file->getRealPath());
+            $sheet = $spreadsheet->getActiveSheet();
+            $rows = $sheet->toArray();
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Gagal membaca file Excel: ' . $e->getMessage()], 422);
+        }
+
+        if (count($rows) <= 1) {
+            return response()->json(['message' => 'Berkas Excel kosong atau tidak memiliki baris data.'], 422);
+        }
+
+        // Remove header row
+        array_shift($rows);
+
+        try {
+            DB::transaction(function () use ($rows, $node) {
+                foreach ($rows as $row) {
+                    if (empty($row) || empty($row[0])) {
+                        continue;
+                    }
+
+                    $type = trim($row[0]);
+                    if (!in_array($type, ['text', 'character', 'quiz'])) {
+                        throw new \InvalidArgumentException('Tipe langkah tidak valid. Harus "text", "character", atau "quiz".');
+                    }
+
+                    $nextOrder = ((int) NodeStep::query()->where('node_id', $node->id)->max('sort_order')) + 1;
+
+                    $stepData = [
+                        'id' => (string) Str::ulid(),
+                        'node_id' => $node->id,
+                        'type' => $type,
+                        'sort_order' => $nextOrder,
+                    ];
+
+                    if ($type === 'text') {
+                        $stepData['content'] = $row[1] ?? '';
+                    } elseif ($type === 'character') {
+                        $stepData['character_symbol'] = $row[2] ?? '';
+                        $stepData['character_pronunciation'] = $row[3] ?? '';
+                    } elseif ($type === 'quiz') {
+                        $stepData['quiz_instruction'] = !empty($row[4]) ? $row[4] : 'PILIH JAWABAN YANG BENAR';
+                        $stepData['quiz_query'] = $row[5] ?? '';
+                        $stepData['quiz_options'] = [
+                            !empty($row[6]) ? $row[6] : '',
+                            !empty($row[7]) ? $row[7] : '',
+                            !empty($row[8]) ? $row[8] : '',
+                            !empty($row[9]) ? $row[9] : '',
+                        ];
+                        $stepData['quiz_correct_index'] = isset($row[10]) ? max(0, min(3, ((int) $row[10]) - 1)) : 0;
+                    }
+
+                    NodeStep::query()->create($stepData);
+                }
+            });
+        } catch (\InvalidArgumentException $e) {
+            return response()->json(['message' => $e->getMessage()], 422);
+        }
+
+        return response()->json(['message' => 'Langkah pembelajaran berhasil di-import.']);
     }
 }

@@ -1,73 +1,19 @@
 @extends('layouts.lms-ui', ['title' => 'Lesson N5 - LMS PPBJ'])
 
 @section('body')
-<div class="lesson-page" data-lesson>
+<div class="lesson-page" data-lesson data-node-id="{{ $node->id }}" data-complete-url="{{ route('api.v1.nodes.complete.web', $node->id) }}">
     <script type="application/json" data-lesson-questions>
-        [
-            {
-                "type": "new-letter",
-                "letter": "あ",
-                "reading": "a"
-            },
-            {
-                "type": "select-image",
-                "question": "Pilih kartu yang berarti sushi.",
-                "answer": "sushi",
-                "options": [
-                    { "id": 1, "text": "mizu", "sub": "みず", "image": "水", "correct": false },
-                    { "id": 2, "text": "sushi", "sub": "すし", "image": "寿", "correct": true },
-                    { "id": 3, "text": "gohan", "sub": "ごはん", "image": "飯", "correct": false },
-                    { "id": 4, "text": "ocha", "sub": "おちゃ", "image": "茶", "correct": false }
-                ]
-            },
-            {
-                "type": "translate-to-ja",
-                "question": "Susun jawaban dalam bahasa Jepang.",
-                "prompt": "water",
-                "answer": "みず",
-                "correctIds": [1],
-                "options": [
-                    { "id": 1, "text": "みず", "sub": "mizu" },
-                    { "id": 2, "text": "すし", "sub": "sushi" },
-                    { "id": 3, "text": "ごはん", "sub": "gohan" },
-                    { "id": 4, "text": "おちゃ", "sub": "ocha" }
-                ]
-            },
-            {
-                "type": "select-image",
-                "question": "Pilih kartu yang berarti teh.",
-                "answer": "ocha",
-                "options": [
-                    { "id": 1, "text": "mizu", "sub": "みず", "image": "水", "correct": false },
-                    { "id": 2, "text": "sushi", "sub": "すし", "image": "寿", "correct": false },
-                    { "id": 3, "text": "gohan", "sub": "ごはん", "image": "飯", "correct": false },
-                    { "id": 4, "text": "ocha", "sub": "おちゃ", "image": "茶", "correct": true }
-                ]
-            },
-            {
-                "type": "translate-to-ja",
-                "question": "Susun jawaban dalam bahasa Jepang.",
-                "prompt": "rice",
-                "answer": "ごはん",
-                "correctIds": [3],
-                "options": [
-                    { "id": 1, "text": "みず", "sub": "mizu" },
-                    { "id": 2, "text": "すし", "sub": "sushi" },
-                    { "id": 3, "text": "ごはん", "sub": "gohan" },
-                    { "id": 4, "text": "おちゃ", "sub": "ocha" }
-                ]
-            }
-        ]
+        {!! json_encode($questions) !!}
     </script>
 
     <header class="lesson-header">
-        <a href="{{ url('/') }}" class="lesson-close" aria-label="Kembali ke dashboard">
+        <a href="{{ url('/?level_id=' . $levelId) }}" class="lesson-close" aria-label="Kembali ke dashboard">
             <span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>
         </a>
 
         <div class="lesson-header__copy">
-            <span>N5 Hiragana</span>
-            <strong>Unit 1 · Step 1</strong>
+            <span>{{ $node->title }}</span>
+            <strong>Unit {{ $unitOrder }} · Step {{ $levelOrder }}</strong>
         </div>
 
         <div class="lesson-progress" aria-label="Progress lesson">
@@ -81,27 +27,17 @@
     </header>
 
     <main class="lesson-main">
-        <section class="lesson-screen lesson-screen--new-letter" data-lesson-screen="new-letter" hidden>
-            <div class="lesson-intro-panel">
-                <span class="lesson-kicker">Huruf baru</span>
-                <h1>Kenali bentuknya dulu, baru lanjut pelan-pelan.</h1>
-                <p>Fokus ke satu huruf. Setelah ini kamu akan latihan memilih dan menyusun jawaban.</p>
-            </div>
-
-            <div class="lesson-letter-wrap">
-                <div class="lesson-letter-card"><span data-lesson-letter>あ</span></div>
-                <div class="lesson-reading-card">
-                    <span>Dibaca</span>
-                    <strong data-lesson-reading>a</strong>
-                </div>
+        <section class="lesson-screen lesson-screen--new-letter" data-lesson-screen="new-letter" hidden style="display: flex; justify-content: center; align-items: center; width: 100%;">
+            <div class="lesson-intro-panel" style="width: 100%; max-width: 800px; min-height: 360px; padding: 48px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; background: var(--card-bg, #fff); border: 2px solid var(--line); border-radius: 20px; box-shadow: 0 8px 30px rgba(0,0,0,0.04); margin: 0 auto;">
+                <p data-lesson-reading style="font-size: 1.5rem; line-height: 1.7; color: var(--ink-soft); white-space: pre-wrap; margin: 0; text-align: center;"></p>
             </div>
         </section>
 
         <section class="lesson-screen lesson-screen--choice" data-lesson-screen="select-image" hidden>
             <div class="lesson-question-copy">
                 <span class="lesson-kicker">Pilih jawaban</span>
-                <h1 data-choice-question>Pilih kartu yang berarti sushi.</h1>
-                <p>Setiap kartu menampilkan romaji, huruf Jepang, dan penanda visual kecil.</p>
+                <h1 data-choice-question style="font-size: 3rem; line-height: 1.1; margin-bottom: 8px;">Pilih kartu yang berarti sushi.</h1>
+                <p data-choice-instruction style="font-size: 1rem; color: var(--muted-soft); margin: 0;">PILIH JAWABAN YANG BENAR</p>
             </div>
             <div class="lesson-choice-grid" data-choice-options></div>
         </section>
@@ -143,7 +79,7 @@
                         <small>hasil sesi ini</small>
                     </div>
                 </div>
-                <a href="{{ url('/') }}" class="lesson-score-button">Kembali ke dashboard</a>
+                <a href="{{ url('/?level_id=' . $levelId) }}" class="lesson-score-button">Kembali ke dashboard</a>
             </div>
         </section>
     </main>

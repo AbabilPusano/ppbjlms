@@ -43,7 +43,11 @@
                 <h1>KELOLA UNIT PEMBELAJARAN</h1>
                 <p>Atur unit, materi pembelajaran, quiz, dan soal dari satu halaman.</p>
             </div>
-            <div class="guru-units-toolbar">
+            <div class="guru-units-toolbar" style="display: flex; gap: 8px; align-items: center;">
+                <button type="button" class="guru-unit-button guru-unit-button--danger" data-delete-selected style="display: none; align-items: center; justify-content: center; gap: 4px;">
+                    <span class="material-symbols-outlined" aria-hidden="true">delete_sweep</span>
+                    HAPUS TERPILIH (<span data-selected-count>0</span>)
+                </button>
                 <button type="button" class="guru-unit-button guru-unit-button--primary" data-open-unit-modal>
                     <span class="material-symbols-outlined" aria-hidden="true">add</span>
                     TAMBAH UNIT
@@ -90,6 +94,11 @@
             <p>Belum ada unit untuk level ini.</p>
             <button type="button" class="guru-unit-button guru-unit-button--primary" data-open-unit-modal>Tambah unit pertama</button>
         </section>
+
+        <div class="guru-select-all-container" data-select-all-container style="display: none; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; background-color: var(--card-bg, #fff); padding: 12px 16px; border-radius: 8px; border: 1px solid var(--border, #eaecf0);">
+            <label for="select-all-units" style="cursor: pointer; font-size: 14px; font-weight: 500; color: var(--text-main);">Pilih Semua Unit</label>
+            <input type="checkbox" id="select-all-units" style="width: 18px; height: 18px; cursor: pointer; accent-color: var(--accent);">
+        </div>
 
         <section class="guru-unit-list" data-unit-list aria-label="Daftar unit"></section>
     </main>

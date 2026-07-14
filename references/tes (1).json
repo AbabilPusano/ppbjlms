@@ -1,0 +1,1774 @@
+{
+  "huruf": [
+    {
+      "tipe": "Hiragana",
+      "data": [
+        {
+          "kategori": "a-o",
+          "data": [
+            {
+              "soal": "あい",
+              "arti": "cinta"
+            },
+            {
+              "soal": "あう",
+              "arti": "bertemu"
+            },
+            {
+              "soal": "うえ",
+              "arti": "atas"
+            },
+            {
+              "soal": "え",
+              "arti": "gambar"
+            },
+            {
+              "soal": "あお",
+              "arti": "biru"
+            },
+            {
+              "soal": "いい",
+              "arti": "baik"
+            },
+            {
+              "soal": "いいえ",
+              "arti": "tidak"
+            },
+            {
+              "soal": "いえ",
+              "arti": "rumah"
+            }
+          ]
+        },
+        {
+          "kategori": "ka-ko",
+          "data": [
+            {
+              "soal": "かう",
+              "arti": "membeli"
+            },
+            {
+              "soal": "あか",
+              "arti": "merah"
+            },
+            {
+              "soal": "えき",
+              "arti": "stasiun"
+            },
+            {
+              "soal": "かお",
+              "arti": "wajah"
+            },
+            {
+              "soal": "きかい",
+              "arti": "mesin"
+            },
+            {
+              "soal": "かい",
+              "arti": "kerang"
+            },
+            {
+              "soal": "け",
+              "arti": "bulu"
+            },
+            {
+              "soal": "きこく",
+              "arti": "pulang ke tanah air"
+            }
+          ]
+        },
+        {
+          "kategori": "ga-go",
+          "data": [
+            {
+              "soal": "がいこく",
+              "arti": "luar negeri"
+            },
+            {
+              "soal": "うがい",
+              "arti": "berkumur"
+            },
+            {
+              "soal": "かぎ",
+              "arti": "kunci"
+            },
+            {
+              "soal": "あご",
+              "arti": "dagu"
+            },
+            {
+              "soal": "ごご",
+              "arti": "sore"
+            },
+            {
+              "soal": "かいぎ",
+              "arti": "rapat"
+            },
+            {
+              "soal": "けが",
+              "arti": "luka"
+            }
+          ]
+        },
+        {
+          "kategori": "sa-so",
+          "data": [
+            {
+              "soal": "あさ",
+              "arti": "pagi"
+            },
+            {
+              "soal": "しお",
+              "arti": "garam"
+            },
+            {
+              "soal": "うす",
+              "arti": "lesung"
+            },
+            {
+              "soal": "せき",
+              "arti": "batuk / tempat duduk"
+            },
+            {
+              "soal": "うそ",
+              "arti": "bohong"
+            },
+            {
+              "soal": "せかい",
+              "arti": "dunia"
+            },
+            {
+              "soal": "さんさい",
+              "arti": "umur 3 tahun"
+            },
+            {
+              "soal": "がくせい",
+              "arti": "siswa"
+            }
+          ]
+        },
+        {
+          "kategori": "za-zo",
+          "data": [
+            {
+              "soal": "そうじ",
+              "arti": "bersih-bersih"
+            },
+            {
+              "soal": "じこ",
+              "arti": "kecelakaan"
+            },
+            {
+              "soal": "かず",
+              "arti": "jumlah"
+            },
+            {
+              "soal": "あざ",
+              "arti": "memar / tanda lahir"
+            },
+            {
+              "soal": "あじ",
+              "arti": "rasa"
+            },
+            {
+              "soal": "かぜ",
+              "arti": "angin / flu"
+            },
+            {
+              "soal": "ぜい",
+              "arti": "pajak"
+            },
+            {
+              "soal": "かぞく",
+              "arti": "keluarga"
+            }
+          ]
+        },
+        {
+          "kategori": "ta-to",
+          "data": [
+            {
+              "soal": "たこ",
+              "arti": "gurita"
+            },
+            {
+              "soal": "くち",
+              "arti": "mulut"
+            },
+            {
+              "soal": "くつ",
+              "arti": "sepatu"
+            },
+            {
+              "soal": "さとう",
+              "arti": "gula"
+            },
+            {
+              "soal": "ちず",
+              "arti": "peta"
+            },
+            {
+              "soal": "くつした",
+              "arti": "kaos kaki"
+            },
+            {
+              "soal": "けいさつ",
+              "arti": "polisi"
+            },
+            {
+              "soal": "ちかてつ",
+              "arti": "kereta bawah tanah"
+            }
+          ]
+        },
+        {
+          "kategori": "da-do",
+          "data": [
+            {
+              "soal": "うで",
+              "arti": "lengan"
+            },
+            {
+              "soal": "でぐち",
+              "arti": "jalan keluar"
+            },
+            {
+              "soal": "どこ",
+              "arti": "mana"
+            },
+            {
+              "soal": "だいがく",
+              "arti": "universitas"
+            },
+            {
+              "soal": "おでこ",
+              "arti": "dahi"
+            },
+            {
+              "soal": "だいず",
+              "arti": "kedelai"
+            },
+            {
+              "soal": "かど",
+              "arti": "sudut"
+            }
+          ]
+        },
+        {
+          "kategori": "na-no",
+          "data": [
+            {
+              "soal": "さかな",
+              "arti": "ikan"
+            },
+            {
+              "soal": "いぬ",
+              "arti": "anjing"
+            },
+            {
+              "soal": "ねこ",
+              "arti": "kucing"
+            },
+            {
+              "soal": "なつ",
+              "arti": "musim panas"
+            },
+            {
+              "soal": "かね",
+              "arti": "uang"
+            },
+            {
+              "soal": "くに",
+              "arti": "negara"
+            },
+            {
+              "soal": "にく",
+              "arti": "daging"
+            },
+            {
+              "soal": "きのう",
+              "arti": "kemarin"
+            }
+          ]
+        },
+        {
+          "kategori": "ha-ho",
+          "data": [
+            {
+              "soal": "はな",
+              "arti": "bunga"
+            },
+            {
+              "soal": "ひと",
+              "arti": "orang"
+            },
+            {
+              "soal": "ふね",
+              "arti": "kapal"
+            },
+            {
+              "soal": "ほし",
+              "arti": "bintang"
+            },
+            {
+              "soal": "へや",
+              "arti": "kamar"
+            },
+            {
+              "soal": "はし",
+              "arti": "jembatan"
+            },
+            {
+              "soal": "ひく",
+              "arti": "menarik"
+            },
+            {
+              "soal": "ほね",
+              "arti": "tulang"
+            }
+          ]
+        },
+        {
+          "kategori": "ba-bo",
+          "data": [
+            {
+              "soal": "かば",
+              "arti": "kuda nil"
+            },
+            {
+              "soal": "へび",
+              "arti": "ular"
+            },
+            {
+              "soal": "ぶた",
+              "arti": "babi"
+            },
+            {
+              "soal": "かべ",
+              "arti": "dinding"
+            },
+            {
+              "soal": "ぼうし",
+              "arti": "topi"
+            },
+            {
+              "soal": "かばん",
+              "arti": "tas"
+            },
+            {
+              "soal": "とぶ",
+              "arti": "terbang"
+            },
+            {
+              "soal": "おば",
+              "arti": "bibi"
+            }
+          ]
+        },
+        {
+          "kategori": "pa-po",
+          "data": [
+            {
+              "soal": "ぱん",
+              "arti": "roti"
+            },
+            {
+              "soal": "えんぴつ",
+              "arti": "pensil"
+            },
+            {
+              "soal": "さんぽ",
+              "arti": "jalan-jalan"
+            },
+            {
+              "soal": "きっぷ",
+              "arti": "tiket"
+            },
+            {
+              "soal": "こっぷ",
+              "arti": "gelas"
+            },
+            {
+              "soal": "さっぱり",
+              "arti": "segar"
+            },
+            {
+              "soal": "ぺこぺこ",
+              "arti": "lapar"
+            },
+            {
+              "soal": "しっぽ",
+              "arti": "ekor"
+            }
+          ]
+        },
+        {
+          "kategori": "ma-mo",
+          "data": [
+            {
+              "soal": "まめ",
+              "arti": "kacang"
+            },
+            {
+              "soal": "みみ",
+              "arti": "telinga"
+            },
+            {
+              "soal": "むし",
+              "arti": "serangga"
+            },
+            {
+              "soal": "め",
+              "arti": "mata"
+            },
+            {
+              "soal": "もも",
+              "arti": "persik"
+            },
+            {
+              "soal": "うみ",
+              "arti": "laut"
+            },
+            {
+              "soal": "くも",
+              "arti": "awan"
+            },
+            {
+              "soal": "あめ",
+              "arti": "hujan"
+            }
+          ]
+        },
+        {
+          "kategori": "ya-yo",
+          "data": [
+            {
+              "soal": "やま",
+              "arti": "gunung"
+            },
+            {
+              "soal": "ゆき",
+              "arti": "salju"
+            },
+            {
+              "soal": "よる",
+              "arti": "malam"
+            },
+            {
+              "soal": "やさい",
+              "arti": "sayuran"
+            },
+            {
+              "soal": "ゆめ",
+              "arti": "mimpi"
+            },
+            {
+              "soal": "よむ",
+              "arti": "membaca"
+            },
+            {
+              "soal": "ふゆ",
+              "arti": "musim dingin"
+            },
+            {
+              "soal": "よいこ",
+              "arti": "anak baik"
+            }
+          ]
+        },
+        {
+          "kategori": "ra-ro",
+          "data": [
+            {
+              "soal": "とら",
+              "arti": "harimau"
+            },
+            {
+              "soal": "りんご",
+              "arti": "apel"
+            },
+            {
+              "soal": "はる",
+              "arti": "musim semi"
+            },
+            {
+              "soal": "れきし",
+              "arti": "sejarah"
+            },
+            {
+              "soal": "くろ",
+              "arti": "hitam"
+            },
+            {
+              "soal": "そら",
+              "arti": "langit"
+            },
+            {
+              "soal": "くすり",
+              "arti": "obat"
+            },
+            {
+              "soal": "ふるい",
+              "arti": "lama / kuno"
+            }
+          ]
+        },
+        {
+          "kategori": "wa wo n",
+          "data": [
+            {
+              "soal": "わに",
+              "arti": "buaya"
+            },
+            {
+              "soal": "ほん",
+              "arti": "buku"
+            },
+            {
+              "soal": "にほん",
+              "arti": "Jepang"
+            },
+            {
+              "soal": "みかん",
+              "arti": "jeruk"
+            },
+            {
+              "soal": "かわ",
+              "arti": "sungai"
+            },
+            {
+              "soal": "でんわ",
+              "arti": "telepon"
+            },
+            {
+              "soal": "しんかんせん",
+              "arti": "kereta cepat"
+            },
+            {
+              "soal": "ほんをよむ",
+              "arti": "membaca buku"
+            }
+          ]
+        },
+        {
+          "kategori": "kya-kyo",
+          "data": [
+            {
+              "soal": "きゃく",
+              "arti": "tamu / pelanggan"
+            },
+            {
+              "soal": "きゅう",
+              "arti": "sembilan"
+            },
+            {
+              "soal": "きょう",
+              "arti": "hari ini"
+            },
+            {
+              "soal": "きょうりゅう",
+              "arti": "dinosaurus"
+            },
+            {
+              "soal": "きゅうり",
+              "arti": "mentimun"
+            },
+            {
+              "soal": "きょうと",
+              "arti": "Kyoto"
+            },
+            {
+              "soal": "きょく",
+              "arti": "lagu / melodi"
+            },
+            {
+              "soal": "きょうかしょ",
+              "arti": "buku pelajaran"
+            }
+          ]
+        },
+        {
+          "kategori": "sha-sho",
+          "data": [
+            {
+              "soal": "しゃしん",
+              "arti": "foto"
+            },
+            {
+              "soal": "しゅみ",
+              "arti": "hobi"
+            },
+            {
+              "soal": "しょくどう",
+              "arti": "kantin / ruang makan"
+            },
+            {
+              "soal": "しゃかい",
+              "arti": "masyarakat / IPS"
+            },
+            {
+              "soal": "しゅくだい",
+              "arti": "pekerjaan rumah (PR)"
+            },
+            {
+              "soal": "しょうゆ",
+              "arti": "kecap asin"
+            },
+            {
+              "soal": "しゃちょう",
+              "arti": "direktur"
+            },
+            {
+              "soal": "でんしゃ",
+              "arti": "kereta listrik"
+            }
+          ]
+        },
+        {
+          "kategori": "cha-cho",
+          "data": [
+            {
+              "soal": "おちゃ",
+              "arti": "teh"
+            },
+            {
+              "soal": "ちゅうもん",
+              "arti": "pesanan"
+            },
+            {
+              "soal": "ちょう",
+              "arti": "kupu-kupu"
+            },
+            {
+              "soal": "ちょっと",
+              "arti": "sebentar / sedikit"
+            },
+            {
+              "soal": "ちゅうごく",
+              "arti": "Cina"
+            },
+            {
+              "soal": "ちゅうしゃ",
+              "arti": "suntikan"
+            },
+            {
+              "soal": "ちょうめ",
+              "arti": "blok / distrik"
+            },
+            {
+              "soal": "おもちゃ",
+              "arti": "mainan"
+            }
+          ]
+        },
+        {
+          "kategori": "nya-nyo",
+          "data": [
+            {
+              "soal": "こんにゃく",
+              "arti": "konyaku"
+            },
+            {
+              "soal": "ぎゅうにゅう",
+              "arti": "susu sapi"
+            },
+            {
+              "soal": "にゅうがく",
+              "arti": "masuk sekolah"
+            },
+            {
+              "soal": "にゅういん",
+              "arti": "masuk rumah sakit"
+            },
+            {
+              "soal": "にゅーす",
+              "arti": "berita"
+            },
+            {
+              "soal": "にょう",
+              "arti": "urin"
+            },
+            {
+              "soal": "にょろにょろ",
+              "arti": "meliuk-liuk"
+            },
+            {
+              "soal": "にょきにょき",
+              "arti": "bermunculan"
+            }
+          ]
+        },
+        {
+          "kategori": "hya-hyo",
+          "data": [
+            {
+              "soal": "ひゃく",
+              "arti": "seratus"
+            },
+            {
+              "soal": "ひょう",
+              "arti": "macan tutul"
+            },
+            {
+              "soal": "ひょうばん",
+              "arti": "reputasi"
+            },
+            {
+              "soal": "ひゅうひゅう",
+              "arti": "siulan angin"
+            },
+            {
+              "soal": "ひゃくえん",
+              "arti": "seratus yen"
+            },
+            {
+              "soal": "ひょうげん",
+              "arti": "ekspresi"
+            },
+            {
+              "soal": "ひょっとこ",
+              "arti": "topeng tradisional lucu"
+            },
+            {
+              "soal": "ひょうざん",
+              "arti": "gunung es"
+            }
+          ]
+        },
+        {
+          "kategori": "mya-myo",
+          "data": [
+            {
+              "soal": "みゃく",
+              "arti": "denyut nadi"
+            },
+            {
+              "soal": "みょうじ",
+              "arti": "nama keluarga / marga"
+            },
+            {
+              "soal": "みょう",
+              "arti": "aneh / ajaib"
+            },
+            {
+              "soal": "みゅーじっく",
+              "arti": "musik"
+            },
+            {
+              "soal": "みゅーじあむ",
+              "arti": "museum"
+            },
+            {
+              "soal": "みょうばん",
+              "arti": "besok malam"
+            },
+            {
+              "soal": "みょうにち",
+              "arti": "besok"
+            },
+            {
+              "soal": "さんみゃく",
+              "arti": "pegunungan"
+            }
+          ]
+        },
+        {
+          "kategori": "rya-ryo",
+          "data": [
+            {
+              "soal": "りょこう",
+              "arti": "liburan / perjalanan"
+            },
+            {
+              "soal": "りょうり",
+              "arti": "masakan / memasak"
+            },
+            {
+              "soal": "りゅう",
+              "arti": "naga"
+            },
+            {
+              "soal": "りょかん",
+              "arti": "penginapan tradisional Jepang"
+            },
+            {
+              "soal": "りゅうがく",
+              "arti": "sekolah di luar negeri"
+            },
+            {
+              "soal": "りょうし",
+              "arti": "nelayan"
+            },
+            {
+              "soal": "りょくちゃ",
+              "arti": "teh hijau"
+            },
+            {
+              "soal": "りゃくす",
+              "arti": "menyingkat"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tipe": "Katakana",
+      "data": [
+        {
+          "kategori": "a-o",
+          "data": [
+            {
+              "soal": "アイ",
+              "arti": "cinta"
+            },
+            {
+              "soal": "アウ",
+              "arti": "bertemu"
+            },
+            {
+              "soal": "ウエ",
+              "arti": "atas"
+            },
+            {
+              "soal": "エ",
+              "arti": "gambar"
+            },
+            {
+              "soal": "アオ",
+              "arti": "biru"
+            },
+            {
+              "soal": "イイ",
+              "arti": "baik"
+            },
+            {
+              "soal": "イイエ",
+              "arti": "tidak"
+            },
+            {
+              "soal": "イエ",
+              "arti": "rumah"
+            }
+          ]
+        },
+        {
+          "kategori": "ka-ko",
+          "data": [
+            {
+              "soal": "カウ",
+              "arti": "membeli"
+            },
+            {
+              "soal": "アカ",
+              "arti": "merah"
+            },
+            {
+              "soal": "エキ",
+              "arti": "stasiun"
+            },
+            {
+              "soal": "カオ",
+              "arti": "wajah"
+            },
+            {
+              "soal": "キカイ",
+              "arti": "mesin"
+            },
+            {
+              "soal": "カイ",
+              "arti": "kerang"
+            },
+            {
+              "soal": "ケ",
+              "arti": "bulu"
+            },
+            {
+              "soal": "キコク",
+              "arti": "pulang ke tanah air"
+            }
+          ]
+        },
+        {
+          "kategori": "ga-go",
+          "data": [
+            {
+              "soal": "ガイコク",
+              "arti": "luar negeri"
+            },
+            {
+              "soal": "ウガイ",
+              "arti": "berkumur"
+            },
+            {
+              "soal": "カギ",
+              "arti": "kunci"
+            },
+            {
+              "soal": "アゴ",
+              "arti": "dagu"
+            },
+            {
+              "soal": "ゴゴ",
+              "arti": "sore"
+            },
+            {
+              "soal": "カイギ",
+              "arti": "rapat"
+            },
+            {
+              "soal": "ケガ",
+              "arti": "luka"
+            }
+          ]
+        },
+        {
+          "kategori": "sa-so",
+          "data": [
+            {
+              "soal": "アサ",
+              "arti": "pagi"
+            },
+            {
+              "soal": "シオ",
+              "arti": "garam"
+            },
+            {
+              "soal": "ウス",
+              "arti": "lesung"
+            },
+            {
+              "soal": "セキ",
+              "arti": "batuk / tempat duduk"
+            },
+            {
+              "soal": "ウソ",
+              "arti": "bohong"
+            },
+            {
+              "soal": "セカイ",
+              "arti": "dunia"
+            },
+            {
+              "soal": "サンサイ",
+              "arti": "umur 3 tahun"
+            },
+            {
+              "soal": "ガクセイ",
+              "arti": "siswa"
+            }
+          ]
+        },
+        {
+          "kategori": "za-zo",
+          "data": [
+            {
+              "soal": "ソウジ",
+              "arti": "bersih-bersih"
+            },
+            {
+              "soal": "ジコ",
+              "arti": "kecelakaan"
+            },
+            {
+              "soal": "カズ",
+              "arti": "jumlah"
+            },
+            {
+              "soal": "アザ",
+              "arti": "memar / tanda lahir"
+            },
+            {
+              "soal": "アジ",
+              "arti": "rasa"
+            },
+            {
+              "soal": "カゼ",
+              "arti": "angin / flu"
+            },
+            {
+              "soal": "ゼイ",
+              "arti": "pajak"
+            },
+            {
+              "soal": "カゾク",
+              "arti": "keluarga"
+            }
+          ]
+        },
+        {
+          "kategori": "ta-to",
+          "data": [
+            {
+              "soal": "タコ",
+              "arti": "gurita"
+            },
+            {
+              "soal": "クチ",
+              "arti": "mulut"
+            },
+            {
+              "soal": "クツ",
+              "arti": "sepatu"
+            },
+            {
+              "soal": "サトウ",
+              "arti": "gula"
+            },
+            {
+              "soal": "チズ",
+              "arti": "peta"
+            },
+            {
+              "soal": "クツシタ",
+              "arti": "kaos kaki"
+            },
+            {
+              "soal": "ケイサツ",
+              "arti": "polisi"
+            },
+            {
+              "soal": "チカテツ",
+              "arti": "kereta bawah tanah"
+            }
+          ]
+        },
+        {
+          "kategori": "da-do",
+          "data": [
+            {
+              "soal": "ウデ",
+              "arti": "lengan"
+            },
+            {
+              "soal": "デグチ",
+              "arti": "jalan keluar"
+            },
+            {
+              "soal": "ドコ",
+              "arti": "mana"
+            },
+            {
+              "soal": "ダイガク",
+              "arti": "universitas"
+            },
+            {
+              "soal": "オデコ",
+              "arti": "dahi"
+            },
+            {
+              "soal": "ダイズ",
+              "arti": "kedelai"
+            },
+            {
+              "soal": "カド",
+              "arti": "sudut"
+            }
+          ]
+        },
+        {
+          "kategori": "na-no",
+          "data": [
+            {
+              "soal": "サカナ",
+              "arti": "ikan"
+            },
+            {
+              "soal": "イヌ",
+              "arti": "anjing"
+            },
+            {
+              "soal": "ネコ",
+              "arti": "kucing"
+            },
+            {
+              "soal": "ナツ",
+              "arti": "musim panas"
+            },
+            {
+              "soal": "カネ",
+              "arti": "uang"
+            },
+            {
+              "soal": "クニ",
+              "arti": "negara"
+            },
+            {
+              "soal": "ニク",
+              "arti": "daging"
+            },
+            {
+              "soal": "キノウ",
+              "arti": "kemarin"
+            }
+          ]
+        },
+        {
+          "kategori": "ha-ho",
+          "data": [
+            {
+              "soal": "ハナ",
+              "arti": "bunga"
+            },
+            {
+              "soal": "ヒト",
+              "arti": "orang"
+            },
+            {
+              "soal": "フネ",
+              "arti": "kapal"
+            },
+            {
+              "soal": "ホシ",
+              "arti": "bintang"
+            },
+            {
+              "soal": "ヘヤ",
+              "arti": "kamar"
+            },
+            {
+              "soal": "ハシ",
+              "arti": "jembatan"
+            },
+            {
+              "soal": "ヒク",
+              "arti": "menarik"
+            },
+            {
+              "soal": "ホネ",
+              "arti": "tulang"
+            }
+          ]
+        },
+        {
+          "kategori": "ba-bo",
+          "data": [
+            {
+              "soal": "カバ",
+              "arti": "kuda nil"
+            },
+            {
+              "soal": "ヘビ",
+              "arti": "ular"
+            },
+            {
+              "soal": "ブタ",
+              "arti": "babi"
+            },
+            {
+              "soal": "カベ",
+              "arti": "dinding"
+            },
+            {
+              "soal": "ボウシ",
+              "arti": "topi"
+            },
+            {
+              "soal": "カバン",
+              "arti": "tas"
+            },
+            {
+              "soal": "トブ",
+              "arti": "terbang"
+            },
+            {
+              "soal": "オバ",
+              "arti": "bibi"
+            }
+          ]
+        },
+        {
+          "kategori": "pa-po",
+          "data": [
+            {
+              "soal": "パン",
+              "arti": "roti"
+            },
+            {
+              "soal": "エンピツ",
+              "arti": "pensil"
+            },
+            {
+              "soal": "サンポ",
+              "arti": "jalan-jalan"
+            },
+            {
+              "soal": "キップ",
+              "arti": "tiket"
+            },
+            {
+              "soal": "コップ",
+              "arti": "gelas"
+            },
+            {
+              "soal": "サッパリ",
+              "arti": "segar"
+            },
+            {
+              "soal": "ペコペコ",
+              "arti": "lapar"
+            },
+            {
+              "soal": "シッポ",
+              "arti": "ekor"
+            }
+          ]
+        },
+        {
+          "kategori": "ma-mo",
+          "data": [
+            {
+              "soal": "マメ",
+              "arti": "kacang"
+            },
+            {
+              "soal": "ミミ",
+              "arti": "telinga"
+            },
+            {
+              "soal": "ムシ",
+              "arti": "serangga"
+            },
+            {
+              "soal": "メ",
+              "arti": "mata"
+            },
+            {
+              "soal": "モモ",
+              "arti": "persik"
+            },
+            {
+              "soal": "ウミ",
+              "arti": "laut"
+            },
+            {
+              "soal": "クモ",
+              "arti": "awan"
+            },
+            {
+              "soal": "アメ",
+              "arti": "hujan"
+            }
+          ]
+        },
+        {
+          "kategori": "ya-yo",
+          "data": [
+            {
+              "soal": "ヤマ",
+              "arti": "gunung"
+            },
+            {
+              "soal": "ユキ",
+              "arti": "salju"
+            },
+            {
+              "soal": "ヨル",
+              "arti": "malam"
+            },
+            {
+              "soal": "ヤサイ",
+              "arti": "sayuran"
+            },
+            {
+              "soal": "ユメ",
+              "arti": "mimpi"
+            },
+            {
+              "soal": "ヨム",
+              "arti": "membaca"
+            },
+            {
+              "soal": "フユ",
+              "arti": "musim dingin"
+            },
+            {
+              "soal": "ヨイコ",
+              "arti": "anak baik"
+            }
+          ]
+        },
+        {
+          "kategori": "ra-ro",
+          "data": [
+            {
+              "soal": "トラ",
+              "arti": "harimau"
+            },
+            {
+              "soal": "リンゴ",
+              "arti": "apel"
+            },
+            {
+              "soal": "ハル",
+              "arti": "musim semi"
+            },
+            {
+              "soal": "レキシ",
+              "arti": "sejarah"
+            },
+            {
+              "soal": "クロ",
+              "arti": "hitam"
+            },
+            {
+              "soal": "ソラ",
+              "arti": "langit"
+            },
+            {
+              "soal": "クスリ",
+              "arti": "obat"
+            },
+            {
+              "soal": "フルイ",
+              "arti": "lama / kuno"
+            }
+          ]
+        },
+        {
+          "kategori": "wa wo n",
+          "data": [
+            {
+              "soal": "ワニ",
+              "arti": "buaya"
+            },
+            {
+              "soal": "ホン",
+              "arti": "buku"
+            },
+            {
+              "soal": "ニホン",
+              "arti": "Jepang"
+            },
+            {
+              "soal": "ミカン",
+              "arti": "jeruk"
+            },
+            {
+              "soal": "カワ",
+              "arti": "sungai"
+            },
+            {
+              "soal": "デンワ",
+              "arti": "telepon"
+            },
+            {
+              "soal": "シンカンセン",
+              "arti": "kereta cepat"
+            },
+            {
+              "soal": "ホンヲヨム",
+              "arti": "membaca buku"
+            }
+          ]
+        },
+        {
+          "kategori": "kya-kyo",
+          "data": [
+            {
+              "soal": "キャク",
+              "arti": "tamu / pelanggan"
+            },
+            {
+              "soal": "キュウ",
+              "arti": "sembilan"
+            },
+            {
+              "soal": "キョウ",
+              "arti": "hari ini"
+            },
+            {
+              "soal": "キョウリュウ",
+              "arti": "dinosaurus"
+            },
+            {
+              "soal": "キュウリ",
+              "arti": "mentimun"
+            },
+            {
+              "soal": "キョウト",
+              "arti": "Kyoto"
+            },
+            {
+              "soal": "キョク",
+              "arti": "lagu / melodi"
+            },
+            {
+              "soal": "キョウカショ",
+              "arti": "buku pelajaran"
+            }
+          ]
+        },
+        {
+          "kategori": "sha-sho",
+          "data": [
+            {
+              "soal": "シャシン",
+              "arti": "foto"
+            },
+            {
+              "soal": "シュミ",
+              "arti": "hobi"
+            },
+            {
+              "soal": "ショクドウ",
+              "arti": "kantin / ruang makan"
+            },
+            {
+              "soal": "シャカイ",
+              "arti": "masyarakat / IPS"
+            },
+            {
+              "soal": "シュクダイ",
+              "arti": "pekerjaan rumah (PR)"
+            },
+            {
+              "soal": "ショウユ",
+              "arti": "kecap asin"
+            },
+            {
+              "soal": "シャチョウ",
+              "arti": "direktur"
+            },
+            {
+              "soal": "デンシャ",
+              "arti": "kereta listrik"
+            }
+          ]
+        },
+        {
+          "kategori": "cha-cho",
+          "data": [
+            {
+              "soal": "オチャ",
+              "arti": "teh"
+            },
+            {
+              "soal": "チュウモン",
+              "arti": "pesanan"
+            },
+            {
+              "soal": "チョウ",
+              "arti": "kupu-kupu"
+            },
+            {
+              "soal": "チョット",
+              "arti": "sebentar / sedikit"
+            },
+            {
+              "soal": "チュウゴク",
+              "arti": "Cina"
+            },
+            {
+              "soal": "チュウシャ",
+              "arti": "suntikan"
+            },
+            {
+              "soal": "チョウメ",
+              "arti": "blok / distrik"
+            },
+            {
+              "soal": "オモチャ",
+              "arti": "mainan"
+            }
+          ]
+        },
+        {
+          "kategori": "nya-nyo",
+          "data": [
+            {
+              "soal": "コンニャク",
+              "arti": "konyaku"
+            },
+            {
+              "soal": "ギュウニュウ",
+              "arti": "susu sapi"
+            },
+            {
+              "soal": "ニュウガク",
+              "arti": "masuk sekolah"
+            },
+            {
+              "soal": "ニュウイン",
+              "arti": "masuk rumah sakit"
+            },
+            {
+              "soal": "ニュース",
+              "arti": "berita"
+            },
+            {
+              "soal": "ニョウ",
+              "arti": "urin"
+            },
+            {
+              "soal": "ニョロニョロ",
+              "arti": "meliuk-liuk"
+            },
+            {
+              "soal": "ニョキニョキ",
+              "arti": "bermunculan"
+            }
+          ]
+        },
+        {
+          "kategori": "hya-hyo",
+          "data": [
+            {
+              "soal": "ヒャク",
+              "arti": "seratus"
+            },
+            {
+              "soal": "ヒョウ",
+              "arti": "macan tutul"
+            },
+            {
+              "soal": "ヒョウバン",
+              "arti": "reputasi"
+            },
+            {
+              "soal": "ヒュウヒュウ",
+              "arti": "siulan angin"
+            },
+            {
+              "soal": "ヒャクエン",
+              "arti": "seratus yen"
+            },
+            {
+              "soal": "ヒョウゲン",
+              "arti": "ekspresi"
+            },
+            {
+              "soal": "ヒョットコ",
+              "arti": "topeng tradisional lucu"
+            },
+            {
+              "soal": "ヒョウザン",
+              "arti": "gunung es"
+            }
+          ]
+        },
+        {
+          "kategori": "mya-myo",
+          "data": [
+            {
+              "soal": "ミャク",
+              "arti": "denyut nadi"
+            },
+            {
+              "soal": "ミョウジ",
+              "arti": "nama keluarga / marga"
+            },
+            {
+              "soal": "ミョウ",
+              "arti": "aneh / ajaib"
+            },
+            {
+              "soal": "ミュージック",
+              "arti": "musik"
+            },
+            {
+              "soal": "ミュージアム",
+              "arti": "museum"
+            },
+            {
+              "soal": "ミョウバン",
+              "arti": "besok malam"
+            },
+            {
+              "soal": "ミョウニチ",
+              "arti": "besok"
+            },
+            {
+              "soal": "サンミャク",
+              "arti": "pegunungan"
+            }
+          ]
+        },
+        {
+          "kategori": "rya-ryo",
+          "data": [
+            {
+              "soal": "リョコウ",
+              "arti": "liburan / perjalanan"
+            },
+            {
+              "soal": "リョウリ",
+              "arti": "masakan / memasak"
+            },
+            {
+              "soal": "リュウ",
+              "arti": "naga"
+            },
+            {
+              "soal": "リョカン",
+              "arti": "penginapan tradisional Jepang"
+            },
+            {
+              "soal": "リュウガク",
+              "arti": "sekolah di luar negeri"
+            },
+            {
+              "soal": "リョウシ",
+              "arti": "nelayan"
+            },
+            {
+              "soal": "リョクチャ",
+              "arti": "teh hijau"
+            },
+            {
+              "soal": "リャクス",
+              "arti": "menyingkat"
+            }
+          ]
+        },
+        {
+          "kategori": "fa-fo",
+          "data": [
+            {
+              "soal": "ファミリー",
+              "arti": "keluarga"
+            },
+            {
+              "soal": "ファイル",
+              "arti": "berkas"
+            },
+            {
+              "soal": "フィールド",
+              "arti": "lapangan"
+            },
+            {
+              "soal": "フェスティバル",
+              "arti": "festival"
+            },
+            {
+              "soal": "カフェ",
+              "arti": "kafe"
+            },
+            {
+              "soal": "フォーク",
+              "arti": "garpu"
+            },
+            {
+              "soal": "フットボール",
+              "arti": "sepak bola"
+            },
+            {
+              "soal": "ソファー",
+              "arti": "sofa"
+            }
+          ]
+        },
+        {
+          "kategori": "ti-di",
+          "data": [
+            {
+              "soal": "パーティー",
+              "arti": "pesta"
+            },
+            {
+              "soal": "ティッシュ",
+              "arti": "tisu"
+            },
+            {
+              "soal": "ティー",
+              "arti": "teh"
+            },
+            {
+              "soal": "ディスク",
+              "arti": "disk / cakram"
+            },
+            {
+              "soal": "デュエット",
+              "arti": "duet"
+            },
+            {
+              "soal": "プロデューサー",
+              "arti": "produser"
+            },
+            {
+              "soal": "ディスプレイ",
+              "arti": "layar"
+            },
+            {
+              "soal": "ディナー",
+              "arti": "makan malam"
+            }
+          ]
+        },
+        {
+          "kategori": "wi-wo",
+          "data": [
+            {
+              "soal": "ウィスキー",
+              "arti": "wiski"
+            },
+            {
+              "soal": "ウィンナー",
+              "arti": "sosis"
+            },
+            {
+              "soal": "ウェブ",
+              "arti": "web"
+            },
+            {
+              "soal": "ウェイター",
+              "arti": "pelayan pria"
+            },
+            {
+              "soal": "ウォーター",
+              "arti": "air"
+            },
+            {
+              "soal": "ウォシュレット",
+              "arti": "kloset otomatis"
+            },
+            {
+              "soal": "ウォーミングアップ",
+              "arti": "pemanasan"
+            },
+            {
+              "soal": "ウィンドウショッピング",
+              "arti": "cuci mata"
+            }
+          ]
+        },
+        {
+          "kategori": "va-vo",
+          "data": [
+            {
+              "soal": "ヴァイオリン",
+              "arti": "biola"
+            },
+            {
+              "soal": "ヴァニラ",
+              "arti": "vanila"
+            },
+            {
+              "soal": "ヴイルス",
+              "arti": "virus"
+            },
+            {
+              "soal": "ヴォーカル",
+              "arti": "vokal"
+            },
+            {
+              "soal": "ヴェール",
+              "arti": "kerudung"
+            },
+            {
+              "soal": "ヴィンテージ",
+              "arti": "barang antik"
+            },
+            {
+              "soal": "ヴォリューム",
+              "arti": "volume"
+            },
+            {
+              "soal": "ヴェーガン",
+              "arti": "vegan"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

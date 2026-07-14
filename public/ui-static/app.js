@@ -112,6 +112,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const materialModalTitle = root.querySelector('[data-material-modal-title]');
     const materialFormError = root.querySelector('[data-material-form-error]');
     const levelOptions = root.querySelector('[data-level-options]');
+    const deleteSelectedBtn = root.querySelector('[data-delete-selected]');
+    const selectedCountSpan = root.querySelector('[data-selected-count]');
+    const selectAllContainer = root.querySelector('[data-select-all-container]');
+    const selectAllCheckbox = root.querySelector('#select-all-units');
 
     const escapeHtml = (value) => String(value ?? '')
       .replaceAll('&', '&amp;')
@@ -146,6 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (listNode) listNode.hidden = isLoading;
       if (emptyNode) emptyNode.hidden = true;
       if (errorNode) errorNode.hidden = true;
+      if (selectAllContainer) selectAllContainer.style.display = 'none';
     };
 
     const setError = (message) => {
@@ -154,6 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (emptyNode) emptyNode.hidden = true;
       if (errorNode) errorNode.hidden = false;
       if (errorMessageNode) errorMessageNode.textContent = message;
+      if (selectAllContainer) selectAllContainer.style.display = 'none';
     };
 
     const activeLevel = () => state.levels.find((level) => String(level.id) === String(state.activeLevelId));
@@ -209,6 +215,22 @@ document.addEventListener('DOMContentLoaded', () => {
       return { material: null, unit: null };
     };
 
+    const updateDeleteSelectedButton = () => {
+      if (!listNode) return;
+      const checkedBoxes = listNode.querySelectorAll('.unit-checkbox:checked');
+      const count = checkedBoxes.length;
+      if (deleteSelectedBtn) {
+        deleteSelectedBtn.style.display = count > 0 ? 'inline-flex' : 'none';
+      }
+      if (selectedCountSpan) {
+        selectedCountSpan.textContent = count;
+      }
+      if (selectAllCheckbox) {
+        const allBoxes = listNode.querySelectorAll('.unit-checkbox');
+        selectAllCheckbox.checked = allBoxes.length > 0 && count === allBoxes.length;
+      }
+    };
+
     const renderUnits = () => {
       const materials = state.units.flatMap((unit) => unit.materials || []);
       if (unitCountNode) unitCountNode.textContent = String(state.units.length);
@@ -216,6 +238,14 @@ document.addEventListener('DOMContentLoaded', () => {
       if (quizCountNode) quizCountNode.textContent = String(materials.filter((material) => material.type === 'quiz').length);
       renderLevelControls();
       renderUnitSelect();
+
+      if (selectAllContainer) {
+        selectAllContainer.style.display = state.units.length > 0 ? 'flex' : 'none';
+      }
+      if (selectAllCheckbox) {
+        selectAllCheckbox.checked = false;
+      }
+      updateDeleteSelectedButton();
 
       if (!listNode) return;
 
@@ -248,7 +278,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 <span>${unitMaterials.length} isi unit tersedia</span>
               </div>
             </div>
-            <div class="guru-unit-card__actions" style="display: flex; flex-direction: column; gap: 8px; justify-content: center;">
+            <div class="guru-unit-card__actions" style="display: flex; flex-direction: column; gap: 8px; justify-content: center; align-items: flex-end;">
+              <div style="display: flex; align-items: center; gap: 8px; width: 100%; justify-content: flex-end; margin-bottom: 4px;">
+                <input type="checkbox" class="unit-checkbox" value="${unit.id}" style="width: 20px; height: 20px; cursor: pointer; accent-color: var(--accent);">
+              </div>
               <a class="guru-unit-button guru-unit-button--primary" href="/guru/units/${unit.id}/materials" style="display: inline-flex; align-items: center; justify-content: center; text-decoration: none; width: 100%;">
                 <span class="material-symbols-outlined" aria-hidden="true" style="margin-right: 4px;">account_tree</span>
                 KELOLA ISI
@@ -256,10 +289,6 @@ document.addEventListener('DOMContentLoaded', () => {
               <button type="button" class="guru-unit-button" data-edit-unit="${unit.id}" style="width: 100%;">
                 <span class="material-symbols-outlined" aria-hidden="true">edit</span>
                 EDIT
-              </button>
-              <button type="button" class="guru-unit-button guru-unit-button--danger" data-delete-unit="${unit.id}" style="width: 100%;">
-                <span class="material-symbols-outlined" aria-hidden="true">delete</span>
-                HAPUS
               </button>
             </div>
           </article>
@@ -745,6 +774,36 @@ document.addEventListener('DOMContentLoaded', () => {
       loadUnits();
     });
 
+    listNode?.addEventListener('change', (event) => {
+      if (event.target instanceof HTMLInputElement && event.target.classList.contains('unit-checkbox')) {
+        updateDeleteSelectedButton();
+      }
+    });
+
+    selectAllCheckbox?.addEventListener('change', () => {
+      if (!selectAllCheckbox) return;
+      const isChecked = selectAllCheckbox.checked;
+      listNode?.querySelectorAll('.unit-checkbox').forEach((box) => {
+        box.checked = isChecked;
+      });
+      updateDeleteSelectedButton();
+    });
+
+    deleteSelectedBtn?.addEventListener('click', async () => {
+      const checkedBoxes = listNode?.querySelectorAll('.unit-checkbox:checked');
+      if (!checkedBoxes) return;
+      const ids = Array.from(checkedBoxes).map((box) => box.value);
+      if (ids.length === 0 || !window.confirm(`Hapus ${ids.length} unit terpilih secara bersamaan?`)) return;
+
+      setLoading(true);
+      try {
+        await Promise.all(ids.map(id => fetchJson(`/api/guru/units/${id}`, { method: 'DELETE' })));
+        await loadLevels();
+      } catch (error) {
+        setError(error.message || 'Gagal menghapus beberapa unit.');
+      }
+    });
+
     loadLevels();
   });
 
@@ -771,6 +830,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const materialIdInput = root.querySelector('[data-material-id]');
     const materialModalTitle = root.querySelector('[data-material-modal-title]');
     const materialFormError = root.querySelector('[data-material-form-error]');
+    const importModal = root.querySelector('[data-material-import-modal]');
+    const importForm = root.querySelector('[data-material-import-form]');
+    const importFormError = root.querySelector('[data-material-import-error]');
+    const deleteSelectedBtn = root.querySelector('[data-delete-selected]');
+    const selectedCountSpan = root.querySelector('[data-selected-count]');
+    const selectAllContainer = root.querySelector('[data-select-all-container]');
+    const selectAllCheckbox = root.querySelector('#select-all-materials');
 
     const escapeHtml = (value) => String(value ?? '')
       .replaceAll('&', '&amp;')
@@ -804,6 +870,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (listNode) listNode.hidden = isLoading;
       if (emptyNode) emptyNode.hidden = true;
       if (errorNode) errorNode.hidden = true;
+      if (selectAllContainer) selectAllContainer.style.display = 'none';
     };
 
     const setError = (message) => {
@@ -812,9 +879,26 @@ document.addEventListener('DOMContentLoaded', () => {
       if (emptyNode) emptyNode.hidden = true;
       if (errorNode) errorNode.hidden = false;
       if (errorMessageNode) errorMessageNode.textContent = message;
+      if (selectAllContainer) selectAllContainer.style.display = 'none';
     };
 
     const labelForType = (type) => (type === 'quiz' ? 'Quiz' : 'Materi Pembelajaran');
+
+    const updateDeleteSelectedButton = () => {
+      if (!listNode) return;
+      const checkedBoxes = listNode.querySelectorAll('.material-checkbox:checked');
+      const count = checkedBoxes.length;
+      if (deleteSelectedBtn) {
+        deleteSelectedBtn.style.display = count > 0 ? 'inline-flex' : 'none';
+      }
+      if (selectedCountSpan) {
+        selectedCountSpan.textContent = count;
+      }
+      if (selectAllCheckbox) {
+        const allBoxes = listNode.querySelectorAll('.material-checkbox');
+        selectAllCheckbox.checked = allBoxes.length > 0 && count === allBoxes.length;
+      }
+    };
 
     const renderMaterials = () => {
       if (!listNode) return;
@@ -827,6 +911,15 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       const unitMaterials = unit.materials || [];
+
+      if (selectAllContainer) {
+        selectAllContainer.style.display = unitMaterials.length > 0 ? 'flex' : 'none';
+      }
+      if (selectAllCheckbox) {
+        selectAllCheckbox.checked = false;
+      }
+      updateDeleteSelectedButton();
+
       if (unitMaterials.length === 0) {
         listNode.hidden = true;
         if (emptyNode) emptyNode.hidden = false;
@@ -849,7 +942,10 @@ document.addEventListener('DOMContentLoaded', () => {
             <h2>${escapeHtml(material.title)}</h2>
             <p>${material.type === 'quiz' ? `${material.questions_count || 0} soal tersedia` : 'Konten belajar di dalam unit'}</p>
           </div>
-          <div class="guru-unit-card__actions" style="display: flex; flex-direction: column; gap: 8px; justify-content: center;">
+          <div class="guru-unit-card__actions" style="display: flex; flex-direction: column; gap: 8px; justify-content: center; align-items: flex-end;">
+            <div style="display: flex; align-items: center; gap: 8px; width: 100%; justify-content: flex-end; margin-bottom: 4px;">
+              <input type="checkbox" class="material-checkbox" value="${material.id}" style="width: 20px; height: 20px; cursor: pointer; accent-color: var(--accent);">
+            </div>
             <a class="guru-unit-button guru-unit-button--primary" href="/guru/materi/${material.id}/questions" style="display: inline-flex; align-items: center; justify-content: center; text-decoration: none; width: 100%;">
               <span class="material-symbols-outlined" aria-hidden="true" style="margin-right: 4px;">menu_book</span>
               KELOLA LANGKAH
@@ -857,10 +953,6 @@ document.addEventListener('DOMContentLoaded', () => {
             <button type="button" class="guru-unit-button" data-edit-material="${material.id}" style="width: 100%;">
               <span class="material-symbols-outlined" aria-hidden="true">edit</span>
               EDIT
-            </button>
-            <button type="button" class="guru-unit-button guru-unit-button--danger" data-delete-material="${material.id}" style="width: 100%;">
-              <span class="material-symbols-outlined" aria-hidden="true">delete</span>
-              HAPUS
             </button>
           </div>
         </article>
@@ -1012,6 +1104,13 @@ document.addEventListener('DOMContentLoaded', () => {
         openMaterialModal();
       }
 
+      const openImportBtn = target.closest('[data-open-import-modal]');
+      if (openImportBtn) {
+        importForm?.reset();
+        if (importFormError) importFormError.hidden = true;
+        openModal(importModal);
+      }
+
       const detailButton = target.closest('[data-material-detail]');
       if (detailButton) {
         const { material, unit } = findMaterial(detailButton.getAttribute('data-material-detail'));
@@ -1029,12 +1128,111 @@ document.addEventListener('DOMContentLoaded', () => {
         const { material } = findMaterial(deleteButton.getAttribute('data-delete-material'));
         deleteMaterial(material);
       }
+
+      if (target.closest('[data-retry-materials]')) {
+        loadMaterials();
+      }
     });
 
     materialForm?.addEventListener('submit', (event) => {
       event.preventDefault();
       saveMaterial();
     });
+
+    importForm?.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (importFormError) importFormError.hidden = true;
+      const submitBtn = importForm.querySelector('[data-material-import-submit]');
+      if (submitBtn) submitBtn.disabled = true;
+
+      const formData = new FormData(importForm);
+      try {
+        const response = await fetch(`/api/guru/units/${state.unitId}/import`, {
+          method: 'POST',
+          headers: {
+            'X-CSRF-TOKEN': csrfToken,
+            Accept: 'application/json',
+          },
+          body: formData,
+        });
+
+        const payload = await response.json().catch(() => ({}));
+        if (!response.ok) {
+          throw new Error(payload.message || 'Import gagal.');
+        }
+
+        closeModal(importModal);
+        // Reset upload zone UI
+        if (fileInput) {
+          fileInput.value = '';
+          fileInput.dispatchEvent(new Event('change'));
+        }
+        await loadMaterials();
+      } catch (error) {
+        if (importFormError) {
+          importFormError.textContent = error.message;
+          importFormError.hidden = false;
+        }
+      } finally {
+        if (submitBtn) submitBtn.disabled = false;
+      }
+    });
+
+    // Custom Upload Zone Interactions
+    const uploadZone = root.querySelector('#upload-zone');
+    const fileInput = root.querySelector('#file-input');
+    const uploadContent = root.querySelector('#upload-zone-content');
+    const fileNameDisplay = root.querySelector('#file-name-display');
+    const fileNameText = root.querySelector('#file-name-text');
+    const fileClearBtn = root.querySelector('#file-clear-btn');
+
+    if (uploadZone && fileInput) {
+      uploadZone.addEventListener('click', (e) => {
+        if (e.target.closest('#file-clear-btn')) return;
+        fileInput.click();
+      });
+
+      fileInput.addEventListener('change', () => {
+        if (fileInput.files && fileInput.files.length > 0) {
+          if (fileNameText) fileNameText.textContent = fileInput.files[0].name;
+          if (fileNameDisplay) fileNameDisplay.hidden = false;
+          if (uploadContent) uploadContent.hidden = true;
+        } else {
+          if (fileNameDisplay) fileNameDisplay.hidden = true;
+          if (uploadContent) uploadContent.hidden = false;
+        }
+      });
+
+      fileClearBtn?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        fileInput.value = '';
+        fileInput.dispatchEvent(new Event('change'));
+      });
+
+      ['dragenter', 'dragover'].forEach((eventName) => {
+        uploadZone.addEventListener(eventName, (e) => {
+          e.preventDefault();
+          uploadZone.classList.add('is-dragover');
+        }, false);
+      });
+
+      ['dragleave', 'drop'].forEach((eventName) => {
+        uploadZone.addEventListener(eventName, (e) => {
+          e.preventDefault();
+          uploadZone.classList.remove('is-dragover');
+        }, false);
+      });
+
+      uploadZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        if (files && files.length > 0) {
+          fileInput.files = files;
+          fileInput.dispatchEvent(new Event('change'));
+        }
+      }, false);
+    }
 
     root.addEventListener('dragstart', (event) => {
       if (!event.target.classList.contains('guru-unit-card__drag') && !event.target.closest('.guru-unit-card__drag')) {
@@ -1103,6 +1301,36 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
+    listNode?.addEventListener('change', (event) => {
+      if (event.target instanceof HTMLInputElement && event.target.classList.contains('material-checkbox')) {
+        updateDeleteSelectedButton();
+      }
+    });
+
+    selectAllCheckbox?.addEventListener('change', () => {
+      if (!selectAllCheckbox) return;
+      const isChecked = selectAllCheckbox.checked;
+      listNode?.querySelectorAll('.material-checkbox').forEach((box) => {
+        box.checked = isChecked;
+      });
+      updateDeleteSelectedButton();
+    });
+
+    deleteSelectedBtn?.addEventListener('click', async () => {
+      const checkedBoxes = listNode?.querySelectorAll('.material-checkbox:checked');
+      if (!checkedBoxes) return;
+      const ids = Array.from(checkedBoxes).map((box) => box.value);
+      if (ids.length === 0 || !window.confirm(`Hapus ${ids.length} isi unit terpilih secara bersamaan?`)) return;
+
+      setLoading(true);
+      try {
+        await Promise.all(ids.map(id => fetchJson(`/api/guru/materials/${id}`, { method: 'DELETE' })));
+        await loadMaterials();
+      } catch (error) {
+        setError(error.message || 'Gagal menghapus beberapa isi unit.');
+      }
+    });
+
     loadMaterials();
   });
 
@@ -1128,6 +1356,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const quizTypeSelect = root.querySelector('[data-quiz-type]');
     const stepModalTitle = root.querySelector('[data-question-modal-title]');
     const stepFormError = root.querySelector('[data-question-form-error]');
+    const importModal = root.querySelector('[data-step-import-modal]');
+    const importForm = root.querySelector('[data-step-import-form]');
+    const importFormError = root.querySelector('[data-step-import-error]');
+    const deleteSelectedBtn = root.querySelector('[data-delete-selected]');
+    const selectedCountSpan = root.querySelector('[data-selected-count]');
+    const selectAllContainer = root.querySelector('[data-select-all-container]');
+    const selectAllCheckbox = root.querySelector('#select-all-steps');
 
     const escapeHtml = (value) => String(value ?? '')
       .replaceAll('&', '&amp;')
@@ -1161,11 +1396,13 @@ document.addEventListener('DOMContentLoaded', () => {
       if (listNode) listNode.hidden = isLoading;
       if (emptyNode) emptyNode.hidden = true;
       if (errorNode) errorNode.hidden = true;
+      if (selectAllContainer) selectAllContainer.style.display = 'none';
     };
 
     const setError = (message) => {
       if (loadingNode) loadingNode.hidden = true;
       if (listNode) listNode.hidden = true;
+      if (selectAllContainer) selectAllContainer.style.display = 'none';
       if (emptyNode) emptyNode.hidden = true;
       if (errorNode) errorNode.hidden = false;
       if (errorMessageNode) errorMessageNode.textContent = message;
@@ -1185,14 +1422,38 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     };
 
+    const updateDeleteSelectedButton = () => {
+      if (!listNode) return;
+      const checkedBoxes = listNode.querySelectorAll('.step-checkbox:checked');
+      const count = checkedBoxes.length;
+      if (deleteSelectedBtn) {
+        deleteSelectedBtn.style.display = count > 0 ? 'inline-flex' : 'none';
+      }
+      if (selectedCountSpan) {
+        selectedCountSpan.textContent = count;
+      }
+      if (selectAllCheckbox) {
+        const allBoxes = listNode.querySelectorAll('.step-checkbox');
+        selectAllCheckbox.checked = allBoxes.length > 0 && count === allBoxes.length;
+      }
+    };
+
     const renderSteps = () => {
       if (titleNode) titleNode.textContent = state.node?.title ? `Langkah Belajar: ${state.node.title}` : 'Langkah Pembelajaran';
       if (subtitleNode) subtitleNode.textContent = 'Kelola urutan dan isi langkah belajar (teks, pengenalan huruf, kuis).';
+
+      if (selectAllContainer) {
+        selectAllContainer.style.display = state.steps.length > 0 ? 'flex' : 'none';
+      }
+      if (selectAllCheckbox) {
+        selectAllCheckbox.checked = false;
+      }
 
       if (!listNode) return;
       if (state.steps.length === 0) {
         listNode.hidden = true;
         if (emptyNode) emptyNode.hidden = false;
+        updateDeleteSelectedButton();
         return;
       }
 
@@ -1215,21 +1476,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
         return `
           <article class="guru-question-card" data-question-card="${step.id}" draggable="true">
-            <div class="guru-question-card__number" style="cursor: grab;">
-              <span class="material-symbols-outlined" style="font-size: 18px; color: #aaa; vertical-align: middle; margin-right: 4px;">drag_indicator</span>
+            <div class="guru-question-card__number" style="cursor: grab; display: flex; align-items: center; gap: 4px;">
+              <span class="material-symbols-outlined" style="font-size: 18px; color: #aaa; vertical-align: middle;">drag_indicator</span>
               ${index + 1}
             </div>
             <div class="guru-question-card__body">
               <span class="guru-material-type guru-material-type--${step.type}">${step.type_label}</span>
               <div style="margin-top: 8px;">${contentHtml}</div>
             </div>
-            <div class="guru-unit-card__actions">
+            <div class="guru-unit-card__actions" style="display: flex; align-items: center; gap: 8px;">
               <button type="button" class="guru-unit-button" data-edit-question="${step.id}">
                 <span class="material-symbols-outlined" aria-hidden="true">edit</span>Edit
               </button>
-              <button type="button" class="guru-unit-button guru-unit-button--danger" data-delete-question="${step.id}">
-                <span class="material-symbols-outlined" aria-hidden="true">delete</span>Hapus
-              </button>
+              <input type="checkbox" class="step-checkbox" value="${step.id}" style="width: 18px; height: 18px; cursor: pointer; accent-color: var(--accent); margin-left: 4px;">
             </div>
           </article>
         `;
@@ -1237,6 +1496,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Setup drag and drop for steps
       setupDragAndDrop();
+      updateDeleteSelectedButton();
     };
 
     const loadSteps = async () => {
@@ -1436,6 +1696,13 @@ document.addEventListener('DOMContentLoaded', () => {
         openStepModal();
       }
 
+      const openImportBtn = target.closest('[data-open-import-modal]');
+      if (openImportBtn) {
+        importForm?.reset();
+        if (importFormError) importFormError.hidden = true;
+        openModal(importModal);
+      }
+
       if (target.closest('[data-close-guru-modal]')) {
         closeModal(target.closest('.guru-modal-overlay'));
       }
@@ -1463,6 +1730,130 @@ document.addEventListener('DOMContentLoaded', () => {
     stepForm?.addEventListener('submit', (event) => {
       event.preventDefault();
       saveStep();
+    });
+
+    // Custom Upload Zone Interactions for Steps
+    const uploadZone = root.querySelector('#upload-zone');
+    const fileInput = root.querySelector('#file-input');
+    const uploadContent = root.querySelector('#upload-zone-content');
+    const fileNameDisplay = root.querySelector('#file-name-display');
+    const fileNameText = root.querySelector('#file-name-text');
+    const fileClearBtn = root.querySelector('#file-clear-btn');
+
+    if (uploadZone && fileInput) {
+      uploadZone.addEventListener('click', (e) => {
+        if (e.target.closest('#file-clear-btn')) return;
+        fileInput.click();
+      });
+
+      fileInput.addEventListener('change', () => {
+        if (fileInput.files && fileInput.files.length > 0) {
+          if (fileNameText) fileNameText.textContent = fileInput.files[0].name;
+          if (fileNameDisplay) fileNameDisplay.hidden = false;
+          if (uploadContent) uploadContent.hidden = true;
+        } else {
+          if (fileNameDisplay) fileNameDisplay.hidden = true;
+          if (uploadContent) uploadContent.hidden = false;
+        }
+      });
+
+      fileClearBtn?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        fileInput.value = '';
+        fileInput.dispatchEvent(new Event('change'));
+      });
+
+      ['dragenter', 'dragover'].forEach((eventName) => {
+        uploadZone.addEventListener(eventName, (e) => {
+          e.preventDefault();
+          uploadZone.classList.add('is-dragover');
+        }, false);
+      });
+
+      ['dragleave', 'drop'].forEach((eventName) => {
+        uploadZone.addEventListener(eventName, (e) => {
+          e.preventDefault();
+          uploadZone.classList.remove('is-dragover');
+        }, false);
+      });
+
+      uploadZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        if (files && files.length > 0) {
+          fileInput.files = files;
+          fileInput.dispatchEvent(new Event('change'));
+        }
+      }, false);
+    }
+
+    importForm?.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (importFormError) importFormError.hidden = true;
+      const submitBtn = importForm.querySelector('[data-step-import-submit]');
+      if (submitBtn) submitBtn.disabled = true;
+
+      const formData = new FormData(importForm);
+      try {
+        const response = await fetch(`/api/guru/nodes/${nodeId}/import-steps`, {
+          method: 'POST',
+          headers: {
+            'X-CSRF-TOKEN': csrfToken,
+            Accept: 'application/json',
+          },
+          body: formData,
+        });
+
+        const payload = await response.json().catch(() => ({}));
+        if (!response.ok) {
+          throw new Error(payload.message || 'Import gagal.');
+        }
+
+        closeModal(importModal);
+        if (fileInput) {
+          fileInput.value = '';
+          fileInput.dispatchEvent(new Event('change'));
+        }
+        await loadSteps();
+      } catch (error) {
+        if (importFormError) {
+          importFormError.textContent = error.message;
+          importFormError.hidden = false;
+        }
+      } finally {
+        if (submitBtn) submitBtn.disabled = false;
+      }
+    });
+
+    // Event listeners for bulk selection and deletion
+    listNode?.addEventListener('change', (e) => {
+      if (e.target.classList.contains('step-checkbox')) {
+        updateDeleteSelectedButton();
+      }
+    });
+
+    selectAllCheckbox?.addEventListener('change', () => {
+      const isChecked = selectAllCheckbox.checked;
+      listNode?.querySelectorAll('.step-checkbox').forEach((box) => {
+        box.checked = isChecked;
+      });
+      updateDeleteSelectedButton();
+    });
+
+    deleteSelectedBtn?.addEventListener('click', async () => {
+      const checkedBoxes = listNode?.querySelectorAll('.step-checkbox:checked');
+      if (!checkedBoxes) return;
+      const ids = Array.from(checkedBoxes).map((box) => box.value);
+      if (ids.length === 0 || !window.confirm(`Hapus ${ids.length} langkah terpilih secara bersamaan?`)) return;
+
+      setLoading(true);
+      try {
+        await Promise.all(ids.map(id => fetchJson(`/api/guru/steps/${id}`, { method: 'DELETE' })));
+        await loadSteps();
+      } catch (error) {
+        setError(error.message || 'Gagal menghapus beberapa langkah.');
+      }
     });
 
     root.querySelectorAll('.guru-modal-overlay').forEach((modal) => {

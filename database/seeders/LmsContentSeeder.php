@@ -58,7 +58,7 @@ class LmsContentSeeder extends Seeder
      */
     private function levels(): array
     {
-        return array_map(fn (array $section): array => [
+        return array_map(fn(array $section): array => [
             'code' => $section['name'],
             'name' => $section['description'] ?? $section['name'],
             'created_at' => $section['created_at'],
@@ -142,45 +142,6 @@ class LmsContentSeeder extends Seeder
                 'description' => 'JLPT N1 - Ahli',
                 'created_at' => '2026-04-02 06:54:18.570',
                 'updated_at' => '2026-04-02 06:54:18.570',
-            ],
-        ];
-    }
-
-    /**
-     * @return array<int, array<string, mixed>>
-     */
-    private function units(): array
-    {
-        return [
-            [
-                'id' => 'cmnh4va8f00004s1n8ufw4sc6',
-                'sectionId' => 'cmnh4d3av0000nk1nirwwblji',
-                'title' => 'Hiragana Dasar',
-                'description' => 'Mempelajari huruf Hiragana あ〜ん',
-                'type' => 'hiragana',
-                'order' => 0,
-                'created_at' => '2026-04-02 07:08:26.895',
-                'updated_at' => '2026-04-20 03:13:13.890',
-            ],
-            [
-                'id' => 'cmnh4vaa400014s1nun5bfy4c',
-                'sectionId' => 'cmnh4d3av0000nk1nirwwblji',
-                'title' => 'Katakana Dasar',
-                'description' => 'Mempelajari huruf Katakana ア〜ン',
-                'type' => 'katakana',
-                'order' => 1,
-                'created_at' => '2026-04-02 07:08:26.956',
-                'updated_at' => '2026-04-20 03:13:13.891',
-            ],
-            [
-                'id' => 'cmqoosov9000304jrx3jmb7dn',
-                'sectionId' => 'cmnh4d3av0000nk1nirwwblji',
-                'title' => 'perkenalan tes',
-                'description' => 'ini adalah test1',
-                'type' => 'kanji',
-                'order' => 2,
-                'created_at' => '2026-06-22 03:59:48.453',
-                'updated_at' => '2026-06-22 03:59:48.453',
             ],
         ];
     }

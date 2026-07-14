@@ -56,11 +56,38 @@ class LmsController extends Controller
 
     public function unitNodes(Unit $unit): JsonResponse
     {
+        // Load nodes with progress relationship and order
         $nodes = $unit->nodes()
-            ->withCount('questions')
+            ->with('progress')
+            ->orderBy('order')
             ->get();
 
-        return $this->ok(NodeResource::collection($nodes));
+        $previousCompleted = true;
+        $result = $nodes->map(function ($node) use (&$previousCompleted, $unit) {
+            $completed = $node->progress->isNotEmpty();
+            $unlocked = $previousCompleted;
+            $status = 'locked';
+            if ($unlocked) {
+                $status = $completed ? 'completed' : 'active';
+            }
+            // Build URL for lesson view (same logic as StudentDashboardController)
+            $url = route('lesson.show', [
+                'unit' => $unit->order - 1,
+                'level' => $node->order,
+            ]);
+            $previousCompleted = $completed;
+            return [
+                'id' => $node->id,
+                'title' => $node->title,
+                'type' => $node->type,
+                'order' => $node->order,
+                'status' => $status,
+                'unlocked' => $unlocked,
+                'url' => $url,
+            ];
+        });
+
+        return $this->ok($result);
     }
 
     public function node(Node $node): JsonResponse

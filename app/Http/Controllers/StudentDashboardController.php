@@ -14,16 +14,27 @@ class StudentDashboardController extends Controller
     {
         $user = $request->user();
 
-        $section = Section::query()
-            ->whereHas('units')
-            ->orderByDesc('name')
-            ->first()
-            ?? Section::query()->orderByDesc('name')->first();
+        // Fetch all levels to display in the dropdown selection
+        $levels = \App\Models\Level::query()->orderBy('code')->get();
 
-        if (! $section) {
+        // Get selected level ID from query param, fallback to N5 or first level
+        $selectedLevelId = $request->query('level_id');
+        $level = null;
+
+        if ($selectedLevelId) {
+            $level = \App\Models\Level::query()->find($selectedLevelId);
+        }
+
+        if (!$level) {
+            $level = \App\Models\Level::query()->where('code', 'N5')->first() 
+                ?? \App\Models\Level::query()->orderBy('code')->first();
+        }
+
+        if (!$level) {
             return view('welcome', [
                 'activeMenu' => 'LEARN',
                 'section' => null,
+                'levels' => collect(),
                 'units' => collect(),
                 'currentUnit' => null,
                 'steps' => collect(),
@@ -35,20 +46,24 @@ class StudentDashboardController extends Controller
             ]);
         }
 
-        $section->load([
-            'units.nodes.progress' => fn ($query) => $query
+        // Load units matching the level, only active ones, with their node steps progress
+        $levelUnits = $level->units()
+            ->where('is_active', true)
+            ->with(['nodes.progress' => fn ($query) => $query
                 ->where('userId', $user->id)
-                ->where('status', 'completed'),
-        ]);
+                ->where('status', 'completed')
+            ])
+            ->get();
 
-        $units = $this->buildUnits($section->units);
+        $units = $this->buildUnits($levelUnits);
         $currentUnit = $this->findCurrentUnit($units);
         $steps = $currentUnit ? $this->buildSteps($currentUnit) : collect();
         $focusStep = $steps->firstWhere('status', 'active') ?? $steps->firstWhere('status', 'completed');
 
         return view('welcome', [
             'activeMenu' => 'LEARN',
-            'section' => $section,
+            'level' => $level,
+            'levels' => $levels,
             'units' => $units,
             'currentUnit' => $currentUnit,
             'steps' => $steps,
@@ -210,7 +225,138 @@ class StudentDashboardController extends Controller
     {
         return route('lesson.show', [
             'unit' => $unitIndex + 1,
-            'level' => $nodeOrder + 1,
+            'level' => $nodeOrder, // node->order matches level route param
+        ]);
+    }
+
+    public function showLesson(Request $request, $unitOrder, $levelOrder): View
+    {
+        $user = $request->user();
+
+        // Find the unit by its relative position (order)
+        $unit = Unit::query()
+            ->orderBy('order')
+            ->skip(max(0, $unitOrder - 1))
+            ->firstOrFail();
+
+        // Find the node in that unit by order
+        $node = $unit->nodes()
+            ->orderBy('order')
+            ->skip(max(0, $levelOrder - 1))
+            ->firstOrFail();
+
+        // Check unlock restriction: all previous units/nodes must be completed
+        $allUnits = Unit::query()->orderBy('order')->get();
+        $unlocked = true;
+        foreach ($allUnits as $u) {
+            $nodes = $u->nodes()->orderBy('order')->get();
+            foreach ($nodes as $n) {
+                if ($n->id === $node->id) {
+                    break 2;
+                }
+                $progress = $n->progress()->where('userId', $user->id)->where('status', 'completed')->exists();
+                if (!$progress) {
+                    $unlocked = false;
+                    break 2;
+                }
+            }
+        }
+
+        if (!$unlocked) {
+            abort(403, 'Materi ini masih terkunci. Silakan selesaikan materi sebelumnya terlebih dahulu.');
+        }
+
+        // Fetch steps/questions for this node
+        $dbSteps = $node->steps()->orderBy('sort_order')->get();
+        
+        $questions = $dbSteps->map(function ($step) {
+            if ($step->type === 'character') {
+                return [
+                    'type' => 'new-letter',
+                    'letter' => $step->character_symbol,
+                    'reading' => $step->character_pronunciation,
+                ];
+            } elseif ($step->type === 'quiz') {
+                $options = collect($step->quiz_options)->map(function ($opt, $idx) use ($step) {
+                    return [
+                        'id' => $idx + 1,
+                        'text' => $opt,
+                        'sub' => '',
+                        'image' => '',
+                        'correct' => $idx === $step->quiz_correct_index,
+                    ];
+                })->toArray();
+
+                return [
+                    'type' => 'select-image', // maps to choice options screen
+                    'question' => $step->quiz_query,
+                    'instruction' => $step->quiz_instruction,
+                    'answer' => $step->quiz_options[$step->quiz_correct_index] ?? '',
+                    'options' => $options,
+                ];
+            } else {
+                // text type step, fallback or general info
+                return [
+                    'type' => 'new-letter',
+                    'letter' => 'Materi',
+                    'reading' => $step->content,
+                ];
+            }
+        });
+
+        // If no node_steps are found, fallback to questions table if any
+        if ($questions->isEmpty()) {
+            $dbQuestions = $node->questions()->orderBy('order')->get();
+            $questions = $dbQuestions->map(function ($q) {
+                $opts = is_array($q->options) ? $q->options : [];
+                $correctAns = is_array($q->correctAnswer) ? $q->correctAnswer : [];
+                
+                // Map database questions to the layout structure
+                $optionsMapped = collect($opts)->map(function ($opt, $idx) use ($correctAns) {
+                    $val = is_array($opt) ? ($opt['text'] ?? $opt) : $opt;
+                    $isCorrect = false;
+                    if (isset($correctAns['text'])) {
+                        $isCorrect = $val === $correctAns['text'];
+                    } elseif (is_array($correctAns)) {
+                        $isCorrect = in_array($val, $correctAns);
+                    } else {
+                        $isCorrect = $val === $correctAns;
+                    }
+
+                    return [
+                        'id' => $idx + 1,
+                        'text' => $val,
+                        'sub' => is_array($opt) ? ($opt['sub'] ?? '') : '',
+                        'image' => is_array($opt) ? ($opt['image'] ?? '') : '',
+                        'correct' => $isCorrect,
+                    ];
+                })->toArray();
+
+                $ansText = '';
+                if (isset($correctAns['text'])) {
+                    $ansText = $correctAns['text'];
+                } elseif (is_array($correctAns)) {
+                    $ansText = implode(', ', $correctAns);
+                } else {
+                    $ansText = (string)$correctAns;
+                }
+
+                return [
+                    'type' => $q->type === 'drag-drop' ? 'translate-to-ja' : 'select-image',
+                    'question' => $q->question,
+                    'answer' => $ansText,
+                    'options' => $optionsMapped,
+                    'correctIds' => [1], // fallback template correct target
+                ];
+            });
+        }
+
+        return view('lesson-ui', [
+            'unitOrder' => $unitOrder,
+            'levelOrder' => $levelOrder,
+            'node' => $node,
+            'questions' => $questions,
+            'levelId' => $unit->level_id,
         ]);
     }
 }
