@@ -32,9 +32,7 @@
             <a href="{{ route('guru.dashboard') }}"><span class="material-symbols-outlined">home</span>Dashboard</a>
             <a href="{{ route('guru.units.index') }}"><span class="material-symbols-outlined">category</span>Unit Pembelajaran</a>
             <a href="{{ route('guru.stories.index') }}" class="active"><span class="material-symbols-outlined">menu_book</span>Kelola Cerita<i></i></a>
-            @if ($isAdmin)
-                <a href="{{ route('admin.student-accounts.index') }}"><span class="material-symbols-outlined">person_add</span>Generate Akun</a>
-            @endif
+            @include('partials.admin-account-nav')
         </nav>
 
         <div class="guru-back">

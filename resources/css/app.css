@@ -6218,6 +6218,50 @@ body {
   font-weight: 700;
 }
 
+.guru-nav-group {
+  display: grid;
+  gap: 4px;
+}
+
+.guru-nav-group__label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  color: #4b5563;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.guru-nav-group__label.active {
+  color: #9d396f;
+}
+
+.guru-nav-group__chevron {
+  margin-left: auto;
+  font-size: 18px;
+}
+
+.guru-nav-children {
+  display: grid;
+  gap: 2px;
+  margin-left: 20px;
+  padding-left: 10px;
+  border-left: 2px solid rgba(157, 57, 111, 0.14);
+}
+
+.guru-nav .guru-nav-children a {
+  gap: 8px;
+  padding: 8px 10px;
+  font-size: 12px;
+}
+
+.guru-nav .guru-nav-children .material-symbols-outlined {
+  font-size: 18px;
+}
+
 .guru-nav a i {
   width: 6px;
   height: 6px;
@@ -6529,6 +6573,18 @@ body {
   font-weight: 700;
 }
 
+.guru-admin-success {
+  width: min(100%, 1180px);
+  margin: 0 auto 18px;
+  padding: 13px 15px;
+  border: 1px solid rgba(5, 150, 105, 0.25);
+  border-radius: 10px;
+  background: #ecfdf5;
+  color: #065f46;
+  font-size: 14px;
+  font-weight: 700;
+}
+
 .guru-admin-panel--summary {
   min-height: 100%;
 }
@@ -6568,6 +6624,46 @@ body {
 .guru-admin-results {
   margin-top: 22px;
   padding: 22px;
+}
+
+.guru-admin-results--list {
+  margin-top: 0;
+}
+
+.guru-account-tabs {
+  width: min(100%, 1180px);
+  margin: 0 auto 18px;
+  padding: 5px;
+  display: inline-flex;
+  gap: 5px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 8px 22px rgba(17, 24, 39, 0.04);
+}
+
+.guru-account-tabs a {
+  min-width: 132px;
+  padding: 9px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 8px;
+  color: #6b7280;
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.guru-account-tabs a.active {
+  background: linear-gradient(135deg, #fb85bf, #9d396f);
+  color: #fff;
+  box-shadow: 0 7px 16px rgba(157, 57, 111, 0.2);
+}
+
+.guru-account-tabs .material-symbols-outlined {
+  font-size: 19px;
 }
 
 .guru-admin-results__head {
@@ -6625,6 +6721,57 @@ body {
   color: #77174f;
   font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
   font-size: 13px;
+}
+
+.guru-admin-table th.guru-admin-table__action,
+.guru-admin-table td.guru-admin-table__action {
+  text-align: right;
+}
+
+.guru-admin-table__action form {
+  display: inline-block;
+}
+
+.guru-admin-reset-button {
+  min-height: 36px;
+  padding: 7px 10px;
+  font-size: 12px;
+}
+
+.guru-admin-reset-button .material-symbols-outlined {
+  font-size: 17px;
+}
+
+.guru-admin-table td.guru-admin-table__empty {
+  padding: 32px 12px;
+  color: #6b7280;
+  text-align: center;
+}
+
+.guru-admin-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 18px;
+  color: #6b7280;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.guru-admin-pagination a,
+.guru-admin-pagination .disabled {
+  padding: 8px 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 9px;
+  background: #fff;
+  color: #9d396f;
+  text-decoration: none;
+}
+
+.guru-admin-pagination .disabled {
+  color: #9ca3af;
+  background: #f9fafb;
 }
 
 .guru-units-main {

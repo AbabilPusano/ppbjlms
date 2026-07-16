@@ -32,9 +32,7 @@
         <nav class="guru-nav" aria-label="Navigasi guru">
             <a href="{{ route('guru.dashboard') }}" class="active"><span class="material-symbols-outlined">home</span>Dashboard<i></i></a>
             <a href="{{ route('guru.units.index') }}"><span class="material-symbols-outlined">category</span>Unit Pembelajaran</a>
-            @if ($isAdmin)
-                <a href="{{ route('admin.student-accounts.index') }}"><span class="material-symbols-outlined">person_add</span>Generate Akun</a>
-            @endif
+            @include('partials.admin-account-nav')
             <a href="#" data-ui-only><span class="material-symbols-outlined">checklist</span>Penilaian</a>
             <a href="#" data-ui-only><span class="material-symbols-outlined">settings</span>Pengaturan</a>
         </nav>
@@ -72,7 +70,7 @@
             @if ($isAdmin)
                 <a href="{{ route('admin.student-accounts.index') }}" class="guru-card guru-card--white guru-card--wide">
                     <span class="material-symbols-outlined">person_add</span>
-                    <div><h3>Generate Akun Siswa</h3><p>Buat akun login siswa secara cepat dengan username dan password otomatis.</p></div>
+                    <div><h3>Kelola Akun</h3><p>Generate akun siswa atau guru dan reset password siswa.</p></div>
                 </a>
             @endif
         </div>

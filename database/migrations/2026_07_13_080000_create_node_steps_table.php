@@ -4,7 +4,6 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Str;
 
 return new class extends Migration
 {
@@ -14,9 +13,9 @@ return new class extends Migration
     public function up(): void
     {
         // 1. Re-seed static levels including "Huruf" at the beginning
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        Schema::disableForeignKeyConstraints();
         DB::table('levels')->truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        Schema::enableForeignKeyConstraints();
 
         $levels = [
             ['id' => 1, 'code' => 'huruf', 'name' => 'Huruf'],
@@ -39,20 +38,20 @@ return new class extends Migration
             $table->string('id', 191)->primary();
             $table->string('node_id', 191);
             $table->string('type', 50); // "text" | "character" | "quiz"
-            
+
             // Text step type content
             $table->text('content')->nullable();
-            
+
             // Character step type contents
             $table->string('character_symbol', 191)->nullable();
             $table->string('character_pronunciation', 191)->nullable();
-            
+
             // Quiz step type contents
             $table->string('quiz_instruction', 191)->nullable();
             $table->string('quiz_query', 191)->nullable();
             $table->json('quiz_options')->nullable();
             $table->integer('quiz_correct_index')->nullable();
-            
+
             $table->integer('sort_order')->default(0);
             $table->timestamps(3);
 

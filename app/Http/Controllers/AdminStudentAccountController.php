@@ -36,7 +36,7 @@ class AdminStudentAccountController extends Controller
 
         for ($index = 0; $index < $validated['count']; $index++) {
             $username = $this->nextAvailableUsername($prefix, $nextNumber);
-            $password = Str::random(10);
+            $password = $username;
 
             User::create([
                 'name' => 'Siswa '.strtoupper($username),
