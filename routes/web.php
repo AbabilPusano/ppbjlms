@@ -1,11 +1,13 @@
 <?php
 
-use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminStudentAccountController;
+use App\Http\Controllers\AdminStudentManagementController;
+use App\Http\Controllers\AdminTeacherAccountController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GuruMaterialApiController;
+use App\Http\Controllers\GuruStepApiController;
 use App\Http\Controllers\GuruStoryController;
 use App\Http\Controllers\GuruUnitApiController;
-use App\Http\Controllers\GuruStepApiController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentDashboardController;
 use App\Http\Controllers\StudentStoryController;
@@ -34,9 +36,16 @@ Route::view('/guru/dashboard', 'guru-dashboard-ui')
     ->middleware(['auth', 'role:guru,admin'])
     ->name('guru.dashboard');
 
-Route::middleware(['auth', 'role:admin'])->group(function (): void {
+Route::middleware(['auth', 'role:guru,admin'])->group(function (): void {
     Route::get('/guru/student-accounts', [AdminStudentAccountController::class, 'index'])->name('admin.student-accounts.index');
     Route::post('/guru/student-accounts', [AdminStudentAccountController::class, 'store'])->name('admin.student-accounts.store');
+});
+
+Route::middleware(['auth', 'role:admin'])->group(function (): void {
+    Route::get('/guru/teacher-accounts', [AdminTeacherAccountController::class, 'index'])->name('admin.teacher-accounts.index');
+    Route::post('/guru/teacher-accounts', [AdminTeacherAccountController::class, 'store'])->name('admin.teacher-accounts.store');
+    Route::get('/guru/students', [AdminStudentManagementController::class, 'index'])->name('admin.students.index');
+    Route::patch('/guru/accounts/{account}/reset-password', [AdminStudentManagementController::class, 'resetPassword'])->name('admin.accounts.reset-password');
 });
 
 Route::middleware(['auth', 'role:guru,admin'])->group(function (): void {

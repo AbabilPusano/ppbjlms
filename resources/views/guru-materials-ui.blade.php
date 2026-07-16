@@ -32,6 +32,7 @@
         <nav class="guru-nav" aria-label="Navigasi guru">
             <a href="{{ route('guru.dashboard') }}"><span class="material-symbols-outlined">home</span>Dashboard</a>
             <a href="{{ route('guru.units.index') }}" class="active"><span class="material-symbols-outlined">category</span>Unit Pembelajaran<i></i></a>
+            @include('partials.admin-account-nav')
             <a href="#" data-ui-only><span class="material-symbols-outlined">groups</span>Siswa</a>
             <a href="#" data-ui-only><span class="material-symbols-outlined">fact_check</span>Penilaian</a>
             <a href="#" data-ui-only><span class="material-symbols-outlined">settings</span>Pengaturan</a>

@@ -3,6 +3,7 @@
 @section('body')
 @php($currentUser = auth()->user())
 @php($generatedAccounts = session('generated_accounts', []))
+@php($currentRoleLabel = $currentUser?->role === 'admin' ? 'Admin' : 'Guru')
 
 <div class="guru-shell">
     <header class="guru-topbar">
@@ -14,10 +15,10 @@
         </div>
         <div class="guru-user">
             <div>
-                <p>{{ $currentUser?->name ?? 'Admin' }}</p>
-                <span>Admin</span>
+                <p>{{ $currentUser?->name ?? $currentRoleLabel }}</p>
+                <span>{{ $currentRoleLabel }}</span>
             </div>
-            <strong>{{ strtoupper(substr($currentUser?->name ?? 'Admin', 0, 1)) }}</strong>
+            <strong>{{ strtoupper(substr($currentUser?->name ?? $currentRoleLabel, 0, 1)) }}</strong>
         </div>
     </header>
 
@@ -28,10 +29,10 @@
         </div>
 
         <p class="guru-menu-label">Menu Utama</p>
-        <nav class="guru-nav" aria-label="Navigasi admin">
+        <nav class="guru-nav" aria-label="Navigasi {{ strtolower($currentRoleLabel) }}">
             <a href="{{ route('guru.dashboard') }}"><span class="material-symbols-outlined">home</span>Dashboard</a>
             <a href="{{ route('guru.units.index') }}"><span class="material-symbols-outlined">category</span>Unit Pembelajaran</a>
-            <a href="{{ route('admin.student-accounts.index') }}" class="active"><span class="material-symbols-outlined">person_add</span>Generate Akun<i></i></a>
+            @include('partials.admin-account-nav')
             <a href="#" data-ui-only><span class="material-symbols-outlined">checklist</span>Penilaian</a>
             <a href="#" data-ui-only><span class="material-symbols-outlined">settings</span>Pengaturan</a>
         </nav>
@@ -45,7 +46,7 @@
         <div class="guru-heading guru-units-heading">
             <div>
                 <h1>GENERATE AKUN SISWA</h1>
-                <p>Buat akun siswa baru. Halaman ini hanya bisa diakses role admin.</p>
+                <p>Buat akun siswa baru. Fitur ini tersedia untuk guru dan admin.</p>
             </div>
         </div>
 
@@ -57,6 +58,7 @@
                     <div>
                         <h2>Batch akun baru</h2>
                         <p>Username dibuat berurutan dari prefix, role selalu siswa.</p>
+                        <p>Password awal sama dengan username dan dapat diganti siswa melalui profil.</p>
                     </div>
                 </div>
 
@@ -109,6 +111,7 @@
                     <div>
                         <span class="ds-section-eyebrow">Berhasil dibuat</span>
                         <h2>Credential siswa baru</h2>
+                        <p>Password awal setiap akun sama dengan username.</p>
                     </div>
                     <span>{{ count($generatedAccounts) }} akun</span>
                 </div>
