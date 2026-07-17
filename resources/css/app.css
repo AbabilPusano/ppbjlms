@@ -326,6 +326,46 @@
   line-height: 1.5;
 }
 
+.login-reset-password,
+.login-contact-admin {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.4;
+  text-decoration: none;
+  transition: border-color 160ms ease, background 160ms ease, color 160ms ease;
+}
+
+.login-reset-password {
+  width: 100%;
+  min-height: 46px;
+  margin-top: 10px;
+  padding: 10px 14px;
+  border: 1px solid rgba(180, 70, 53, 0.24);
+  background: #fff;
+  color: #8b382b;
+}
+
+.login-reset-password:hover {
+  border-color: rgba(180, 70, 53, 0.48);
+  background: #fff7f5;
+}
+
+.login-reset-password:focus-visible,
+.login-contact-admin:focus-visible {
+  outline: 3px solid rgba(251, 133, 191, 0.3);
+  outline-offset: 2px;
+}
+
+.login-reset-password .material-symbols-outlined,
+.login-contact-admin .material-symbols-outlined {
+  font-size: 20px;
+}
+
 .login-field label {
   display: block;
   margin-bottom: 8px;
@@ -407,6 +447,21 @@
 .login-help {
   margin: 16px 0 0;
   font-size: 13px;
+}
+
+.login-help p {
+  margin: 0;
+}
+
+.login-contact-admin {
+  min-height: 42px;
+  padding: 8px 12px;
+  color: var(--haven-coral-dark);
+}
+
+.login-contact-admin:hover {
+  background: var(--haven-mint);
+  color: #7d2859;
 }
 
 @media (max-width: 1060px) {

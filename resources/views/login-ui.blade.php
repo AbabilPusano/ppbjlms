@@ -14,6 +14,18 @@
                 <div class="login-error" role="alert">
                     {{ $errors->first() }}
                 </div>
+
+                @if ($passwordResetWhatsAppUrl)
+                    <a
+                        class="login-reset-password"
+                        href="{{ $passwordResetWhatsAppUrl }}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <span class="material-symbols-outlined" aria-hidden="true">lock_reset</span>
+                        <span>Lupa Password? Konfirmasi Admin</span>
+                    </a>
+                @endif
             @endif
 
             <form class="login-form" action="{{ route('login.store') }}" method="post">
@@ -39,9 +51,21 @@
                 </button>
             </form>
 
-            <p class="login-help">
-                Hubungi administrator jika akun tidak dapat digunakan.
-            </p>
+            <div class="login-help">
+                @if ($adminWhatsAppUrl)
+                    <a
+                        class="login-contact-admin"
+                        href="{{ $adminWhatsAppUrl }}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <span class="material-symbols-outlined" aria-hidden="true">chat</span>
+                        <span>Hubungi Admin</span>
+                    </a>
+                @else
+                    <p>Kontak administrator belum dikonfigurasi.</p>
+                @endif
+            </div>
         </div>
     </section>
 </main>

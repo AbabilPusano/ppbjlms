@@ -20,6 +20,7 @@
 /public/storage
 /storage/*.key
 /storage/pail
+/soul.md
 /vendor
 _ide_helper.php
 Homestead.json

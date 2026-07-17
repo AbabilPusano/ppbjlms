@@ -11,7 +11,7 @@
             <span class="material-symbols-outlined" aria-hidden="true">menu</span>
         </button>
         <div><p>Kelola Password Akun</p></div>
-        <div class="guru-user">
+        <div class="guru-user ">
             <div><p>{{ $currentUser?->name ?? 'Admin' }}</p><span>Admin</span></div>
             <strong>{{ strtoupper(substr($currentUser?->name ?? 'Admin', 0, 1)) }}</strong>
         </div>

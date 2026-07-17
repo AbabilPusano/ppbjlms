@@ -15,7 +15,16 @@ class AuthController extends Controller
             return $this->redirectByRole($request);
         }
 
-        return view('login-ui');
+        $adminWhatsAppUrl = $this->adminWhatsAppUrl();
+        $failedUsername = trim((string) $request->old('username'));
+        $passwordResetWhatsAppUrl = null;
+
+        if ($adminWhatsAppUrl && $request->session()->get('login_failed') && $failedUsername !== '') {
+            $message = "Halo Admin, saya ingin mereset password saya. Username saya adalah {$failedUsername}.";
+            $passwordResetWhatsAppUrl = $adminWhatsAppUrl.'?text='.rawurlencode($message);
+        }
+
+        return view('login-ui', compact('adminWhatsAppUrl', 'passwordResetWhatsAppUrl'));
     }
 
     public function login(Request $request): RedirectResponse
@@ -28,6 +37,7 @@ class AuthController extends Controller
         if (! Auth::attempt($credentials)) {
             return back()
                 ->withErrors(['username' => 'Username atau password tidak valid.'])
+                ->with('login_failed', true)
                 ->onlyInput('username');
         }
 
@@ -54,5 +64,20 @@ class AuthController extends Controller
             'siswa' => redirect()->route('student.dashboard'),
             default => redirect()->route('login'),
         };
+    }
+
+    private function adminWhatsAppUrl(): ?string
+    {
+        $number = preg_replace('/\D+/', '', (string) config('services.whatsapp.admin_number'));
+
+        if (! $number) {
+            return null;
+        }
+
+        if (str_starts_with($number, '0')) {
+            $number = '62'.substr($number, 1);
+        }
+
+        return 'https://wa.me/'.$number;
     }
 }

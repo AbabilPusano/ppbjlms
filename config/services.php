@@ -39,4 +39,8 @@ return [
         'key' => env('GEMINI_API_KEY'),
     ],
 
+    'whatsapp' => [
+        'admin_number' => env('ADMIN_WHATSAPP_NUMBER'),
+    ],
+
 ];
