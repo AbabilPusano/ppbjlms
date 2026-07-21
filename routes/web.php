@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminStudentManagementController;
 use App\Http\Controllers\AdminTeacherAccountController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GuruMaterialApiController;
+use App\Http\Controllers\GuruMaterialPreviewController;
 use App\Http\Controllers\GuruStepApiController;
 use App\Http\Controllers\GuruStoryController;
 use App\Http\Controllers\GuruUnitApiController;
@@ -69,6 +70,7 @@ Route::middleware(['auth', 'role:guru,admin'])->group(function (): void {
     Route::view('/guru/units', 'guru-units-ui')->name('guru.units.index');
     Route::redirect('/guru/materi', '/guru/units')->name('guru.materi.redirect');
     Route::get('/guru/units/{unit}/materials', [GuruUnitApiController::class, 'manageMaterials'])->name('guru.units.materials');
+    Route::get('/guru/materials/{material}/preview', GuruMaterialPreviewController::class)->name('guru.materials.preview');
     Route::get('/guru/materials/import-template', [GuruMaterialApiController::class, 'downloadTemplate'])->name('guru.materials.import-template');
     Route::get('/guru/steps/import-template', [GuruStepApiController::class, 'downloadTemplate'])->name('guru.steps.import-template');
     Route::view('/guru/materi/{material}/questions', 'guru-questions-ui')->name('guru.materials.questions');

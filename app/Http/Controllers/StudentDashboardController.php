@@ -4,12 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\Section;
 use App\Models\Unit;
+use App\Services\LessonContentBuilder;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
 class StudentDashboardController extends Controller
 {
+    public function __construct(private readonly LessonContentBuilder $lessonContentBuilder)
+    {
+    }
+
     public function __invoke(Request $request): View
     {
         $user = $request->user();
@@ -270,90 +275,7 @@ class StudentDashboardController extends Controller
             abort(403, 'Materi ini masih terkunci. Silakan selesaikan materi sebelumnya terlebih dahulu.');
         }
 
-        // Fetch steps/questions for this node
-        $dbSteps = $node->steps()->orderBy('sort_order')->get();
-        
-        $questions = $dbSteps->map(function ($step) {
-            if ($step->type === 'character') {
-                return [
-                    'type' => 'new-letter',
-                    'letter' => $step->character_symbol,
-                    'reading' => $step->character_pronunciation,
-                ];
-            } elseif ($step->type === 'quiz') {
-                $options = collect($step->quiz_options)->map(function ($opt, $idx) use ($step) {
-                    return [
-                        'id' => $idx + 1,
-                        'text' => $opt,
-                        'sub' => '',
-                        'image' => '',
-                        'correct' => $idx === $step->quiz_correct_index,
-                    ];
-                })->toArray();
-
-                return [
-                    'type' => 'select-image', // maps to choice options screen
-                    'question' => $step->quiz_query,
-                    'instruction' => $step->quiz_instruction,
-                    'answer' => $step->quiz_options[$step->quiz_correct_index] ?? '',
-                    'options' => $options,
-                ];
-            } else {
-                // text type step, fallback or general info
-                return [
-                    'type' => 'new-letter',
-                    'letter' => 'Materi',
-                    'reading' => $step->content,
-                ];
-            }
-        });
-
-        // If no node_steps are found, fallback to questions table if any
-        if ($questions->isEmpty()) {
-            $dbQuestions = $node->questions()->orderBy('order')->get();
-            $questions = $dbQuestions->map(function ($q) {
-                $opts = is_array($q->options) ? $q->options : [];
-                $correctAns = is_array($q->correctAnswer) ? $q->correctAnswer : [];
-                
-                // Map database questions to the layout structure
-                $optionsMapped = collect($opts)->map(function ($opt, $idx) use ($correctAns) {
-                    $val = is_array($opt) ? ($opt['text'] ?? $opt) : $opt;
-                    $isCorrect = false;
-                    if (isset($correctAns['text'])) {
-                        $isCorrect = $val === $correctAns['text'];
-                    } elseif (is_array($correctAns)) {
-                        $isCorrect = in_array($val, $correctAns);
-                    } else {
-                        $isCorrect = $val === $correctAns;
-                    }
-
-                    return [
-                        'id' => $idx + 1,
-                        'text' => $val,
-                        'sub' => is_array($opt) ? ($opt['sub'] ?? '') : '',
-                        'image' => is_array($opt) ? ($opt['image'] ?? '') : '',
-                        'correct' => $isCorrect,
-                    ];
-                })->toArray();
-
-                $ansText = '';
-                if (isset($correctAns['text'])) {
-                    $ansText = $correctAns['text'];
-                } elseif (is_array($correctAns)) {
-                    $ansText = implode(', ', $correctAns);
-                } else {
-                    $ansText = (string)$correctAns;
-                }
-
-                return [
-                    'type' => $q->type === 'drag-drop' ? 'translate-to-ja' : 'select-image',
-                    'question' => $q->question,
-                    'answer' => $ansText,
-                    'options' => $optionsMapped,
-                    'correctIds' => [1], // fallback template correct target
-                ];
-            });
-        }
+        $questions = $this->lessonContentBuilder->build($node);
 
         return view('lesson-ui', [
             'unitOrder' => $unitOrder,
