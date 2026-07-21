@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Level;
 use App\Models\Node;
 use App\Models\Section;
 use App\Models\Unit;
@@ -31,6 +32,7 @@ class StudentDashboardTest extends TestCase
     {
         $user = User::factory()->create();
         $otherUser = User::factory()->create();
+        $level = Level::create(['code' => 'N5', 'name' => 'JLPT N5 - Pemula']);
         $section = Section::create([
             'id' => 'n5',
             'name' => 'N5',
@@ -40,19 +42,23 @@ class StudentDashboardTest extends TestCase
         $firstUnit = Unit::create([
             'id' => 'hiragana',
             'sectionId' => $section->id,
+            'level_id' => $level->id,
             'title' => 'Hiragana Dasar',
             'description' => 'Mempelajari huruf Hiragana',
             'type' => 'hiragana',
             'order' => 0,
+            'is_active' => true,
         ]);
 
         $secondUnit = Unit::create([
             'id' => 'katakana',
             'sectionId' => $section->id,
+            'level_id' => $level->id,
             'title' => 'Katakana Dasar',
             'description' => 'Mempelajari huruf Katakana',
             'type' => 'katakana',
             'order' => 1,
+            'is_active' => true,
         ]);
 
         $firstNode = Node::create([

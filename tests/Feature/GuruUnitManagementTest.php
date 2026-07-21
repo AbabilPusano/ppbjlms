@@ -22,9 +22,9 @@ class GuruUnitManagementTest extends TestCase
             ->assertOk()
             ->assertSee('KELOLA UNIT')
             ->assertSee('TAMBAH UNIT')
-            ->assertSee('TAMBAH ISI UNIT')
+            ->assertSee('Tambah Isi Unit')
             ->assertSee('Isi unit')
-            ->assertSee('PILIH LEVEL')
+            ->assertSee('Pilih Level')
             ->assertDontSee('Modal dummy');
     }
 
@@ -40,7 +40,7 @@ class GuruUnitManagementTest extends TestCase
             ->get('/guru/units')
             ->assertOk()
             ->assertSee('KELOLA UNIT PEMBELAJARAN')
-            ->assertSee('TAMBAH ISI UNIT')
+            ->assertSee('Tambah Isi Unit')
             ->assertSee('Unit Induk')
             ->assertDontSee('Tambah Node')
             ->assertDontSee('Parent Node')

@@ -3,15 +3,25 @@
 @section('body')
 <main class="login-page">
     <section class="login-form-area" aria-label="Form login">
+
+        {{-- Brand mark --}}
+        <div class="login-brand-mark">
+            <div class="login-logo">P</div>
+            <div>
+                <strong>LMS PPBJ</strong>
+                <span>Platform Pembelajaran Bahasa Jepang</span>
+            </div>
+        </div>
+
         <div class="login-form-card">
             <div class="login-form-head">
-                <span>Selamat datang kembali</span>
-                <h2>Login</h2>
-                <p>Masukkan username dan password akun Anda.</p>
+                <h2>Selamat datang</h2>
+                <p>Masukkan username dan password akun Anda untuk melanjutkan.</p>
             </div>
 
             @if ($errors->any())
                 <div class="login-error" role="alert">
+                    <span class="material-symbols-outlined" aria-hidden="true">error</span>
                     {{ $errors->first() }}
                 </div>
 
@@ -31,14 +41,20 @@
             <form class="login-form" action="{{ route('login.store') }}" method="post">
                 @csrf
                 <div class="login-field">
-                    <label for="username">Username</label>
-                    <input id="username" name="username" type="text" value="{{ old('username') }}" placeholder="contoh: siswa" autocomplete="username" required autofocus>
+                    <label for="username">
+                        <span class="material-symbols-outlined" aria-hidden="true">person</span>
+                        Username
+                    </label>
+                    <input id="username" name="username" type="text" value="{{ old('username') }}" placeholder="contoh: siswa01" autocomplete="username" required autofocus>
                 </div>
 
                 <div class="login-field">
-                    <label for="password">Password</label>
+                    <label for="password">
+                        <span class="material-symbols-outlined" aria-hidden="true">lock</span>
+                        Password
+                    </label>
                     <div class="login-password">
-                        <input id="password" name="password" type="password" placeholder="masukkan password" autocomplete="current-password" required>
+                        <input id="password" name="password" type="password" placeholder="••••••••" autocomplete="current-password" required>
                         <button type="button" data-toggle-password aria-label="Tampilkan password">
                             <span class="material-symbols-outlined" aria-hidden="true">visibility</span>
                         </button>
@@ -67,6 +83,7 @@
                 @endif
             </div>
         </div>
+
     </section>
 </main>
 @endsection

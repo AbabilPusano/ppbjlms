@@ -12,28 +12,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // 1. Re-seed static levels including "Huruf" at the beginning
-        Schema::disableForeignKeyConstraints();
-        DB::table('levels')->truncate();
-        Schema::enableForeignKeyConstraints();
-
-        $levels = [
-            ['id' => 1, 'code' => 'huruf', 'name' => 'Huruf'],
-            ['id' => 2, 'code' => 'N5', 'name' => 'Level N5'],
-            ['id' => 3, 'code' => 'N4', 'name' => 'Level N4'],
-            ['id' => 4, 'code' => 'N3', 'name' => 'Level N3'],
-            ['id' => 5, 'code' => 'N2', 'name' => 'Level N2'],
-            ['id' => 6, 'code' => 'N1', 'name' => 'Level N1'],
-        ];
-
-        foreach ($levels as $level) {
-            DB::table('levels')->insert(array_merge($level, [
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]));
-        }
-
-        // 2. Create node_steps table
+        // Create node_steps table
         Schema::create('node_steps', function (Blueprint $table) {
             $table->string('id', 191)->primary();
             $table->string('node_id', 191);

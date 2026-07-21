@@ -3,7 +3,7 @@
 @section('body')
 @php
     $activeMenu = 'LETTERS';
-    $sets = [
+    $allSets = [
         'HIRAGANA' => [
             'label' => 'Hiragana',
             'helper' => 'huruf dasar',
@@ -147,6 +147,24 @@
             ]
         ],
     ];
+
+    $isHuruf = ($level && $level->code === 'huruf');
+    $sets = [];
+    if ($isHuruf) {
+        $sets['HIRAGANA'] = $allSets['HIRAGANA'];
+        $sets['KATAKANA'] = $allSets['KATAKANA'];
+    } else {
+        $jlptCode = $level ? $level->code : 'N5';
+        if ($jlptCode === 'N5') {
+            $sets['KANJI'] = $allSets['KANJI'];
+        } else {
+            $sets['KANJI'] = [
+                'label' => 'Kanji ' . $jlptCode,
+                'helper' => 'Kanji JLPT ' . $jlptCode,
+                'groups' => []
+            ];
+        }
+    }
 @endphp
 
 <div class="app-container">
@@ -156,40 +174,74 @@
         <section class="learning-shell letters-shell">
             <header class="learning-hero letters-hero">
                 <div class="learning-hero__copy">
-                    <span class="learning-hero__eyebrow">Ruang huruf Jepang</span>
+                    <span class="learning-hero__eyebrow">
+                        @if($level && $level->code === 'huruf')
+                            Huruf Jepang — Hiragana &amp; Katakana
+                        @elseif($level)
+                            Kanji Level {{ $level->code }}
+                        @else
+                            Ruang huruf Jepang
+                        @endif
+                    </span>
                     <h1>Pengenalan Huruf Jepang</h1>
                     <p>
                         Kenali bentuk huruf dan cara bacanya di sini. Silakan pilih set huruf yang ingin kamu pelajari.
                     </p>
                 </div>
                 <div class="learning-hero__meta">
-                    <div class="learning-stat-card letters-stat-card">
-                        <span class="learning-stat-card__label">Set aktif</span>
-                        <strong id="letters-active-set" class="letters-stat-text">Hiragana</strong>
-                    </div>
-                    <div class="learning-stat-card letters-stat-card">
-                        <span class="learning-stat-card__label">Huruf tampil</span>
-                        @php
-                            $firstKey = array_key_first($sets);
-                            $initialCount = 0;
+                    @php
+                        $firstKey = array_key_first($sets);
+                        $initialCount = 0;
+                        if ($firstKey !== null) {
                             foreach ($sets[$firstKey]['groups'] as $group) {
                                 $initialCount += count(array_filter($group['letters']));
                             }
-                        @endphp
+                        }
+                    @endphp
+                    <div class="learning-stat-card letters-stat-card">
+                        <span class="learning-stat-card__label">Set aktif</span>
+                        <strong id="letters-active-set" class="letters-stat-text">
+                            {{ $firstKey !== null ? $sets[$firstKey]['label'] : '-' }}
+                        </strong>
+                    </div>
+                    <div class="learning-stat-card letters-stat-card">
+                        <span class="learning-stat-card__label">Huruf tampil</span>
                         <strong id="letters-count">{{ $initialCount }}</strong>
                     </div>
                 </div>
             </header>
 
             <section class="letters-board">
-                <div class="section-heading">
+                <div class="section-heading"
+                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 16px;">
                     <div>
                         <span class="ds-section-eyebrow">Pilih set huruf</span>
-                        <h2 class="section-heading__title">Referensi Huruf</h2>
+                        <h2 class="section-heading__title" style="margin: 4px 0 0;">Referensi Huruf</h2>
+                        <p class="section-heading__desc" style="margin: 4px 0 0;">
+                            Klik kartu huruf untuk melihat detail cara baca dan penulisannya.
+                        </p>
                     </div>
-                    <p class="section-heading__desc">
-                        Klik kartu huruf untuk melihat detail cara baca dan penulisannya.
-                    </p>
+                    <div class="level-selector-container" style="display: flex; align-items: center; gap: 8px;">
+                        <span style="font-size: 0.9rem; font-weight: 700; color: var(--text-muted);">Level Aktif:</span>
+                        <div class="guru-level-select-wrapper"
+                            style="position: relative; display: inline-flex; align-items: center; background: var(--card-bg); border: 2px solid var(--border); border-radius: 12px; padding: 4px 12px;">
+                            <span class="material-symbols-outlined"
+                                style="font-size: 18px; color: var(--text-muted); margin-right: 6px;">tune</span>
+                            <select class="guru-level-select"
+                                onchange="window.location.href = '?level_id=' + this.value" aria-label="Pilih Level"
+                                style="border: none; background: transparent; font-weight: 800; color: var(--text); font-size: 0.95rem; cursor: pointer; outline: none; padding-right: 20px;">
+                            @foreach($levels as $lvl)
+                                <option value="{{ $lvl->id }}" {{ $level->id === $lvl->id ? 'selected' : '' }}>
+                                    @if($lvl->code === 'huruf')
+                                        Huruf (Hiragana &amp; Katakana)
+                                    @else
+                                        {{ $lvl->code }} — Kanji {{ $lvl->code }}
+                                    @endif
+                                </option>
+                            @endforeach
+                            </select>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="letters-tabs" role="tablist" aria-label="Pilih jenis huruf">
@@ -227,30 +279,46 @@
                             <span class="letters-card-panel__count">{{ $lettersCount }} huruf</span>
                         </div>
 
-                        @foreach ($set['groups'] as $group)
-                            <div class="letters-group-section" style="margin-top: 28px;">
-                                <h4 class="letters-group-title" style="font-size: 14px; font-weight: 700; color: var(--home-ink); margin-bottom: 12px; border-left: 3px solid var(--home-coral); padding-left: 8px; text-transform: uppercase; letter-spacing: 0.05em;">
-                                    {{ $group['title'] }}
-                                </h4>
-                                <div class="letters-card-grid" role="tabpanel" aria-label="{{ $group['title'] }}">
-                                    @foreach ($group['letters'] as $letter)
-                                        @if ($letter)
-                                            @php $isYoon = mb_strlen($letter[0]) >= 2; @endphp
-                                            <article class="kana-card {{ $isYoon ? 'kana-card--yoon' : '' }}" data-char="{{ $letter[0] }}" data-type="{{ strtolower($key) }}" data-romaji="{{ $letter[1] }}" role="button" tabindex="0" aria-label="Lihat detail {{ $letter[0] }}">
-                                                @if ($isYoon)
-                                                    <span class="kana-card__symbol">
-                                                        <span class="kana-main">{{ mb_substr($letter[0], 0, 1) }}</span><span class="kana-small">{{ mb_substr($letter[0], 1) }}</span>
-                                                    </span>
-                                                @else
-                                                    <span class="kana-card__symbol">{{ $letter[0] }}</span>
-                                                @endif
-                                                <span class="kana-card__romaji">{{ $letter[1] }}</span>
-                                            </article>
-                                        @endif
-                                    @endforeach
-                                </div>
+                        @if (empty($set['groups']))
+                            <div style="padding: 48px 32px; text-align: center; background: var(--card-bg); border: 2px dashed var(--border); border-radius: 20px; margin-top: 24px;">
+                                <div style="font-size: 56px; margin-bottom: 16px; line-height: 1;">漢字</div>
+                                <h4 style="font-size: 1.15rem; font-weight: 800; margin: 0 0 8px; color: var(--text);">Kanji {{ $level->code }} Segera Hadir</h4>
+                                <p style="font-size: 0.9rem; margin: 0 0 20px; color: var(--text-muted); max-width: 320px; margin-inline: auto;">
+                                    Daftar kanji JLPT {{ $level->code }} sedang kami siapkan. Sementara itu, pelajari Hiragana &amp; Katakana di level
+                                    <strong>Huruf</strong>.
+                                </p>
+                                <a href="{{ route('letters.index') }}?level_id={{ \App\Models\Level::where('code','huruf')->value('id') }}"
+                                   style="display: inline-flex; align-items: center; gap: 8px; background: var(--home-coral, #ff6b6b); color: #fff; padding: 10px 20px; border-radius: 12px; font-weight: 700; font-size: 0.9rem; text-decoration: none;">
+                                    <span class="material-symbols-outlined" style="font-size: 18px;">translate</span>
+                                    Buka Level Huruf
+                                </a>
                             </div>
-                        @endforeach
+                        @else
+                            @foreach ($set['groups'] as $group)
+                                <div class="letters-group-section" style="margin-top: 28px;">
+                                    <h4 class="letters-group-title" style="font-size: 14px; font-weight: 700; color: var(--home-ink); margin-bottom: 12px; border-left: 3px solid var(--home-coral); padding-left: 8px; text-transform: uppercase; letter-spacing: 0.05em;">
+                                        {{ $group['title'] }}
+                                    </h4>
+                                    <div class="letters-card-grid" role="tabpanel" aria-label="{{ $group['title'] }}">
+                                        @foreach ($group['letters'] as $letter)
+                                            @if ($letter)
+                                                @php $isYoon = mb_strlen($letter[0]) >= 2; @endphp
+                                                <article class="kana-card {{ $isYoon ? 'kana-card--yoon' : '' }}" data-char="{{ $letter[0] }}" data-type="{{ strtolower($key) }}" data-romaji="{{ $letter[1] }}" role="button" tabindex="0" aria-label="Lihat detail {{ $letter[0] }}">
+                                                    @if ($isYoon)
+                                                        <span class="kana-card__symbol">
+                                                            <span class="kana-main">{{ mb_substr($letter[0], 0, 1) }}</span><span class="kana-small">{{ mb_substr($letter[0], 1) }}</span>
+                                                        </span>
+                                                    @else
+                                                        <span class="kana-card__symbol">{{ $letter[0] }}</span>
+                                                    @endif
+                                                    <span class="kana-card__romaji">{{ $letter[1] }}</span>
+                                                </article>
+                                            @endif
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endforeach
+                        @endif
                     </div>
                 @endforeach
             </section>

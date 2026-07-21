@@ -58,7 +58,11 @@
                                     style="border: none; background: transparent; font-weight: 800; color: var(--text); font-size: 0.95rem; cursor: pointer; outline: none; padding-right: 20px;">
                                     @foreach($levels as $lvl)
                                         <option value="{{ $lvl->id }}" {{ $level->id === $lvl->id ? 'selected' : '' }}>
-                                            {{ $lvl->code }} - {{ $lvl->name }}
+                                            @if($lvl->code === 'huruf')
+                                                Huruf (Hiragana &amp; Katakana)
+                                            @else
+                                                {{ $lvl->code }} &mdash; {{ $lvl->name }}
+                                            @endif
                                         </option>
                                     @endforeach
                                 </select>

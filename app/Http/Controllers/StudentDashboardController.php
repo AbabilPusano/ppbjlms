@@ -14,8 +14,12 @@ class StudentDashboardController extends Controller
     {
         $user = $request->user();
 
-        // Fetch all levels to display in the dropdown selection
-        $levels = \App\Models\Level::query()->orderBy('code')->get();
+        // Fetch all levels: Huruf first, then N5→N1
+        $levels = \App\Models\Level::query()->get()->sortBy(function ($lvl) {
+            if ($lvl->code === 'huruf') return 0;
+            $n = (int) ltrim($lvl->code, 'N');
+            return $n > 0 ? (6 - $n) : 99;
+        })->values();
 
         // Get selected level ID from query param, fallback to N5 or first level
         $selectedLevelId = $request->query('level_id');

@@ -24,7 +24,24 @@ Route::get('/', StudentDashboardController::class)
 Route::middleware(['auth', 'role:siswa,guru,admin'])->group(function (): void {
     Route::get('/stories', [StudentStoryController::class, 'index'])->name('stories.index');
     Route::get('/stories/{story}', [StudentStoryController::class, 'show'])->name('stories.show');
-    Route::view('/letters', 'letters-ui')->name('letters.index');
+    Route::get('/letters', function (\Illuminate\Http\Request $request) {
+        $levels = \App\Models\Level::query()->get()->sortBy(function ($lvl) {
+            if ($lvl->code === 'huruf') return 0;
+            // N5=1, N4=2, N3=3, N2=4, N1=5
+            $n = (int) ltrim($lvl->code, 'N');
+            return $n > 0 ? (6 - $n) : 99;
+        })->values();
+        $selectedLevelId = $request->query('level_id');
+        $level = null;
+        if ($selectedLevelId) {
+            $level = \App\Models\Level::query()->find($selectedLevelId);
+        }
+        if (!$level) {
+            $level = \App\Models\Level::query()->where('code', 'huruf')->first()
+                ?? $levels->first();
+        }
+        return view('letters-ui', compact('levels', 'level'));
+    })->name('letters.index');
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::get('/settings/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/settings/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -50,6 +67,7 @@ Route::middleware(['auth', 'role:admin'])->group(function (): void {
 
 Route::middleware(['auth', 'role:guru,admin'])->group(function (): void {
     Route::view('/guru/units', 'guru-units-ui')->name('guru.units.index');
+    Route::redirect('/guru/materi', '/guru/units')->name('guru.materi.redirect');
     Route::get('/guru/units/{unit}/materials', [GuruUnitApiController::class, 'manageMaterials'])->name('guru.units.materials');
     Route::get('/guru/materials/import-template', [GuruMaterialApiController::class, 'downloadTemplate'])->name('guru.materials.import-template');
     Route::get('/guru/steps/import-template', [GuruStepApiController::class, 'downloadTemplate'])->name('guru.steps.import-template');

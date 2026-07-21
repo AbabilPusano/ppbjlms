@@ -50,22 +50,22 @@
    Adapted from app/login/login.module.css with global class names.
    ============================================================ */
 .login-page {
-  --haven-ink: #243036;
-  --haven-muted: #64737a;
-  --haven-blue: #dfeeff;
-  --haven-mint: #dff4e7;
-  --haven-peach: #ffd9bf;
-  --haven-coral: #e4654e;
-  --haven-coral-dark: #b74635;
-  --haven-line: rgba(36, 48, 54, 0.14);
+  --haven-ink: var(--ink);
+  --haven-muted: var(--muted);
+  --haven-blue: var(--paper-soft);
+  --haven-mint: var(--accent-tint);
+  --haven-peach: rgba(189, 61, 50, 0.1);
+  --haven-coral: var(--accent);
+  --haven-coral-dark: #8a2b22;
+  --haven-line: var(--line);
   min-height: 100vh;
   display: grid;
   grid-template-columns: minmax(0, 1fr) 520px;
   color: var(--haven-ink);
   background:
-    linear-gradient(90deg, rgba(36, 48, 54, 0.035) 1px, transparent 1px),
-    linear-gradient(rgba(36, 48, 54, 0.035) 1px, transparent 1px),
-    linear-gradient(135deg, #f7faf4 0%, #edf6ff 48%, #fff4e9 100%);
+    linear-gradient(90deg, rgba(29, 27, 27, 0.025) 1px, transparent 1px),
+    linear-gradient(rgba(29, 27, 27, 0.025) 1px, transparent 1px),
+    linear-gradient(135deg, #f4f0e8 0%, #ede8de 48%, #f0ebe0 100%);
   background-size: 34px 34px, 34px 34px, auto;
   overflow: hidden;
 }
@@ -151,7 +151,7 @@
   padding: 8px 12px;
   border-radius: 8px;
   background: var(--haven-mint);
-  color: #28604a;
+  color: var(--accent);
   font-size: 12px;
   font-weight: 800;
 }
@@ -284,7 +284,7 @@
   padding: 7px 10px;
   border-radius: 8px;
   background: var(--haven-peach);
-  color: #8f3a2c;
+  color: var(--accent);
   font-size: 12px;
   font-weight: 800;
 }
@@ -341,7 +341,7 @@
   border: 1px solid var(--haven-line);
   border-radius: 8px;
   outline: 0;
-  background: #f9fcff;
+  background: var(--paper);
   color: var(--haven-ink);
   font-family: inherit;
   font-size: 15px;
@@ -349,9 +349,9 @@
 }
 
 .login-field input:focus {
-  border-color: rgba(228, 101, 78, 0.72);
+  border-color: rgba(189, 61, 50, 0.72);
   background: #fff;
-  box-shadow: 0 0 0 4px rgba(228, 101, 78, 0.13);
+  box-shadow: 0 0 0 4px rgba(189, 61, 50, 0.13);
 }
 
 .login-password {
@@ -394,13 +394,13 @@
   font-size: 14px;
   font-weight: 900;
   cursor: pointer;
-  box-shadow: 6px 6px 0 rgba(183, 70, 53, 0.18);
+  box-shadow: 6px 6px 0 rgba(138, 43, 34, 0.2);
   transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
 }
 
 .login-submit:hover {
   background: var(--haven-coral-dark);
-  box-shadow: 4px 4px 0 rgba(183, 70, 53, 0.16);
+  box-shadow: 4px 4px 0 rgba(138, 43, 34, 0.18);
   transform: translate(2px, 2px);
 }
 
