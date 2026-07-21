@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Level;
 use App\Models\Node;
+use App\Models\NodeStep;
 use App\Models\Section;
 use App\Models\Unit;
 use App\Models\User;
@@ -15,6 +16,48 @@ use Tests\TestCase;
 class StudentDashboardTest extends TestCase
 {
     use RefreshDatabase;
+
+    public function test_student_lesson_still_uses_shared_content_and_completion_endpoint(): void
+    {
+        $student = User::factory()->create(['role' => 'siswa']);
+        $level = Level::create(['code' => 'N5', 'name' => 'JLPT N5 - Pemula']);
+        $section = Section::create([
+            'id' => 'n5',
+            'name' => 'N5',
+            'description' => 'JLPT N5 - Pemula',
+        ]);
+        $unit = Unit::create([
+            'id' => 'hiragana',
+            'sectionId' => $section->id,
+            'level_id' => $level->id,
+            'title' => 'Hiragana Dasar',
+            'description' => 'Mempelajari hiragana.',
+            'type' => 'hiragana',
+            'order' => 0,
+            'is_active' => true,
+        ]);
+        $node = Node::create([
+            'id' => 'hiragana-a',
+            'unitId' => $unit->id,
+            'title' => 'Kolom A',
+            'type' => 'lesson',
+            'order' => 0,
+        ]);
+
+        NodeStep::create([
+            'id' => 'student-step',
+            'node_id' => $node->id,
+            'type' => 'text',
+            'content' => 'Konten dari builder bersama.',
+            'sort_order' => 0,
+        ]);
+
+        $this->actingAs($student)
+            ->get(route('lesson.show', ['unit' => 1, 'level' => 1]))
+            ->assertOk()
+            ->assertSee('Konten dari builder bersama.')
+            ->assertSee('data-complete-url="'.route('api.v1.nodes.complete.web', $node).'"', false);
+    }
 
     public function test_dashboard_shows_empty_state_when_learning_content_is_missing(): void
     {

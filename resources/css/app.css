@@ -10329,3 +10329,125 @@ body {
   padding-top: 6px;
   border-top: 1px solid rgba(255, 255, 255, 0.12);
 }
+
+/* Teacher lesson preview */
+.guru-unit-button--preview {
+  border-color: rgba(224, 90, 159, 0.3);
+  background: #fff5fa;
+  color: #9d396f;
+}
+
+.guru-unit-button--preview:hover {
+  border-color: rgba(224, 90, 159, 0.6);
+  background: #fde7f2;
+  color: #7e2859;
+}
+
+.lesson-preview-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 0 12px;
+  border: 1px solid rgba(224, 90, 159, 0.32);
+  border-radius: 999px;
+  background: #fff0f7;
+  color: #8f2f65;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.lesson-preview-badge .material-symbols-outlined {
+  font-size: 18px;
+}
+
+.lesson-empty {
+  width: min(100%, 680px);
+  padding: clamp(28px, 5vw, 48px);
+  border: 1px solid var(--lesson-line);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 10px 10px 0 rgba(36, 48, 54, 0.06);
+  text-align: center;
+}
+
+.lesson-empty__icon {
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 18px;
+  border: 1px solid rgba(224, 90, 159, 0.28);
+  border-radius: 18px;
+  background: #fff0f7;
+  color: #9d396f;
+}
+
+.lesson-empty__icon .material-symbols-outlined {
+  font-size: 36px;
+}
+
+.lesson-empty h1 {
+  margin: 12px auto 14px;
+  color: var(--lesson-ink);
+  font-size: clamp(30px, 5vw, 48px);
+  line-height: 1.05;
+}
+
+.lesson-empty p {
+  max-width: 54ch;
+  margin: 0 auto;
+  color: var(--lesson-muted);
+  line-height: 1.7;
+}
+
+.lesson-empty__actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 28px;
+}
+
+.lesson-empty__back {
+  color: var(--lesson-ink);
+  font-size: 14px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.lesson-empty__back:hover {
+  color: var(--lesson-coral-dark);
+  text-decoration: underline;
+}
+
+@media (max-width: 900px) {
+  .lesson-preview-badge {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .lesson-preview-badge {
+    width: 40px;
+    min-width: 40px;
+    min-height: 40px;
+    padding: 0;
+    overflow: hidden;
+    color: transparent;
+    font-size: 0;
+  }
+
+  .lesson-preview-badge .material-symbols-outlined {
+    color: #8f2f65;
+  }
+
+  .lesson-empty {
+    padding: 26px 20px;
+  }
+}

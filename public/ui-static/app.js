@@ -74,8 +74,79 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  const createDragAutoScroller = ({ edgeSize = 120, maxSpeed = 28 } = {}) => {
+    let active = false;
+    let pointerY = null;
+    let animationFrame = null;
+
+    const scrollSpeed = () => {
+      if (pointerY === null) return 0;
+
+      if (pointerY < edgeSize) {
+        const intensity = Math.min(1, (edgeSize - Math.max(pointerY, 0)) / edgeSize);
+        return -Math.max(2, Math.round(maxSpeed * intensity));
+      }
+
+      const lowerEdge = window.innerHeight - edgeSize;
+      if (pointerY > lowerEdge) {
+        const intensity = Math.min(1, (Math.min(pointerY, window.innerHeight) - lowerEdge) / edgeSize);
+        return Math.max(2, Math.round(maxSpeed * intensity));
+      }
+
+      return 0;
+    };
+
+    const tick = () => {
+      if (!active) {
+        animationFrame = null;
+        return;
+      }
+
+      const speed = scrollSpeed();
+      const scrollingElement = document.scrollingElement || document.documentElement;
+      const maxScrollTop = Math.max(0, scrollingElement.scrollHeight - window.innerHeight);
+      const canScrollUp = speed < 0 && scrollingElement.scrollTop > 0;
+      const canScrollDown = speed > 0 && scrollingElement.scrollTop < maxScrollTop;
+
+      if (canScrollUp || canScrollDown) {
+        window.scrollBy(0, speed);
+      }
+
+      animationFrame = window.requestAnimationFrame(tick);
+    };
+
+    const start = (clientY) => {
+      active = true;
+      pointerY = clientY;
+      if (animationFrame === null) {
+        animationFrame = window.requestAnimationFrame(tick);
+      }
+    };
+
+    const update = (clientY) => {
+      if (active) pointerY = clientY;
+    };
+
+    const stop = () => {
+      active = false;
+      pointerY = null;
+      if (animationFrame !== null) {
+        window.cancelAnimationFrame(animationFrame);
+        animationFrame = null;
+      }
+    };
+
+    return {
+      isActive: () => active,
+      start,
+      stop,
+      update,
+    };
+  };
+
   document.querySelectorAll('[data-guru-units]').forEach((root) => {
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+    const dragAutoScroller = createDragAutoScroller();
     const state = {
       levels: [],
       activeLevelId: window.localStorage.getItem('guru.activeLevelId') || null,
@@ -659,6 +730,7 @@ document.addEventListener('DOMContentLoaded', () => {
             event.dataTransfer.effectAllowed = 'move';
             event.dataTransfer.setData('text/material-id', row.getAttribute('data-material-id'));
             event.dataTransfer.setData('text/parent-unit-id', row.closest('[data-unit-card]').getAttribute('data-unit-card'));
+            dragAutoScroller.start(event.clientY);
           }
           return;
         }
@@ -672,9 +744,16 @@ document.addEventListener('DOMContentLoaded', () => {
       card.classList.add('is-dragging');
       event.dataTransfer.effectAllowed = 'move';
       event.dataTransfer.setData('text/plain', card.getAttribute('data-unit-card'));
+      dragAutoScroller.start(event.clientY);
     });
 
     root.addEventListener('dragover', (event) => {
+      if (dragAutoScroller.isActive()) {
+        event.preventDefault();
+        event.dataTransfer.dropEffect = 'move';
+        dragAutoScroller.update(event.clientY);
+      }
+
       const isMaterial = event.dataTransfer.types.includes('text/material-id');
       if (isMaterial) {
         const row = event.target instanceof Element ? event.target.closest('.guru-unit-material') : null;
@@ -712,6 +791,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     root.addEventListener('drop', (event) => {
+      const wasReorderDrag = dragAutoScroller.isActive();
+      dragAutoScroller.stop();
+      if (wasReorderDrag) event.preventDefault();
       const isMaterial = event.dataTransfer.types.includes('text/material-id');
       if (isMaterial) {
         const row = event.target instanceof Element ? event.target.closest('.guru-unit-material') : null;
@@ -744,6 +826,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     root.addEventListener('dragend', () => {
+      dragAutoScroller.stop();
       root.querySelectorAll('.guru-unit-material.is-dragging-material').forEach((item) => {
         item.classList.remove('is-dragging-material');
       });
@@ -809,6 +892,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelectorAll('[data-guru-materials]').forEach((root) => {
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+    const dragAutoScroller = createDragAutoScroller();
     const state = {
       unitId: window.currentUnitId || null,
       levelId: window.currentLevelId || null,
@@ -946,6 +1030,10 @@ document.addEventListener('DOMContentLoaded', () => {
             <div style="display: flex; align-items: center; gap: 8px; width: 100%; justify-content: flex-end; margin-bottom: 4px;">
               <input type="checkbox" class="material-checkbox" value="${material.id}" style="width: 20px; height: 20px; cursor: pointer; accent-color: var(--accent);">
             </div>
+            <a class="guru-unit-button guru-unit-button--preview" href="/guru/materials/${material.id}/preview" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; justify-content: center; text-decoration: none; width: 100%;">
+              <span class="material-symbols-outlined" aria-hidden="true">visibility</span>
+              PREVIEW
+            </a>
             <a class="guru-unit-button guru-unit-button--primary" href="/guru/materi/${material.id}/questions" style="display: inline-flex; align-items: center; justify-content: center; text-decoration: none; width: 100%;">
               <span class="material-symbols-outlined" aria-hidden="true" style="margin-right: 4px;">menu_book</span>
               KELOLA LANGKAH
@@ -1244,10 +1332,17 @@ document.addEventListener('DOMContentLoaded', () => {
         card.classList.add('is-dragging-unit');
         event.dataTransfer.effectAllowed = 'move';
         event.dataTransfer.setData('text/material-id', card.getAttribute('data-unit-card'));
+        dragAutoScroller.start(event.clientY);
       }
     });
 
     root.addEventListener('dragover', (event) => {
+      if (dragAutoScroller.isActive()) {
+        event.preventDefault();
+        event.dataTransfer.dropEffect = 'move';
+        dragAutoScroller.update(event.clientY);
+      }
+
       const isMaterial = event.dataTransfer.types.includes('text/material-id');
       if (isMaterial) {
         const card = event.target instanceof Element ? event.target.closest('.guru-unit-card') : null;
@@ -1269,6 +1364,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     root.addEventListener('drop', (event) => {
+      const wasReorderDrag = dragAutoScroller.isActive();
+      dragAutoScroller.stop();
+      if (wasReorderDrag) event.preventDefault();
       const isMaterial = event.dataTransfer.types.includes('text/material-id');
       if (isMaterial) {
         const card = event.target instanceof Element ? event.target.closest('.guru-unit-card') : null;
@@ -1287,6 +1385,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     root.addEventListener('dragend', () => {
+      dragAutoScroller.stop();
       root.querySelectorAll('.guru-unit-card.is-dragging-unit').forEach((item) => {
         item.classList.remove('is-dragging-unit');
       });
@@ -1336,6 +1435,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelectorAll('[data-guru-questions]').forEach((root) => {
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+    const dragAutoScroller = createDragAutoScroller();
     const nodeId = root.getAttribute('data-material-id');
     const state = {
       node: null,
@@ -1660,6 +1760,7 @@ document.addEventListener('DOMContentLoaded', () => {
         card.addEventListener('dragstart', (event) => {
           draggedId = card.getAttribute('data-question-card');
           card.classList.add('is-dragging');
+          dragAutoScroller.start(event.clientY);
           if (event.dataTransfer) {
             event.dataTransfer.effectAllowed = 'move';
             event.dataTransfer.setData('text/plain', draggedId);
@@ -1683,10 +1784,27 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         card.addEventListener('dragend', () => {
+          dragAutoScroller.stop();
           card.classList.remove('is-dragging');
         });
       });
     };
+
+    root.addEventListener('dragover', (event) => {
+      if (!dragAutoScroller.isActive()) return;
+      event.preventDefault();
+      if (event.dataTransfer) event.dataTransfer.dropEffect = 'move';
+      dragAutoScroller.update(event.clientY);
+    });
+
+    root.addEventListener('drop', (event) => {
+      if (dragAutoScroller.isActive()) event.preventDefault();
+      dragAutoScroller.stop();
+    });
+
+    root.addEventListener('dragend', () => {
+      dragAutoScroller.stop();
+    });
 
     root.addEventListener('click', (event) => {
       const target = event.target instanceof Element ? event.target : null;
