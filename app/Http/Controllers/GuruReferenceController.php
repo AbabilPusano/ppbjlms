@@ -314,4 +314,32 @@ class GuruReferenceController extends Controller
             ->with('status', 'success')
             ->with('message', 'Grammar berhasil dihapus.');
     }
+
+    public function searchKanji(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $search = $request->query('q');
+        $query = Kanji::query()->orderBy('kanji');
+
+        if (!empty($search)) {
+            $query->where(function ($q) use ($search) {
+                $q->where('kanji', 'like', "%{$search}%")
+                  ->orWhere('makna', 'like', "%{$search}%")
+                  ->orWhere('onyomi', 'like', "%{$search}%")
+                  ->orWhere('kunyomi', 'like', "%{$search}%");
+            });
+        }
+
+        $paginator = $query->paginate(15);
+
+        return response()->json([
+            'results' => collect($paginator->items())->map(fn ($k) => [
+                'id' => $k->id,
+                'kanji' => $k->kanji,
+                'makna' => $k->makna,
+            ]),
+            'pagination' => [
+                'more' => $paginator->hasMorePages(),
+            ]
+        ]);
+    }
 }

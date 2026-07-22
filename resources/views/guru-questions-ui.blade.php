@@ -1,6 +1,58 @@
 @extends('layouts.lms-ui', ['title' => 'Kelola Langkah Pembelajaran - LMS PPBJ'])
 
 @section('body')
+<style>
+.guru-kanji-select-wrapper {
+    position: relative;
+    width: 100%;
+}
+.guru-kanji-select-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    max-height: 220px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    z-index: 1000;
+    margin-top: 4px;
+    display: flex;
+    flex-direction: column;
+}
+.guru-kanji-select-options {
+    overflow-y: auto;
+    max-height: 180px;
+    display: flex;
+    flex-direction: column;
+}
+.guru-kanji-select-option {
+    padding: 10px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #f2f4f7;
+}
+.guru-kanji-select-option:hover {
+    background: #f9fafb;
+}
+.guru-kanji-select-option.is-selected {
+    background: #f4f3ff;
+    color: var(--accent);
+    font-weight: 600;
+}
+.guru-kanji-select-loading {
+    padding: 10px;
+    text-align: center;
+    font-size: 12px;
+    color: #667085;
+    background: #f9fafb;
+    border-top: 1px solid var(--border);
+}
+</style>
 <div class="guru-shell" data-guru-questions data-material-id="{{ request()->route('material') }}">
     <header class="guru-topbar">
         <button type="button" class="guru-hamburger" data-guru-menu aria-label="Toggle menu">
@@ -154,12 +206,17 @@
                     <div class="guru-unit-form__grid">
                         <label>
                             <span>Hubungkan ke Kanji (Opsional)</span>
-                            <select name="vocab_kanji_id" style="background: #fff; border: 1px solid var(--border); padding: 8px; border-radius: 6px;">
-                                <option value="">-- Tidak menghubungkan --</option>
-                                @foreach ($allKanjis as $kan)
-                                    <option value="{{ $kan->id }}">{{ $kan->kanji }} ({{ $kan->makna }})</option>
-                                @endforeach
-                            </select>
+                            <div class="guru-kanji-select-wrapper" id="step-kanji-select" data-kanji-select>
+                                <div class="guru-kanji-select-control" style="border: 1px solid var(--border); border-radius: 6px; display: flex; align-items: center; background: #fff; padding-right: 8px;">
+                                    <input type="text" class="guru-kanji-select-search" placeholder="Cari Kanji (Karakter / Makna)..." autocomplete="off" style="border: none !important; outline: none !important; width: 100%; padding: 8px 12px; border-radius: 6px;">
+                                    <span class="material-symbols-outlined guru-kanji-select-arrow" style="cursor: pointer;">arrow_drop_down</span>
+                                </div>
+                                <div class="guru-kanji-select-dropdown" style="display: none;">
+                                    <div class="guru-kanji-select-options"></div>
+                                    <div class="guru-kanji-select-loading" style="display: none;">Memuat lebih banyak...</div>
+                                </div>
+                                <input type="hidden" name="vocab_kanji_id" class="guru-kanji-select-value">
+                            </div>
                         </label>
                         <label>
                             <span>Tipe Kata (Opsional)</span>

@@ -223,6 +223,7 @@ class GuruStepApiController extends Controller
         if ($step->type === 'vocabulary') {
             $kataRecord = \App\Models\Kata::where('kata', $step->character_symbol)->first();
             $serialized['kanji_id'] = $kataRecord?->kanji_id;
+            $serialized['kanji_text'] = $kataRecord && $kataRecord->kanji ? "{$kataRecord->kanji->kanji} ({$kataRecord->kanji->makna})" : '';
             $serialized['tipe_kata'] = $kataRecord?->tipe_kata;
             $serialized['deskripsi'] = $kataRecord?->deskripsi;
             $serialized['level'] = $kataRecord?->level;

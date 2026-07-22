@@ -1447,6 +1447,131 @@ document.addEventListener('DOMContentLoaded', () => {
     loadMaterials();
   });
 
+  function initKanjiSelect(wrapper) {
+    const searchInput = wrapper.querySelector('.guru-kanji-select-search');
+    const hiddenInput = wrapper.querySelector('.guru-kanji-select-value');
+    const dropdown = wrapper.querySelector('.guru-kanji-select-dropdown');
+    const optionsContainer = wrapper.querySelector('.guru-kanji-select-options');
+    const loadingIndicator = wrapper.querySelector('.guru-kanji-select-loading');
+    const arrow = wrapper.querySelector('.guru-kanji-select-arrow');
+
+    let page = 1;
+    let hasMore = true;
+    let isLoading = false;
+    let query = '';
+    let selectedId = hiddenInput.value || '';
+    let selectedText = '';
+
+    const fetchKanjis = async (reset = false) => {
+      if (isLoading) return;
+      if (reset) {
+        page = 1;
+        hasMore = true;
+        optionsContainer.innerHTML = '';
+      }
+      if (!hasMore) return;
+
+      isLoading = true;
+      if (loadingIndicator) loadingIndicator.style.display = 'block';
+
+      try {
+        const res = await fetch(`/api/guru/kanjis/search?q=${encodeURIComponent(query)}&page=${page}`);
+        const data = await res.json();
+
+        data.results.forEach(item => {
+          const div = document.createElement('div');
+          div.className = `guru-kanji-select-option ${item.id === selectedId ? 'is-selected' : ''}`;
+          div.setAttribute('data-id', item.id);
+          div.setAttribute('data-text', `${item.kanji} (${item.makna})`);
+          div.innerHTML = `
+            <strong style="font-family: var(--font-jp); font-size: 16px;">${item.kanji}</strong>
+            <span style="color: #667085; font-size: 12px;">${item.makna}</span>
+          `;
+          div.addEventListener('click', (e) => {
+            e.stopPropagation();
+            selectItem(item.id, `${item.kanji} (${item.makna})`);
+            closeDropdown();
+          });
+          optionsContainer.appendChild(div);
+        });
+
+        hasMore = data.pagination.more;
+        page += 1;
+      } catch (e) {
+        console.error(e);
+      } finally {
+        isLoading = false;
+        if (loadingIndicator) loadingIndicator.style.display = 'none';
+      }
+    };
+
+    const selectItem = (id, text) => {
+      selectedId = id;
+      selectedText = text;
+      hiddenInput.value = id;
+      searchInput.value = id ? text : '';
+      searchInput.placeholder = id ? text : 'Cari Kanji (Karakter / Makna)...';
+      
+      hiddenInput.dispatchEvent(new Event('change', { bubbles: true }));
+
+      optionsContainer.querySelectorAll('.guru-kanji-select-option').forEach(opt => {
+        opt.classList.toggle('is-selected', opt.getAttribute('data-id') === id);
+      });
+    };
+
+    wrapper.setValue = (id, text) => {
+      selectItem(id, text);
+    };
+
+    const openDropdown = () => {
+      dropdown.style.display = 'flex';
+      if (optionsContainer.children.length === 0) {
+        fetchKanjis(true);
+      }
+    };
+
+    const closeDropdown = () => {
+      dropdown.style.display = 'none';
+      searchInput.value = selectedId ? selectedText : '';
+    };
+
+    let searchTimeout;
+    searchInput.addEventListener('input', () => {
+      query = searchInput.value;
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        fetchKanjis(true);
+      }, 300);
+    });
+
+    searchInput.addEventListener('focus', () => {
+      searchInput.value = '';
+      openDropdown();
+    });
+
+    arrow.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (dropdown.style.display === 'none') {
+        openDropdown();
+        searchInput.focus();
+      } else {
+        closeDropdown();
+      }
+    });
+
+    optionsContainer.addEventListener('scroll', () => {
+      if (optionsContainer.scrollTop + optionsContainer.clientHeight >= optionsContainer.scrollHeight - 5) {
+        fetchKanjis();
+      }
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!wrapper.contains(e.target)) {
+        closeDropdown();
+      }
+    });
+  }
+
   document.querySelectorAll('[data-guru-questions]').forEach((root) => {
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
     const dragAutoScroller = createDragAutoScroller();
@@ -1455,6 +1580,13 @@ document.addEventListener('DOMContentLoaded', () => {
       node: null,
       steps: [],
     };
+
+    let stepKanjiSelect = null;
+    const kanjiWrapper = root.querySelector('#step-kanji-select');
+    if (kanjiWrapper) {
+      initKanjiSelect(kanjiWrapper);
+      stepKanjiSelect = kanjiWrapper;
+    }
 
     const titleNode = root.querySelector('[data-question-title]');
     const subtitleNode = root.querySelector('[data-question-subtitle]');
@@ -1639,6 +1771,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const openStepModal = (step = null) => {
       stepForm?.reset();
+      if (stepKanjiSelect) {
+        stepKanjiSelect.setValue('', '');
+      }
       if (stepFormError) stepFormError.hidden = true;
       if (stepIdInput) stepIdInput.value = step?.id || '';
       if (stepModalTitle) stepModalTitle.textContent = step ? 'Edit Langkah' : 'Tambah Langkah';
@@ -1656,7 +1791,11 @@ document.addEventListener('DOMContentLoaded', () => {
           stepForm.elements.vocab_kata.value = step.character_symbol || '';
           stepForm.elements.vocab_romaji.value = step.character_pronunciation || '';
           stepForm.elements.vocab_arti.value = step.content || '';
-          stepForm.elements.vocab_kanji_id.value = step.kanji_id || '';
+          if (stepKanjiSelect) {
+            stepKanjiSelect.setValue(step.kanji_id || '', step.kanji_text || '');
+          } else {
+            stepForm.elements.vocab_kanji_id.value = step.kanji_id || '';
+          }
           stepForm.elements.vocab_tipe_kata.value = step.tipe_kata || '';
           stepForm.elements.vocab_deskripsi.value = step.deskripsi || '';
           stepForm.elements.vocab_level.value = step.level || '';

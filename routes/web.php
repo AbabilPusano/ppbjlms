@@ -139,5 +139,6 @@ Route::middleware(['auth', 'role:guru,admin'])->group(function (): void {
         Route::put('/steps/{step}', [GuruStepApiController::class, 'update'])->name('steps.update');
         Route::delete('/steps/{step}', [GuruStepApiController::class, 'destroy'])->name('steps.destroy');
         Route::patch('/steps/reorder', [GuruStepApiController::class, 'reorder'])->name('steps.reorder');
+        Route::get('/kanjis/search', [GuruReferenceController::class, 'searchKanji'])->name('kanjis.search');
     });
 });

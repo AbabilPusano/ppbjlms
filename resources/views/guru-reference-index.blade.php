@@ -1,6 +1,80 @@
 @extends('layouts.lms-ui', ['title' => 'Bank Referensi - LMS PPBJ'])
 
 @section('body')
+<style>
+.guru-kanji-select-wrapper {
+    position: relative;
+    width: 100%;
+}
+.guru-kanji-select-control {
+    position: relative;
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #fff;
+    padding-right: 10px;
+}
+.guru-kanji-select-search {
+    width: 100%;
+    border: none !important;
+    outline: none !important;
+    padding: 10px 12px;
+    font-size: 14px;
+    border-radius: 8px;
+}
+.guru-kanji-select-arrow {
+    color: #667085;
+    cursor: pointer;
+    user-select: none;
+}
+.guru-kanji-select-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    max-height: 220px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    z-index: 1000;
+    margin-top: 4px;
+    display: flex;
+    flex-direction: column;
+}
+.guru-kanji-select-options {
+    overflow-y: auto;
+    max-height: 180px;
+    display: flex;
+    flex-direction: column;
+}
+.guru-kanji-select-option {
+    padding: 10px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #f2f4f7;
+}
+.guru-kanji-select-option:hover {
+    background: #f9fafb;
+}
+.guru-kanji-select-option.is-selected {
+    background: #f4f3ff;
+    color: var(--accent);
+    font-weight: 600;
+}
+.guru-kanji-select-loading {
+    padding: 10px;
+    text-align: center;
+    font-size: 12px;
+    color: #667085;
+    background: #f9fafb;
+    border-top: 1px solid var(--line);
+}
+</style>
 @php($currentUser = auth()->user())
 @php($currentRoleLabel = $currentUser?->role === 'admin' ? 'Admin' : 'Guru')
 
@@ -206,7 +280,7 @@
                                     <td><span style="font-weight: bold; color: var(--accent);">{{ $kt->level ?? '-' }}</span></td>
                                     <td class="guru-admin-table__action">
                                         <div style="display: flex; gap: 8px; justify-content: flex-end;">
-                                            <button class="guru-unit-button" style="padding: 6px 12px; font-size: 12px; border: 1px solid var(--line);" onclick="openEditKataModal('{{ $kt->id }}', '{{ addslashes($kt->kata) }}', '{{ addslashes($kt->romaji) }}', '{{ addslashes($kt->arti) }}', '{{ $kt->kanji_id }}', '{{ addslashes($kt->tipe_kata) }}', '{{ addslashes($kt->deskripsi) }}', '{{ $kt->level }}')">Edit</button>
+                                            <button class="guru-unit-button" style="padding: 6px 12px; font-size: 12px; border: 1px solid var(--line);" onclick="openEditKataModal('{{ $kt->id }}', '{{ addslashes($kt->kata) }}', '{{ addslashes($kt->romaji) }}', '{{ addslashes($kt->arti) }}', '{{ $kt->kanji_id }}', '{{ $kt->kanji ? addslashes($kt->kanji->kanji . " (" . $kt->kanji->makna . ")") : "" }}', '{{ addslashes($kt->tipe_kata) }}', '{{ addslashes($kt->deskripsi) }}', '{{ $kt->level }}')">Edit</button>
                                             <form action="{{ route('guru.referensi.kata.destroy', $kt) }}" method="POST" onsubmit="return confirm('Hapus kata ini?')">
                                                 @csrf @method('DELETE')
                                                 <button type="submit" class="guru-unit-button guru-unit-button--danger" style="padding: 6px 12px; font-size: 12px;">Hapus</button>
@@ -392,12 +466,17 @@
                 </label>
                 <label class="guru-admin-field" style="margin: 0; display: flex; flex-direction: column; gap: 6px;">
                     <span style="font-weight: 700;">Hubungkan ke Kanji (Opsional)</span>
-                    <select name="kanji_id" style="padding: 10px; border: 1px solid var(--line); border-radius: 8px; font-size: 14px; background: #fff;">
-                        <option value="">-- Tidak menghubungkan --</option>
-                        @foreach ($allKanjis as $kan)
-                            <option value="{{ $kan->id }}">{{ $kan->kanji }} ({{ $kan->makna }})</option>
-                        @endforeach
-                    </select>
+                    <div class="guru-kanji-select-wrapper" id="kata-kanji-select" data-kanji-select>
+                        <div class="guru-kanji-select-control">
+                            <input type="text" class="guru-kanji-select-search" placeholder="Cari Kanji (Karakter / Makna)..." autocomplete="off">
+                            <span class="material-symbols-outlined guru-kanji-select-arrow" style="margin-right: 8px;">arrow_drop_down</span>
+                        </div>
+                        <div class="guru-kanji-select-dropdown" style="display: none;">
+                            <div class="guru-kanji-select-options"></div>
+                            <div class="guru-kanji-select-loading" style="display: none;">Memuat lebih banyak...</div>
+                        </div>
+                        <input type="hidden" name="kanji_id" class="guru-kanji-select-value">
+                    </div>
                 </label>
                 <label class="guru-admin-field" style="margin: 0; display: flex; flex-direction: column; gap: 6px;">
                     <span style="font-weight: 700;">Tipe Kata (Opsional)</span>
@@ -498,6 +577,141 @@
 <script>
 const currentTab = "{{ $tab }}";
 
+let kataKanjiSelect;
+
+function initKanjiSelect(wrapper) {
+  const searchInput = wrapper.querySelector('.guru-kanji-select-search');
+  const hiddenInput = wrapper.querySelector('.guru-kanji-select-value');
+  const dropdown = wrapper.querySelector('.guru-kanji-select-dropdown');
+  const optionsContainer = wrapper.querySelector('.guru-kanji-select-options');
+  const loadingIndicator = wrapper.querySelector('.guru-kanji-select-loading');
+  const arrow = wrapper.querySelector('.guru-kanji-select-arrow');
+
+  let page = 1;
+  let hasMore = true;
+  let isLoading = false;
+  let query = '';
+  let selectedId = hiddenInput.value || '';
+  let selectedText = '';
+
+  const fetchKanjis = async (reset = false) => {
+    if (isLoading) return;
+    if (reset) {
+      page = 1;
+      hasMore = true;
+      optionsContainer.innerHTML = '';
+    }
+    if (!hasMore) return;
+
+    isLoading = true;
+    if (loadingIndicator) loadingIndicator.style.display = 'block';
+
+    try {
+      const res = await fetch(`/api/guru/kanjis/search?q=${encodeURIComponent(query)}&page=${page}`);
+      const data = await res.json();
+
+      data.results.forEach(item => {
+        const div = document.createElement('div');
+        div.className = `guru-kanji-select-option ${item.id === selectedId ? 'is-selected' : ''}`;
+        div.setAttribute('data-id', item.id);
+        div.setAttribute('data-text', `${item.kanji} (${item.makna})`);
+        div.innerHTML = `
+          <strong style="font-family: var(--font-jp); font-size: 16px;">${item.kanji}</strong>
+          <span style="color: #667085; font-size: 12px;">${item.makna}</span>
+        `;
+        div.addEventListener('click', (e) => {
+          e.stopPropagation();
+          selectItem(item.id, `${item.kanji} (${item.makna})`);
+          closeDropdown();
+        });
+        optionsContainer.appendChild(div);
+      });
+
+      hasMore = data.pagination.more;
+      page += 1;
+    } catch (e) {
+      console.error(e);
+    } finally {
+      isLoading = false;
+      if (loadingIndicator) loadingIndicator.style.display = 'none';
+    }
+  };
+
+  const selectItem = (id, text) => {
+    selectedId = id;
+    selectedText = text;
+    hiddenInput.value = id;
+    searchInput.value = id ? text : '';
+    searchInput.placeholder = id ? text : 'Cari Kanji (Karakter / Makna)...';
+    
+    hiddenInput.dispatchEvent(new Event('change', { bubbles: true }));
+
+    optionsContainer.querySelectorAll('.guru-kanji-select-option').forEach(opt => {
+      opt.classList.toggle('is-selected', opt.getAttribute('data-id') === id);
+    });
+  };
+
+  wrapper.setValue = (id, text) => {
+    selectItem(id, text);
+  };
+
+  const openDropdown = () => {
+    dropdown.style.display = 'flex';
+    if (optionsContainer.children.length === 0) {
+      fetchKanjis(true);
+    }
+  };
+
+  const closeDropdown = () => {
+    dropdown.style.display = 'none';
+    searchInput.value = selectedId ? selectedText : '';
+  };
+
+  let searchTimeout;
+  searchInput.addEventListener('input', () => {
+    query = searchInput.value;
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => {
+      fetchKanjis(true);
+    }, 300);
+  });
+
+  searchInput.addEventListener('focus', () => {
+    searchInput.value = '';
+    openDropdown();
+  });
+
+  arrow.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (dropdown.style.display === 'none') {
+      openDropdown();
+      searchInput.focus();
+    } else {
+      closeDropdown();
+    }
+  });
+
+  optionsContainer.addEventListener('scroll', () => {
+    if (optionsContainer.scrollTop + optionsContainer.clientHeight >= optionsContainer.scrollHeight - 5) {
+      fetchKanjis();
+    }
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!wrapper.contains(e.target)) {
+      closeDropdown();
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const wrapper = document.getElementById('kata-kanji-select');
+    if (wrapper) {
+        initKanjiSelect(wrapper);
+        kataKanjiSelect = wrapper;
+    }
+});
+
 function openAddModal() {
     const modal = document.getElementById('crudModal');
     const form = document.getElementById('modalForm');
@@ -512,6 +726,9 @@ function openAddModal() {
     
     // Reset Form Fields
     form.reset();
+    if (kataKanjiSelect) {
+        kataKanjiSelect.setValue('', '');
+    }
     
     // Hide all fields first, then show the current tab fields
     document.querySelectorAll('.modal-fields-group').forEach(el => el.style.display = 'none');
@@ -566,7 +783,7 @@ function openEditKanjiModal(id, kanji, onyomi, kunyomi, makna, level) {
     modal.style.display = 'flex';
 }
 
-function openEditKataModal(id, kata, romaji, arti, kanji_id, tipe_kata, deskripsi, level) {
+function openEditKataModal(id, kata, romaji, arti, kanji_id, kanji_text, tipe_kata, deskripsi, level) {
     const modal = document.getElementById('crudModal');
     const form = document.getElementById('modalForm');
     const methodPlaceholder = document.getElementById('methodPlaceholder');
@@ -584,7 +801,11 @@ function openEditKataModal(id, kata, romaji, arti, kanji_id, tipe_kata, deskrips
     fields.querySelector('[name="kata"]').value = kata;
     fields.querySelector('[name="romaji"]').value = romaji;
     fields.querySelector('[name="arti"]').value = arti;
-    fields.querySelector('[name="kanji_id"]').value = kanji_id || '';
+    if (kataKanjiSelect) {
+        kataKanjiSelect.setValue(kanji_id || '', kanji_text || '');
+    } else {
+        fields.querySelector('[name="kanji_id"]').value = kanji_id || '';
+    }
     fields.querySelector('[name="tipe_kata"]').value = tipe_kata || '';
     fields.querySelector('[name="deskripsi"]').value = deskripsi || '';
     fields.querySelector('[name="level"]').value = level || '';
