@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminStudentAccountController;
 use App\Http\Controllers\AdminStudentManagementController;
 use App\Http\Controllers\AdminTeacherAccountController;
 use App\Http\Controllers\GuruPenilaianController;
+use App\Http\Controllers\GuruReferenceController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GuruMaterialApiController;
 use App\Http\Controllers\GuruMaterialPreviewController;
@@ -60,6 +61,28 @@ Route::middleware(['auth', 'role:guru,admin'])->group(function (): void {
     Route::post('/guru/student-accounts', [AdminStudentAccountController::class, 'store'])->name('admin.student-accounts.store');
     Route::get('/guru/penilaian', [GuruPenilaianController::class, 'index'])->name('guru.penilaian.index');
     Route::patch('/guru/penilaian/{student}', [GuruPenilaianController::class, 'update'])->name('guru.penilaian.update');
+
+    // Bank Referensi CRUD
+    Route::get('/guru/referensi', [GuruReferenceController::class, 'index'])->name('guru.referensi.index');
+    Route::post('/guru/referensi/huruf', [GuruReferenceController::class, 'storeHuruf'])->name('guru.referensi.huruf.store');
+    Route::patch('/guru/referensi/huruf/{huruf}', [GuruReferenceController::class, 'updateHuruf'])->name('guru.referensi.huruf.update');
+    Route::delete('/guru/referensi/huruf/{huruf}', [GuruReferenceController::class, 'destroyHuruf'])->name('guru.referensi.huruf.destroy');
+
+    Route::post('/guru/referensi/kanji', [GuruReferenceController::class, 'storeKanji'])->name('guru.referensi.kanji.store');
+    Route::patch('/guru/referensi/kanji/{kanji}', [GuruReferenceController::class, 'updateKanji'])->name('guru.referensi.kanji.update');
+    Route::delete('/guru/referensi/kanji/{kanji}', [GuruReferenceController::class, 'destroyKanji'])->name('guru.referensi.kanji.destroy');
+
+    Route::post('/guru/referensi/kata', [GuruReferenceController::class, 'storeKata'])->name('guru.referensi.kata.store');
+    Route::patch('/guru/referensi/kata/{kata}', [GuruReferenceController::class, 'updateKata'])->name('guru.referensi.kata.update');
+    Route::delete('/guru/referensi/kata/{kata}', [GuruReferenceController::class, 'destroyKata'])->name('guru.referensi.kata.destroy');
+
+    Route::post('/guru/referensi/kalimat', [GuruReferenceController::class, 'storeKalimat'])->name('guru.referensi.kalimat.store');
+    Route::patch('/guru/referensi/kalimat/{kalimat}', [GuruReferenceController::class, 'updateKalimat'])->name('guru.referensi.kalimat.update');
+    Route::delete('/guru/referensi/kalimat/{kalimat}', [GuruReferenceController::class, 'destroyKalimat'])->name('guru.referensi.kalimat.destroy');
+
+    Route::post('/guru/referensi/grammar', [GuruReferenceController::class, 'storeGrammar'])->name('guru.referensi.grammar.store');
+    Route::patch('/guru/referensi/grammar/{grammar}', [GuruReferenceController::class, 'updateGrammar'])->name('guru.referensi.grammar.update');
+    Route::delete('/guru/referensi/grammar/{grammar}', [GuruReferenceController::class, 'destroyGrammar'])->name('guru.referensi.grammar.destroy');
 });
 
 Route::middleware(['auth', 'role:admin'])->group(function (): void {
