@@ -33,8 +33,7 @@
             <a href="{{ route('guru.dashboard') }}"><span class="material-symbols-outlined">home</span>Dashboard</a>
             <a href="{{ route('guru.units.index') }}" class="active"><span class="material-symbols-outlined">category</span>Unit Pembelajaran<i></i></a>
             @include('partials.admin-account-nav')
-            <a href="#" data-ui-only><span class="material-symbols-outlined">groups</span>Siswa</a>
-            <a href="#" data-ui-only><span class="material-symbols-outlined">fact_check</span>Penilaian</a>
+            <a href="{{ route('guru.penilaian.index') }}" class="{{ request()->routeIs('guru.penilaian.*') ? 'active' : '' }}"><span class="material-symbols-outlined">checklist</span>Penilaian{!! request()->routeIs('guru.penilaian.*') ? '<i></i>' : '' !!}</a>
             <a href="#" data-ui-only><span class="material-symbols-outlined">settings</span>Pengaturan</a>
         </nav>
 

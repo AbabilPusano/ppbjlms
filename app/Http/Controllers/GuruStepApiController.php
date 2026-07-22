@@ -15,7 +15,7 @@ class GuruStepApiController extends Controller
     {
         $steps = $node->steps()
             ->get()
-            ->map(fn (NodeStep $step): array => $this->serializeStep($step));
+            ->map(fn(NodeStep $step): array => $this->serializeStep($step));
 
         return response()->json([
             'data' => [
@@ -119,7 +119,7 @@ class GuruStepApiController extends Controller
             'id' => $step->id,
             'node_id' => $step->node_id,
             'type' => $step->type,
-            'type_label' => match($step->type) {
+            'type_label' => match ($step->type) {
                 'text' => 'Teks Pengantar',
                 'character' => 'Huruf Baru',
                 'quiz' => 'Kuis Pilihan Ganda',
@@ -154,13 +154,13 @@ class GuruStepApiController extends Controller
             'Pilihan 2',
             'Pilihan 3',
             'Pilihan 4',
-            'Jawaban Benar (1-4)'
+            'Jawaban Benar (0-3)'
         ];
 
         $data = [
             ['text', 'Ini adalah isi teks pengantar', '', '', '', '', '', '', '', '', ''],
             ['character', '', 'あ', 'a', '', '', '', '', '', '', ''],
-            ['quiz', '', '', '', 'PILIH JAWABAN YANG BENAR', 'あ', 'a', 'i', 'u', 'e', '1']
+            ['quiz', '', '', '', 'PILIH JAWABAN YANG BENAR', 'あ', 'a', 'i', 'u', 'e', '0']
         ];
 
         // Write headers
@@ -179,7 +179,7 @@ class GuruStepApiController extends Controller
         foreach (range(1, count($headers)) as $col) {
             $sheet->getColumnDimensionByColumn($col)->setAutoSize(true);
         }
-        $sheet->getStyle('A1:K100')->getAlignment()->setWrapText(true);
+        $sheet->getStyle('A1:Z100')->getAlignment()->setWrapText(true);
 
         $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
         $tempFile = tempnam(sys_get_temp_dir(), 'xlsx');
@@ -252,7 +252,7 @@ class GuruStepApiController extends Controller
                             !empty($row[8]) ? $row[8] : '',
                             !empty($row[9]) ? $row[9] : '',
                         ];
-                        $stepData['quiz_correct_index'] = isset($row[10]) ? max(0, min(3, ((int) $row[10]) - 1)) : 0;
+                        $stepData['quiz_correct_index'] = isset($row[10]) ? (int) $row[10] : 0;
                     }
 
                     NodeStep::query()->create($stepData);

@@ -33,7 +33,7 @@
             <a href="{{ route('guru.dashboard') }}"><span class="material-symbols-outlined">home</span>Dashboard</a>
             <a href="{{ route('guru.units.index') }}"><span class="material-symbols-outlined">category</span>Unit Pembelajaran</a>
             @include('partials.admin-account-nav')
-            <a href="#" data-ui-only><span class="material-symbols-outlined">checklist</span>Penilaian</a>
+            <a href="{{ route('guru.penilaian.index') }}" class="{{ request()->routeIs('guru.penilaian.*') ? 'active' : '' }}"><span class="material-symbols-outlined">checklist</span>Penilaian{!! request()->routeIs('guru.penilaian.*') ? '<i></i>' : '' !!}</a>
             <a href="#" data-ui-only><span class="material-symbols-outlined">settings</span>Pengaturan</a>
         </nav>
 
@@ -69,6 +69,12 @@
                         @endforeach
                     </div>
                 @endif
+
+                <label class="guru-admin-field">
+                    <span>Batch siswa</span>
+                    <input name="batch" type="text" value="{{ old('batch') }}" placeholder="Contoh: Batch 1" required>
+                    <small>Menentukan batch untuk semua akun yang digenerate.</small>
+                </label>
 
                 <label class="guru-admin-field">
                     <span>Prefix username</span>

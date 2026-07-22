@@ -28,6 +28,7 @@ class AdminStudentAccountController extends Controller
         $validated = $request->validate([
             'count' => ['required', 'integer', 'min:1', 'max:50'],
             'prefix' => ['required', 'string', 'max:24', 'regex:/^[A-Za-z0-9_]+$/'],
+            'batch' => ['required', 'string', 'max:50'],
         ]);
 
         $prefix = Str::lower($validated['prefix']);
@@ -44,6 +45,7 @@ class AdminStudentAccountController extends Controller
                 'email' => $username.'@student.local',
                 'password' => Hash::make($password),
                 'role' => 'siswa',
+                'batch' => $validated['batch'],
                 'bio' => 'Akun siswa hasil generate admin.',
                 'avatar' => '学',
                 'streak' => 0,

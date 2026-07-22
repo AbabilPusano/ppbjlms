@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminStudentAccountController;
 use App\Http\Controllers\AdminStudentManagementController;
 use App\Http\Controllers\AdminTeacherAccountController;
+use App\Http\Controllers\GuruPenilaianController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GuruMaterialApiController;
 use App\Http\Controllers\GuruMaterialPreviewController;
@@ -57,6 +58,8 @@ Route::view('/guru/dashboard', 'guru-dashboard-ui')
 Route::middleware(['auth', 'role:guru,admin'])->group(function (): void {
     Route::get('/guru/student-accounts', [AdminStudentAccountController::class, 'index'])->name('admin.student-accounts.index');
     Route::post('/guru/student-accounts', [AdminStudentAccountController::class, 'store'])->name('admin.student-accounts.store');
+    Route::get('/guru/penilaian', [GuruPenilaianController::class, 'index'])->name('guru.penilaian.index');
+    Route::patch('/guru/penilaian/{student}', [GuruPenilaianController::class, 'update'])->name('guru.penilaian.update');
 });
 
 Route::middleware(['auth', 'role:admin'])->group(function (): void {

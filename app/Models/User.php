@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'username', 'email', 'password', 'role', 'bio', 'avatar', 'streak', 'totalXP', 'gems', 'league'])]
+#[Fillable(['name', 'username', 'email', 'password', 'role', 'batch', 'bio', 'avatar', 'streak', 'totalXP', 'gems', 'league'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -42,5 +42,10 @@ class User extends Authenticatable
     public function progress(): HasMany
     {
         return $this->hasMany(UserProgress::class, 'userId');
+    }
+
+    public function latestProgress()
+    {
+        return $this->hasOne(UserProgress::class, 'userId')->latestOfMany('updated_at');
     }
 }
