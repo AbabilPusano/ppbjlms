@@ -1,0 +1,114 @@
+        'KANJI_N3' => [
+            'label' => 'Kanji N3',
+            'helper' => '197 kanji JLPT N3',
+            'groups' => [
+                [
+                    'title' => 'Waktu (Time)',
+                    'letters' => [['曜','you'],['末','matsu'],['昨','saku'],['翌','yoku'],['現','gen'],['昔','mukashi'],['次','tsugi'],['回','kai'],['再','sai'],['旧','kyuu'],['秒','byou']]
+                ],
+                [
+                    'title' => 'Orang (People)',
+                    'letters' => [['彼','kare'],['君','kimi'],['仲','naka'],['達','tachi'],['供','tomo'],['娘','musume'],['婦','fu'],['老','rou'],['他','hoka']]
+                ],
+                [
+                    'title' => 'Tubuh (Body)',
+                    'letters' => [['頭','atama'],['顔','kao'],['鼻','hana'],['首','kubi'],['血','chi'],['液','eki'],['歯','ha'],['型','kata']]
+                ],
+                [
+                    'title' => 'Makanan (Food)',
+                    'letters' => [['氷','koori'],['湯','yu'],['卵','tamago'],['豆','mame'],['粉','kona'],['乳','nyuu'],['塩','shio'],['調','shiraberu'],['和','wa']]
+                ],
+                [
+                    'title' => 'Kata Sifat 1 (Adjective 1)',
+                    'letters' => [['熱','netsu'],['冷','tsumetai'],['暖','atatakai'],['温','on'],['良','ii'],['悪','warui'],['厚','atsui']]
+                ],
+                [
+                    'title' => 'Kata Sifat 2 (Adjective 2)',
+                    'letters' => [['易','yasashii'],['難','muzukashii'],['深','fukai'],['浅','asai'],['痛','itai'],['苦','kurushii'],['欲','hoshii']]
+                ],
+                [
+                    'title' => 'Kata Kerja 1 (Verbs 1)',
+                    'letters' => [['捨','suteru'],['拾','hirou'],['貸','kasu'],['借','kariru'],['覚','oboeru'],['忘','wasureru'],['押','osu'],['引','hiku']]
+                ],
+                [
+                    'title' => 'Kata Kerja 2 (Verbs 2)',
+                    'letters' => [['打','utsu'],['投','nageru'],['信','shinjiru'],['伝','tsutaeru'],['想','omou'],['続','tsuzuku'],['祝','iwau'],['願','negau'],['酔','you']]
+                ],
+                [
+                    'title' => 'Kehidupan Sehari-hari 1 (Daily Life 1)',
+                    'letters' => [['起','okiru'],['寝','neru'],['洗','arau'],['濯','susugu'],['干','hosu'],['浴','abiru']]
+                ],
+                [
+                    'title' => 'Kehidupan Sehari-hari 2 (Daily Life 2)',
+                    'letters' => [['活','katsu'],['夢','yume'],['貯','tameru'],['列','retsu'],['袋','fukuro'],['久','hisashiburi']]
+                ],
+                [
+                    'title' => 'Perasaan 1 (Feeling 1)',
+                    'letters' => [['喜','yorokobu'],['怒','okoru'],['笑','warau'],['泣','naku'],['悲','kanashii'],['涙','namida'],['幸','shiawase']]
+                ],
+                [
+                    'title' => 'Perasaan 2 (Feeling 2)',
+                    'letters' => [['感','kan'],['情','nasake'],['悩','nayamu'],['困','komaru'],['残','nokoru'],['念','nen']]
+                ],
+                [
+                    'title' => 'Hubungan (Relationship)',
+                    'letters' => [['関','kakawaru'],['係','kakari'],['結','musubu'],['婚','kon'],['独','hitori'],['身','mi'],['恋','koi'],['愛','ai'],['永','nagai'],['福','fuku']]
+                ],
+                [
+                    'title' => 'Rencana 1 (Plan 1)',
+                    'letters' => [['予','arakajime'],['定','sadameru'],['用','mochiiru'],['事','koto'],['約','yaku'],['束','taba']]
+                ],
+                [
+                    'title' => 'Rencana 2 (Plan 2)',
+                    'letters' => [['必','kanarazu'],['要','iru'],['取','toru'],['消','kesu'],['返','kaesu'],['守','mamoru']]
+                ],
+                [
+                    'title' => 'Satuan 1 (Amount 1)',
+                    'letters' => [['杯','sakazuki'],['枚','mai'],['匹','hiki'],['冊','satsu'],['各','kaku'],['量','ryou'],['最','mottomo']]
+                ],
+                [
+                    'title' => 'Satuan 2 (Amount 2)',
+                    'letters' => [['単','tan'],['複','fuku'],['全','subete'],['以','i'],['未','imada'],['満','michiru'],['無','mu'],['非','hi']]
+                ],
+                [
+                    'title' => 'Alam (Nature)',
+                    'letters' => [['季','ki'],['候','kou'],['島','shima'],['陸','riku'],['河','kawa'],['流','nagareru'],['陽','you'],['岸','kishi']]
+                ],
+                [
+                    'title' => 'Pertanian (Agriculture)',
+                    'letters' => [['農','nou'],['産','umu'],['果','ka'],['実','mi'],['葉','ha'],['菜','na'],['植','ueru'],['根','ne']]
+                ],
+                [
+                    'title' => 'Arah (Direction)',
+                    'letters' => [['位','kurai'],['置','oku'],['存','son'],['在','zai'],['積','tsumoru'],['央','ou'],['向','mukau'],['底','soko']]
+                ],
+                [
+                    'title' => 'Bangunan (Building)',
+                    'letters' => [['建','tateru'],['築','kizuku'],['構','kamau'],['造','tsukuru'],['設','moukeru'],['橋','hashi']]
+                ],
+                [
+                    'title' => 'Di Dalam Rumah (Inside The House)',
+                    'letters' => [['窓','mado'],['戸','to'],['階','kai'],['段','dan'],['机','tsukue'],['柱','hashira'],['庫','ko']]
+                ],
+                [
+                    'title' => 'Berkendara 1 (Drive 1)',
+                    'letters' => [['角','kado'],['坂','saka'],['折','oru'],['曲','magaru'],['路','ro'],['側','gawa']]
+                ],
+                [
+                    'title' => 'Berkendara 2 (Drive 2)',
+                    'letters' => [['直','naosu'],['線','sen'],['逆','gyaku'],['進','susumu'],['禁','kin'],['許','yurusu']]
+                ],
+                [
+                    'title' => 'Pertemuan Pertama 1 (First Meeting 1)',
+                    'letters' => [['初','hatsu'],['姓','sei'],['個','ko'],['性','sei'],['変','kaeru'],['付','tsukeru']]
+                ],
+                [
+                    'title' => 'Pertemuan Pertama 2 (First Meeting 2)',
+                    'letters' => [['紹','shou'],['介','kai'],['常','tsune'],['識','shiki'],['失','ushinau'],['礼','rei']]
+                ],
+                [
+                    'title' => 'Sekolah 1 (School 1)',
+                    'letters' => [['授','ju'],['業','gyou'],['欠','ketsu'],['席','seki'],['成','sei'],['績','seki']]
+                ]
+            ]
+        ],

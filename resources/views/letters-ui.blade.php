@@ -228,6 +228,120 @@
                 ],
             ]
         ],
+        'KANJI_N3' => [
+            'label' => 'Kanji N3',
+            'helper' => '197 kanji JLPT N3',
+            'groups' => [
+                [
+                    'title' => 'Waktu (Time)',
+                    'letters' => [['曜','you'],['末','matsu'],['昨','saku'],['翌','yoku'],['現','gen'],['昔','mukashi'],['次','tsugi'],['回','kai'],['再','sai'],['旧','kyuu'],['秒','byou']]
+                ],
+                [
+                    'title' => 'Orang (People)',
+                    'letters' => [['彼','kare'],['君','kimi'],['仲','naka'],['達','tachi'],['供','tomo'],['娘','musume'],['婦','fu'],['老','rou'],['他','hoka']]
+                ],
+                [
+                    'title' => 'Tubuh (Body)',
+                    'letters' => [['頭','atama'],['顔','kao'],['鼻','hana'],['首','kubi'],['血','chi'],['液','eki'],['歯','ha'],['型','kata']]
+                ],
+                [
+                    'title' => 'Makanan (Food)',
+                    'letters' => [['氷','koori'],['湯','yu'],['卵','tamago'],['豆','mame'],['粉','kona'],['乳','nyuu'],['塩','shio'],['調','shiraberu'],['和','wa']]
+                ],
+                [
+                    'title' => 'Kata Sifat 1 (Adjective 1)',
+                    'letters' => [['熱','netsu'],['冷','tsumetai'],['暖','atatakai'],['温','on'],['良','ii'],['悪','warui'],['厚','atsui']]
+                ],
+                [
+                    'title' => 'Kata Sifat 2 (Adjective 2)',
+                    'letters' => [['易','yasashii'],['難','muzukashii'],['深','fukai'],['浅','asai'],['痛','itai'],['苦','kurushii'],['欲','hoshii']]
+                ],
+                [
+                    'title' => 'Kata Kerja 1 (Verbs 1)',
+                    'letters' => [['捨','suteru'],['拾','hirou'],['貸','kasu'],['借','kariru'],['覚','oboeru'],['忘','wasureru'],['押','osu'],['引','hiku']]
+                ],
+                [
+                    'title' => 'Kata Kerja 2 (Verbs 2)',
+                    'letters' => [['打','utsu'],['投','nageru'],['信','shinjiru'],['伝','tsutaeru'],['想','omou'],['続','tsuzuku'],['祝','iwau'],['願','negau'],['酔','you']]
+                ],
+                [
+                    'title' => 'Kehidupan Sehari-hari 1 (Daily Life 1)',
+                    'letters' => [['起','okiru'],['寝','neru'],['洗','arau'],['濯','susugu'],['干','hosu'],['浴','abiru']]
+                ],
+                [
+                    'title' => 'Kehidupan Sehari-hari 2 (Daily Life 2)',
+                    'letters' => [['活','katsu'],['夢','yume'],['貯','tameru'],['列','retsu'],['袋','fukuro'],['久','hisashiburi']]
+                ],
+                [
+                    'title' => 'Perasaan 1 (Feeling 1)',
+                    'letters' => [['喜','yorokobu'],['怒','okoru'],['笑','warau'],['泣','naku'],['悲','kanashii'],['涙','namida'],['幸','shiawase']]
+                ],
+                [
+                    'title' => 'Perasaan 2 (Feeling 2)',
+                    'letters' => [['感','kan'],['情','nasake'],['悩','nayamu'],['困','komaru'],['残','nokoru'],['念','nen']]
+                ],
+                [
+                    'title' => 'Hubungan (Relationship)',
+                    'letters' => [['関','kakawaru'],['係','kakari'],['結','musubu'],['婚','kon'],['独','hitori'],['身','mi'],['恋','koi'],['愛','ai'],['永','nagai'],['福','fuku']]
+                ],
+                [
+                    'title' => 'Rencana 1 (Plan 1)',
+                    'letters' => [['予','arakajime'],['定','sadameru'],['用','mochiiru'],['事','koto'],['約','yaku'],['束','taba']]
+                ],
+                [
+                    'title' => 'Rencana 2 (Plan 2)',
+                    'letters' => [['必','kanarazu'],['要','iru'],['取','toru'],['消','kesu'],['返','kaesu'],['守','mamoru']]
+                ],
+                [
+                    'title' => 'Satuan 1 (Amount 1)',
+                    'letters' => [['杯','sakazuki'],['枚','mai'],['匹','hiki'],['冊','satsu'],['各','kaku'],['量','ryou'],['最','mottomo']]
+                ],
+                [
+                    'title' => 'Satuan 2 (Amount 2)',
+                    'letters' => [['単','tan'],['複','fuku'],['全','subete'],['以','i'],['未','imada'],['満','michiru'],['無','mu'],['非','hi']]
+                ],
+                [
+                    'title' => 'Alam (Nature)',
+                    'letters' => [['季','ki'],['候','kou'],['島','shima'],['陸','riku'],['河','kawa'],['流','nagareru'],['陽','you'],['岸','kishi']]
+                ],
+                [
+                    'title' => 'Pertanian (Agriculture)',
+                    'letters' => [['農','nou'],['産','umu'],['果','ka'],['実','mi'],['葉','ha'],['菜','na'],['植','ueru'],['根','ne']]
+                ],
+                [
+                    'title' => 'Arah (Direction)',
+                    'letters' => [['位','kurai'],['置','oku'],['存','son'],['在','zai'],['積','tsumoru'],['央','ou'],['向','mukau'],['底','soko']]
+                ],
+                [
+                    'title' => 'Bangunan (Building)',
+                    'letters' => [['建','tateru'],['築','kizuku'],['構','kamau'],['造','tsukuru'],['設','moukeru'],['橋','hashi']]
+                ],
+                [
+                    'title' => 'Di Dalam Rumah (Inside The House)',
+                    'letters' => [['窓','mado'],['戸','to'],['階','kai'],['段','dan'],['机','tsukue'],['柱','hashira'],['庫','ko']]
+                ],
+                [
+                    'title' => 'Berkendara 1 (Drive 1)',
+                    'letters' => [['角','kado'],['坂','saka'],['折','oru'],['曲','magaru'],['路','ro'],['側','gawa']]
+                ],
+                [
+                    'title' => 'Berkendara 2 (Drive 2)',
+                    'letters' => [['直','naosu'],['線','sen'],['逆','gyaku'],['進','susumu'],['禁','kin'],['許','yurusu']]
+                ],
+                [
+                    'title' => 'Pertemuan Pertama 1 (First Meeting 1)',
+                    'letters' => [['初','hatsu'],['姓','sei'],['個','ko'],['性','sei'],['変','kaeru'],['付','tsukeru']]
+                ],
+                [
+                    'title' => 'Pertemuan Pertama 2 (First Meeting 2)',
+                    'letters' => [['紹','shou'],['介','kai'],['常','tsune'],['識','shiki'],['失','ushinau'],['礼','rei']]
+                ],
+                [
+                    'title' => 'Sekolah 1 (School 1)',
+                    'letters' => [['授','ju'],['業','gyou'],['欠','ketsu'],['席','seki'],['成','sei'],['績','seki']]
+                ]
+            ]
+        ],
     ];
 
     $isHuruf = ($level && $level->code === 'huruf');
@@ -241,6 +355,8 @@
             $sets['KANJI'] = $allSets['KANJI'];
         } elseif ($jlptCode === 'N4') {
             $sets['KANJI'] = $allSets['KANJI_N4'];
+        } elseif ($jlptCode === 'N3') {
+            $sets['KANJI'] = $allSets['KANJI_N3'];
         } else {
             $sets['KANJI'] = [
                 'label' => 'Kanji ' . $jlptCode,
@@ -307,28 +423,59 @@
                     </div>
                     <div class="level-selector-container" style="display: flex; align-items: center; gap: 8px;">
                         <span style="font-size: 0.9rem; font-weight: 700; color: var(--text-muted);">Level Aktif:</span>
-                        <div class="guru-level-select-wrapper"
-                            style="position: relative; display: inline-flex; align-items: center; background: var(--card-bg); border: 2px solid var(--border); border-radius: 12px; padding: 4px 12px;">
-                            <span class="material-symbols-outlined"
-                                style="font-size: 18px; color: var(--text-muted); margin-right: 6px;">tune</span>
-                            <select class="guru-level-select"
-                                onchange="window.location.href = '?level_id=' + this.value" aria-label="Pilih Level"
-                                style="border: none; background: transparent; font-weight: 800; color: var(--text); font-size: 0.95rem; cursor: pointer; outline: none; padding-right: 20px;">
-                            @foreach($levels as $lvl)
-                                <option value="{{ $lvl->id }}" {{ $level->id === $lvl->id ? 'selected' : '' }}>
-                                    @if($lvl->code === 'huruf')
-                                        Huruf (Hiragana &amp; Katakana)
-                                    @else
-                                        {{ $lvl->code }} &mdash; {{ $lvl->name }}
-                                    @endif
-                                </option>
-                            @endforeach
-                            </select>
-                        </div>
+                        @if($levels->isEmpty())
+                            <span style="font-size: 0.9rem; font-weight: 700; color: var(--text-muted);">Belum ada data level</span>
+                        @else
+                            <div class="guru-level-select-wrapper"
+                                style="position: relative; display: inline-flex; align-items: center; background: var(--card-bg); border: 2px solid var(--border); border-radius: 12px; padding: 4px 12px;">
+                                <span class="material-symbols-outlined"
+                                    style="font-size: 18px; color: var(--text-muted); margin-right: 6px;">tune</span>
+                                <select class="guru-level-select"
+                                    onchange="window.location.href = '?level_id=' + this.value" aria-label="Pilih Level"
+                                    style="border: none; background: transparent; font-weight: 800; color: var(--text); font-size: 0.95rem; cursor: pointer; outline: none; padding-right: 20px;">
+                                @foreach($levels as $lvl)
+                                    <option value="{{ $lvl->id }}" {{ ($level?->id === $lvl->id) ? 'selected' : '' }}>
+                                        @if($lvl->code === 'huruf')
+                                            Huruf (Hiragana &amp; Katakana)
+                                        @else
+                                            {{ $lvl->code }} &mdash; {{ $lvl->name }}
+                                        @endif
+                                    </option>
+                                @endforeach
+                                </select>
+                            </div>
+                        @endif
                     </div>
                 </div>
 
-                <div class="letters-tabs" role="tablist" aria-label="Pilih jenis huruf">
+                @if ($levels->isEmpty())
+                    <div style="padding: 48px 32px; text-align: center; background: var(--card-bg); border: 2px dashed var(--border); border-radius: 20px; margin-top: 24px;">
+                        <div style="font-size: 56px; margin-bottom: 16px; line-height: 1;">📚</div>
+                        <h4 style="font-size: 1.15rem; font-weight: 800; margin: 0 0 8px; color: var(--text);">Belum ada data level</h4>
+                        <p style="font-size: 0.9rem; margin: 0; color: var(--text-muted); max-width: 360px; margin-inline: auto;">
+                            Halaman huruf bisa dibuka, tetapi level belum tersedia di database. Tambahkan data level terlebih dahulu agar daftar huruf muncul.
+                        </p>
+                    </div>
+                @else
+                    <div class="letters-tabs" role="tablist" aria-label="Pilih jenis huruf">
+                        @foreach ($sets as $key => $set)
+                            @php
+                                $lettersCount = 0;
+                                foreach ($set['groups'] as $group) {
+                                    $lettersCount += count(array_filter($group['letters']));
+                                }
+                            @endphp
+                            <button type="button" role="tab" class="letters-tab {{ $loop->first ? 'letters-tab--active' : '' }}" 
+                                data-letter-tab="{{ $key }}"
+                                data-letter-label="{{ $set['label'] }}"
+                                data-letter-count="{{ $lettersCount }}">
+                                <span class="material-symbols-outlined" aria-hidden="true">translate</span>
+                                <span>{{ $set['label'] }}</span>
+                                <small>{{ $set['helper'] }}</small>
+                            </button>
+                        @endforeach
+                    </div>
+
                     @foreach ($sets as $key => $set)
                         @php
                             $lettersCount = 0;
@@ -336,75 +483,58 @@
                                 $lettersCount += count(array_filter($group['letters']));
                             }
                         @endphp
-                        <button type="button" role="tab" class="letters-tab {{ $loop->first ? 'letters-tab--active' : '' }}" 
-                            data-letter-tab="{{ $key }}"
-                            data-letter-label="{{ $set['label'] }}"
-                            data-letter-count="{{ $lettersCount }}">
-                            <span class="material-symbols-outlined" aria-hidden="true">translate</span>
-                            <span>{{ $set['label'] }}</span>
-                            <small>{{ $set['helper'] }}</small>
-                        </button>
-                    @endforeach
-                </div>
-
-                @foreach ($sets as $key => $set)
-                    @php
-                        $lettersCount = 0;
-                        foreach ($set['groups'] as $group) {
-                            $lettersCount += count(array_filter($group['letters']));
-                        }
-                    @endphp
-                    <div class="letters-card-panel" data-letter-panel="{{ $key }}" @if (!$loop->first) hidden @endif>
-                        <div class="letters-card-panel__head">
-                            <div>
-                                <span class="letters-card-panel__eyebrow">{{ $set['helper'] }}</span>
-                                <h3>{{ $set['label'] }}</h3>
-                            </div>
-                            <span class="letters-card-panel__count">{{ $lettersCount }} huruf</span>
-                        </div>
-
-                        @if (empty($set['groups']))
-                            <div style="padding: 48px 32px; text-align: center; background: var(--card-bg); border: 2px dashed var(--border); border-radius: 20px; margin-top: 24px;">
-                                <div style="font-size: 56px; margin-bottom: 16px; line-height: 1;">漢字</div>
-                                <h4 style="font-size: 1.15rem; font-weight: 800; margin: 0 0 8px; color: var(--text);">Kanji {{ $level->code }} Segera Hadir</h4>
-                                <p style="font-size: 0.9rem; margin: 0 0 20px; color: var(--text-muted); max-width: 320px; margin-inline: auto;">
-                                    Daftar kanji JLPT {{ $level->code }} sedang kami siapkan. Sementara itu, pelajari Hiragana &amp; Katakana di level
-                                    <strong>Huruf</strong>.
-                                </p>
-                                <a href="{{ route('letters.index') }}?level_id={{ \App\Models\Level::where('code','huruf')->value('id') }}"
-                                   style="display: inline-flex; align-items: center; gap: 8px; background: var(--home-coral, #ff6b6b); color: #fff; padding: 10px 20px; border-radius: 12px; font-weight: 700; font-size: 0.9rem; text-decoration: none;">
-                                    <span class="material-symbols-outlined" style="font-size: 18px;">translate</span>
-                                    Buka Level Huruf
-                                </a>
-                            </div>
-                        @else
-                            @foreach ($set['groups'] as $group)
-                                <div class="letters-group-section" style="margin-top: 28px;">
-                                    <h4 class="letters-group-title" style="font-size: 14px; font-weight: 700; color: var(--home-ink); margin-bottom: 12px; border-left: 3px solid var(--home-coral); padding-left: 8px; text-transform: uppercase; letter-spacing: 0.05em;">
-                                        {{ $group['title'] }}
-                                    </h4>
-                                    <div class="letters-card-grid" role="tabpanel" aria-label="{{ $group['title'] }}">
-                                        @foreach ($group['letters'] as $letter)
-                                            @if ($letter)
-                                                @php $isYoon = mb_strlen($letter[0]) >= 2; @endphp
-                                                <article class="kana-card {{ $isYoon ? 'kana-card--yoon' : '' }}" data-char="{{ $letter[0] }}" data-type="{{ strtolower($key) }}" data-romaji="{{ $letter[1] }}" role="button" tabindex="0" aria-label="Lihat detail {{ $letter[0] }}">
-                                                    @if ($isYoon)
-                                                        <span class="kana-card__symbol">
-                                                            <span class="kana-main">{{ mb_substr($letter[0], 0, 1) }}</span><span class="kana-small">{{ mb_substr($letter[0], 1) }}</span>
-                                                        </span>
-                                                    @else
-                                                        <span class="kana-card__symbol">{{ $letter[0] }}</span>
-                                                    @endif
-                                                    <span class="kana-card__romaji">{{ $letter[1] }}</span>
-                                                </article>
-                                            @endif
-                                        @endforeach
-                                    </div>
+                        <div class="letters-card-panel" data-letter-panel="{{ $key }}" @if (!$loop->first) hidden @endif>
+                            <div class="letters-card-panel__head">
+                                <div>
+                                    <span class="letters-card-panel__eyebrow">{{ $set['helper'] }}</span>
+                                    <h3>{{ $set['label'] }}</h3>
                                 </div>
-                            @endforeach
-                        @endif
-                    </div>
-                @endforeach
+                                <span class="letters-card-panel__count">{{ $lettersCount }} huruf</span>
+                            </div>
+
+                            @if (empty($set['groups']))
+                                <div style="padding: 48px 32px; text-align: center; background: var(--card-bg); border: 2px dashed var(--border); border-radius: 20px; margin-top: 24px;">
+                                    <div style="font-size: 56px; margin-bottom: 16px; line-height: 1;">漢字</div>
+                                    <h4 style="font-size: 1.15rem; font-weight: 800; margin: 0 0 8px; color: var(--text);">Kanji {{ $level?->code ?? 'N5' }} Segera Hadir</h4>
+                                    <p style="font-size: 0.9rem; margin: 0 0 20px; color: var(--text-muted); max-width: 320px; margin-inline: auto;">
+                                        Daftar kanji JLPT {{ $level?->code ?? 'N5' }} sedang kami siapkan. Sementara itu, pelajari Hiragana &amp; Katakana di level
+                                        <strong>Huruf</strong>.
+                                    </p>
+                                    <a href="{{ route('letters.index') }}?level_id={{ \App\Models\Level::where('code','huruf')->value('id') }}"
+                                       style="display: inline-flex; align-items: center; gap: 8px; background: var(--home-coral, #ff6b6b); color: #fff; padding: 10px 20px; border-radius: 12px; font-weight: 700; font-size: 0.9rem; text-decoration: none;">
+                                        <span class="material-symbols-outlined" style="font-size: 18px;">translate</span>
+                                        Buka Level Huruf
+                                    </a>
+                                </div>
+                            @else
+                                @foreach ($set['groups'] as $group)
+                                    <div class="letters-group-section" style="margin-top: 28px;">
+                                        <h4 class="letters-group-title" style="font-size: 14px; font-weight: 700; color: var(--home-ink); margin-bottom: 12px; border-left: 3px solid var(--home-coral); padding-left: 8px; text-transform: uppercase; letter-spacing: 0.05em;">
+                                            {{ $group['title'] }}
+                                        </h4>
+                                        <div class="letters-card-grid" role="tabpanel" aria-label="{{ $group['title'] }}">
+                                            @foreach ($group['letters'] as $letter)
+                                                @if ($letter)
+                                                    @php $isYoon = mb_strlen($letter[0]) >= 2; @endphp
+                                                    <article class="kana-card {{ $isYoon ? 'kana-card--yoon' : '' }}" data-char="{{ $letter[0] }}" data-type="{{ strtolower($key) }}" data-romaji="{{ $letter[1] }}" role="button" tabindex="0" aria-label="Lihat detail {{ $letter[0] }}">
+                                                        @if ($isYoon)
+                                                            <span class="kana-card__symbol">
+                                                                <span class="kana-main">{{ mb_substr($letter[0], 0, 1) }}</span><span class="kana-small">{{ mb_substr($letter[0], 1) }}</span>
+                                                            </span>
+                                                        @else
+                                                            <span class="kana-card__symbol">{{ $letter[0] }}</span>
+                                                        @endif
+                                                        <span class="kana-card__romaji">{{ $letter[1] }}</span>
+                                                    </article>
+                                                @endif
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @endif
+                        </div>
+                    @endforeach
+                @endif
             </section>
         </section>
     </main>
@@ -1071,6 +1201,205 @@ const LETTER_DATA = {
   '親': { type:'kanji', romaji:'shin / oya', meaning:'orang tua / akrab', onyomi:'シン (shin)', kunyomi:'おや (oya)', stroke_count:16, radical:'立（berdiri）', jlpt:'N4', examples:[{word:'親切',romaji:'shinsetsu',meaning:'ramah'},{word:'両親',romaji:'ryoushin',meaning:'orang tua'},{word:'親友',romaji:'shinyuu',meaning:'sahabat'}] },
   '切': { type:'kanji', romaji:'setsu / kiru', meaning:'memotong / sangat', onyomi:'セツ (setsu)', kunyomi:'き-る (kiru)', stroke_count:4, radical:'刀（pisau）', jlpt:'N4', examples:[{word:'切る',romaji:'kiru',meaning:'potong'},{word:'親切',romaji:'shinsetsu',meaning:'ramah'},{word:'大切',romaji:'taisetsu',meaning:'penting'}] },
   '不': { type:'kanji', romaji:'fu / bu', meaning:'tidak / bukan', onyomi:'フ (fu)', kunyomi:'-', stroke_count:4, radical:'一（satu）', jlpt:'N4', examples:[{word:'不便',romaji:'fuben',meaning:'tidak nyaman'},{word:'不安',romaji:'fuan',meaning:'gelisah'},{word:'不可能',romaji:'fukanou',meaning:'tidak mungkin'}] },
+
+  // ─── KANJI N3 ────────────────────────────────────────────────
+  '曜': { type:'kanji', romaji:'you', meaning:'hari (dalam seminggu)', onyomi:'ヨウ (you)', kunyomi:'-', stroke_count:18, radical:'日（matahari）', jlpt:'N3', examples:[{word:'日曜日',romaji:'nichiyoubi',meaning:'hari Minggu'},{word:'月曜日',romaji:'getsuyoubi',meaning:'hari Senin'}] },
+  '末': { type:'kanji', romaji:'matsu', meaning:'akhir', onyomi:'バツ (batsu), マツ (matsu)', kunyomi:'うら (ura), うれ (ure), すえ (sue)', stroke_count:5, radical:'木（pohon）', jlpt:'N3', examples:[{word:'週末',romaji:'shuumatsu',meaning:'akhir pekan'},{word:'年末',romaji:'nenmatsu',meaning:'akhir tahun'}] },
+  '昨': { type:'kanji', romaji:'saku', meaning:'kemarin / lalu', onyomi:'サク (saku)', kunyomi:'-', stroke_count:9, radical:'日（matahari）', jlpt:'N3', examples:[{word:'昨日',romaji:'kinou',meaning:'kemarin'},{word:'昨年',romaji:'sakunen',meaning:'tahun lalu'}] },
+  '翌': { type:'kanji', romaji:'yoku', meaning:'berikutnya', onyomi:'ヨク (yoku)', kunyomi:'-', stroke_count:11, radical:'羽（bulu/sayap）', jlpt:'N3', examples:[{word:'翌日',romaji:'yokujitsu',meaning:'hari berikutnya'},{word:'翌年',romaji:'yokunen',meaning:'tahun berikutnya'}] },
+  '現': { type:'kanji', romaji:'gen', meaning:'muncul / nyata / sekarang', onyomi:'ゲン (gen)', kunyomi:'あらわ.す (arawasu), あらわ.れる (arawareru)', stroke_count:11, radical:'玉（permata）', jlpt:'N3', examples:[{word:'現代',romaji:'gendai',meaning:'era modern'},{word:'現金',romaji:'genkin',meaning:'uang tunai'}] },
+  '昔': { type:'kanji', romaji:'mukashi', meaning:'kuno / masa lalu', onyomi:'シャク (shaku), セキ (seki)', kunyomi:'むかし (mukashi)', stroke_count:8, radical:'日（matahari）', jlpt:'N3', examples:[{word:'昔話',romaji:'mukashibanashi',meaning:'dongeng lama'},{word:'大昔',romaji:'oo-mukashi',meaning:'zaman dahulu kala'}] },
+  '次': { type:'kanji', romaji:'tsugi', meaning:'berikutnya / setelah', onyomi:'シ (shi), ジ (ji)', kunyomi:'つ.ぐ (tsugu), つぎ (tsugi)', stroke_count:6, radical:'欠（kurang）', jlpt:'N3', examples:[{word:'次回',romaji:'jikai',meaning:'lain kali'},{word:'目次',romaji:'mokuji',meaning:'daftar isi'}] },
+  '回': { type:'kanji', romaji:'kai', meaning:'kali / berputar', onyomi:'エ (e), カイ (kai)', kunyomi:'まわ.す (mawasu), まわ.る (mawaru)', stroke_count:6, radical:'囗（kotak/keliling）', jlpt:'N3', examples:[{word:'今回',romaji:'konkai',meaning:'kali ini'},{word:'一回',romaji:'ikkai',meaning:'sekali'}] },
+  '再': { type:'kanji', romaji:'sai', meaning:'lagi / kedua kali', onyomi:'サ (sa), サイ (sai)', kunyomi:'ふたた.び (futatabi)', stroke_count:6, radical:'冂（kotak atas）', jlpt:'N3', examples:[{word:'再来週',romaji:'saraishuu',meaning:'dua minggu lagi'},{word:'再生',romaji:'saisei',meaning:'daur ulang / putar ulang'}] },
+  '旧': { type:'kanji', romaji:'kyuu', meaning:'lama / bekas', onyomi:'キュウ (kyuu)', kunyomi:'ふる.い (furui), もと (moto)', stroke_count:5, radical:'日（matahari）', jlpt:'N3', examples:[{word:'旧館',romaji:'kyuukan',meaning:'gedung lama'},{word:'旧姓',romaji:'kyuusei',meaning:'nama gadis'}] },
+  '秒': { type:'kanji', romaji:'byou', meaning:'detik', onyomi:'ビョウ (byou)', kunyomi:'-', stroke_count:9, radical:'禾（padi）', jlpt:'N3', examples:[{word:'毎秒',romaji:'maibyou',meaning:'setiap detik'},{word:'数秒',romaji:'suubyou',meaning:'beberapa detik'}] },
+  '彼': { type:'kanji', romaji:'kare', meaning:'dia (laki-laki) / pacar', onyomi:'ヒ (hi)', kunyomi:'かの (kano), かれ (kare)', stroke_count:8, radical:'彳（jalan perlahan）', jlpt:'N3', examples:[{word:'彼氏',romaji:'kareshi',meaning:'pacar laki-laki'},{word:'彼女',romaji:'kanojo',meaning:'dia (perempuan) / pacar'}] },
+  '君': { type:'kanji', romaji:'kimi', meaning:'kamu / penguasa / gelar kehormatan', onyomi:'クン (kun)', kunyomi:'きみ (kimi)', stroke_count:7, radical:'口（mulut）', jlpt:'N3', examples:[{word:'君',romaji:'kimi',meaning:'kamu (informal)'},{word:'～君',romaji:'kun',meaning:'gelar panggilan pria muda'}] },
+  '仲': { type:'kanji', romaji:'naka', meaning:'hubungan / perantara', onyomi:'チュウ (chuu)', kunyomi:'なか (naka)', stroke_count:6, radical:'人（manusia）', jlpt:'N3', examples:[{word:'仲間',romaji:'nakama',meaning:'teman/rekan'},{word:'仲良し',romaji:'nakayoshi',meaning:'berteman baik'}] },
+  '達': { type:'kanji', romaji:'tachi', meaning:'mencapai / jamak (mereka)', onyomi:'タツ (tatsu), ダ (da)', kunyomi:'-たち (tachi)', stroke_count:12, radical:'辶（berjalan）', jlpt:'N3', examples:[{word:'友達',romaji:'tomodachi',meaning:'teman'},{word:'配達',romaji:'haitatsu',meaning:'pengiriman'}] },
+  '供': { type:'kanji', romaji:'tomo', meaning:'menawarkan / menemani / jamak', onyomi:'キョウ (kyou), ク (ku)', kunyomi:'そな.える (sonaeru), とも (tomo)', stroke_count:8, radical:'人（manusia）', jlpt:'N3', examples:[{word:'子供',romaji:'kodomo',meaning:'anak-anak'},{word:'提供',romaji:'teikyou',meaning:'penawaran/penyediaan'}] },
+  '娘': { type:'kanji', romaji:'musume', meaning:'anak perempuan / gadis', onyomi:'ジョウ (jou)', kunyomi:'むすめ (musume)', stroke_count:10, radical:'女（perempuan）', jlpt:'N3', examples:[{word:'娘',romaji:'musume',meaning:'anak perempuan sendiri'},{word:'一人娘',romaji:'hitorimusume',meaning:'anak perempuan tunggal'}] },
+  '婦': { type:'kanji', romaji:'fu', meaning:'wanita / istri', onyomi:'フ (fu)', kunyomi:'よめ (yome)', stroke_count:11, radical:'女（perempuan）', jlpt:'N3', examples:[{word:'主婦',romaji:'shufu',meaning:'ibu rumah tangga'},{word:'婦人',romaji:'fujin',meaning:'wanita/nyonya'}] },
+  '老': { type:'kanji', romaji:'rou', meaning:'tua / lanjut usia', onyomi:'ロウ (rou)', kunyomi:'お.いる (oiru), ふ.ける (fukeru)', stroke_count:6, radical:'老（tua）', jlpt:'N3', examples:[{word:'老人',romaji:'roujin',meaning:'orang tua/lansia'},{word:'老後',romaji:'rougo',meaning:'hari tua'}] },
+  '他': { type:'kanji', romaji:'hoka', meaning:'yang lain / selain itu', onyomi:'タ (ta)', kunyomi:'ほか (hoka)', stroke_count:5, radical:'人（manusia）', jlpt:'N3', examples:[{word:'他人',romaji:'tanin',meaning:'orang lain/orang asing'},{word:'その他',romaji:'sonota',meaning:'yang lainnya'}] },
+  '頭': { type:'kanji', romaji:'atama', meaning:'kepala', onyomi:'ズ (zu), ト (to), トウ (tou)', kunyomi:'あたま (atama), かしら (kashira)', stroke_count:16, radical:'頁（halaman/kepala）', jlpt:'N3', examples:[{word:'頭痛',romaji:'zutsuu',meaning:'sakit kepala'},{word:'頭がいい',romaji:'atama ga ii',meaning:'pintar/cerdas'}] },
+  '顔': { type:'kanji', romaji:'kao', meaning:'wajah', onyomi:'ガン (gan)', kunyomi:'かお (kao)', stroke_count:18, radical:'頁（halaman/kepala）', jlpt:'N3', examples:[{word:'笑顔',romaji:'egao',meaning:'wajah tersenyum'},{word:'顔色',romaji:'kaoiro',meaning:'rona wajah / ekspresi'}] },
+  '鼻': { type:'kanji', romaji:'hana', meaning:'hidung', onyomi:'ビ (bi)', kunyomi:'はな (hana)', stroke_count:14, radical:'鼻（hidung）', jlpt:'N3', examples:[{word:'鼻水',romaji:'hanamizu',meaning:'ingus'},{word:'鼻血',romaji:'hanaji',meaning:'mimisan'}] },
+  '首': { type:'kanji', romaji:'kubi', meaning:'leher / kepala / pemimpin', onyomi:'シュ (shu)', kunyomi:'くび (kubi)', stroke_count:9, radical:'首（leher）', jlpt:'N3', examples:[{word:'手首',romaji:'tekubi',meaning:'pergelangan tangan'},{word:'首都',romaji:'shuto',meaning:'ibu kota'}] },
+  '血': { type:'kanji', romaji:'chi', meaning:'darah', onyomi:'ケツ (ketsu)', kunyomi:'ち (chi)', stroke_count:6, radical:'血（darah）', jlpt:'N3', examples:[{word:'血液',romaji:'ketsueki',meaning:'darah (medis)'},{word:'鼻血',romaji:'hanaji',meaning:'mimisan'}] },
+  '液': { type:'kanji', romaji:'eki', meaning:'cairan / kuah', onyomi:'エキ (eki)', kunyomi:'-', stroke_count:11, radical:'水（air）', jlpt:'N3', examples:[{word:'液体',romaji:'ekitai',meaning:'zat cair'},{word:'血液',romaji:'ketsueki',meaning:'darah'}] },
+  '歯': { type:'kanji', romaji:'ha', meaning:'gigi', onyomi:'シ (shi)', kunyomi:'は (ha)', stroke_count:12, radical:'歯（gigi）', jlpt:'N3', examples:[{word:'歯医者',romaji:'haisha',meaning:'dokter gigi'},{word:'虫歯',romaji:'mushiba',meaning:'gigi berlubang'}] },
+  '型': { type:'kanji', romaji:'kata', meaning:'tipe / model / cetakan', onyomi:'ケイ (kei)', kunyomi:'かた (kata)', stroke_count:9, radical:'土（tanah）', jlpt:'N3', examples:[{word:'新型',romaji:'shingata',meaning:'model baru'},{word:'髪型',romaji:'kamigata',meaning:'gaya rambut'}] },
+  '氷': { type:'kanji', romaji:'koori', meaning:'es', onyomi:'ヒョウ (hyou)', kunyomi:'こお.る (kooru), こおり (koori)', stroke_count:5, radical:'水（air）', jlpt:'N3', examples:[{word:'氷水',romaji:'koorimizu',meaning:'air es'},{word:'かき氷',romaji:'kakigouri',meaning:'es serut'}] },
+  '湯': { type:'kanji', romaji:'yu', meaning:'air panas', onyomi:'トウ (tou)', kunyomi:'ゆ (yu)', stroke_count:12, radical:'水（air）', jlpt:'N3', examples:[{word:'お湯',romaji:'oyu',meaning:'air panas'},{word:'銭湯',romaji:'sentou',meaning:'pemandian umum'}] },
+  '卵': { type:'kanji', romaji:'tamago', meaning:'telur', onyomi:'ラン (ran)', kunyomi:'たまご (tamago)', stroke_count:7, radical:'卩（kneeling）', jlpt:'N3', examples:[{word:'卵焼き',romaji:'tamagoyaki',meaning:'telur dadar Jepang'},{word:'卵',romaji:'tamago',meaning:'telur'}] },
+  '豆': { type:'kanji', romaji:'mame', meaning:'kacang', onyomi:'ズ (zu), トウ (tou)', kunyomi:'まめ (mame)', stroke_count:7, radical:'豆（kacang）', jlpt:'N3', examples:[{word:'豆腐',romaji:'toufu',meaning:'tahu'},{word:'大豆',romaji:'daizu',meaning:'kedelai'}] },
+  '粉': { type:'kanji', romaji:'kona', meaning:'tepung / bubuk', onyomi:'フン (fun)', kunyomi:'こ (ko), こな (kona)', stroke_count:10, radical:'米（beras）', jlpt:'N3', examples:[{word:'小麦粉',romaji:'komugiko',meaning:'tepung terigu'},{word:'粉末',romaji:'funmatsu',meaning:'bubuk'}] },
+  '乳': { type:'kanji', romaji:'nyuu', meaning:'susu / menyusui', onyomi:'ニュウ (nyuu)', kunyomi:'ち (chi), ちち (chichi)', stroke_count:8, radical:'乙（kedua）', jlpt:'N3', examples:[{word:'牛乳',romaji:'gyuunyuu',meaning:'susu sapi'},{word:'母乳',romaji:'bonyuu',meaning:'ASI'}] },
+  '塩': { type:'kanji', romaji:'shio', meaning:'garam', onyomi:'エン (en)', kunyomi:'しお (shio)', stroke_count:13, radical:'土（tanah）', jlpt:'N3', examples:[{word:'塩',romaji:'shio',meaning:'garam'},{word:'塩分',romaji:'enbun',meaning:'kadar garam'}] },
+  '調': { type:'kanji', romaji:'shiraberu', meaning:'menyelidiki / memeriksa / menyetel', onyomi:'チョウ (chou)', kunyomi:'しら.べる (shiraberu), ととの.う (totonou), ととの.える (totonoeru)', stroke_count:15, radical:'言（kata-kata）', jlpt:'N3', examples:[{word:'調べる',romaji:'shiraberu',meaning:'menyelidiki'},{word:'調節',romaji:'chousetsu',meaning:'penyesuaian'}] },
+  '和': { type:'kanji', romaji:'wa', meaning:'harmoni / damai / Jepang', onyomi:'ワ (wa)', kunyomi:'なご.む (nagomu), やわ.らぐ (yawaraagu)', stroke_count:8, radical:'口（mulut）', jlpt:'N3', examples:[{word:'和食',romaji:'washoku',meaning:'masakan Jepang'},{word:'平和',romaji:'heiwa',meaning:'perdamaian'}] },
+  '熱': { type:'kanji', romaji:'netsu', meaning:'panas / demam / semangat', onyomi:'ネツ (netsu)', kunyomi:'あつ.い (atsui)', stroke_count:15, radical:'火（api）', jlpt:'N3', examples:[{word:'熱い',romaji:'atsui',meaning:'panas'},{word:'発熱',romaji:'hatsunetsu',meaning:'demam'}] },
+  '冷': { type:'kanji', romaji:'tsumetai', meaning:'dingin / tidak ramah', onyomi:'レイ (rei)', kunyomi:'つめ.たい (tsumetai), ひ.える (hieru), ひ.やす (hiyasu)', stroke_count:7, radical:'冫（es）', jlpt:'N3', examples:[{word:'冷たい',romaji:'tsumetai',meaning:'dingin'},{word:'冷蔵庫',romaji:'reizouko',meaning:'kulkas'}] },
+  '暖': { type:'kanji', romaji:'atatakai', meaning:'hangat', onyomi:'ダン (dan)', kunyomi:'あたた.か (atataka), あたた.かい (atatakai), あたた.まる (atatamaru), あたた.める (atatameru)', stroke_count:13, radical:'日（matahari）', jlpt:'N3', examples:[{word:'暖かい',romaji:'atatakai',meaning:'hangat'},{word:'温暖',romaji:'ondan',meaning:'temperatur hangat'}] },
+  '温': { type:'kanji', romaji:'on', meaning:'suhu / hangat / wen', onyomi:'オン (on)', kunyomi:'あたた.か (atataka), ぬる.い (nurui)', stroke_count:12, radical:'水（air）', jlpt:'N3', examples:[{word:'温泉',romaji:'onsen',meaning:'pemandian air panas'},{word:'体温',romaji:'taion',meaning:'suhu tubuh'}] },
+  '良': { type:'kanji', romaji:'ii', meaning:'bagus / baik', onyomi:'リョウ (ryou)', kunyomi:'い.い (ii), よ.い (yoi)', stroke_count:7, radical:'艮（berhenti）', jlpt:'N3', examples:[{word:'良い',romaji:'yoi',meaning:'baik'},{word:'改良',romaji:'kairyou',meaning:'perbaikan'}] },
+  '悪': { type:'kanji', romaji:'warui', meaning:'buruk / jahat', onyomi:'アク (aku), オ (o)', kunyomi:'わる.い (warui)', stroke_count:11, radical:'心（hati）', jlpt:'N3', examples:[{word:'悪い',romaji:'warui',meaning:'buruk'},{word:'悪魔',romaji:'akuma',meaning:'iblis'}] },
+  '厚': { type:'kanji', romaji:'atsui', meaning:'tebal / hangat hati', onyomi:'コウ (kou)', kunyomi:'あつ.い (atsui)', stroke_count:9, radical:'厂（tebing）', jlpt:'N3', examples:[{word:'厚い',romaji:'atsui',meaning:'tebal'},{word:'厚意',romaji:'koui',meaning:'kebaikan hati'}] },
+  '易': { type:'kanji', romaji:'yasashii', meaning:'mudah / meramal', onyomi:'イ (i), エキ (eki)', kunyomi:'やさ.しい (yasashii)', stroke_count:8, radical:'日（matahari）', jlpt:'N3', examples:[{word:'容易',romaji:'youi',meaning:'mudah'},{word:'貿易',romaji:'boueki',meaning:'perdagangan'}] },
+  '難': { type:'kanji', romaji:'muzukashii', meaning:'sulit / kesulitan', onyomi:'ナン (nan)', kunyomi:'かた.い (katai), むずか.しい (muzukashii)', stroke_count:19, radical:'隹（burung）', jlpt:'N3', examples:[{word:'難しい',romaji:'muzukashii',meaning:'sulit'},{word:'困難',romaji:'konnan',meaning:'kesulitan'}] },
+  '深': { type:'kanji', romaji:'fukai', meaning:'dalam / mendalam', onyomi:'シン (shin)', kunyomi:'ふか.い (fukai), ふか.まる (fukamaru)', stroke_count:11, radical:'水（air）', jlpt:'N3', examples:[{word:'深い',romaji:'fukai',meaning:'dalam'},{word:'深夜',romaji:'shinya',meaning:'larut malam'}] },
+  '浅': { type:'kanji', romaji:'asai', meaning:'dangkal / ringan', onyomi:'セン (sen)', kunyomi:'あさ.い (asai)', stroke_count:9, radical:'水（air）', jlpt:'N3', examples:[{word:'浅い',romaji:'asai',meaning:'dangkal'},{word:'浅草',romaji:'asakusa',meaning:'Asakusa (wilayah Tokyo)'}] },
+  '痛': { type:'kanji', romaji:'itai', meaning:'sakit / menyakitkan', onyomi:'ツウ (tsuu)', kunyomi:'いた.い (itai), いた.む (itamu)', stroke_count:12, radical:'疒（sakit）', jlpt:'N3', examples:[{word:'痛い',romaji:'itai',meaning:'sakit'},{word:'頭痛',romaji:'zutsuu',meaning:'sakit kepala'}] },
+  '苦': { type:'kanji', romaji:'kurushii', meaning:'menderita / pahit', onyomi:'ク (ku)', kunyomi:'くる.しい (kurushii), にが.い (nigai)', stroke_count:8, radical:'艸（rumput）', jlpt:'N3', examples:[{word:'苦しい',romaji:'kurushii',meaning:'menderita'},{word:'苦労',romaji:'kurou',meaning:'kerja keras/susah payah'}] },
+  '欲': { type:'kanji', romaji:'hoshii', meaning:'keinginan / nafsu', onyomi:'ヨク (yoku)', kunyomi:'ほっ.する (hossuru), ほ.しい (hoshii)', stroke_count:11, radical:'欠（kurang）', jlpt:'N3', examples:[{word:'欲しい',romaji:'hoshii',meaning:'ingin'},{word:'食欲',romaji:'shokuyoku',meaning:'nafsu makan'}] },
+  '捨': { type:'kanji', romaji:'suteru', meaning:'membuang / meninggalkan', onyomi:'シャ (sha)', kunyomi:'す.てる (suteru)', stroke_count:11, radical:'手（tangan）', jlpt:'N3', examples:[{word:'捨てる',romaji:'suteru',meaning:'membuang'},{word:'四捨五入',romaji:'shishagonyuu',meaning:'pembulatan'}] },
+  '拾': { type:'kanji', romaji:'hirou', meaning:'memungut / memilih', onyomi:'ジュウ (juu), シュウ (shuu)', kunyomi:'ひろ.う (hirou)', stroke_count:9, radical:'手（tangan）', jlpt:'N3', examples:[{word:'拾う',romaji:'hirou',meaning:'memungut'},{word:'拾得物',romaji:'shuutokubutsu',meaning:'barang temuan'}] },
+  '貸': { type:'kanji', romaji:'kasu', meaning:'meminjamkan', onyomi:'タイ (tai)', kunyomi:'か.す (kasu)', stroke_count:12, radical:'貝（kerang）', jlpt:'N3', examples:[{word:'貸す',romaji:'kasu',meaning:'meminjamkan'},{word:'貸し出し',romaji:'kashidashi',meaning:'peminjaman'}] },
+  '借': { type:'kanji', romaji:'kariru', meaning:'meminjam', onyomi:'シャク (shaku)', kunyomi:'か.りる (kariru)', stroke_count:10, radical:'人（manusia）', jlpt:'N3', examples:[{word:'借りる',romaji:'kariru',meaning:'meminjam'},{word:'借金',romaji:'shakkin',meaning:'hutang'}] },
+  '覚': { type:'kanji', romaji:'oboeru', meaning:'mengingat / menyadari', onyomi:'カク (kaku)', kunyomi:'おぼ.える (oboeru), さ.ます (samasu), さ.める (sameru)', stroke_count:12, radical:'見（melihat）', jlpt:'N3', examples:[{word:'覚える',romaji:'oboeru',meaning:'mengingat'},{word:'目覚め',romaji:'mezame',meaning:'terbangun'}] },
+  '忘': { type:'kanji', romaji:'wasureru', meaning:'melupakan', onyomi:'ボウ (bou)', kunyomi:'わす.れる (wasureru)', stroke_count:7, radical:'心（hati）', jlpt:'N3', examples:[{word:'忘れる',romaji:'wasureru',meaning:'melupakan'},{word:'忘年会',romaji:'bounenkai',meaning:'pesta akhir tahun'}] },
+  '押': { type:'kanji', romaji:'osu', meaning:'mendorong / menekan', onyomi:'オウ (ou)', kunyomi:'お.さえる (osaeru), お.す (osu)', stroke_count:8, radical:'手（tangan）', jlpt:'N3', examples:[{word:'押す',romaji:'osu',meaning:'mendorong/menekan'},{word:'押さえる',romaji:'osaeru',meaning:'menahan/menekan'}] },
+  '引': { type:'kanji', romaji:'hiku', meaning:'menarik / mengurangi', onyomi:'イン (in)', kunyomi:'ひ.く (hiku), ひ.き (hiki)', stroke_count:4, radical:'弓（busur）', jlpt:'N3', examples:[{word:'引く',romaji:'hiku',meaning:'menarik'},{word:'引っ越し',romaji:'hikkoshi',meaning:'pindah rumah'}] },
+  '打': { type:'kanji', romaji:'utsu', meaning:'memukul / mengetik', onyomi:'ダ (da)', kunyomi:'う.つ (utsu)', stroke_count:5, radical:'手（tangan）', jlpt:'N3', examples:[{word:'打つ',romaji:'utsu',meaning:'memukul'},{word:'打ち合わせ',romaji:'uchiawase',meaning:'rapat/briefing'}] },
+  '投': { type:'kanji', romaji:'nageru', meaning:'melempar / menyerahkan', onyomi:'トウ (tou)', kunyomi:'な.げる (nageru)', stroke_count:7, radical:'手（tangan）', jlpt:'N3', examples:[{word:'投げる',romaji:'nageru',meaning:'melempar'},{word:'投資',romaji:'toushi',meaning:'investasi'}] },
+  '信': { type:'kanji', romaji:'shinjiru', meaning:'percaya / kepercayaan', onyomi:'シン (shin)', kunyomi:'-', stroke_count:9, radical:'人（manusia）', jlpt:'N3', examples:[{word:'信じる',romaji:'shinjiru',meaning:'percaya'},{word:'自信',romaji:'jishin',meaning:'kepercayaan diri'}] },
+  '伝': { type:'kanji', romaji:'tsutaeru', meaning:'menyampaikan / tradisi', onyomi:'デン (den)', kunyomi:'つた.える (tsutaeru), つた.わる (tsutawaru)', stroke_count:6, radical:'人（manusia）', jlpt:'N3', examples:[{word:'伝える',romaji:'tsutaeru',meaning:'menyampaikan'},{word:'伝統',romaji:'dentou',meaning:'tradisi'}] },
+  '想': { type:'kanji', romaji:'omou', meaning:'memikirkan / membayangkan', onyomi:'ソウ (sou), ソ (so)', kunyomi:'-', stroke_count:13, radical:'心（hati）', jlpt:'N3', examples:[{word:'想像',romaji:'souzou',meaning:'imajinasi'},{word:'感想',romaji:'kansou',meaning:'kesan/tanggapan'}] },
+  '続': { type:'kanji', romaji:'tsuzuku', meaning:'melanjutkan / berlanjut', onyomi:'ゾク (zoku)', kunyomi:'つづ.く (tsuzuku), つづ.ける (tsuzukeru)', stroke_count:13, radical:'糸（benang）', jlpt:'N3', examples:[{word:'続く',romaji:'tsuzuku',meaning:'berlanjut'},{word:'連続',romaji:'renzoku',meaning:'berturut-turut'}] },
+  '祝': { type:'kanji', romaji:'iwau', meaning:'merayakan / selamat', onyomi:'シュウ (shuu), シュク (shuku)', kunyomi:'いわ.う (iwau)', stroke_count:9, radical:'示（altar）', jlpt:'N3', examples:[{word:'祝う',romaji:'iwau',meaning:'merayakan'},{word:'お祝い',romaji:'oiwai',meaning:'ucapan selamat'}] },
+  '願': { type:'kanji', romaji:'negau', meaning:'berharap / memohon', onyomi:'ガン (gan)', kunyomi:'ねが.い (negai), ねが.う (negau)', stroke_count:19, radical:'頁（halaman）', jlpt:'N3', examples:[{word:'願う',romaji:'negau',meaning:'berharap'},{word:'お願い',romaji:'onegai',meaning:'permintaan/tolong'}] },
+  '酔': { type:'kanji', romaji:'you', meaning:'mabuk', onyomi:'スイ (sui)', kunyomi:'よ.う (you)', stroke_count:11, radical:'酉（botol/miras）', jlpt:'N3', examples:[{word:'酔う',romaji:'you',meaning:'mabuk'},{word:'乗り物酔い',romaji:'norimonoyoi',meaning:'mabuk kendaraan'}] },
+  '起': { type:'kanji', romaji:'okiru', meaning:'bangun / terjadi', onyomi:'キ (ki)', kunyomi:'お.きる (okiru), お.こる (okoru), お.こす (okosu)', stroke_count:10, radical:'走（berlari）', jlpt:'N3', examples:[{word:'起きる',romaji:'okiru',meaning:'bangun tidur'},{word:'起こす',romaji:'okosu',meaning:'membangunkan'}] },
+  '寝': { type:'kanji', romaji:'neru', meaning:'tidur / berbaring', onyomi:'シン (shin)', kunyomi:'ね.る (neru)', stroke_count:13, radical:'宀（atap）', jlpt:'N3', examples:[{word:'寝る',romaji:'neru',meaning:'tidur'},{word:'寝室',romaji:'shinshitsu',meaning:'kamar tidur'}] },
+  '洗': { type:'kanji', romaji:'arau', meaning:'mencuci', onyomi:'セン (sen)', kunyomi:'あら.う (arau)', stroke_count:9, radical:'水（air）', jlpt:'N3', examples:[{word:'洗う',romaji:'arau',meaning:'mencuci'},{word:'洗面所',romaji:'senmenjo',meaning:'kamar mandi/wastafel'}] },
+  '濯': { type:'kanji', romaji:'susugu', meaning:'membilas', onyomi:'タク (taku)', kunyomi:'すす.ぐ (susugu)', stroke_count:17, radical:'水（air）', jlpt:'N3', examples:[{word:'洗濯',romaji:'sentaku',meaning:'mencuci pakaian'},{word:'洗濯機',romaji:'sentakuki',meaning:'mesin cuci'}] },
+  '干': { type:'kanji', romaji:'hosu', meaning:'mengeringkan / menjemur', onyomi:'カン (kan)', kunyomi:'ほ.す (hosu)', stroke_count:3, radical:'十（sepuluh）', jlpt:'N3', examples:[{word:'干す',romaji:'hosu',meaning:'menjemur'},{word:'梅干し',romaji:'umeboshi',meaning:'plum asin'}] },
+  '浴': { type:'kanji', romaji:'abiru', meaning:'mandi / membasahi', onyomi:'ヨク (yoku)', kunyomi:'あ.びる (abiru), あ.びせる (abiseru)', stroke_count:10, radical:'水（air）', jlpt:'N3', examples:[{word:'浴びる',romaji:'abiru',meaning:'mandi/membasahi'},{word:'入浴',romaji:'nyuuyoku',meaning:'mandi'}] },
+  '活': { type:'kanji', romaji:'katsu', meaning:'hidup / aktif', onyomi:'カツ (katsu)', kunyomi:'-', stroke_count:9, radical:'水（air）', jlpt:'N3', examples:[{word:'生活',romaji:'seikatsu',meaning:'kehidupan'},{word:'活動',romaji:'katsudou',meaning:'aktivitas'}] },
+  '夢': { type:'kanji', romaji:'yume', meaning:'mimpi / impian', onyomi:'ム (mu)', kunyomi:'ゆめ (yume)', stroke_count:13, radical:'夕（malam）', jlpt:'N3', examples:[{word:'夢',romaji:'yume',meaning:'mimpi'},{word:'悪夢',romaji:'akumu',meaning:'mimpi buruk'}] },
+  '貯': { type:'kanji', romaji:'tameru', meaning:'menabung / mengumpulkan', onyomi:'チョ (cho)', kunyomi:'た.める (tameru)', stroke_count:12, radical:'貝（kerang）', jlpt:'N3', examples:[{word:'貯金',romaji:'chokin',meaning:'tabungan'},{word:'貯蔵',romaji:'chozou',meaning:'penyimpanan'}] },
+  '列': { type:'kanji', romaji:'retsu', meaning:'barisan / daftar', onyomi:'レツ (retsu)', kunyomi:'-', stroke_count:6, radical:'刀（pisau）', jlpt:'N3', examples:[{word:'行列',romaji:'gyouretsu',meaning:'antrean/barisan'},{word:'列車',romaji:'ressha',meaning:'kereta api'}] },
+  '袋': { type:'kanji', romaji:'fukuro', meaning:'kantong / tas', onyomi:'タイ (tai)', kunyomi:'ふくろ (fukuro)', stroke_count:11, radical:'衣（pakaian）', jlpt:'N3', examples:[{word:'袋',romaji:'fukuro',meaning:'kantong'},{word:'手袋',romaji:'tebukuro',meaning:'sarung tangan'}] },
+  '久': { type:'kanji', romaji:'hisashiburi', meaning:'lama / sudah lama', onyomi:'キュウ (kyuu), ク (ku)', kunyomi:'ひさ.し (hisashi), ひさ.しい (hisashii)', stroke_count:3, radical:'ノ（goresan）', jlpt:'N3', examples:[{word:'久しぶり',romaji:'hisashiburi',meaning:'sudah lama tidak bertemu'},{word:'永久',romaji:'eikyuu',meaning:'abadi'}] },
+  '喜': { type:'kanji', romaji:'yorokobu', meaning:'gembira / senang', onyomi:'キ (ki)', kunyomi:'よろこ.ぶ (yorokobu)', stroke_count:12, radical:'口（mulut）', jlpt:'N3', examples:[{word:'喜ぶ',romaji:'yorokobu',meaning:'bergembira'},{word:'喜び',romaji:'yorokobi',meaning:'kegembiraan'}] },
+  '怒': { type:'kanji', romaji:'okoru', meaning:'marah', onyomi:'ド (do), ヌ (nu)', kunyomi:'いか.る (ikaru), おこ.る (okoru)', stroke_count:9, radical:'心（hati）', jlpt:'N3', examples:[{word:'怒る',romaji:'okoru',meaning:'marah'},{word:'怒鳴る',romaji:'donaru',meaning:'berteriak marah'}] },
+  '笑': { type:'kanji', romaji:'warau', meaning:'tertawa / tersenyum', onyomi:'ショウ (shou)', kunyomi:'え.む (emu), わら.う (warau)', stroke_count:10, radical:'竹（bambu）', jlpt:'N3', examples:[{word:'笑う',romaji:'warau',meaning:'tertawa'},{word:'笑顔',romaji:'egao',meaning:'senyum'}] },
+  '泣': { type:'kanji', romaji:'naku', meaning:'menangis', onyomi:'キュウ (kyuu)', kunyomi:'な.く (naku)', stroke_count:8, radical:'水（air）', jlpt:'N3', examples:[{word:'泣く',romaji:'naku',meaning:'menangis'},{word:'泣き声',romaji:'nakigoe',meaning:'suara tangisan'}] },
+  '悲': { type:'kanji', romaji:'kanashii', meaning:'sedih', onyomi:'ヒ (hi)', kunyomi:'かな.しい (kanashii), かな.しむ (kanashimu)', stroke_count:12, radical:'心（hati）', jlpt:'N3', examples:[{word:'悲しい',romaji:'kanashii',meaning:'sedih'},{word:'悲劇',romaji:'higeki',meaning:'tragedi'}] },
+  '涙': { type:'kanji', romaji:'namida', meaning:'air mata', onyomi:'ルイ (rui)', kunyomi:'なみだ (namida)', stroke_count:10, radical:'水（air）', jlpt:'N3', examples:[{word:'涙',romaji:'namida',meaning:'air mata'},{word:'涙声',romaji:'namidagoe',meaning:'suara berurai air mata'}] },
+  '幸': { type:'kanji', romaji:'shiawase', meaning:'kebahagiaan / keberuntungan', onyomi:'コウ (kou)', kunyomi:'さいわ.い (saiwai), しあわ.せ (shiawase)', stroke_count:8, radical:'土（tanah）', jlpt:'N3', examples:[{word:'幸せ',romaji:'shiawase',meaning:'kebahagiaan'},{word:'幸運',romaji:'kouun',meaning:'keberuntungan'}] },
+  '感': { type:'kanji', romaji:'kan', meaning:'perasaan / merasakan', onyomi:'カン (kan)', kunyomi:'-', stroke_count:13, radical:'心（hati）', jlpt:'N3', examples:[{word:'感じる',romaji:'kanjiru',meaning:'merasakan'},{word:'感謝',romaji:'kansha',meaning:'rasa terima kasih'}] },
+  '情': { type:'kanji', romaji:'nasake', meaning:'perasaan / kasih sayang', onyomi:'ジョウ (jou), セイ (sei)', kunyomi:'なさ.け (nasake)', stroke_count:11, radical:'心（hati）', jlpt:'N3', examples:[{word:'感情',romaji:'kanjou',meaning:'emosi/perasaan'},{word:'情報',romaji:'jouhou',meaning:'informasi'}] },
+  '悩': { type:'kanji', romaji:'nayamu', meaning:'khawatir / bingung', onyomi:'ノウ (nou)', kunyomi:'なや.む (nayamu), なや.ます (nayamasu)', stroke_count:10, radical:'心（hati）', jlpt:'N3', examples:[{word:'悩む',romaji:'nayamu',meaning:'khawatir/bingung'},{word:'悩み',romaji:'nayami',meaning:'kekhawatiran'}] },
+  '困': { type:'kanji', romaji:'komaru', meaning:'kesulitan / bingung', onyomi:'コン (kon)', kunyomi:'こま.る (komaru)', stroke_count:7, radical:'囗（kotak）', jlpt:'N3', examples:[{word:'困る',romaji:'komaru',meaning:'kesulitan'},{word:'困難',romaji:'konnan',meaning:'kesulitan'}] },
+  '残': { type:'kanji', romaji:'nokoru', meaning:'tersisa / sisa', onyomi:'ザン (zan)', kunyomi:'のこ.す (nokosu), のこ.る (nokoru)', stroke_count:10, radical:'歹（buruk/tulang）', jlpt:'N3', examples:[{word:'残る',romaji:'nokoru',meaning:'tersisa'},{word:'残念',romaji:'zannen',meaning:'sayang sekali'}] },
+  '念': { type:'kanji', romaji:'nen', meaning:'pikiran / pengingat / niat', onyomi:'ネン (nen)', kunyomi:'-', stroke_count:8, radical:'心（hati）', jlpt:'N3', examples:[{word:'念のため',romaji:'nen no tame',meaning:'untuk berjaga-jaga'},{word:'残念',romaji:'zannen',meaning:'sayang sekali'}] },
+  '関': { type:'kanji', romaji:'kakawaru', meaning:'berhubungan / terkait', onyomi:'カン (kan)', kunyomi:'かか.わる (kakawaru)', stroke_count:14, radical:'門（gerbang）', jlpt:'N3', examples:[{word:'関係',romaji:'kankei',meaning:'hubungan'},{word:'関係する',romaji:'kankei suru',meaning:'berhubungan'}] },
+  '係': { type:'kanji', romaji:'kakari', meaning:'petugas / terkait', onyomi:'ケイ (kei)', kunyomi:'かか.り (kakari), かか.る (kakaru)', stroke_count:9, radical:'人（manusia）', jlpt:'N3', examples:[{word:'係員',romaji:'kakariin',meaning:'petugas'},{word:'関係',romaji:'kankei',meaning:'hubungan'}] },
+  '結': { type:'kanji', romaji:'musubu', meaning:'mengikat / menyimpulkan', onyomi:'ケツ (ketsu)', kunyomi:'むす.ぶ (musubu), ゆ.う (yuu)', stroke_count:12, radical:'糸（benang）', jlpt:'N3', examples:[{word:'結ぶ',romaji:'musubu',meaning:'mengikat'},{word:'結果',romaji:'kekka',meaning:'hasil'}] },
+  '婚': { type:'kanji', romaji:'kon', meaning:'pernikahan', onyomi:'コン (kon)', kunyomi:'-', stroke_count:11, radical:'女（perempuan）', jlpt:'N3', examples:[{word:'結婚',romaji:'kekkon',meaning:'pernikahan'},{word:'婚約',romaji:'kon-yaku',meaning:'tunangan'}] },
+  '独': { type:'kanji', romaji:'hitori', meaning:'sendirian / tunggal', onyomi:'ドク (doku)', kunyomi:'ひと.り (hitori)', stroke_count:9, radical:'犬（anjing）', jlpt:'N3', examples:[{word:'独身',romaji:'dokushin',meaning:'lajang'},{word:'独立',romaji:'dokuritsu',meaning:'kemandirian'}] },
+  '身': { type:'kanji', romaji:'mi', meaning:'tubuh / diri / status sosial', onyomi:'シン (shin)', kunyomi:'み (mi)', stroke_count:7, radical:'身（tubuh）', jlpt:'N3', examples:[{word:'自身',romaji:'jishin',meaning:'diri sendiri'},{word:'身長',romaji:'shinchou',meaning:'tinggi badan'}] },
+  '恋': { type:'kanji', romaji:'koi', meaning:'cinta / asmara', onyomi:'レン (ren)', kunyomi:'こい (koi), こい.しい (koishii)', stroke_count:10, radical:'心（hati）', jlpt:'N3', examples:[{word:'恋人',romaji:'koibito',meaning:'pacar'},{word:'恋愛',romaji:'renai',meaning:'asmara/cinta'}] },
+  '愛': { type:'kanji', romaji:'ai', meaning:'cinta / kasih sayang', onyomi:'アイ (ai)', kunyomi:'いと.しい (itoshii)', stroke_count:13, radical:'心（hati）', jlpt:'N3', examples:[{word:'愛する',romaji:'aisuru',meaning:'mencintai'},{word:'愛情',romaji:'aijou',meaning:'kasih sayang'}] },
+  '永': { type:'kanji', romaji:'nagai', meaning:'selamanya / kekal / abadi', onyomi:'エイ (ei)', kunyomi:'なが.い (nagai)', stroke_count:5, radical:'水（air）', jlpt:'N3', examples:[{word:'永遠',romaji:'eien',meaning:'keabadian'},{word:'永住',romaji:'eijuu',meaning:'tinggal menetap'}] },
+  '福': { type:'kanji', romaji:'fuku', meaning:'keberuntungan / berkah', onyomi:'フク (fuku)', kunyomi:'-', stroke_count:13, radical:'示（altar）', jlpt:'N3', examples:[{word:'幸福',romaji:'koufuku',meaning:'kebahagiaan'},{word:'福祉',romaji:'fukushi',meaning:'kesejahteraan'}] },
+  '予': { type:'kanji', romaji:'arakajime', meaning:'sebelumnya / memesan', onyomi:'ヨ (yo)', kunyomi:'あらかじ.め (arakajime)', stroke_count:4, radical:'亅（kait）', jlpt:'N3', examples:[{word:'予定',romaji:'yotei',meaning:'rencana/jadwal'},{word:'予約',romaji:'yoyaku',meaning:'reservasi/janji'}] },
+  '定': { type:'kanji', romaji:'sadameru', meaning:'menetapkan / pasti', onyomi:'ジョウ (jou), テイ (tei)', kunyomi:'さだ.める (sadameru)', stroke_count:8, radical:'宀（atap）', jlpt:'N3', examples:[{word:'予定',romaji:'yotei',meaning:'rencana'},{word:'決定',romaji:'kettei',meaning:'keputusan'}] },
+  '用': { type:'kanji', romaji:'mochiiru', meaning:'menggunakan / urusan / keperluan', onyomi:'ヨウ (you)', kunyomi:'もち.いる (mochiiru)', stroke_count:5, radical:'用（menggunakan）', jlpt:'N3', examples:[{word:'用意',romaji:'youi',meaning:'persiapan'},{word:'利用',romaji:'riyou',meaning:'penggunaan/pemanfaatan'}] },
+  '事': { type:'kanji', romaji:'koto', meaning:'hal / urusan / kejadian', onyomi:'ジ (ji), ズ (zu)', kunyomi:'こと (koto)', stroke_count:8, radical:'亅（kait）', jlpt:'N3', examples:[{word:'仕事',romaji:'shigoto',meaning:'pekerjaan'},{word:'事故',romaji:'jiko',meaning:'kecelakaan'}] },
+  '約': { type:'kanji', romaji:'yaku', meaning:'janji / sekitar / menyingkat', onyomi:'ヤク (yaku)', kunyomi:'-', stroke_count:9, radical:'糸（benang）', jlpt:'N3', examples:[{word:'予約',romaji:'yoyaku',meaning:'reservasi'},{word:'約束',romaji:'yakusoku',meaning:'janji'}] },
+  '束': { type:'kanji', romaji:'taba', meaning:'ikat / berkas / mengendalikan', onyomi:'ソク (soku)', kunyomi:'たば (taba)', stroke_count:7, radical:'木（pohon）', jlpt:'N3', examples:[{word:'約束',romaji:'yakusoku',meaning:'janji'},{word:'花束',romaji:'hanataba',meaning:'buket bunga'}] },
+  '必': { type:'kanji', romaji:'kanarazu', meaning:'pasti / mutlak', onyomi:'ヒツ (hitsu)', kunyomi:'かなら.ず (kanarazu)', stroke_count:5, radical:'心（hati）', jlpt:'N3', examples:[{word:'必ず',romaji:'kanarazu',meaning:'pasti/tentu saja'},{word:'必要',romaji:'hitsuyou',meaning:'butuh/perlu'}] },
+  '要': { type:'kanji', romaji:'iru', meaning:'membutuhkan / penting / pokok', onyomi:'ヨウ (you)', kunyomi:'い.る (iru), かなめ (kaname)', stroke_count:9, radical:'襾（penutup）', jlpt:'N3', examples:[{word:'必要',romaji:'hitsuyou',meaning:'perlu'},{word:'重要',romaji:'juuyou',meaning:'penting'}] },
+  '取': { type:'kanji', romaji:'toru', meaning:'mengambil / memperoleh', onyomi:'シュ (shu)', kunyomi:'と.る (toru)', stroke_count:8, radical:'又（tangan/lagi）', jlpt:'N3', examples:[{word:'取る',romaji:'toru',meaning:'mengambil'},{word:'受け取る',romaji:'uketoru',meaning:'menerima'}] },
+  '消': { type:'kanji', romaji:'kesu', meaning:'memadamkan / menghapus / lenyap', onyomi:'ショウ (shou)', kunyomi:'き.える (kieru), け.す (kesu)', stroke_count:10, radical:'水（air）', jlpt:'N3', examples:[{word:'消す',romaji:'kesu',meaning:'memadamkan/menghapus'},{word:'消しゴム',romaji:'keshigomu',meaning:'penghapus'}] },
+  '返': { type:'kanji', romaji:'kaesu', meaning:'mengembalikan / membalas', onyomi:'ヘン (hen)', kunyomi:'かえ.す (kaesu), かえ.る (kaeru)', stroke_count:7, radical:'辶（berjalan）', jlpt:'N3', examples:[{word:'返す',romaji:'kaesu',meaning:'mengembalikan'},{word:'返事',romaji:'henji',meaning:'jawaban/balasan'}] },
+  '守': { type:'kanji', romaji:'mamoru', meaning:'melindungi / mematuhi / menjaga', onyomi:'シュ (shu), ス (su)', kunyomi:'まも.る (mamoru)', stroke_count:6, radical:'宀（atap）', jlpt:'N3', examples:[{word:'守る',romaji:'mamoru',meaning:'melindungi/mematuhi'},{word:'留守',romaji:'rusu',meaning:'tidak di rumah'}] },
+  '杯': { type:'kanji', romaji:'sakazuki', meaning:'cangkir / gelas (satuan)', onyomi:'ハイ (hai)', kunyomi:'さかずき (sakazuki)', stroke_count:8, radical:'木（pohon）', jlpt:'N3', examples:[{word:'乾杯',romaji:'kanpai',meaning:'tos/toast'},{word:'一杯',romaji:'ippai',meaning:'segelas/penuh'}] },
+  '枚': { type:'kanji', romaji:'mai', meaning:'lembar (satuan kertas/baju)', onyomi:'バイ (bai), マイ (mai)', kunyomi:'-', stroke_count:8, radical:'木（pohon）', jlpt:'N3', examples:[{word:'一枚',romaji:'ichimai',meaning:'satu lembar'},{word:'枚数',romaji:'maisuu',meaning:'jumlah lembar'}] },
+  '匹': { type:'kanji', romaji:'hiki', meaning:'ekor (satuan hewan kecil)', onyomi:'ヒツ (hitsu)', kunyomi:'ひき (hiki)', stroke_count:4, radical:'匸（kotak tersembunyi）', jlpt:'N3', examples:[{word:'一匹',romaji:'ippiki',meaning:'seekor'},{word:'数匹',romaji:'suuhiki',meaning:'beberapa ekor'}] },
+  '冊': { type:'kanji', romaji:'satsu', meaning:'jilid / buku (satuan)', onyomi:'サク (saku), サツ (satsu)', kunyomi:'-', stroke_count:5, radical:'冂（kotak atas/buku）', jlpt:'N3', examples:[{word:'一冊',romaji:'issatsu',meaning:'satu jilid buku'},{word:'冊子',romaji:'sasshi',meaning:'brosur/pamflet'}] },
+  '各': { type:'kanji', romaji:'kaku', meaning:'setiap / masing-masing', onyomi:'カク (kaku)', kunyomi:'おのおの (onoono)', stroke_count:6, radical:'口（mulut）', jlpt:'N3', examples:[{word:'各自',romaji:'kakuji',meaning:'masing-masing orang'},{word:'各駅',romaji:'kakueki',meaning:'setiap stasiun'}] },
+  '量': { type:'kanji', romaji:'ryou', meaning:'kuantitas / menimbang / mengukur', onyomi:'リョウ (ryou)', kunyomi:'はか.る (hakaru)', stroke_count:12, radical:'里（kampung）', jlpt:'N3', examples:[{word:'量る',romaji:'hakaru',meaning:'mengukur'},{word:'大量',romaji:'tairyou',meaning:'jumlah banyak/massal'}] },
+  '最': { type:'kanji', romaji:'mottomo', meaning:'paling / ter-', onyomi:'サイ (sai)', kunyomi:'もっと.も (mottomo)', stroke_count:12, radical:'曰（berkata）', jlpt:'N3', examples:[{word:'最近',romaji:'saikin',meaning:'akhir-akhir ini'},{word:'最初',romaji:'saisho',meaning:'pertama kali / awal'}] },
+  '単': { type:'kanji', romaji:'tan', meaning:'tunggal / sederhana', onyomi:'タン (tan)', kunyomi:'ひとえ (hitoe)', stroke_count:9, radical:'十（sepuluh）', jlpt:'N3', examples:[{word:'簡単',romaji:'kantan',meaning:'mudah/sederhana'},{word:'単語',romaji:'tango',meaning:'kosakata'}] },
+  '複': { type:'kanji', romaji:'fuku', meaning:'ganda / majemuk', onyomi:'フク (fuku)', kunyomi:'-', stroke_count:14, radical:'衣（pakaian）', jlpt:'N3', examples:[{word:'複数',romaji:'fukusuu',meaning:'jumlah ganda'},{word:'複雑',romaji:'fukuzatsu',meaning:'rumit/kompleks'}] },
+  '全': { type:'kanji', romaji:'subete', meaning:'semua / seluruh', onyomi:'ゼン (zen)', kunyomi:'すべ.て (subete), まった.く (mattaku)', stroke_count:6, radical:'入（masuk）', jlpt:'N3', examples:[{word:'全部',romaji:'zenbu',meaning:'semua'},{word:'安全',romaji:'anzen',meaning:'aman'}] },
+  '以': { type:'kanji', romaji:'i', meaning:'dengan cara / dari (batas)', onyomi:'イ (i)', kunyomi:'もっ.て (motte)', stroke_count:5, radical:'人（manusia）', jlpt:'N3', examples:[{word:'以上',romaji:'ijou',meaning:'lebih dari/sekian'},{word:'以下',romaji:'ika',meaning:'kurang dari/berikut ini'}] },
+  '未': { type:'kanji', romaji:'imada', meaning:'belum', onyomi:'ビ (bi), ミ (mi)', kunyomi:'ま.だ (mada)', stroke_count:5, radical:'木（pohon）', jlpt:'N3', examples:[{word:'未来',romaji:'mirai',meaning:'masa depan'},{word:'未満',romaji:'miman',meaning:'kurang dari (batas bawah)'}] },
+  '満': { type:'kanji', romaji:'michiru', meaning:'penuh / memuaskan', onyomi:'バン (ban), マン (man)', kunyomi:'み.ちる (michiru), み.たす (mitasu)', stroke_count:12, radical:'水（air）', jlpt:'N3', examples:[{word:'満車',romaji:'mansha',meaning:'parkir penuh'},{word:'満足',romaji:'manzoku',meaning:'puas'}] },
+  '無': { type:'kanji', romaji:'mu', meaning:'tidak ada / ketiadaan', onyomi:'ブ (bu), ム (mu)', kunyomi:'な.い (nai)', stroke_count:12, radical:'火（api）', jlpt:'N3', examples:[{word:'無理',romaji:'muri',meaning:'mustahil/terlalu memaksakan'},{word:'無料',romaji:'muryou',meaning:'gratis'}] },
+  '非': { type:'kanji', romaji:'hi', meaning:'bukan / kesalahan / negatif', onyomi:'ヒ (hi)', kunyomi:'-', stroke_count:8, radical:'非（bukan）', jlpt:'N3', examples:[{word:'非常に',romaji:'hijouni',meaning:'sangat/luar biasa'},{word:'非常口',romaji:'hijouguchi',meaning:'pintu darurat'}] },
+  '季': { type:'kanji', romaji:'ki', meaning:'musim', onyomi:'キ (ki)', kunyomi:'-', stroke_count:8, radical:'子（anak）', jlpt:'N3', examples:[{word:'季節',romaji:'kisetsu',meaning:'musim'},{word:'四季',romaji:'shiki',meaning:'empat musim'}] },
+  '候': { type:'kanji', romaji:'kou', meaning:'musim / iklim / mencalonkan', onyomi:'コウ (kou)', kunyomi:'-', stroke_count:10, radical:'人（manusia）', jlpt:'N3', examples:[{word:'気候',romaji:'kikou',meaning:'iklim'},{word:'候補',romaji:'kouho',meaning:'kandidat/calon'}] },
+  '島': { type:'kanji', romaji:'shima', meaning:'pulau', onyomi:'トウ (tou)', kunyomi:'しま (shima)', stroke_count:10, radical:'山（gunung）', jlpt:'N3', examples:[{word:'島国',romaji:'shimaguni',meaning:'negara kepulauan'},{word:'半島',romaji:'hantou',meaning:'semenanjung'}] },
+  '陸': { type:'kanji', romaji:'riku', meaning:'darat / daratan', onyomi:'リク (riku)', kunyomi:'おか (oka)', stroke_count:11, radical:'阜（bukit）', jlpt:'N3', examples:[{word:'大陸',romaji:'tairiku',meaning:'benua'},{word:'着陸',romaji:'chakuriku',meaning:'pendaratan (pesawat)'}] },
+  '河': { type:'kanji', romaji:'kawa', meaning:'sungai besar', onyomi:'カ (ka)', kunyomi:'かわ (kawa)', stroke_count:8, radical:'水（air）', jlpt:'N3', examples:[{word:'河川',romaji:'kasen',meaning:'sungai-sungai'},{word:'運河',romaji:'unga',meaning:'kanal/terusan'}] },
+  '流': { type:'kanji', romaji:'nagareru', meaning:'mengalir / gaya', onyomi:'リュウ (ryuu)', kunyomi:'なが.す (nagasu), なが.れる (nagareru)', stroke_count:10, radical:'水（air）', jlpt:'N3', examples:[{word:'流れる',romaji:'nagareru',meaning:'mengalir'},{word:'流行',romaji:'ryuukou',meaning:'tren/populer'}] },
+  '陽': { type:'kanji', romaji:'you', meaning:'matahari / positif', onyomi:'ヨウ (you)', kunyomi:'ひ (hi)', stroke_count:12, radical:'阜（bukit）', jlpt:'N3', examples:[{word:'太陽',romaji:'taiyou',meaning:'matahari'},{word:'陽気',romaji:'youki',meaning:'ceria/periang'}] },
+  '岸': { type:'kanji', romaji:'kishi', meaning:'pantai / tepi sungai', onyomi:'ガン (gan)', kunyomi:'きし (kishi)', stroke_count:8, radical:'山（gunung）', jlpt:'N3', examples:[{word:'海岸',romaji:'kaigan',meaning:'pantai/pesisir'},{word:'川岸',romaji:'kawagishi',meaning:'tepi sungai'}] },
+  '農': { type:'kanji', romaji:'nou', meaning:'pertanian', onyomi:'ノウ (nou)', kunyomi:'-', stroke_count:13, radical:'辰（naga）', jlpt:'N3', examples:[{word:'農業',romaji:'nougyou',meaning:'pertanian'},{word:'農家',romaji:'nouka',meaning:'petani/keluarga petani'}] },
+  '産': { type:'kanji', romaji:'umu', meaning:'menghasilkan / melahirkan', onyomi:'サン (san)', kunyomi:'う.む (umu), う.まれる (umareru)', stroke_count:11, radical:'生（hidup）', jlpt:'N3', examples:[{word:'産業',romaji:'sangyou',meaning:'industri'},{word:'お土産',romaji:'omiyage',meaning:'oleh-oleh'}] },
+  '果': { type:'kanji', romaji:'ka', meaning:'buah / hasil / mencapai', onyomi:'カ (ka)', kunyomi:'は.たす (hatasu)', stroke_count:8, radical:'木（pohon）', jlpt:'N3', examples:[{word:'果物',romaji:'kudamono',meaning:'buah-buahan'},{word:'結果',romaji:'kekka',meaning:'hasil'}] },
+  '実': { type:'kanji', romaji:'mi', meaning:'buah / kebenaran / kenyataan', onyomi:'シツ (shitsu), ジツ (jitsu)', kunyomi:'み (mi), みの.る (minoru)', stroke_count:8, radical:'宀（atap）', jlpt:'N3', examples:[{word:'実は',romaji:'jitsu wa',meaning:'sebenarnya'},{word:'実験',romaji:'jikken',meaning:'eksperimen/percobaan'}] },
+  '葉': { type:'kanji', romaji:'ha', meaning:'daun', onyomi:'ヨウ (you)', kunyomi:'は (ha)', stroke_count:12, radical:'艸（rumput）', jlpt:'N3', examples:[{word:'葉書',romaji:'hagaki',meaning:'kartu pos'},{word:'言葉',romaji:'kotoba',meaning:'kata/bahasa'}] },
+  '菜': { type:'kanji', romaji:'na', meaning:'sayuran / lauk', onyomi:'サイ (sai)', kunyomi:'な (na)', stroke_count:11, radical:'艸（rumput）', jlpt:'N3', examples:[{word:'野菜',romaji:'yasai',meaning:'sayuran'},{word:'菜食',romaji:'saishoku',meaning:'vegetarian'}] },
+  '植': { type:'kanji', romaji:'ueru', meaning:'menanam / tanaman', onyomi:'ショク (shoku)', kunyomi:'う.える (ueru)', stroke_count:12, radical:'木（pohon）', jlpt:'N3', examples:[{word:'植える',romaji:'ueru',meaning:'menanam'},{word:'植物',romaji:'shokubutsu',meaning:'tumbuhan/tanaman'}] },
+  '根': { type:'kanji', romaji:'ne', meaning:'akar / dasar', onyomi:'コン (kon)', kunyomi:'ね (ne)', stroke_count:10, radical:'木（pohon）', jlpt:'N3', examples:[{word:'根',romaji:'ne',meaning:'akar'},{word:'大根',romaji:'daikon',meaning:'lobak putih'}] },
+  '位': { type:'kanji', romaji:'kurai', meaning:'posisi / pangkat / sekitar', onyomi:'イ (i)', kunyomi:'くらい (kurai)', stroke_count:7, radical:'人（manusia）', jlpt:'N3', examples:[{word:'第一位',romaji:'dai-ichi-i',meaning:'juara pertama'},{word:'位置',romaji:'ichi',meaning:'posisi/lokasi'}] },
+  '置': { type:'kanji', romaji:'oku', meaning:'meletakkan / menempatkan', onyomi:'チ (chi)', kunyomi:'お.く (oku)', stroke_count:13, radical:'网（jaring）', jlpt:'N3', examples:[{word:'置く',romaji:'oku',meaning:'meletakkan'},{word:'位置',romaji:'ichi',meaning:'posisi/lokasi'}] },
+  '存': { type:'kanji', romaji:'son', meaning:'ada / eksis / sadar', onyomi:'ソン (son), ゾン (zon)', kunyomi:'-', stroke_count:6, radical:'子（anak）', jlpt:'N3', examples:[{word:'存在',romaji:'sonzai',meaning:'keberadaan/eksistensi'},{word:'ご存じ',romaji:'gozonji',meaning:'tahu (sopan)'}] },
+  '在': { type:'kanji', romaji:'zai', meaning:'berada / terletak / tinggal', onyomi:'ザイ (zai)', kunyomi:'あ.る (aru)', stroke_count:6, radical:'土（tanah）', jlpt:'N3', examples:[{word:'現在',romaji:'genzai',meaning:'saat ini/sekarang'},{word:'在住',romaji:'zaijuu',meaning:'tinggal menetap'}] },
+  '積': { type:'kanji', romaji:'tsumoru', meaning:'menumpuk / mengumpulkan / luas', onyomi:'セキ (seki)', kunyomi:'つ.む (tsumu), つ.もる (tsumoru)', stroke_count:16, radical:'禾（padi）', jlpt:'N3', examples:[{word:'積もる',romaji:'tsumoru',meaning:'menumpuk (salju)'},{word:'積極的',romaji:'sekkyokuteki',meaning:'aktif/positif'}] },
+  '央': { type:'kanji', romaji:'ou', meaning:'pusat / tengah', onyomi:'オウ (ou)', kunyomi:'-', stroke_count:5, radical:'大（besar）', jlpt:'N3', examples:[{word:'中央',romaji:'chuuou',meaning:'pusat/tengah'},{word:'中央口',romaji:'chuuouguchi',meaning:'pintu keluar tengah'}] },
+  '向': { type:'kanji', romaji:'mukau', meaning:'menghadap / menuju', onyomi:'コウ (kou)', kunyomi:'む.かう (mukau), む.く (muku)', stroke_count:6, radical:'口（mulut）', jlpt:'N3', examples:[{word:'向かう',romaji:'mukau',meaning:'menghadap/menuju'},{word:'方向',romaji:'houkou',meaning:'arah'}] },
+  '底': { type:'kanji', romaji:'soko', meaning:'dasar / alas', onyomi:'テイ (tei)', kunyomi:'そこ (soko)', stroke_count:8, radical:'广（tebing/rumah）', jlpt:'N3', examples:[{word:'海底',romaji:'kaitei',meaning:'dasar laut'},{word:'靴底',romaji:'kutsuzoko',meaning:'sol sepatu'}] },
+  '建': { type:'kanji', romaji:'tateru', meaning:'membangun / mendirikan', onyomi:'ケン (ken)', kunyomi:'た.てる (tateru), た.つ (tatsu)', stroke_count:9, radical:'廴（berjalan panjang）', jlpt:'N3', examples:[{word:'建てる',romaji:'tateru',meaning:'membangun'},{word:'建物',romaji:'tatemono',meaning:'bangunan'}] },
+  '築': { type:'kanji', romaji:'kizuku', meaning:'membangun / konstruksi', onyomi:'チク (chiku)', kunyomi:'きず.く (kizuku)', stroke_count:16, radical:'木（pohon）', jlpt:'N3', examples:[{word:'新築',romaji:'shinchiku',meaning:'bangunan baru'},{word:'建築',romaji:'kenchiku',meaning:'arsitektur/konstruksi'}] },
+  '構': { type:'kanji', romaji:'kamau', meaning:'membangun / struktur / memedulikan', onyomi:'コウ (kou)', kunyomi:'かま.う (kamau)', stroke_count:14, radical:'木（pohon）', jlpt:'N3', examples:[{word:'構う',romaji:'kamau',meaning:'peduli/menghiraukan'},{word:'結構',romaji:'kekkou',meaning:'cukup / baiklah'}] },
+  '造': { type:'kanji', romaji:'tsukuru', meaning:'membuat / memproduksi', onyomi:'ゾウ (zou)', kunyomi:'つく.る (tsukuru)', stroke_count:10, radical:'辶（berjalan）', jlpt:'N3', examples:[{word:'造る',romaji:'tsukuru',meaning:'membuat (skala besar)'},{word:'製造',romaji:'seizou',meaning:'manufaktur/pembuatan'}] },
+  '設': { type:'kanji', romaji:'moukeru', meaning:'mendirikan / menyusun / fasilitas', onyomi:'セツ (setsu)', kunyomi:'もう.ける (moukeru)', stroke_count:11, radical:'言（kata-kata）', jlpt:'N3', examples:[{word:'設計',romaji:'sekkei',meaning:'desain/perancangan'},{word:'建設',romaji:'kensetsu',meaning:'pembangunan/konstruksi'}] },
+  '橋': { type:'kanji', romaji:'hashi', meaning:'jembatan', onyomi:'キョウ (kyou)', kunyomi:'はし (hashi)', stroke_count:16, radical:'木（pohon）', jlpt:'N3', examples:[{word:'橋',romaji:'hashi',meaning:'jembatan'},{word:'歩道橋',romaji:'hodoukyou',meaning:'jembatan penyeberangan'}] },
+  '窓': { type:'kanji', romaji:'mado', meaning:'jendela', onyomi:'ス (su), ソウ (sou)', kunyomi:'まど (mado)', stroke_count:11, radical:'穴（lubang）', jlpt:'N3', examples:[{word:'窓口',romaji:'madoguchi',meaning:'loket pelayanan'},{word:'窓',romaji:'mado',meaning:'jendela'}] },
+  '戸': { type:'kanji', romaji:'to', meaning:'pintu kayu / rumah', onyomi:'コ (ko)', kunyomi:'と (to)', stroke_count:4, radical:'戸（pintu）', jlpt:'N3', examples:[{word:'神戸',romaji:'koube',meaning:'Kobe (nama kota)'},{word:'網戸',romaji:'amido',meaning:'pintu kawat kasa'}] },
+  '階': { type:'kanji', romaji:'kai', meaning:'lantai / tangga / tingkat', onyomi:'カイ (kai)', kunyomi:'-', stroke_count:12, radical:'阜（bukit）', jlpt:'N3', examples:[{word:'二階',romaji:'nikai',meaning:'lantai dua'},{word:'階段',romaji:'kaidan',meaning:'tangga'}] },
+  '段': { type:'kanji', romaji:'dan', meaning:'tingkat / langkah / tangga', onyomi:'タン (tan), ダン (dan)', kunyomi:'-', stroke_count:9, radical:'殳（alat pukul）', jlpt:'N3', examples:[{word:'階段',romaji:'kaidan',meaning:'tangga'},{word:'値段',romaji:'nedan',meaning:'harga'}] },
+  '机': { type:'kanji', romaji:'tsukue', meaning:'meja', onyomi:'キ (ki)', kunyomi:'つくえ (tsukue)', stroke_count:6, radical:'木（pohon）', jlpt:'N3', examples:[{word:'机',romaji:'tsukue',meaning:'meja tulis'},{word:'学習机',romaji:'gakushuuzuku',meaning:'meja belajar'}] },
+  '柱': { type:'kanji', romaji:'hashira', meaning:'pilar / tiang', onyomi:'チュウ (chuu)', kunyomi:'はしら (hashira)', stroke_count:9, radical:'木（pohon）', jlpt:'N3', examples:[{word:'柱',romaji:'hashira',meaning:'pilar/tiang'},{word:'電柱',romaji:'denchuu',meaning:'tiang listrik'}] },
+  '庫': { type:'kanji', romaji:'ko', meaning:'gudang / tempat penyimpanan', onyomi:'ク (ku), コ (ko)', kunyomi:'くら (kura)', stroke_count:10, radical:'广（tebing/rumah）', jlpt:'N3', examples:[{word:'冷蔵庫',romaji:'reizouko',meaning:'kulkas'},{word:'車庫',romaji:'shako',meaning:'garasi mobil'}] },
+  '角': { type:'kanji', romaji:'kado', meaning:'sudut / pojok / tanduk', onyomi:'カク (kaku)', kunyomi:'かど (kado), つの (tsuno)', stroke_count:7, radical:'角（tanduk）', jlpt:'N3', examples:[{word:'角',romaji:'kado',meaning:'sudut/pojokan jalan'},{word:'角',romaji:'tsuno',meaning:'tanduk'}] },
+  '坂': { type:'kanji', romaji:'saka', meaning:'lereng / tanjakan', onyomi:'ハン (han)', kunyomi:'さか (saka)', stroke_count:7, radical:'土（tanah）', jlpt:'N3', examples:[{word:'坂',romaji:'saka',meaning:'lereng/tanjakan'},{word:'急坂',romaji:'kyuuzaka',meaning:'tanjakan curam'}] },
+  '折': { type:'kanji', romaji:'oru', meaning:'melipat / mematahkan / belok', onyomi:'シャク (shaku), セツ (setsu)', kunyomi:'お.る (oru), お.れる (oreru)', stroke_count:7, radical:'手（tangan）', jlpt:'N3', examples:[{word:'折る',romaji:'oru',meaning:'melipat/mematahkan'},{word:'折り紙',romaji:'origami',meaning:'seni melipat kertas'}] },
+  '曲': { type:'kanji', romaji:'magaru', meaning:'membelok / melengkung / lagu', onyomi:'キョク (kyoku)', kunyomi:'ま.がる (magaru), ま.げる (mageru)', stroke_count:6, radical:'曰（berkata/kotak）', jlpt:'N3', examples:[{word:'曲がる',romaji:'magaru',meaning:'belok'},{word:'曲',romaji:'kyoku',meaning:'lagu'}] },
+  '路': { type:'kanji', romaji:'ro', meaning:'jalan / rute', onyomi:'ル (ru), ロ (ro)', kunyomi:'みち (michi)', stroke_count:13, radical:'足（kaki）', jlpt:'N3', examples:[{word:'道路',romaji:'douro',meaning:'jalan raya'},{word:'線路',romaji:'senro',meaning:'rel kereta api'}] },
+  '側': { type:'kanji', romaji:'gawa', meaning:'sisi / sebelah', onyomi:'ソク (soku)', kunyomi:'かわ (kawa), がわ (gawa)', stroke_count:11, radical:'人（manusia）', jlpt:'N3', examples:[{word:'右側',romaji:'migigawa',meaning:'sisi kanan'},{word:'内側',romaji:'uchigawa',meaning:'bagian dalam'}] },
+  '直': { type:'kanji', romaji:'naosu', meaning:'lurus / memperbaiki / langsung', onyomi:'ジキ (jiki), チョク (choku)', kunyomi:'なお.す (naosu), なお.る (naoru)', stroke_count:8, radical:'目（mata）', jlpt:'N3', examples:[{word:'直す',romaji:'naosu',meaning:'memperbaiki'},{word:'直接',romaji:'chokusetsu',meaning:'langsung'}] },
+  '線': { type:'kanji', romaji:'sen', meaning:'garis / rel / kabel', onyomi:'セン (sen)', kunyomi:'すじ (suji)', stroke_count:15, radical:'糸（benang）', jlpt:'N3', examples:[{word:'線',romaji:'sen',meaning:'garis'},{word:'新幹線',romaji:'shinkansen',meaning:'kereta cepat Jepang'}] },
+  '逆': { type:'kanji', romaji:'gyaku', meaning:'terbalik / berlawanan', onyomi:'ギャク (gyaku)', kunyomi:'さか (saka), さか.らう (sakarau)', stroke_count:9, radical:'辶（berjalan）', jlpt:'N3', examples:[{word:'逆',romaji:'gyaku',meaning:'terbalik/sebaliknya'},{word:'逆立ち',romaji:'sakadachi',meaning:'berdiri dengan tangan'}] },
+  '進': { type:'kanji', romaji:'susumu', meaning:'maju / berkembang', onyomi:'シン (shin)', kunyomi:'すす.む (susumu), すす.める (susumeru)', stroke_count:11, radical:'辶（berjalan）', jlpt:'N3', examples:[{word:'進む',romaji:'susumu',meaning:'maju/berkembang'},{word:'進学',romaji:'shingaku',meaning:'melanjutkan sekolah'}] },
+  '禁': { type:'kanji', romaji:'kin', meaning:'melarang / larangan', onyomi:'キン (kin)', kunyomi:'-', stroke_count:13, radical:'示（altar）', jlpt:'N3', examples:[{word:'禁止',romaji:'kinshi',meaning:'larangan'},{word:'禁煙',romaji:'kinen',meaning:'dilarang merokok'}] },
+  '許': { type:'kanji', romaji:'yurusu', meaning:'mengizinkan / memaafkan', onyomi:'キョ (kyo)', kunyomi:'ゆる.す (yurusu)', stroke_count:11, radical:'言（kata-kata）', jlpt:'N3', examples:[{word:'許す',romaji:'yurusu',meaning:'memaafkan/mengizinkan'},{word:'許可',romaji:'kyoka',meaning:'izin/persetujuan'}] },
+  '初': { type:'kanji', romaji:'hatsu', meaning:'pertama / awal', onyomi:'ショ (sho)', kunyomi:'はじ.めて (hajimete), はつ (hatsu)', stroke_count:7, radical:'刀（pedang）', jlpt:'N3', examples:[{word:'初めて',romaji:'hajimete',meaning:'pertama kali'},{word:'最初',romaji:'saisho',meaning:'awal/pertama'}] },
+  '姓': { type:'kanji', romaji:'sei', meaning:'nama keluarga / marga', onyomi:'ショウ (shou), セイ (sei)', kunyomi:'-', stroke_count:8, radical:'女（perempuan）', jlpt:'N3', examples:[{word:'同姓',romaji:'dousei',meaning:'marga yang sama'},{word:'旧姓',romaji:'kyuusei',meaning:'nama gadis'}] },
+  '個': { type:'kanji', romaji:'ko', meaning:'individu / satuan barang kecil', onyomi:'カ (ka), コ (ko)', kunyomi:'-', stroke_count:10, radical:'人（manusia）', jlpt:'N3', examples:[{word:'個人',romaji:'kojin',meaning:'individu/pribadi'},{word:'一個',romaji:'ikko',meaning:'satu buah (satuan)'}] },
+  '性': { type:'kanji', romaji:'sei', meaning:'gender / sifat / kualitas', onyomi:'ショウ (shou), セイ (sei)', kunyomi:'さが (saga)', stroke_count:8, radical:'心（hati）', jlpt:'N3', examples:[{word:'男性',romaji:'dansei',meaning:'pria'},{word:'可能性',romaji:'kanousei',meaning:'kemungkinan'}] },
+  '変': { type:'kanji', romaji:'kaeru', meaning:'berubah / aneh / tidak biasa', onyomi:'ヘン (hen)', kunyomi:'か.える (kaeru), か.わる (kawaru)', stroke_count:9, radical:'夕（malam/sore）', jlpt:'N3', examples:[{word:'変わる',romaji:'kawaru',meaning:'berubah'},{word:'大変',romaji:'taihen',meaning:'sangat / berat'}] },
+  '付': { type:'kanji', romaji:'tsukeru', meaning:'menempel / menyertakan', onyomi:'フ (fu)', kunyomi:'つ.く (tsuku), つ.ける (tsukeru)', stroke_count:5, radical:'人（manusia）', jlpt:'N3', examples:[{word:'付ける',romaji:'tsukeru',meaning:'menempelkan/menyalakan'},{word:'片付け',romaji:'katazuke',meaning:'merapikan'}] },
+  '紹': { type:'kanji', romaji:'shou', meaning:'memperkenalkan / mewarisi', onyomi:'ショウ (shou)', kunyomi:'-', stroke_count:11, radical:'糸（benang）', jlpt:'N3', examples:[{word:'紹介',romaji:'shoukai',meaning:'perkenalan'},{word:'自己紹介',romaji:'jiko shoukai',meaning:'perkenalan diri'}] },
+  '介': { type:'kanji', romaji:'kai', meaning:'perantara / merawat / kerang', onyomi:'カイ (kai)', kunyomi:'-', stroke_count:4, radical:'人（manusia）', jlpt:'N3', examples:[{word:'紹介',romaji:'shoukai',meaning:'perkenalan'},{word:'介護',romaji:'kaigo',meaning:'perawatan lansia/pasien'}] },
+  '常': { type:'kanji', romaji:'tsune', meaning:'biasa / normal / selalu', onyomi:'ジョウ (jou)', kunyomi:'つね (tsune)', stroke_count:11, radical:'巾（handuk）', jlpt:'N3', examples:[{word:'日常',romaji:'nichijou',meaning:'sehari-hari'},{word:'非常口',romaji:'hijouguchi',meaning:'pintu darurat'}] },
+  '識': { type:'kanji', romaji:'shiki', meaning:'pengetahuan / kesadaran / mengenal', onyomi:'シキ (shiki)', kunyomi:'し.る (shiru)', stroke_count:19, radical:'言（kata-kata）', jlpt:'N3', examples:[{word:'意識',romaji:'ishiki',meaning:'kesadaran'},{word:'知識',romaji:'chishiki',meaning:'pengetahuan'}] },
+  '失': { type:'kanji', romaji:'ushinau', meaning:'kehilangan / salah / merugi', onyomi:'シツ (shitsu)', kunyomi:'うしな.う (ushinau)', stroke_count:5, radical:'大（besar）', jlpt:'N3', examples:[{word:'失う',romaji:'ushinau',meaning:'kehilangan'},{word:'失礼',romaji:'shitsurei',meaning:'tidak sopan / permisi'}] },
+  '礼': { type:'kanji', romaji:'rei', meaning:'sopan santun / busur / salam', onyomi:'ライ (rai), レイ (rei)', kunyomi:'-', stroke_count:5, radical:'示（altar）', jlpt:'N3', examples:[{word:'お礼',romaji:'orei',meaning:'terima kasih'},{word:'失礼',romaji:'shitsurei',meaning:'tidak sopan / permisi'}] },
+  '授': { type:'kanji', romaji:'ju', meaning:'memberikan / mengajar / menganugerahi', onyomi:'ジュ (ju)', kunyomi:'さず.ける (sazukeru)', stroke_count:11, radical:'手（tangan）', jlpt:'N3', examples:[{word:'授業',romaji:'jugyou',meaning:'pelajaran/kelas'},{word:'教授',romaji:'kyouju',meaning:'profesor'}] },
+  '業': { type:'kanji', romaji:'gyou', meaning:'usaha / industri / pekerjaan / karma', onyomi:'ギョウ (gyou), ゴウ (gou)', kunyomi:'わざ (waza)', stroke_count:13, radical:'木（pohon/papan）', jlpt:'N3', examples:[{word:'工業',romaji:'kougyou',meaning:'industri'},{word:'卒業',romaji:'sotsugyou',meaning:'kelulusan'}] },
+  '欠': { type:'kanji', romaji:'ketsu', meaning:'kurang / absen / cacat', onyomi:'ケツ (ketsu)', kunyomi:'か.く (kaku), か.ける (kakeru)', stroke_count:4, radical:'欠（kurang）', jlpt:'N3', examples:[{word:'欠席',romaji:'kesseki',meaning:'absen/tidak hadir'},{word:'欠点',romaji:'ketten',meaning:'kekurangan/cacat'}] },
+  '席': { type:'kanji', romaji:'seki', meaning:'kursi / tempat duduk', onyomi:'セキ (seki)', kunyomi:'-', stroke_count:10, radical:'广（tebing/rumah）', jlpt:'N3', examples:[{word:'席',romaji:'seki',meaning:'tempat duduk'},{word:'出席',romaji:'shusseki',meaning:'kehadiran'}] },
+  '成': { type:'kanji', romaji:'sei', meaning:'menjadi / tumbuh / sukses', onyomi:'ジョウ (jou), セイ (sei)', kunyomi:'な.る (naru)', stroke_count:6, radical:'戈（tombak）', jlpt:'N3', examples:[{word:'成功',romaji:'seikou',meaning:'sukses'},{word:'成人',romaji:'seijin',meaning:'orang dewasa'}] },
+  '績': { type:'kanji', romaji:'seki', meaning:'prestasi / hasil / memintal', onyomi:'セキ (seki)', kunyomi:'-', stroke_count:17, radical:'糸（benang）', jlpt:'N3', examples:[{word:'成績',romaji:'seiseki',meaning:'nilai/prestasi akademis'},{word:'実績',romaji:'jisseki',meaning:'rekam jejak/pencapaian'}] },
 };
 
 // ─── MODAL LOGIC ─────────────────────────────────────────────

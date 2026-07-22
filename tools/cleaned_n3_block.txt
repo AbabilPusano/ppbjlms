@@ -1,0 +1,110 @@
+'KANJI_N3' => [
+            'label' => 'Kanji N3',
+            'helper' => '191 kanji JLPT N3 (26 kategori dari total 376 kanji/36 kategori di Langoal)',
+            'groups' => [
+              [
+                'title' => 'Waktu',
+                'letters' => [['char'=>'曜', 'romaji'=>'you', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'末', 'romaji'=>'mi', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'昨', 'romaji'=>'kinou', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'翌', 'romaji'=>'yoku', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'現', 'romaji'=>'arawasu', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'昔', 'romaji'=>'mukashi', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'次', 'romaji'=>'tsugi', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'回', 'romaji'=>'mawaru', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'再', 'romaji'=>'futatabi', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'旧', 'romaji'=>'kyuu', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'秒', 'romaji'=>'byou', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> '']]
+              ],
+              [
+                'title' => 'Orang',
+                'letters' => [['char'=>'彼', 'romaji'=>'kare', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'君', 'romaji'=>'kimi', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'仲', 'romaji'=>'naka', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'達', 'romaji'=>'tachi', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'供', 'romaji'=>'tomo', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'娘', 'romaji'=>'musume', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'婦', 'romaji'=>'fu', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'老', 'romaji'=>'rou', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'他', 'romaji'=>'hoka', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> '']]
+              ],
+              [
+                'title' => 'Tubuh',
+                'letters' => [['char'=>'頭', 'romaji'=>'atama', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'顔', 'romaji'=>'kao', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'鼻', 'romaji'=>'hana', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'首', 'romaji'=>'kubi', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'血', 'romaji'=>'chi', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'液', 'romaji'=>'eki', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'歯', 'romaji'=>'ha', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'型', 'romaji'=>'kata', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> '']]
+              ],
+              [
+                'title' => 'Makanan',
+                'letters' => [['char'=>'氷', 'romaji'=>'koori', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'湯', 'romaji'=>'yu', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'卵', 'romaji'=>'tamago', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'豆', 'romaji'=>'mame', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'粉', 'romaji'=>'kona', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'乳', 'romaji'=>'nyuu', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'塩', 'romaji'=>'shio', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'調', 'romaji'=>'shiraberu', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'和', 'romaji'=>'wa', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> '']]
+              ],
+              [
+                'title' => 'Kata Sifat 1',
+                'letters' => [['char'=>'熱', 'romaji'=>'netsu', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'冷', 'romaji'=>'tsumetai', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'暖', 'romaji'=>'atatakai', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'温', 'romaji'=>'on', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'良', 'romaji'=>'ii', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'悪', 'romaji'=>'warui', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'厚', 'romaji'=>'atsui', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> '']]
+              ],
+              [
+                'title' => 'Kata Sifat 2',
+                'letters' => [['char'=>'易', 'romaji'=>'yasashii', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'難', 'romaji'=>'muzukashii', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'深', 'romaji'=>'fukai', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'浅', 'romaji'=>'asai', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'痛', 'romaji'=>'itai', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'苦', 'romaji'=>'kurushii', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'欲', 'romaji'=>'hoshii', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> '']]
+              ],
+              [
+                'title' => 'Kata Kerja 1',
+                'letters' => [['char'=>'捨', 'romaji'=>'suteru', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'拾', 'romaji'=>'hirou', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'貸', 'romaji'=>'kasu', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'借', 'romaji'=>'kariru', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'覚', 'romaji'=>'oboeru', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'忘', 'romaji'=>'wasureru', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'押', 'romaji'=>'osu', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'引', 'romaji'=>'hiku', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> '']]
+              ],
+              [
+                'title' => 'Kata Kerja 2',
+                'letters' => [['char'=>'打', 'romaji'=>'utsu', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'投', 'romaji'=>'nageru', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'信', 'romaji'=>'shinjiru', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'伝', 'romaji'=>'tsutaeru', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'想', 'romaji'=>'omou', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'続', 'romaji'=>'tsuzuku', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'祝', 'romaji'=>'iwau', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'願', 'romaji'=>'negau', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'酔', 'romaji'=>'you', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> '']]
+              ],
+              [
+                'title' => 'Kehidupan Sehari-hari 1',
+                'letters' => [['char'=>'起', 'romaji'=>'okiru', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'寝', 'romaji'=>'neru', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'洗', 'romaji'=>'arau', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'濯', 'romaji'=>'susugu', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'干', 'romaji'=>'hosu', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'浴', 'romaji'=>'abiru', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> '']]
+              ],
+              [
+                'title' => 'Kehidupan Sehari-hari 2',
+                'letters' => [['char'=>'活', 'romaji'=>'katsu', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'夢', 'romaji'=>'yume', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'貯', 'romaji'=>'tameru', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'列', 'romaji'=>'retsu', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'袋', 'romaji'=>'fukuro', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'久', 'romaji'=>'hisashiburi', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> '']]
+              ],
+              [
+                'title' => 'Perasaan 1',
+                'letters' => [['char'=>'喜', 'romaji'=>'yorokobu', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'怒', 'romaji'=>'okoru', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'笑', 'romaji'=>'warau', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'泣', 'romaji'=>'naku', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'悲', 'romaji'=>'kanashii', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'涙', 'romaji'=>'namida', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'幸', 'romaji'=>'shiawase', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> '']]
+              ],
+              [
+                'title' => 'Perasaan 2',
+                'letters' => [['char'=>'感', 'romaji'=>'kan', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'情', 'romaji'=>'nasake', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'悩', 'romaji'=>'nayamu', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'困', 'romaji'=>'komaru', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'残', 'romaji'=>'nokoru', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'念', 'romaji'=>'nen', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> '']]
+              ],
+              [
+                'title' => 'Hubungan',
+                'letters' => [['char'=>'関', 'romaji'=>'kakawaru', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'係', 'romaji'=>'kakari', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'結', 'romaji'=>'musubu', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'婚', 'romaji'=>'kon', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'独', 'romaji'=>'hitori', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'身', 'romaji'=>'mi', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'恋', 'romaji'=>'koi', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'愛', 'romaji'=>'ai', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'永', 'romaji'=>'nagai', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'福', 'romaji'=>'fuku', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> '']]
+              ],
+              [
+                'title' => 'Rencana 1',
+                'letters' => [['char'=>'予', 'romaji'=>'arakajime', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'定', 'romaji'=>'sadameru', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'用', 'romaji'=>'mochiiru', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'事', 'romaji'=>'koto', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'約', 'romaji'=>'yaku', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'束', 'romaji'=>'taba', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> '']]
+              ],
+              [
+                'title' => 'Rencana 2',
+                'letters' => [['char'=>'必', 'romaji'=>'kanarazu', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'要', 'romaji'=>'iru', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'取', 'romaji'=>'toru', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'消', 'romaji'=>'kesu', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'返', 'romaji'=>'kaesu', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'守', 'romaji'=>'mamoru', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> '']]
+              ],
+              [
+                'title' => 'Satuan 1',
+                'letters' => [['char'=>'杯', 'romaji'=>'sakazuki', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'枚', 'romaji'=>'mai', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'匹', 'romaji'=>'hiki', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'冊', 'romaji'=>'satsu', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'各', 'romaji'=>'kaku', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'量', 'romaji'=>'ryou', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'最', 'romaji'=>'mottomo', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> '']]
+              ],
+              [
+                'title' => 'Satuan 2',
+                'letters' => [['char'=>'単', 'romaji'=>'tan', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'複', 'romaji'=>'fuku', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'全', 'romaji'=>'subete', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'以', 'romaji'=>'i', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'未', 'romaji'=>'imada', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'満', 'romaji'=>'michiru', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'無', 'romaji'=>'mu', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'非', 'romaji'=>'hi', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> '']]
+              ],
+              [
+                'title' => 'Alam',
+                'letters' => [['char'=>'季', 'romaji'=>'ki', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'候', 'romaji'=>'kou', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'島', 'romaji'=>'shima', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'陸', 'romaji'=>'riku', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'河', 'romaji'=>'kawa', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'流', 'romaji'=>'nagareru', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'陽', 'romaji'=>'you', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'岸', 'romaji'=>'kishi', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> '']]
+              ],
+              [
+                'title' => 'Pertanian',
+                'letters' => [['char'=>'農', 'romaji'=>'nou', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'産', 'romaji'=>'umu', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'果', 'romaji'=>'ka', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'実', 'romaji'=>'mi', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'葉', 'romaji'=>'ha', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'菜', 'romaji'=>'na', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'植', 'romaji'=>'ueru', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'根', 'romaji'=>'ne', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> '']]
+              ],
+              [
+                'title' => 'Arah',
+                'letters' => [['char'=>'位', 'romaji'=>'kurai', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'置', 'romaji'=>'oku', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'存', 'romaji'=>'son', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'在', 'romaji'=>'zai', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'積', 'romaji'=>'tsumoru', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'央', 'romaji'=>'ou', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'向', 'romaji'=>'mukau', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'底', 'romaji'=>'soko', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> '']]
+              ],
+              [
+                'title' => 'Bangunan',
+                'letters' => [['char'=>'建', 'romaji'=>'tateru', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'築', 'romaji'=>'kizuku', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'構', 'romaji'=>'kamau', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'造', 'romaji'=>'tsukuru', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'設', 'romaji'=>'moukeru', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'橋', 'romaji'=>'hashi', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> '']]
+              ],
+              [
+                'title' => 'Di Dalam Rumah',
+                'letters' => [['char'=>'窓', 'romaji'=>'mado', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'戸', 'romaji'=>'to', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'階', 'romaji'=>'kai', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'段', 'romaji'=>'dan', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'机', 'romaji'=>'tsukue', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'柱', 'romaji'=>'hashira', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'庫', 'romaji'=>'ko', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> '']]
+              ],
+              [
+                'title' => 'Berkendara 1',
+                'letters' => [['char'=>'角', 'romaji'=>'kado', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'坂', 'romaji'=>'saka', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'折', 'romaji'=>'oru', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'曲', 'romaji'=>'magaru', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'路', 'romaji'=>'ro', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'側', 'romaji'=>'gawa', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> '']]
+              ],
+              [
+                'title' => 'Berkendara 2',
+                'letters' => [['char'=>'直', 'romaji'=>'naosu', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'線', 'romaji'=>'sen', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'逆', 'romaji'=>'gyaku', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'進', 'romaji'=>'susumu', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'禁', 'romaji'=>'kin', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'許', 'romaji'=>'yurusu', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> '']]
+              ],
+              [
+                'title' => 'Pertemuan Pertama 1',
+                'letters' => [['char'=>'初', 'romaji'=>'hatsu', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'姓', 'romaji'=>'sei', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'個', 'romaji'=>'ko', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'性', 'romaji'=>'sei', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'変', 'romaji'=>'kaeru', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'付', 'romaji'=>'tsukeru', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> '']]
+              ],
+              [
+                'title' => 'Pertemuan Pertama 2',
+                'letters' => [['char'=>'紹', 'romaji'=>'shou', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'介', 'romaji'=>'kai', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'常', 'romaji'=>'tsune', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'識', 'romaji'=>'shiki', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'失', 'romaji'=>'ushinau', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> ''],['char'=>'礼', 'romaji'=>'rei', 'strokes'=>null, 'onyomi'=>'', 'kunyomi'=> '']]
+              ]
+            ]
+          ]
