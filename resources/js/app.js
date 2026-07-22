@@ -2046,7 +2046,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const question = getCurrentQuestion();
       if (!question || !action) return;
 
-      if (question.type === 'new-letter') {
+      if (question.type === 'new-letter' || question.type === 'new-vocabulary') {
         action.textContent = 'Lanjut';
         action.disabled = false;
         return;
@@ -2169,6 +2169,60 @@ document.addEventListener('DOMContentLoaded', () => {
         const reading = lessonRoot.querySelector('[data-lesson-reading]');
         if (letter) letter.textContent = question.letter;
         if (reading) reading.textContent = question.reading;
+      }
+
+      if (question.type === 'new-vocabulary') {
+        const kata = lessonRoot.querySelector('[data-vocab-kata]');
+        const romaji = lessonRoot.querySelector('[data-vocab-romaji]');
+        const arti = lessonRoot.querySelector('[data-vocab-arti]');
+        
+        if (kata) kata.textContent = question.letter;
+        if (romaji) romaji.textContent = question.reading;
+        if (arti) arti.textContent = question.meaning;
+
+        const kanji = lessonRoot.querySelector('[data-vocab-kanji]');
+        const kanjiRow = lessonRoot.querySelector('[data-vocab-meta-kanji-row]');
+        if (kanjiRow) {
+          if (question.kanji) {
+            kanjiRow.style.display = 'flex';
+            if (kanji) kanji.textContent = `${question.kanji} (${question.kanji_meaning || ''})`;
+          } else {
+            kanjiRow.style.display = 'none';
+          }
+        }
+
+        const tipe = lessonRoot.querySelector('[data-vocab-tipe]');
+        const tipeRow = lessonRoot.querySelector('[data-vocab-meta-tipe-row]');
+        if (tipeRow) {
+          if (question.tipe_kata) {
+            tipeRow.style.display = 'flex';
+            if (tipe) tipe.textContent = question.tipe_kata;
+          } else {
+            tipeRow.style.display = 'none';
+          }
+        }
+
+        const lvl = lessonRoot.querySelector('[data-vocab-level]');
+        const lvlRow = lessonRoot.querySelector('[data-vocab-meta-level-row]');
+        if (lvlRow) {
+          if (question.level) {
+            lvlRow.style.display = 'flex';
+            if (lvl) lvl.textContent = question.level;
+          } else {
+            lvlRow.style.display = 'none';
+          }
+        }
+
+        const desc = lessonRoot.querySelector('[data-vocab-deskripsi]');
+        const descRow = lessonRoot.querySelector('[data-vocab-meta-desc-row]');
+        if (descRow) {
+          if (question.deskripsi) {
+            descRow.style.display = 'flex';
+            if (desc) desc.textContent = question.deskripsi;
+          } else {
+            descRow.style.display = 'none';
+          }
+        }
       }
 
       if (question.type === 'select-image') {

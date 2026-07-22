@@ -26,6 +26,21 @@ class LessonContentBuilder
                     ];
                 }
 
+                if ($step->type === 'vocabulary') {
+                    $kata = \App\Models\Kata::where('kata', $step->character_symbol)->first();
+                    return [
+                        'type' => 'new-vocabulary',
+                        'letter' => $step->character_symbol,
+                        'reading' => $step->character_pronunciation,
+                        'meaning' => $step->content,
+                        'kanji' => $kata && $kata->kanji ? $kata->kanji->kanji : '',
+                        'kanji_meaning' => $kata && $kata->kanji ? $kata->kanji->makna : '',
+                        'tipe_kata' => $kata?->tipe_kata ?? '',
+                        'deskripsi' => $kata?->deskripsi ?? '',
+                        'level' => $kata?->level ?? '',
+                    ];
+                }
+
                 if ($step->type === 'quiz') {
                     $options = collect($step->quiz_options)->map(function ($option, $index) use ($step): array {
                         return [
