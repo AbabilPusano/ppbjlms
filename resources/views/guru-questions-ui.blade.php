@@ -108,6 +108,7 @@
                     <select name="type" data-question-type required>
                         <option value="text">Teks Pengantar</option>
                         <option value="character">Huruf Baru</option>
+                        <option value="vocabulary">Kata Baru</option>
                         <option value="quiz">Kuis Pilihan Ganda</option>
                     </select>
                 </label>
@@ -130,6 +131,56 @@
                         <label>
                             <span>Cara Baca (Romaji/Arti)</span>
                             <input name="character_pronunciation" type="text" maxlength="100" placeholder="Contoh: a">
+                        </label>
+                    </div>
+                </div>
+
+                <!-- VOCABULARY STEP FIELDS -->
+                <div data-question-fields="vocabulary" hidden style="display: flex; flex-direction: column; gap: 16px;">
+                    <div class="guru-unit-form__grid">
+                        <label>
+                            <span>Kosakata (Jepang)</span>
+                            <input name="vocab_kata" type="text" placeholder="Contoh: 食べる">
+                        </label>
+                        <label>
+                            <span>Cara Baca (Romaji)</span>
+                            <input name="vocab_romaji" type="text" placeholder="Contoh: taberu">
+                        </label>
+                    </div>
+                    <label>
+                        <span>Arti / Terjemahan</span>
+                        <input name="vocab_arti" type="text" placeholder="Contoh: Makan">
+                    </label>
+                    <div class="guru-unit-form__grid">
+                        <label>
+                            <span>Hubungkan ke Kanji (Opsional)</span>
+                            <select name="vocab_kanji_id" style="background: #fff; border: 1px solid var(--border); padding: 8px; border-radius: 6px;">
+                                <option value="">-- Tidak menghubungkan --</option>
+                                @foreach ($allKanjis as $kan)
+                                    <option value="{{ $kan->id }}">{{ $kan->kanji }} ({{ $kan->makna }})</option>
+                                @endforeach
+                            </select>
+                        </label>
+                        <label>
+                            <span>Tipe Kata (Opsional)</span>
+                            <input name="vocab_tipe_kata" type="text" placeholder="Contoh: Kata Kerja">
+                        </label>
+                    </div>
+                    <div class="guru-unit-form__grid">
+                        <label>
+                            <span>Level (Opsional)</span>
+                            <select name="vocab_level" style="background: #fff; border: 1px solid var(--border); padding: 8px; border-radius: 6px;">
+                                <option value="">-- Tanpa Level --</option>
+                                <option value="N5">N5</option>
+                                <option value="N4">N4</option>
+                                <option value="N3">N3</option>
+                                <option value="N2">N2</option>
+                                <option value="N1">N1</option>
+                            </select>
+                        </label>
+                        <label>
+                            <span>Deskripsi Tambahan (Opsional)</span>
+                            <input name="vocab_deskripsi" type="text" placeholder="Deskripsi atau penjelasan...">
                         </label>
                     </div>
                 </div>

@@ -99,7 +99,10 @@ Route::middleware(['auth', 'role:guru,admin'])->group(function (): void {
     Route::get('/guru/materials/{material}/preview', GuruMaterialPreviewController::class)->name('guru.materials.preview');
     Route::get('/guru/materials/import-template', [GuruMaterialApiController::class, 'downloadTemplate'])->name('guru.materials.import-template');
     Route::get('/guru/steps/import-template', [GuruStepApiController::class, 'downloadTemplate'])->name('guru.steps.import-template');
-    Route::view('/guru/materi/{material}/questions', 'guru-questions-ui')->name('guru.materials.questions');
+    Route::get('/guru/materi/{material}/questions', function ($material) {
+        $allKanjis = \App\Models\Kanji::query()->orderBy('kanji')->get(['id', 'kanji', 'makna']);
+        return view('guru-questions-ui', compact('allKanjis'));
+    })->name('guru.materials.questions');
 
     // Stories CRUD for Guru
     Route::get('/guru/stories', [GuruStoryController::class, 'index'])->name('guru.stories.index');

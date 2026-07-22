@@ -1580,6 +1580,8 @@ document.addEventListener('DOMContentLoaded', () => {
           contentHtml = `<p class="guru-step-preview-text">${escapeHtml(step.content || '').substring(0, 120)}...</p>`;
         } else if (step.type === 'character') {
           contentHtml = `<p><strong>Huruf:</strong> ${escapeHtml(step.character_symbol || '-')} &nbsp;&nbsp;|&nbsp;&nbsp; <strong>Cara Baca:</strong> ${escapeHtml(step.character_pronunciation || '-')}</p>`;
+        } else if (step.type === 'vocabulary') {
+          contentHtml = `<p><strong>Kata:</strong> ${escapeHtml(step.character_symbol || '-')} (${escapeHtml(step.character_pronunciation || '-')}) &nbsp;&nbsp;|&nbsp;&nbsp; <strong>Arti:</strong> ${escapeHtml(step.content || '-')}</p>`;
         } else if (step.type === 'quiz') {
           const options = step.quiz_options || [];
           contentHtml = `
@@ -1650,6 +1652,14 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (step.type === 'character') {
           stepForm.elements.character_symbol.value = step.character_symbol || '';
           stepForm.elements.character_pronunciation.value = step.character_pronunciation || '';
+        } else if (step.type === 'vocabulary') {
+          stepForm.elements.vocab_kata.value = step.character_symbol || '';
+          stepForm.elements.vocab_romaji.value = step.character_pronunciation || '';
+          stepForm.elements.vocab_arti.value = step.content || '';
+          stepForm.elements.vocab_kanji_id.value = step.kanji_id || '';
+          stepForm.elements.vocab_tipe_kata.value = step.tipe_kata || '';
+          stepForm.elements.vocab_deskripsi.value = step.deskripsi || '';
+          stepForm.elements.vocab_level.value = step.level || '';
         } else if (step.type === 'quiz') {
           stepForm.elements.quiz_instruction.value = step.quiz_instruction || 'PILIH JAWABAN YANG BENAR';
           stepForm.elements.quiz_query.value = step.quiz_query || '';
@@ -1690,6 +1700,14 @@ document.addEventListener('DOMContentLoaded', () => {
       } else if (type === 'character') {
         payload.character_symbol = String(formData.get('character_symbol') || '');
         payload.character_pronunciation = String(formData.get('character_pronunciation') || '');
+      } else if (type === 'vocabulary') {
+        payload.character_symbol = String(formData.get('vocab_kata') || '');
+        payload.character_pronunciation = String(formData.get('vocab_romaji') || '');
+        payload.content = String(formData.get('vocab_arti') || '');
+        payload.kanji_id = String(formData.get('vocab_kanji_id') || '');
+        payload.tipe_kata = String(formData.get('vocab_tipe_kata') || '');
+        payload.deskripsi = String(formData.get('vocab_deskripsi') || '');
+        payload.level = String(formData.get('vocab_level') || '');
       } else if (type === 'quiz') {
         payload.quiz_instruction = String(formData.get('quiz_instruction') || 'PILIH JAWABAN YANG BENAR');
         payload.quiz_query = String(formData.get('quiz_query') || '');

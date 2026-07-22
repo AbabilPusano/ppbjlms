@@ -35,6 +35,41 @@ class GuruStepApiController extends Controller
         $validated = $this->validateStep($request);
         $node = Node::query()->findOrFail($validated['node_id']);
 
+        if ($validated['type'] === 'character') {
+            $symbol = $validated['character_symbol'] ?? null;
+            if ($symbol) {
+                if (\App\Models\Huruf::where('simbol', $symbol)->exists()) {
+                    return response()->json(['message' => 'Huruf dengan simbol tersebut sudah ada di database referensi.'], 422);
+                }
+                $tipe = preg_match('/[\x{30A0}-\x{30FF}]/u', $symbol) ? 'katakana' : 'hiragana';
+                \App\Models\Huruf::create([
+                    'id' => (string) Str::uuid(),
+                    'tipe' => $tipe,
+                    'simbol' => $symbol,
+                    'cara_baca' => $validated['character_pronunciation'] ?? '',
+                ]);
+            }
+        }
+
+        if ($validated['type'] === 'vocabulary') {
+            $kata = $validated['character_symbol'] ?? null;
+            if ($kata) {
+                if (\App\Models\Kata::where('kata', $kata)->exists()) {
+                    return response()->json(['message' => 'Kata tersebut sudah ada di database referensi.'], 422);
+                }
+                \App\Models\Kata::create([
+                    'id' => (string) Str::uuid(),
+                    'kata' => $kata,
+                    'romaji' => $validated['character_pronunciation'] ?? '',
+                    'arti' => $validated['content'] ?? '',
+                    'kanji_id' => $request->input('kanji_id'),
+                    'tipe_kata' => $request->input('tipe_kata'),
+                    'deskripsi' => $request->input('deskripsi'),
+                    'level' => $request->input('level'),
+                ]);
+            }
+        }
+
         $sortOrder = $validated['sort_order'] ?? ((int) NodeStep::query()->where('node_id', $node->id)->max('sort_order')) + 1;
 
         $step = NodeStep::query()->create([
@@ -57,6 +92,49 @@ class GuruStepApiController extends Controller
     public function update(Request $request, NodeStep $step): JsonResponse
     {
         $validated = $this->validateStep($request, $step);
+
+        if ($validated['type'] === 'character') {
+            $symbol = $validated['character_symbol'] ?? null;
+            if ($symbol && $symbol !== $step->character_symbol) {
+                if (\App\Models\Huruf::where('simbol', $symbol)->exists()) {
+                    return response()->json(['message' => 'Huruf dengan simbol tersebut sudah ada di database referensi.'], 422);
+                }
+                $tipe = preg_match('/[\x{30A0}-\x{30FF}]/u', $symbol) ? 'katakana' : 'hiragana';
+                \App\Models\Huruf::create([
+                    'id' => (string) Str::uuid(),
+                    'tipe' => $tipe,
+                    'simbol' => $symbol,
+                    'cara_baca' => $validated['character_pronunciation'] ?? '',
+                ]);
+            }
+        }
+
+        if ($validated['type'] === 'vocabulary') {
+            $kata = $validated['character_symbol'] ?? null;
+            if ($kata) {
+                if ($kata !== $step->character_symbol) {
+                    if (\App\Models\Kata::where('kata', $kata)->exists()) {
+                        return response()->json(['message' => 'Kata tersebut sudah ada di database referensi.'], 422);
+                    }
+                }
+                $kataRecord = \App\Models\Kata::where('kata', $step->character_symbol)->first();
+                $kataData = [
+                    'kata' => $kata,
+                    'romaji' => $validated['character_pronunciation'] ?? '',
+                    'arti' => $validated['content'] ?? '',
+                    'kanji_id' => $request->input('kanji_id'),
+                    'tipe_kata' => $request->input('tipe_kata'),
+                    'deskripsi' => $request->input('deskripsi'),
+                    'level' => $request->input('level'),
+                ];
+                if ($kataRecord) {
+                    $kataRecord->update($kataData);
+                } else {
+                    $kataData['id'] = (string) Str::uuid();
+                    \App\Models\Kata::create($kataData);
+                }
+            }
+        }
 
         $step->update([
             'type' => $validated['type'],
@@ -100,7 +178,7 @@ class GuruStepApiController extends Controller
     {
         return $request->validate([
             'node_id' => $step ? 'nullable|string|exists:nodes,id' : 'required|string|exists:nodes,id',
-            'type' => 'required|string|in:text,character,quiz',
+            'type' => 'required|string|in:text,character,quiz,vocabulary',
             'content' => 'nullable|string',
             'character_symbol' => 'nullable|string|max:50',
             'character_pronunciation' => 'nullable|string|max:100',
@@ -110,18 +188,23 @@ class GuruStepApiController extends Controller
             'quiz_options.*' => 'nullable|string',
             'quiz_correct_index' => 'nullable|integer',
             'sort_order' => 'nullable|integer',
+            'kanji_id' => 'nullable|string|exists:kanjis,id',
+            'tipe_kata' => 'nullable|string|max:191',
+            'deskripsi' => 'nullable|string',
+            'level' => 'nullable|string|in:N5,N4,N3,N2,N1',
         ]);
     }
 
     private function serializeStep(NodeStep $step): array
     {
-        return [
+        $serialized = [
             'id' => $step->id,
             'node_id' => $step->node_id,
             'type' => $step->type,
             'type_label' => match ($step->type) {
                 'text' => 'Teks Pengantar',
                 'character' => 'Huruf Baru',
+                'vocabulary' => 'Kata Baru',
                 'quiz' => 'Kuis Pilihan Ganda',
                 default => 'Unknown'
             },
@@ -136,6 +219,16 @@ class GuruStepApiController extends Controller
             'created_at' => $step->created_at?->toISOString(),
             'updated_at' => $step->updated_at?->toISOString(),
         ];
+
+        if ($step->type === 'vocabulary') {
+            $kataRecord = \App\Models\Kata::where('kata', $step->character_symbol)->first();
+            $serialized['kanji_id'] = $kataRecord?->kanji_id;
+            $serialized['tipe_kata'] = $kataRecord?->tipe_kata;
+            $serialized['deskripsi'] = $kataRecord?->deskripsi;
+            $serialized['level'] = $kataRecord?->level;
+        }
+
+        return $serialized;
     }
 
     public function downloadTemplate(): \Symfony\Component\HttpFoundation\Response
@@ -160,6 +253,7 @@ class GuruStepApiController extends Controller
         $data = [
             ['text', 'Ini adalah isi teks pengantar', '', '', '', '', '', '', '', '', ''],
             ['character', '', 'あ', 'a', '', '', '', '', '', '', ''],
+            ['vocabulary', 'Makan', '食べる', 'taberu', '', '', '', '', '', '', ''],
             ['quiz', '', '', '', 'PILIH JAWABAN YANG BENAR', 'あ', 'a', 'i', 'u', 'e', '0']
         ];
 
@@ -225,8 +319,8 @@ class GuruStepApiController extends Controller
                     }
 
                     $type = trim($row[0]);
-                    if (!in_array($type, ['text', 'character', 'quiz'])) {
-                        throw new \InvalidArgumentException('Tipe langkah tidak valid. Harus "text", "character", atau "quiz".');
+                    if (!in_array($type, ['text', 'character', 'quiz', 'vocabulary'])) {
+                        throw new \InvalidArgumentException('Tipe langkah tidak valid. Harus "text", "character", "quiz", atau "vocabulary".');
                     }
 
                     $nextOrder = ((int) NodeStep::query()->where('node_id', $node->id)->max('sort_order')) + 1;
@@ -241,8 +335,40 @@ class GuruStepApiController extends Controller
                     if ($type === 'text') {
                         $stepData['content'] = $row[1] ?? '';
                     } elseif ($type === 'character') {
-                        $stepData['character_symbol'] = $row[2] ?? '';
-                        $stepData['character_pronunciation'] = $row[3] ?? '';
+                        $symbol = trim($row[2] ?? '');
+                        $reading = trim($row[3] ?? '');
+                        if ($symbol) {
+                            if (\App\Models\Huruf::where('simbol', $symbol)->exists()) {
+                                throw new \InvalidArgumentException("Huruf dengan simbol '{$symbol}' sudah ada di database referensi.");
+                            }
+                            $tipe = preg_match('/[\x{30A0}-\x{30FF}]/u', $symbol) ? 'katakana' : 'hiragana';
+                            \App\Models\Huruf::create([
+                                'id' => (string) Str::uuid(),
+                                'tipe' => $tipe,
+                                'simbol' => $symbol,
+                                'cara_baca' => $reading,
+                            ]);
+                        }
+                        $stepData['character_symbol'] = $symbol;
+                        $stepData['character_pronunciation'] = $reading;
+                    } elseif ($type === 'vocabulary') {
+                        $kata = trim($row[2] ?? '');
+                        $reading = trim($row[3] ?? '');
+                        $meaning = trim($row[1] ?? '');
+                        if ($kata) {
+                            if (\App\Models\Kata::where('kata', $kata)->exists()) {
+                                throw new \InvalidArgumentException("Kata '{$kata}' sudah ada di database referensi.");
+                            }
+                            \App\Models\Kata::create([
+                                'id' => (string) Str::uuid(),
+                                'kata' => $kata,
+                                'romaji' => $reading,
+                                'arti' => $meaning,
+                            ]);
+                        }
+                        $stepData['character_symbol'] = $kata;
+                        $stepData['character_pronunciation'] = $reading;
+                        $stepData['content'] = $meaning;
                     } elseif ($type === 'quiz') {
                         $stepData['quiz_instruction'] = !empty($row[4]) ? $row[4] : 'PILIH JAWABAN YANG BENAR';
                         $stepData['quiz_query'] = $row[5] ?? '';
@@ -258,7 +384,7 @@ class GuruStepApiController extends Controller
                     NodeStep::query()->create($stepData);
                 }
             });
-        } catch (\InvalidArgumentException $e) {
+        } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 422);
         }
 

@@ -187,6 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const selectedCountSpan = root.querySelector('[data-selected-count]');
     const selectAllContainer = root.querySelector('[data-select-all-container]');
     const selectAllCheckbox = root.querySelector('#select-all-units');
+    const levelSelectInline = root.querySelector('[data-select-level-inline]');
 
     const escapeHtml = (value) => String(value ?? '')
       .replaceAll('&', '&amp;')
@@ -260,6 +261,13 @@ document.addEventListener('DOMContentLoaded', () => {
             <small>${level.units_count ?? 0} unit</small>
           </button>
         `).join('');
+      }
+
+      if (levelSelectInline) {
+        levelSelectInline.innerHTML = state.levels
+          .map((level) => `<option value="${level.id}">${escapeHtml(level.code)} - ${escapeHtml(level.name)}</option>`)
+          .join('');
+        if (state.activeLevelId) levelSelectInline.value = String(state.activeLevelId);
       }
     };
 
@@ -853,6 +861,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     materialLevelSelect?.addEventListener('change', () => {
       state.activeLevelId = materialLevelSelect.value;
+      window.localStorage.setItem('guru.activeLevelId', state.activeLevelId);
+      loadUnits();
+    });
+
+    levelSelectInline?.addEventListener('change', () => {
+      state.activeLevelId = levelSelectInline.value;
       window.localStorage.setItem('guru.activeLevelId', state.activeLevelId);
       loadUnits();
     });
@@ -1566,6 +1580,8 @@ document.addEventListener('DOMContentLoaded', () => {
           contentHtml = `<p class="guru-step-preview-text">${escapeHtml(step.content || '').substring(0, 120)}...</p>`;
         } else if (step.type === 'character') {
           contentHtml = `<p><strong>Huruf:</strong> ${escapeHtml(step.character_symbol || '-')} &nbsp;&nbsp;|&nbsp;&nbsp; <strong>Cara Baca:</strong> ${escapeHtml(step.character_pronunciation || '-')}</p>`;
+        } else if (step.type === 'vocabulary') {
+          contentHtml = `<p><strong>Kata:</strong> ${escapeHtml(step.character_symbol || '-')} (${escapeHtml(step.character_pronunciation || '-')}) &nbsp;&nbsp;|&nbsp;&nbsp; <strong>Arti:</strong> ${escapeHtml(step.content || '-')}</p>`;
         } else if (step.type === 'quiz') {
           const options = step.quiz_options || [];
           contentHtml = `
@@ -1636,6 +1652,14 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (step.type === 'character') {
           stepForm.elements.character_symbol.value = step.character_symbol || '';
           stepForm.elements.character_pronunciation.value = step.character_pronunciation || '';
+        } else if (step.type === 'vocabulary') {
+          stepForm.elements.vocab_kata.value = step.character_symbol || '';
+          stepForm.elements.vocab_romaji.value = step.character_pronunciation || '';
+          stepForm.elements.vocab_arti.value = step.content || '';
+          stepForm.elements.vocab_kanji_id.value = step.kanji_id || '';
+          stepForm.elements.vocab_tipe_kata.value = step.tipe_kata || '';
+          stepForm.elements.vocab_deskripsi.value = step.deskripsi || '';
+          stepForm.elements.vocab_level.value = step.level || '';
         } else if (step.type === 'quiz') {
           stepForm.elements.quiz_instruction.value = step.quiz_instruction || 'PILIH JAWABAN YANG BENAR';
           stepForm.elements.quiz_query.value = step.quiz_query || '';
@@ -1676,6 +1700,14 @@ document.addEventListener('DOMContentLoaded', () => {
       } else if (type === 'character') {
         payload.character_symbol = String(formData.get('character_symbol') || '');
         payload.character_pronunciation = String(formData.get('character_pronunciation') || '');
+      } else if (type === 'vocabulary') {
+        payload.character_symbol = String(formData.get('vocab_kata') || '');
+        payload.character_pronunciation = String(formData.get('vocab_romaji') || '');
+        payload.content = String(formData.get('vocab_arti') || '');
+        payload.kanji_id = String(formData.get('vocab_kanji_id') || '');
+        payload.tipe_kata = String(formData.get('vocab_tipe_kata') || '');
+        payload.deskripsi = String(formData.get('vocab_deskripsi') || '');
+        payload.level = String(formData.get('vocab_level') || '');
       } else if (type === 'quiz') {
         payload.quiz_instruction = String(formData.get('quiz_instruction') || 'PILIH JAWABAN YANG BENAR');
         payload.quiz_query = String(formData.get('quiz_query') || '');
@@ -2067,10 +2099,8 @@ document.addEventListener('DOMContentLoaded', () => {
         button.disabled = status !== 'none';
         button.innerHTML = `
           <span class="lesson-choice__index">${index + 1}</span>
-          <span class="lesson-choice__image" aria-hidden="true">${option.image || ''}</span>
-          <span class="lesson-choice__text">
-            <strong>${option.text}</strong>
-            <span>${option.sub || ''}</span>
+          <span class="lesson-choice__text" style="display: flex; align-items: center; justify-content: center; height: 100%; width: 100%;">
+            <strong style="font-size: 1.25rem;">${option.text}</strong>
           </span>
         `;
         button.addEventListener('click', () => {
@@ -2143,7 +2173,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (question.type === 'select-image') {
         const copy = lessonRoot.querySelector('[data-choice-question]');
+        const inst = lessonRoot.querySelector('[data-choice-instruction]');
         if (copy) copy.textContent = question.question;
+        if (inst) inst.textContent = question.instruction || 'PILIH JAWABAN YANG BENAR';
         renderChoiceOptions(question);
       }
 
@@ -2188,20 +2220,49 @@ document.addEventListener('DOMContentLoaded', () => {
       if (progressBar) progressBar.style.width = '100%';
       if (scoreScreen) scoreScreen.hidden = false;
 
+      // Filter and count quiz-only questions for accuracy calculations
+      const quizQuestions = questions.filter(q => q.type === 'select-image' || q.type === 'translate-to-ja');
+      const totalQuizCount = quizQuestions.length;
+      
       const correct = lessonRoot.querySelector('[data-score-correct]');
       const total = lessonRoot.querySelector('[data-score-total]');
       const accuracy = lessonRoot.querySelector('[data-score-accuracy]');
-      if (correct) correct.textContent = String(score);
-      if (total) total.textContent = `dari ${questions.length} soal`;
-      if (accuracy) accuracy.textContent = `${Math.round((score / questions.length) * 100)}%`;
+
+      if (totalQuizCount === 0) {
+        // If there are no quiz questions in this node, show 100% since only reading/text was present
+        if (correct) correct.textContent = '0';
+        if (total) total.textContent = 'Materi saja';
+        if (accuracy) accuracy.textContent = '100%';
+      } else {
+        if (correct) correct.textContent = String(score);
+        if (total) total.textContent = `dari ${totalQuizCount} soal`;
+        if (accuracy) accuracy.textContent = `${Math.round((score / totalQuizCount) * 100)}%`;
+      }
+
+      // Post progress completion to the database
+      const completeUrl = lessonRoot.getAttribute('data-complete-url');
+      const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+      if (completeUrl) {
+        fetch(completeUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'X-CSRF-TOKEN': csrfToken
+          },
+          body: JSON.stringify({ status: 'completed' })
+        })
+        .then(response => response.json())
+        .then(data => {
+          console.log('Progress saved successfully:', data);
+        })
+        .catch(err => {
+          console.error('Error saving progress:', err);
+        });
+      }
     };
 
     function goNext() {
-      const question = getCurrentQuestion();
-      if (question?.type === 'new-letter') {
-        score += 1;
-      }
-
       if (currentIndex < questions.length - 1) {
         currentIndex += 1;
         resetQuestionState();

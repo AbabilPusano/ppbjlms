@@ -339,7 +339,7 @@ class GuruMaterialApiController extends Controller
                 ]
             ],
             [
-                "title" => "Node dengan 3 Isi Berbeda",
+                "title" => "Node dengan 4 Isi Berbeda",
                 "steps" => [
                     [
                         "type" => "text",
@@ -349,6 +349,12 @@ class GuruMaterialApiController extends Controller
                         "type" => "character",
                         "character_symbol" => "あ",
                         "character_pronunciation" => "a"
+                    ],
+                    [
+                        "type" => "vocabulary",
+                        "character_symbol" => "食べる",
+                        "character_pronunciation" => "taberu",
+                        "content" => "Makan"
                     ],
                     [
                         "type" => "quiz",
@@ -401,8 +407,42 @@ class GuruMaterialApiController extends Controller
                     // Create steps if present
                     if (isset($nodeData['steps']) && is_array($nodeData['steps'])) {
                         foreach ($nodeData['steps'] as $idx => $stepData) {
-                            if (empty($stepData['type']) || !in_array($stepData['type'], ['text', 'character', 'quiz'])) {
-                                throw new \InvalidArgumentException('Tipe langkah tidak valid. Harus "text", "character", atau "quiz".');
+                            if (empty($stepData['type']) || !in_array($stepData['type'], ['text', 'character', 'quiz', 'vocabulary'])) {
+                                throw new \InvalidArgumentException('Tipe langkah tidak valid. Harus "text", "character", "quiz", atau "vocabulary".');
+                            }
+
+                            if ($stepData['type'] === 'character') {
+                                $symbol = trim($stepData['character_symbol'] ?? '');
+                                $reading = trim($stepData['character_pronunciation'] ?? '');
+                                if ($symbol) {
+                                    if (\App\Models\Huruf::where('simbol', $symbol)->exists()) {
+                                        throw new \InvalidArgumentException("Huruf dengan simbol '{$symbol}' sudah ada di database referensi.");
+                                    }
+                                    $tipe = preg_match('/[\x{30A0}-\x{30FF}]/u', $symbol) ? 'katakana' : 'hiragana';
+                                    \App\Models\Huruf::create([
+                                        'id' => (string) Str::uuid(),
+                                        'tipe' => $tipe,
+                                        'simbol' => $symbol,
+                                        'cara_baca' => $reading,
+                                    ]);
+                                }
+                            }
+
+                            if ($stepData['type'] === 'vocabulary') {
+                                $kata = trim($stepData['character_symbol'] ?? '');
+                                $reading = trim($stepData['character_pronunciation'] ?? '');
+                                $meaning = trim($stepData['content'] ?? '');
+                                if ($kata) {
+                                    if (\App\Models\Kata::where('kata', $kata)->exists()) {
+                                        throw new \InvalidArgumentException("Kata '{$kata}' sudah ada di database referensi.");
+                                    }
+                                    \App\Models\Kata::create([
+                                        'id' => (string) Str::uuid(),
+                                        'kata' => $kata,
+                                        'romaji' => $reading,
+                                        'arti' => $meaning,
+                                    ]);
+                                }
                             }
 
                             NodeStep::query()->create([
@@ -422,7 +462,7 @@ class GuruMaterialApiController extends Controller
                     }
                 }
             });
-        } catch (\InvalidArgumentException $e) {
+        } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 422);
         }
 
