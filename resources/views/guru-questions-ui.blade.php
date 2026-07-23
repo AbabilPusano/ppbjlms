@@ -2,68 +2,40 @@
 
 @section('body')
 <style>
-.guru-kanji-select-wrapper {
+.guru-search-select-wrapper {
     position: relative;
     width: 100%;
 }
-.guru-kanji-select-dropdown {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    max-height: 220px;
-    background: #fff;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    z-index: 1000;
-    margin-top: 4px;
+.guru-search-select-control {
+    position: relative;
     display: flex;
-    flex-direction: column;
-}
-.guru-kanji-select-options {
-    overflow-y: auto;
-    max-height: 180px;
-    display: flex;
-    flex-direction: column;
-}
-.guru-kanji-select-option {
-    padding: 10px 12px;
-    font-size: 14px;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #f2f4f7;
+    border: 1px solid #d6d0c5;
+    border-radius: 6px;
+    background: #fff;
+    padding-right: 8px;
 }
-.guru-kanji-select-option:hover {
-    background: #f9fafb;
+.guru-search-select-search {
+    width: 100%;
+    border: none !important;
+    outline: none !important;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
 }
-.guru-kanji-select-option.is-selected {
-    background: #f4f3ff;
-    color: var(--accent);
-    font-weight: 600;
-}
-.guru-kanji-select-loading {
-    padding: 10px;
-    text-align: center;
-    font-size: 12px;
+.guru-search-select-arrow {
     color: #667085;
-    background: #f9fafb;
-    border-top: 1px solid var(--border);
+    cursor: pointer;
+    user-select: none;
 }
-.guru-character-select-wrapper {
-    position: relative;
-    width: 100%;
-}
-.guru-character-select-dropdown {
+.guru-search-select-dropdown {
     position: absolute;
     top: 100%;
     left: 0;
     width: 100%;
     max-height: 220px;
     background: #fff;
-    border: 1px solid var(--border);
+    border: 1px solid #d6d0c5;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     z-index: 1000;
@@ -71,13 +43,13 @@
     display: flex;
     flex-direction: column;
 }
-.guru-character-select-options {
+.guru-search-select-options {
     overflow-y: auto;
     max-height: 180px;
     display: flex;
     flex-direction: column;
 }
-.guru-character-select-option {
+.guru-search-select-option {
     padding: 10px 12px;
     font-size: 14px;
     cursor: pointer;
@@ -86,15 +58,15 @@
     align-items: center;
     border-bottom: 1px solid #f2f4f7;
 }
-.guru-character-select-option:hover {
+.guru-search-select-option:hover {
     background: #f9fafb;
 }
-.guru-character-select-option.is-selected {
+.guru-search-select-option.is-selected {
     background: #f4f3ff;
     color: var(--accent);
     font-weight: 600;
 }
-.guru-character-select-loading {
+.guru-search-select-loading {
     padding: 10px;
     text-align: center;
     font-size: 12px;
@@ -228,16 +200,16 @@
                     <div class="guru-unit-form__grid">
                         <label>
                             <span>Pilih Huruf Referensi</span>
-                            <div class="guru-character-select-wrapper" id="step-character-select" data-character-select>
-                                <div class="guru-character-select-control" style="border: 1px solid var(--border); border-radius: 6px; display: flex; align-items: center; background: #fff; padding-right: 8px;">
-                                    <input type="text" class="guru-character-select-search" placeholder="Cari Huruf (Simbol / Romaji)..." autocomplete="off" style="border: none !important; outline: none !important; width: 100%; padding: 8px 12px; border-radius: 6px;">
-                                    <span class="material-symbols-outlined guru-character-select-arrow" style="cursor: pointer;">arrow_drop_down</span>
+                            <div class="guru-search-select-wrapper" id="step-character-select" data-character-select>
+                                <div class="guru-search-select-control">
+                                    <input type="text" class="guru-search-select-search" placeholder="Cari Huruf (Simbol / Romaji)..." autocomplete="off">
+                                    <span class="material-symbols-outlined guru-search-select-arrow">arrow_drop_down</span>
                                 </div>
-                                <div class="guru-character-select-dropdown" style="display: none;">
-                                    <div class="guru-character-select-options"></div>
-                                    <div class="guru-character-select-loading" style="display: none;">Memuat lebih banyak...</div>
+                                <div class="guru-search-select-dropdown" style="display: none;">
+                                    <div class="guru-search-select-options"></div>
+                                    <div class="guru-search-select-loading" style="display: none;">Memuat lebih banyak...</div>
                                 </div>
-                                <input type="hidden" name="character_symbol" class="guru-character-select-value">
+                                <input type="hidden" name="character_symbol" class="guru-search-select-value">
                             </div>
                         </label>
                         <label>
@@ -249,56 +221,100 @@
 
                 <!-- VOCABULARY STEP FIELDS -->
                 <div data-question-fields="vocabulary" hidden style="display: flex; flex-direction: column; gap: 16px;">
-                    <div class="guru-unit-form__grid">
-                        <label>
-                            <span>Kosakata (Jepang)</span>
-                            <input name="vocab_kata" type="text" placeholder="Contoh: 食べる">
-                        </label>
-                        <label>
-                            <span>Cara Baca (Romaji)</span>
-                            <input name="vocab_romaji" type="text" placeholder="Contoh: taberu">
-                        </label>
-                    </div>
-                    <label>
-                        <span>Arti / Terjemahan</span>
-                        <input name="vocab_arti" type="text" placeholder="Contoh: Makan">
-                    </label>
-                    <div class="guru-unit-form__grid">
-                        <label>
-                            <span>Hubungkan ke Kanji (Opsional)</span>
-                            <div class="guru-kanji-select-wrapper" id="step-kanji-select" data-kanji-select>
-                                <div class="guru-kanji-select-control" style="border: 1px solid var(--border); border-radius: 6px; display: flex; align-items: center; background: #fff; padding-right: 8px;">
-                                    <input type="text" class="guru-kanji-select-search" placeholder="Cari Kanji (Karakter / Makna)..." autocomplete="off" style="border: none !important; outline: none !important; width: 100%; padding: 8px 12px; border-radius: 6px;">
-                                    <span class="material-symbols-outlined guru-kanji-select-arrow" style="cursor: pointer;">arrow_drop_down</span>
+                    <!-- Search Section -->
+                    <div id="vocab-search-section" style="display: flex; flex-direction: column; gap: 12px;">
+                        <div class="guru-unit-form__grid">
+                            <label>
+                                <span>Pilih Kosakata Referensi</span>
+                                <div class="guru-search-select-wrapper" id="step-kata-select" data-kata-select>
+                                    <div class="guru-search-select-control">
+                                        <input type="text" class="guru-search-select-search" placeholder="Cari Kosakata (Jepang / Romaji / Arti)..." autocomplete="off">
+                                        <span class="material-symbols-outlined guru-search-select-arrow">arrow_drop_down</span>
+                                    </div>
+                                    <div class="guru-search-select-dropdown" style="display: none;">
+                                        <div class="guru-search-select-options"></div>
+                                        <div class="guru-search-select-loading" style="display: none;">Memuat lebih banyak...</div>
+                                    </div>
+                                    <input type="hidden" name="vocab_selected_id" class="guru-search-select-value">
                                 </div>
-                                <div class="guru-kanji-select-dropdown" style="display: none;">
-                                    <div class="guru-kanji-select-options"></div>
-                                    <div class="guru-kanji-select-loading" style="display: none;">Memuat lebih banyak...</div>
-                                </div>
-                                <input type="hidden" name="vocab_kanji_id" class="guru-kanji-select-value">
-                            </div>
-                        </label>
-                        <label>
-                            <span>Tipe Kata (Opsional)</span>
-                            <input name="vocab_tipe_kata" type="text" placeholder="Contoh: Kata Kerja">
-                        </label>
+                            </label>
+                            <label>
+                                <span>Detail Kosakata (Romaji / Arti)</span>
+                                <input id="vocab-search-detail" type="text" readonly style="background: #f5f5f5; cursor: not-allowed; border: 1px solid var(--border); padding: 8px; border-radius: 6px;" placeholder="Pilih kosakata terlebih dahulu">
+                            </label>
+                        </div>
+                        <div style="display: flex; justify-content: flex-end;">
+                            <button type="button" id="vocab-btn-create-new" class="guru-unit-button" style="font-size: 12px; padding: 4px 12px; background: var(--paper-soft);">
+                                <span class="material-symbols-outlined" style="font-size: 16px; vertical-align: middle; margin-right: 4px;">add</span>Buat Kata Baru
+                            </button>
+                        </div>
                     </div>
-                    <div class="guru-unit-form__grid">
-                        <label>
-                            <span>Level (Opsional)</span>
-                            <select name="vocab_level" style="background: #fff; border: 1px solid var(--border); padding: 8px; border-radius: 6px;">
-                                <option value="">-- Tanpa Level --</option>
-                                <option value="N5">N5</option>
-                                <option value="N4">N4</option>
-                                <option value="N3">N3</option>
-                                <option value="N2">N2</option>
-                                <option value="N1">N1</option>
-                            </select>
-                        </label>
-                        <label>
-                            <span>Deskripsi Tambahan (Opsional)</span>
-                            <input name="vocab_deskripsi" type="text" placeholder="Deskripsi atau penjelasan...">
-                        </label>
+
+                    <!-- Manual Section (Initially Hidden) -->
+                    <div id="vocab-manual-section" style="display: none; flex-direction: column; gap: 16px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e6e1d6; padding-bottom: 8px;">
+                            <span style="font-weight: 600; color: var(--ink);">Definisi Kosakata Baru</span>
+                            <button type="button" id="vocab-btn-back-to-search" class="guru-unit-button" style="font-size: 12px; padding: 4px 12px; background: transparent; border: none; color: var(--accent);">
+                                <span class="material-symbols-outlined" style="font-size: 16px; vertical-align: middle; margin-right: 4px;">search</span>Cari Kosakata Lain
+                            </button>
+                        </div>
+                        <div class="guru-unit-form__grid">
+                            <label>
+                                <span>Kosakata (Jepang)</span>
+                                <input name="vocab_kata" type="text" placeholder="Contoh: 食べる">
+                            </label>
+                            <label>
+                                <span>Kana (Hiragana / Katakana)</span>
+                                <input name="vocab_kana" type="text" placeholder="Contoh: たべる">
+                            </label>
+                        </div>
+                        <div class="guru-unit-form__grid">
+                            <label>
+                                <span>Cara Baca (Romaji)</span>
+                                <input name="vocab_romaji" type="text" placeholder="Contoh: taberu">
+                            </label>
+                            <label>
+                                <span>Arti / Terjemahan</span>
+                                <input name="vocab_arti" type="text" placeholder="Contoh: Makan">
+                            </label>
+                        </div>
+                        <div class="guru-unit-form__grid">
+                            <label>
+                                <span>Hubungkan ke Kanji (Opsional)</span>
+                                <div class="guru-search-select-wrapper" id="step-kanji-select" data-kanji-select>
+                                    <div class="guru-search-select-control">
+                                        <input type="text" class="guru-search-select-search" placeholder="Cari Kanji (Karakter / Makna)..." autocomplete="off">
+                                        <span class="material-symbols-outlined guru-search-select-arrow">arrow_drop_down</span>
+                                    </div>
+                                    <div class="guru-search-select-dropdown" style="display: none;">
+                                        <div class="guru-search-select-options"></div>
+                                        <div class="guru-search-select-loading" style="display: none;">Memuat lebih banyak...</div>
+                                    </div>
+                                    <input type="hidden" name="vocab_kanji_id" class="guru-search-select-value">
+                                </div>
+                            </label>
+                            <label>
+                                <span>Tipe Kata (Opsional)</span>
+                                <input name="vocab_tipe_kata" type="text" placeholder="Contoh: Kata Kerja">
+                            </label>
+                        </div>
+                        <div class="guru-unit-form__grid">
+                            <label>
+                                <span>Level (Opsional)</span>
+                                <select name="vocab_level" style="background: #fff; border: 1px solid #d6d0c5; padding: 8px; border-radius: 6px; width: 100%; box-sizing: border-box;">
+                                    <option value="">-- Tanpa Level --</option>
+                                    <option value="N5">N5</option>
+                                    <option value="N4">N4</option>
+                                    <option value="N3">N3</option>
+                                    <option value="N2">N2</option>
+                                    <option value="N1">N1</option>
+                                </select>
+                            </label>
+                            <label>
+                                <span>Deskripsi Tambahan (Opsional)</span>
+                                <input name="vocab_deskripsi" type="text" placeholder="Deskripsi atau penjelasan...">
+                            </label>
+                        </div>
                     </div>
                 </div>
 
@@ -317,17 +333,17 @@
                     <div data-quiz-question-fields="character" style="display: flex; flex-direction: column; gap: 16px;">
                         <label>
                             <span>Pilih Huruf Referensi (Kuis)</span>
-                            <div class="guru-character-select-wrapper" id="quiz-character-select" data-character-select>
-                                <div class="guru-character-select-control" style="border: 1px solid #d6d0c5; border-radius: 6px; display: flex; align-items: center; background: #fff; padding-right: 8px;">
-                                    <input type="text" class="guru-character-select-search" placeholder="Cari Huruf (Simbol / Romaji)..." autocomplete="off" style="border: none !important; outline: none !important; width: 100%; padding: 8px 12px; border-radius: 6px;">
-                                    <span class="material-symbols-outlined guru-character-select-arrow" style="cursor: pointer;">arrow_drop_down</span>
+                            <div class="guru-search-select-wrapper" id="quiz-character-select" data-character-select>
+                                <div class="guru-search-select-control">
+                                    <input type="text" class="guru-search-select-search" placeholder="Cari Huruf (Simbol / Romaji)..." autocomplete="off">
+                                    <span class="material-symbols-outlined guru-search-select-arrow">arrow_drop_down</span>
                                 </div>
-                                <div class="guru-character-select-dropdown" style="display: none;">
-                                    <div class="guru-character-select-options"></div>
-                                    <div class="guru-character-select-loading" style="display: none;">Memuat lebih banyak...</div>
+                                <div class="guru-search-select-dropdown" style="display: none;">
+                                    <div class="guru-search-select-options"></div>
+                                    <div class="guru-search-select-loading" style="display: none;">Memuat lebih banyak...</div>
                                 </div>
-                                <input type="hidden" name="quiz_character_symbol" class="guru-character-select-value">
-                                <input type="hidden" name="quiz_character_pronunciation" class="guru-character-select-pronunciation" id="quiz-character-pronunciation">
+                                <input type="hidden" name="quiz_character_symbol" class="guru-search-select-value">
+                                <input type="hidden" name="quiz_character_pronunciation" class="guru-search-select-pronunciation" id="quiz-character-pronunciation">
                             </div>
                         </label>
                     </div>

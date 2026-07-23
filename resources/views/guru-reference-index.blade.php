@@ -232,6 +232,7 @@
                         <thead>
                             <tr>
                                 <th>Kata</th>
+                                <th>Kana</th>
                                 <th>Romaji</th>
                                 <th>Arti</th>
                                 <th>Kanji Hubung</th>
@@ -244,6 +245,7 @@
                             @forelse ($katas as $kt)
                                 <tr>
                                     <td style="font-size: 18px; font-weight: 800; font-family: var(--font-jp);">{{ $kt->kata }}</td>
+                                    <td style="font-size: 16px; font-weight: 600; font-family: var(--font-jp);">{{ $kt->kana ?? '-' }}</td>
                                     <td><code>{{ $kt->romaji }}</code></td>
                                     <td style="font-weight: 600;">{{ $kt->arti }}</td>
                                     <td>
@@ -259,7 +261,7 @@
                                     <td><span style="font-weight: bold; color: var(--accent);">{{ $kt->level ?? '-' }}</span></td>
                                     <td class="guru-admin-table__action">
                                         <div style="display: flex; gap: 8px; justify-content: flex-end;">
-                                            <button class="guru-unit-button" style="padding: 6px 12px; font-size: 12px; border: 1px solid var(--line);" onclick="openEditKataModal('{{ $kt->id }}', '{{ addslashes($kt->kata) }}', '{{ addslashes($kt->romaji) }}', '{{ addslashes($kt->arti) }}', '{{ $kt->kanji_id }}', '{{ $kt->kanji ? addslashes($kt->kanji->kanji . " (" . $kt->kanji->makna . ")") : "" }}', '{{ addslashes($kt->tipe_kata) }}', '{{ addslashes($kt->deskripsi) }}', '{{ $kt->level }}')">Edit</button>
+                                            <button class="guru-unit-button" style="padding: 6px 12px; font-size: 12px; border: 1px solid var(--line);" onclick="openEditKataModal('{{ $kt->id }}', '{{ addslashes($kt->kata) }}', '{{ addslashes($kt->kana) }}', '{{ addslashes($kt->romaji) }}', '{{ addslashes($kt->arti) }}', '{{ $kt->kanji_id }}', '{{ $kt->kanji ? addslashes($kt->kanji->kanji . " (" . $kt->kanji->makna . ")") : "" }}', '{{ addslashes($kt->tipe_kata) }}', '{{ addslashes($kt->deskripsi) }}', '{{ $kt->level }}')">Edit</button>
                                             <form action="{{ route('guru.referensi.kata.destroy', $kt) }}" method="POST" onsubmit="return confirm('Hapus kata ini?')">
                                                 @csrf @method('DELETE')
                                                 <button type="submit" class="guru-unit-button guru-unit-button--danger" style="padding: 6px 12px; font-size: 12px;">Hapus</button>
@@ -482,6 +484,10 @@
                 <label class="guru-admin-field" style="margin: 0; display: flex; flex-direction: column; gap: 6px;">
                     <span style="font-weight: 700;">Kosakata (Jepang)</span>
                     <input type="text" name="kata" placeholder="Contoh: 食べる" style="padding: 10px; border: 1px solid var(--line); border-radius: 8px; font-size: 14px; font-family: var(--font-jp);">
+                </label>
+                <label class="guru-admin-field" style="margin: 0; display: flex; flex-direction: column; gap: 6px;">
+                    <span style="font-weight: 700;">Kana (Hiragana / Katakana)</span>
+                    <input type="text" name="kana" placeholder="Contoh: たべる" style="padding: 10px; border: 1px solid var(--line); border-radius: 8px; font-size: 14px;">
                 </label>
                 <label class="guru-admin-field" style="margin: 0; display: flex; flex-direction: column; gap: 6px;">
                     <span style="font-weight: 700;">Cara Baca (Romaji)</span>
@@ -739,6 +745,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+function showFieldsForTab(tabName) {
+    document.querySelectorAll('.modal-fields-group').forEach(el => {
+        el.style.display = 'none';
+        el.querySelectorAll('input, select, textarea').forEach(input => {
+            input.disabled = true;
+        });
+    });
+    const activeFields = document.getElementById(`fields_${tabName}`);
+    if (activeFields) {
+        activeFields.style.display = 'flex';
+        activeFields.querySelectorAll('input, select, textarea').forEach(input => {
+            input.disabled = false;
+        });
+    }
+}
+
 function openAddModal() {
     const modal = document.getElementById('crudModal');
     const form = document.getElementById('modalForm');
@@ -757,9 +779,8 @@ function openAddModal() {
         kataKanjiSelect.setValue('', '');
     }
     
-    // Hide all fields first, then show the current tab fields
-    document.querySelectorAll('.modal-fields-group').forEach(el => el.style.display = 'none');
-    document.getElementById(`fields_${currentTab}`).style.display = 'flex';
+    // Hide all fields first, then show the current tab fields and enable their inputs
+    showFieldsForTab(currentTab);
     
     modal.style.display = 'flex';
 }
@@ -777,9 +798,8 @@ function openEditKanjiModal(id, kanji, onyomi, kunyomi, makna, level) {
     document.getElementById('modalTitle').textContent = 'Edit Kanji';
     
     // Populate Fields
-    document.querySelectorAll('.modal-fields-group').forEach(el => el.style.display = 'none');
+    showFieldsForTab('kanji');
     const fields = document.getElementById('fields_kanji');
-    fields.style.display = 'flex';
     
     fields.querySelector('[name="kanji"]').value = kanji;
     fields.querySelector('[name="onyomi"]').value = onyomi;
@@ -790,7 +810,7 @@ function openEditKanjiModal(id, kanji, onyomi, kunyomi, makna, level) {
     modal.style.display = 'flex';
 }
 
-function openEditKataModal(id, kata, romaji, arti, kanji_id, kanji_text, tipe_kata, deskripsi, level) {
+function openEditKataModal(id, kata, kana, romaji, arti, kanji_id, kanji_text, tipe_kata, deskripsi, level) {
     const modal = document.getElementById('crudModal');
     const form = document.getElementById('modalForm');
     const methodPlaceholder = document.getElementById('methodPlaceholder');
@@ -801,11 +821,11 @@ function openEditKataModal(id, kata, romaji, arti, kanji_id, kanji_text, tipe_ka
     document.getElementById('modalTitle').textContent = 'Edit Kata (Vocabulary)';
     
     // Populate Fields
-    document.querySelectorAll('.modal-fields-group').forEach(el => el.style.display = 'none');
+    showFieldsForTab('kata');
     const fields = document.getElementById('fields_kata');
-    fields.style.display = 'flex';
     
     fields.querySelector('[name="kata"]').value = kata;
+    fields.querySelector('[name="kana"]').value = kana;
     fields.querySelector('[name="romaji"]').value = romaji;
     fields.querySelector('[name="arti"]').value = arti;
     if (kataKanjiSelect) {
@@ -831,9 +851,8 @@ function openEditKalimatModal(id, kalimat, romaji, arti, kata_ids, deskripsi) {
     document.getElementById('modalTitle').textContent = 'Edit Kalimat (Sentence)';
     
     // Populate Fields
-    document.querySelectorAll('.modal-fields-group').forEach(el => el.style.display = 'none');
+    showFieldsForTab('kalimat');
     const fields = document.getElementById('fields_kalimat');
-    fields.style.display = 'flex';
     
     fields.querySelector('[name="kalimat"]').value = kalimat;
     fields.querySelector('[name="romaji"]').value = romaji;
@@ -860,9 +879,8 @@ function openEditGrammarModal(id, struktur, kalimat_id, deskripsi, level) {
     document.getElementById('modalTitle').textContent = 'Edit Grammar';
     
     // Populate Fields
-    document.querySelectorAll('.modal-fields-group').forEach(el => el.style.display = 'none');
+    showFieldsForTab('grammar');
     const fields = document.getElementById('fields_grammar');
-    fields.style.display = 'flex';
     
     fields.querySelector('[name="struktur"]').value = struktur;
     fields.querySelector('[name="kalimat_id"]').value = kalimat_id || '';

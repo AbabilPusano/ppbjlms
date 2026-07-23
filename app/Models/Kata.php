@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-#[Fillable(['id', 'kata', 'romaji', 'arti', 'kanji_id', 'deskripsi', 'tipe_kata', 'level'])]
+#[Fillable(['id', 'kata', 'kana', 'romaji', 'arti', 'kanji_id', 'deskripsi', 'tipe_kata', 'level'])]
 class Kata extends Model
 {
     protected $table = 'katas';

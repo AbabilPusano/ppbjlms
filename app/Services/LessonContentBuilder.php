@@ -17,7 +17,7 @@ class LessonContentBuilder
         $questions = $node->steps()
             ->orderBy('sort_order')
             ->get()
-            ->map(function ($step): array {
+            ->map(function ($step) use ($node): array {
                 if ($step->type === 'character') {
                     return [
                         'type' => 'new-letter',
@@ -28,9 +28,12 @@ class LessonContentBuilder
 
                 if ($step->type === 'vocabulary') {
                     $kata = \App\Models\Kata::where('kata', $step->character_symbol)->first();
+                    $levelCode = $node->unit && $node->unit->level ? strtolower($node->unit->level->code) : '';
+                    $isHurufLevel = ($levelCode === 'huruf');
+                    $displayWord = $isHurufLevel ? ($kata?->kana ?? $step->character_symbol) : $step->character_symbol;
                     return [
                         'type' => 'new-vocabulary',
-                        'letter' => $step->character_symbol,
+                        'letter' => $displayWord,
                         'reading' => $step->character_pronunciation,
                         'meaning' => $step->content,
                         'kanji' => $kata && $kata->kanji ? $kata->kanji->kanji : '',

@@ -1,13 +1,13 @@
 import { createDragAutoScroller } from './utils.js';
 
 export default function initQuestionsModule() {
-  function initKanjiSelect(wrapper) {
-    const searchInput = wrapper.querySelector('.guru-kanji-select-search');
-    const hiddenInput = wrapper.querySelector('.guru-kanji-select-value');
-    const dropdown = wrapper.querySelector('.guru-kanji-select-dropdown');
-    const optionsContainer = wrapper.querySelector('.guru-kanji-select-options');
-    const loadingIndicator = wrapper.querySelector('.guru-kanji-select-loading');
-    const arrow = wrapper.querySelector('.guru-kanji-select-arrow');
+  function initSearchSelect(wrapper, config = {}) {
+    const searchInput = wrapper.querySelector('.guru-search-select-search');
+    const hiddenInput = wrapper.querySelector('.guru-search-select-value');
+    const dropdown = wrapper.querySelector('.guru-search-select-dropdown');
+    const optionsContainer = wrapper.querySelector('.guru-search-select-options');
+    const loadingIndicator = wrapper.querySelector('.guru-search-select-loading');
+    const arrow = wrapper.querySelector('.guru-search-select-arrow');
 
     let page = 1;
     let hasMore = true;
@@ -16,7 +16,7 @@ export default function initQuestionsModule() {
     let selectedId = hiddenInput.value || '';
     let selectedText = '';
 
-    const fetchKanjis = async (reset = false) => {
+    const fetchItems = async (reset = false) => {
       if (isLoading) return;
       if (reset) {
         page = 1;
@@ -29,22 +29,21 @@ export default function initQuestionsModule() {
       if (loadingIndicator) loadingIndicator.style.display = 'block';
 
       try {
-        const res = await fetch(`/api/guru/kanjis/search?q=${encodeURIComponent(query)}&page=${page}`);
+        const fetchUrl = config.url(query, page);
+        const res = await fetch(fetchUrl);
         const data = await res.json();
 
         data.results.forEach(item => {
+          const mapped = config.mapItem(item);
           const div = document.createElement('div');
-          div.className = `guru-kanji-select-option ${item.id === selectedId ? 'is-selected' : ''}`;
-          div.setAttribute('data-id', item.id);
-          div.setAttribute('data-text', `${item.kanji} (${item.makna})`);
-          div.innerHTML = `
-            <strong style="font-family: var(--font-jp); font-size: 16px;">${item.kanji}</strong>
-            <span style="color: #667085; font-size: 12px;">${item.makna}</span>
-          `;
+          div.className = `guru-search-select-option ${mapped.id === selectedId ? 'is-selected' : ''}`;
+          div.setAttribute('data-id', mapped.id);
+          div.setAttribute('data-text', mapped.text);
+          div.innerHTML = mapped.html;
           div.addEventListener('mousedown', (e) => {
             e.preventDefault();
             e.stopPropagation();
-            selectItem(item.id, `${item.kanji} (${item.makna})`);
+            selectItem(mapped.id, mapped.text, item);
             closeDropdown();
           });
           optionsContainer.appendChild(div);
@@ -60,28 +59,32 @@ export default function initQuestionsModule() {
       }
     };
 
-    const selectItem = (id, text) => {
+    const selectItem = (id, text, item = null) => {
       selectedId = id;
-      selectedText = text;
       hiddenInput.value = id;
-      searchInput.value = id ? text : '';
-      searchInput.placeholder = id ? text : 'Cari Kanji (Karakter / Makna)...';
-      
+      selectedText = id ? text : '';
+      searchInput.value = selectedText;
+      searchInput.placeholder = id ? selectedText : (config.placeholder || 'Cari...');
+
       hiddenInput.dispatchEvent(new Event('change', { bubbles: true }));
 
-      optionsContainer.querySelectorAll('.guru-kanji-select-option').forEach(opt => {
+      optionsContainer.querySelectorAll('.guru-search-select-option').forEach(opt => {
         opt.classList.toggle('is-selected', opt.getAttribute('data-id') === id);
       });
+
+      if (config.onSelect) {
+        config.onSelect(id, text, item);
+      }
     };
 
-    wrapper.setValue = (id, text) => {
-      selectItem(id, text);
+    wrapper.setValue = (id, text, item = null) => {
+      selectItem(id, text, item);
     };
 
     const openDropdown = () => {
       dropdown.style.display = 'flex';
       if (optionsContainer.children.length === 0) {
-        fetchKanjis(true);
+        fetchItems(true);
       }
     };
 
@@ -96,7 +99,7 @@ export default function initQuestionsModule() {
       query = searchInput.value;
       clearTimeout(searchTimeout);
       searchTimeout = setTimeout(() => {
-        fetchKanjis(true);
+        fetchItems(true);
       }, 300);
     });
 
@@ -117,141 +120,7 @@ export default function initQuestionsModule() {
 
     optionsContainer.addEventListener('scroll', () => {
       if (optionsContainer.scrollTop + optionsContainer.clientHeight >= optionsContainer.scrollHeight - 5) {
-        fetchKanjis();
-      }
-    });
-
-    document.addEventListener('click', (e) => {
-      if (!wrapper.contains(e.target)) {
-        closeDropdown();
-      }
-    });
-  }
-
-  function initCharacterSelect(wrapper) {
-    const searchInput = wrapper.querySelector('.guru-character-select-search');
-    const hiddenInput = wrapper.querySelector('.guru-character-select-value');
-    const dropdown = wrapper.querySelector('.guru-character-select-dropdown');
-    const optionsContainer = wrapper.querySelector('.guru-character-select-options');
-    const loadingIndicator = wrapper.querySelector('.guru-character-select-loading');
-    const arrow = wrapper.querySelector('.guru-character-select-arrow');
-    const form = wrapper.closest('form');
-    const pronunciationInput = wrapper.querySelector('.guru-character-select-pronunciation') || 
-                               (form ? form.querySelector('[name="character_pronunciation"]') : null);
-
-    let page = 1;
-    let hasMore = true;
-    let isLoading = false;
-    let query = '';
-    let selectedSymbol = hiddenInput.value || '';
-    let selectedText = '';
-
-    const fetchHurufs = async (reset = false) => {
-      if (isLoading) return;
-      if (reset) {
-        page = 1;
-        hasMore = true;
-        optionsContainer.innerHTML = '';
-      }
-      if (!hasMore) return;
-
-      isLoading = true;
-      if (loadingIndicator) loadingIndicator.style.display = 'block';
-
-      try {
-        const res = await fetch(`/api/guru/hurufs/search?q=${encodeURIComponent(query)}&page=${page}`);
-        const data = await res.json();
-
-        data.results.forEach(item => {
-          const div = document.createElement('div');
-          div.className = `guru-character-select-option ${item.simbol === selectedSymbol ? 'is-selected' : ''}`;
-          div.setAttribute('data-symbol', item.simbol);
-          div.setAttribute('data-text', `${item.simbol} (${item.cara_baca})`);
-          div.innerHTML = `
-            <strong style="font-family: var(--font-jp); font-size: 16px;">${item.simbol}</strong>
-            <span style="color: #667085; font-size: 12px; text-transform: capitalize;">${item.tipe} (${item.cara_baca})</span>
-          `;
-          div.addEventListener('mousedown', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            selectItem(item.simbol, item.cara_baca);
-            closeDropdown();
-          });
-          optionsContainer.appendChild(div);
-        });
-
-        hasMore = data.pagination.more;
-        page += 1;
-      } catch (e) {
-        console.error(e);
-      } finally {
-        isLoading = false;
-        if (loadingIndicator) loadingIndicator.style.display = 'none';
-      }
-    };
-
-    const selectItem = (symbol, pronunciation) => {
-      selectedSymbol = symbol;
-      hiddenInput.value = symbol;
-      selectedText = symbol ? `${symbol} (${pronunciation})` : '';
-      searchInput.value = selectedText;
-      searchInput.placeholder = symbol ? selectedText : 'Cari Huruf (Simbol / Romaji)...';
-
-      if (pronunciationInput) {
-        pronunciationInput.value = pronunciation || '';
-      }
-
-      hiddenInput.dispatchEvent(new Event('change', { bubbles: true }));
-
-      optionsContainer.querySelectorAll('.guru-character-select-option').forEach(opt => {
-        opt.classList.toggle('is-selected', opt.getAttribute('data-symbol') === symbol);
-      });
-    };
-
-    wrapper.setValue = (symbol, pronunciation) => {
-      selectItem(symbol, pronunciation);
-    };
-
-    const openDropdown = () => {
-      dropdown.style.display = 'flex';
-      if (optionsContainer.children.length === 0) {
-        fetchHurufs(true);
-      }
-    };
-
-    const closeDropdown = () => {
-      dropdown.style.display = 'none';
-      searchInput.value = selectedSymbol ? selectedText : '';
-      searchInput.blur();
-    };
-
-    let searchTimeout;
-    searchInput.addEventListener('input', () => {
-      query = searchInput.value;
-      clearTimeout(searchTimeout);
-      searchTimeout = setTimeout(() => {
-        fetchHurufs(true);
-      }, 300);
-    });
-
-    searchInput.addEventListener('focus', () => {
-      searchInput.value = '';
-      openDropdown();
-    });
-
-    arrow.addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (dropdown.style.display === 'none') {
-        openDropdown();
-        searchInput.focus();
-      } else {
-        closeDropdown();
-      }
-    });
-
-    optionsContainer.addEventListener('scroll', () => {
-      if (optionsContainer.scrollTop + optionsContainer.clientHeight >= optionsContainer.scrollHeight - 5) {
-        fetchHurufs();
+        fetchItems();
       }
     });
 
@@ -274,17 +143,127 @@ export default function initQuestionsModule() {
     let stepKanjiSelect = null;
     const kanjiWrapper = root.querySelector('#step-kanji-select');
     if (kanjiWrapper) {
-      initKanjiSelect(kanjiWrapper);
+      initSearchSelect(kanjiWrapper, {
+        url: (query, page) => `/api/guru/kanjis/search?q=${encodeURIComponent(query)}&page=${page}`,
+        mapItem: (item) => ({
+          id: item.id,
+          text: `${item.kanji} (${item.makna})`,
+          html: `<strong style="font-family: var(--font-jp); font-size: 16px;">${item.kanji}</strong> <span style="color: #667085; font-size: 12px;">${item.makna}</span>`
+        }),
+        placeholder: 'Cari Kanji (Karakter / Makna)...'
+      });
       stepKanjiSelect = kanjiWrapper;
+    }
+
+    const vocabSearchSection = root.querySelector('#vocab-search-section');
+    const vocabManualSection = root.querySelector('#vocab-manual-section');
+    const vocabBtnCreateNew = root.querySelector('#vocab-btn-create-new');
+    const vocabBtnBackToSearch = root.querySelector('#vocab-btn-back-to-search');
+
+    let stepKataSelect = null;
+    const kataWrapper = root.querySelector('#step-kata-select');
+    if (kataWrapper) {
+      initSearchSelect(kataWrapper, {
+        url: (query, page) => `/api/guru/katas/search?q=${encodeURIComponent(query)}&page=${page}`,
+        mapItem: (item) => ({
+          id: item.id,
+          text: `${item.kata} (${item.romaji})`,
+          html: `<strong style="font-family: var(--font-jp); font-size: 16px;">${item.kata}</strong> <span style="color: #667085; font-size: 12px;">${item.romaji} (${item.arti})</span>`
+        }),
+        placeholder: 'Cari Kosakata (Jepang / Romaji / Arti)...',
+        onSelect: (id, text, selectedKata) => {
+          if (selectedKata && stepForm) {
+            stepForm.elements.vocab_kata.value = selectedKata.kata || '';
+            stepForm.elements.vocab_kana.value = selectedKata.kana || '';
+            stepForm.elements.vocab_romaji.value = selectedKata.romaji || '';
+            stepForm.elements.vocab_arti.value = selectedKata.arti || '';
+            if (stepKanjiSelect) {
+              stepKanjiSelect.setValue(selectedKata.kanji_id || '', selectedKata.kanji_text || '');
+            } else {
+              stepForm.elements.vocab_kanji_id.value = selectedKata.kanji_id || '';
+            }
+            stepForm.elements.vocab_tipe_kata.value = selectedKata.tipe_kata || '';
+            stepForm.elements.vocab_level.value = selectedKata.level || '';
+            stepForm.elements.vocab_deskripsi.value = selectedKata.deskripsi || '';
+          }
+          const searchDetailInput = root.querySelector('#vocab-search-detail');
+          if (searchDetailInput && selectedKata) {
+            searchDetailInput.value = `${selectedKata.romaji || ''} (${selectedKata.arti || ''})`;
+          }
+        }
+      });
+      stepKataSelect = kataWrapper;
+    }
+
+    if (vocabBtnCreateNew) {
+      vocabBtnCreateNew.addEventListener('click', () => {
+        if (stepForm) {
+          stepForm.elements.vocab_kata.value = '';
+          stepForm.elements.vocab_kana.value = '';
+          stepForm.elements.vocab_romaji.value = '';
+          stepForm.elements.vocab_arti.value = '';
+          if (stepKanjiSelect) {
+            stepKanjiSelect.setValue('', '');
+          } else {
+            stepForm.elements.vocab_kanji_id.value = '';
+          }
+          stepForm.elements.vocab_tipe_kata.value = '';
+          stepForm.elements.vocab_level.value = '';
+          stepForm.elements.vocab_deskripsi.value = '';
+        }
+        if (stepKataSelect) {
+          stepKataSelect.setValue('', '');
+        }
+        if (vocabManualSection) vocabManualSection.style.display = 'flex';
+        if (vocabSearchSection) vocabSearchSection.style.display = 'none';
+      });
+    }
+
+    if (vocabBtnBackToSearch) {
+      vocabBtnBackToSearch.addEventListener('click', () => {
+        if (stepForm) {
+          stepForm.elements.vocab_kata.value = '';
+          stepForm.elements.vocab_kana.value = '';
+          stepForm.elements.vocab_romaji.value = '';
+          stepForm.elements.vocab_arti.value = '';
+          if (stepKanjiSelect) {
+            stepKanjiSelect.setValue('', '');
+          } else {
+            stepForm.elements.vocab_kanji_id.value = '';
+          }
+          stepForm.elements.vocab_tipe_kata.value = '';
+          stepForm.elements.vocab_level.value = '';
+          stepForm.elements.vocab_deskripsi.value = '';
+        }
+        if (stepKataSelect) {
+          stepKataSelect.setValue('', '');
+        }
+        if (vocabManualSection) vocabManualSection.style.display = 'none';
+        if (vocabSearchSection) vocabSearchSection.style.display = 'flex';
+      });
     }
 
     let stepCharacterSelect = null;
     const characterWrapper = root.querySelector('#step-character-select');
     if (characterWrapper) {
-      initCharacterSelect(characterWrapper);
+      const pronunciationInput = root.querySelector('[name="character_pronunciation"]');
+      initSearchSelect(characterWrapper, {
+        url: (query, page) => `/api/guru/hurufs/search?q=${encodeURIComponent(query)}&page=${page}`,
+        mapItem: (item) => ({
+          id: item.simbol,
+          text: `${item.simbol} (${item.cara_baca})`,
+          html: `<strong style="font-family: var(--font-jp); font-size: 16px;">${item.simbol}</strong> <span style="color: #667085; font-size: 12px; text-transform: capitalize;">${item.tipe} (${item.cara_baca})</span>`
+        }),
+        placeholder: 'Cari Huruf (Simbol / Romaji)...',
+        onSelect: (id, text, item) => {
+          if (pronunciationInput && item) {
+            pronunciationInput.value = item.cara_baca || '';
+          }
+        }
+      });
       stepCharacterSelect = characterWrapper;
 
-      const hiddenInput = characterWrapper.querySelector('.guru-character-select-value');
+      const hiddenInput = characterWrapper.querySelector('.guru-search-select-value');
       if (hiddenInput) {
         hiddenInput.addEventListener('change', async () => {
           const val = hiddenInput.value;
@@ -387,10 +366,24 @@ export default function initQuestionsModule() {
     };
 
     if (quizCharacterWrapper) {
-      initCharacterSelect(quizCharacterWrapper);
+      const pronunciationInput = root.querySelector('#quiz-character-pronunciation');
+      initSearchSelect(quizCharacterWrapper, {
+        url: (query, page) => `/api/guru/hurufs/search?q=${encodeURIComponent(query)}&page=${page}`,
+        mapItem: (item) => ({
+          id: item.simbol,
+          text: `${item.simbol} (${item.cara_baca})`,
+          html: `<strong style="font-family: var(--font-jp); font-size: 16px;">${item.simbol}</strong> <span style="color: #667085; font-size: 12px; text-transform: capitalize;">${item.tipe} (${item.cara_baca})</span>`
+        }),
+        placeholder: 'Cari Huruf (Simbol / Romaji)...',
+        onSelect: (id, text, item) => {
+          if (pronunciationInput && item) {
+            pronunciationInput.value = item.cara_baca || '';
+          }
+        }
+      });
       quizCharacterSelect = quizCharacterWrapper;
 
-      const hiddenInput = quizCharacterWrapper.querySelector('.guru-character-select-value');
+      const hiddenInput = quizCharacterWrapper.querySelector('.guru-search-select-value');
       const quizTypeContainer = root.querySelector('#quiz-type-container');
       const quizTypeSelect = root.querySelector('[data-quiz-type]');
       const quizQuestionTypeSelect = root.querySelector('[data-quiz-question-type]');
@@ -557,7 +550,9 @@ export default function initQuestionsModule() {
         } else if (step.type === 'character') {
           contentHtml = `<p><strong>Huruf:</strong> ${escapeHtml(step.character_symbol || '-')} &nbsp;&nbsp;|&nbsp;&nbsp; <strong>Cara Baca:</strong> ${escapeHtml(step.character_pronunciation || '-')}</p>`;
         } else if (step.type === 'vocabulary') {
-          contentHtml = `<p><strong>Kata:</strong> ${escapeHtml(step.character_symbol || '-')} (${escapeHtml(step.character_pronunciation || '-')}) &nbsp;&nbsp;|&nbsp;&nbsp; <strong>Arti:</strong> ${escapeHtml(step.content || '-')}</p>`;
+          const isHurufLevel = (state.node && state.node.level_name && state.node.level_name.toLowerCase() === 'huruf');
+          const displayWord = isHurufLevel ? (step.kana || step.character_symbol) : step.character_symbol;
+          contentHtml = `<p><strong>Kata:</strong> ${escapeHtml(displayWord || '-')} (${escapeHtml(step.character_pronunciation || '-')}) &nbsp;&nbsp;|&nbsp;&nbsp; <strong>Arti:</strong> ${escapeHtml(step.content || '-')}</p>`;
         } else if (step.type === 'quiz') {
           const options = step.quiz_options || [];
           contentHtml = `
@@ -617,12 +612,23 @@ export default function initQuestionsModule() {
       if (stepKanjiSelect) {
         stepKanjiSelect.setValue('', '');
       }
+      if (stepKataSelect) {
+        stepKataSelect.setValue('', '');
+      }
       if (stepCharacterSelect) {
         stepCharacterSelect.setValue('', '');
       }
       if (quizCharacterSelect) {
         quizCharacterSelect.setValue('', '');
       }
+
+      if (vocabSearchSection) vocabSearchSection.style.display = 'flex';
+      if (vocabManualSection) vocabManualSection.style.display = 'none';
+      const searchDetailInput = root.querySelector('#vocab-search-detail');
+      if (searchDetailInput) {
+        searchDetailInput.value = '';
+      }
+
       if (stepFormError) stepFormError.hidden = true;
       if (stepIdInput) stepIdInput.value = step?.id || '';
       if (stepModalTitle) stepModalTitle.textContent = step ? 'Edit Langkah' : 'Tambah Langkah';
@@ -641,7 +647,18 @@ export default function initQuestionsModule() {
             stepForm.elements.character_pronunciation.value = step.character_pronunciation || '';
           }
         } else if (step.type === 'vocabulary') {
+          if (vocabSearchSection) vocabSearchSection.style.display = 'flex';
+          if (vocabManualSection) vocabManualSection.style.display = 'none';
+
+          if (stepKataSelect) {
+            stepKataSelect.setValue(step.kata_id || '', `${step.character_symbol || ''} (${step.character_pronunciation || ''})`);
+          }
+          if (searchDetailInput) {
+            searchDetailInput.value = `${step.character_pronunciation || ''} (${step.content || ''})`;
+          }
+
           stepForm.elements.vocab_kata.value = step.character_symbol || '';
+          stepForm.elements.vocab_kana.value = step.kana || '';
           stepForm.elements.vocab_romaji.value = step.character_pronunciation || '';
           stepForm.elements.vocab_arti.value = step.content || '';
           if (stepKanjiSelect) {
@@ -713,12 +730,14 @@ export default function initQuestionsModule() {
         payload.character_pronunciation = String(formData.get('character_pronunciation') || '');
       } else if (type === 'vocabulary') {
         payload.character_symbol = String(formData.get('vocab_kata') || '');
+        payload.kana = String(formData.get('vocab_kana') || '');
         payload.character_pronunciation = String(formData.get('vocab_romaji') || '');
         payload.content = String(formData.get('vocab_arti') || '');
         payload.kanji_id = String(formData.get('vocab_kanji_id') || '');
         payload.tipe_kata = String(formData.get('vocab_tipe_kata') || '');
         payload.deskripsi = String(formData.get('vocab_deskripsi') || '');
         payload.level = String(formData.get('vocab_level') || '');
+        payload.vocab_selected_id = String(formData.get('vocab_selected_id') || '');
       } else if (type === 'quiz') {
         payload.quiz_instruction = String(formData.get('quiz_instruction') || 'PILIH JAWABAN YANG BENAR');
         payload.quiz_query = String(formData.get('quiz_query') || '');

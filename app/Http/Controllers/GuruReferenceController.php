@@ -109,6 +109,7 @@ class GuruReferenceController extends Controller
     {
         $validated = $request->validate([
             'kata' => ['required', 'string', 'max:191'],
+            'kana' => ['nullable', 'string', 'max:191'],
             'romaji' => ['required', 'string', 'max:191'],
             'arti' => ['required', 'string', 'max:191'],
             'kanji_id' => ['nullable', 'string', 'exists:kanjis,id'],
@@ -120,6 +121,7 @@ class GuruReferenceController extends Controller
         Kata::create([
             'id' => (string) Str::uuid(),
             'kata' => $validated['kata'],
+            'kana' => $validated['kana'],
             'romaji' => $validated['romaji'],
             'arti' => $validated['arti'],
             'kanji_id' => $validated['kanji_id'],
@@ -137,6 +139,7 @@ class GuruReferenceController extends Controller
     {
         $validated = $request->validate([
             'kata' => ['required', 'string', 'max:191'],
+            'kana' => ['nullable', 'string', 'max:191'],
             'romaji' => ['required', 'string', 'max:191'],
             'arti' => ['required', 'string', 'max:191'],
             'kanji_id' => ['nullable', 'string', 'exists:kanjis,id'],
@@ -320,6 +323,39 @@ class GuruReferenceController extends Controller
                 'simbol' => $h->simbol,
                 'cara_baca' => $h->cara_baca,
                 'tipe' => $h->tipe,
+            ]),
+            'pagination' => [
+                'more' => $paginator->hasMorePages(),
+            ]
+        ]);
+    }
+
+    public function searchKata(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $search = $request->query('q');
+        $query = Kata::with('kanji')->orderBy('kata');
+
+        if (!empty($search)) {
+            $query->where(function ($q) use ($search) {
+                $q->where('kata', 'like', "%{$search}%")
+                  ->orWhere('romaji', 'like', "%{$search}%")
+                  ->orWhere('arti', 'like', "%{$search}%");
+            });
+        }
+
+        $paginator = $query->paginate(15);
+
+        return response()->json([
+            'results' => collect($paginator->items())->map(fn ($k) => [
+                'id' => $k->id,
+                'kata' => $k->kata,
+                'romaji' => $k->romaji,
+                'arti' => $k->arti,
+                'kanji_id' => $k->kanji_id,
+                'kanji_text' => $k->kanji ? $k->kanji->kanji : null,
+                'tipe_kata' => $k->tipe_kata,
+                'level' => $k->level,
+                'deskripsi' => $k->deskripsi,
             ]),
             'pagination' => [
                 'more' => $paginator->hasMorePages(),

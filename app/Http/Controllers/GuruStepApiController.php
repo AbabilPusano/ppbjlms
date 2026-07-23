@@ -72,6 +72,8 @@ class GuruStepApiController extends Controller
                     'id' => $node->id,
                     'title' => $node->title,
                     'type' => $node->type,
+                    'level_name' => $node->unit && $node->unit->level ? $node->unit->level->name : null,
+                    'unit_type' => $node->unit ? $node->unit->type : null,
                 ],
                 'steps' => $steps,
                 'steps_count' => $steps->count(),
@@ -101,13 +103,15 @@ class GuruStepApiController extends Controller
 
         if ($validated['type'] === 'vocabulary') {
             $kata = $validated['character_symbol'] ?? null;
-            if ($kata) {
+            $selectedId = $request->input('vocab_selected_id');
+            if ($kata && empty($selectedId)) {
                 if (\App\Models\Kata::where('kata', $kata)->exists()) {
                     return response()->json(['message' => 'Kata tersebut sudah ada di database referensi.'], 422);
                 }
                 \App\Models\Kata::create([
                     'id' => (string) Str::uuid(),
                     'kata' => $kata,
+                    'kana' => $request->input('kana'),
                     'romaji' => $validated['character_pronunciation'] ?? '',
                     'arti' => $validated['content'] ?? '',
                     'kanji_id' => $request->input('kanji_id'),
@@ -159,7 +163,8 @@ class GuruStepApiController extends Controller
 
         if ($validated['type'] === 'vocabulary') {
             $kata = $validated['character_symbol'] ?? null;
-            if ($kata) {
+            $selectedId = $request->input('vocab_selected_id');
+            if ($kata && empty($selectedId)) {
                 if ($kata !== $step->character_symbol) {
                     if (\App\Models\Kata::where('kata', $kata)->exists()) {
                         return response()->json(['message' => 'Kata tersebut sudah ada di database referensi.'], 422);
@@ -168,6 +173,7 @@ class GuruStepApiController extends Controller
                 $kataRecord = \App\Models\Kata::where('kata', $step->character_symbol)->first();
                 $kataData = [
                     'kata' => $kata,
+                    'kana' => $request->input('kana'),
                     'romaji' => $validated['character_pronunciation'] ?? '',
                     'arti' => $validated['content'] ?? '',
                     'kanji_id' => $request->input('kanji_id'),
@@ -237,6 +243,8 @@ class GuruStepApiController extends Controller
             'quiz_correct_index' => 'nullable|integer',
             'sort_order' => 'nullable|integer',
             'kanji_id' => 'nullable|string|exists:kanjis,id',
+            'vocab_selected_id' => 'nullable|string',
+            'kana' => 'nullable|string|max:191',
             'tipe_kata' => 'nullable|string|max:191',
             'deskripsi' => 'nullable|string',
             'level' => 'nullable|string|in:N5,N4,N3,N2,N1',
@@ -270,6 +278,8 @@ class GuruStepApiController extends Controller
 
         if ($step->type === 'vocabulary') {
             $kataRecord = \App\Models\Kata::where('kata', $step->character_symbol)->first();
+            $serialized['kata_id'] = $kataRecord?->id;
+            $serialized['kana'] = $kataRecord?->kana;
             $serialized['kanji_id'] = $kataRecord?->kanji_id;
             $serialized['kanji_text'] = $kataRecord && $kataRecord->kanji ? "{$kataRecord->kanji->kanji} ({$kataRecord->kanji->makna})" : '';
             $serialized['tipe_kata'] = $kataRecord?->tipe_kata;

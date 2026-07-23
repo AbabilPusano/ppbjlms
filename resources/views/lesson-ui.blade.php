@@ -57,8 +57,12 @@
             </section>
         @else
             <section class="lesson-screen lesson-screen--new-letter" data-lesson-screen="new-letter" hidden style="display: flex; justify-content: center; align-items: center; width: 100%;">
-                <div class="lesson-intro-panel" style="width: 100%; max-width: 800px; min-height: 360px; padding: 48px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; background: var(--card-bg, #fff); border: 2px solid var(--line); border-radius: 20px; box-shadow: 0 8px 30px rgba(0,0,0,0.04); margin: 0 auto;">
-                    <p data-lesson-reading style="font-size: 1.5rem; line-height: 1.7; color: var(--ink-soft); white-space: pre-wrap; margin: 0; text-align: center;"></p>
+                <div class="lesson-intro-panel" style="width: 100%; max-width: 800px; min-height: 360px; padding: 48px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--card-bg, #fff); border: 2px solid var(--line); border-radius: 20px; box-shadow: 0 8px 30px rgba(0,0,0,0.04); margin: 0 auto; gap: 24px;">
+                    <div style="text-align: center;">
+                        <span class="lesson-kicker" style="font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); font-weight: 700;">Huruf Baru</span>
+                        <h1 data-lesson-letter style="font-size: 5rem; font-family: var(--font-jp); margin: 12px 0 6px 0; color: var(--ink);"></h1>
+                        <p data-lesson-reading style="font-size: 1.5rem; color: var(--muted-soft); margin: 0; font-weight: 500;"></p>
+                    </div>
                 </div>
             </section>
 
