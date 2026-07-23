@@ -209,7 +209,23 @@
                             @endforelse
                         </tbody>
                     </table>
-                    <div style="margin-top: 16px;">{{ $kanjis->links() }}</div>
+                    @if ($kanjis->hasPages())
+                        <nav class="guru-admin-pagination" aria-label="Navigasi halaman kanji">
+                            @if ($kanjis->onFirstPage())
+                                <span class="disabled">Sebelumnya</span>
+                            @else
+                                <a href="{{ $kanjis->previousPageUrl() }}" rel="prev">Sebelumnya</a>
+                            @endif
+
+                            <span>Halaman {{ $kanjis->currentPage() }} dari {{ $kanjis->lastPage() }}</span>
+
+                            @if ($kanjis->hasMorePages())
+                                <a href="{{ $kanjis->nextPageUrl() }}" rel="next">Berikutnya</a>
+                            @else
+                                <span class="disabled">Berikutnya</span>
+                            @endif
+                        </nav>
+                    @endif
 
                 @elseif ($tab === 'kata')
                     <table>
@@ -256,7 +272,23 @@
                             @endforelse
                         </tbody>
                     </table>
-                    <div style="margin-top: 16px;">{{ $katas->links() }}</div>
+                    @if ($katas->hasPages())
+                        <nav class="guru-admin-pagination" aria-label="Navigasi halaman kata">
+                            @if ($katas->onFirstPage())
+                                <span class="disabled">Sebelumnya</span>
+                            @else
+                                <a href="{{ $katas->previousPageUrl() }}" rel="prev">Sebelumnya</a>
+                            @endif
+
+                            <span>Halaman {{ $katas->currentPage() }} dari {{ $katas->lastPage() }}</span>
+
+                            @if ($katas->hasMorePages())
+                                <a href="{{ $katas->nextPageUrl() }}" rel="next">Berikutnya</a>
+                            @else
+                                <span class="disabled">Berikutnya</span>
+                            @endif
+                        </nav>
+                    @endif
 
                 @elseif ($tab === 'kalimat')
                     <table>
@@ -301,7 +333,23 @@
                             @endforelse
                         </tbody>
                     </table>
-                    <div style="margin-top: 16px;">{{ $kalimats->links() }}</div>
+                    @if ($kalimats->hasPages())
+                        <nav class="guru-admin-pagination" aria-label="Navigasi halaman kalimat">
+                            @if ($kalimats->onFirstPage())
+                                <span class="disabled">Sebelumnya</span>
+                            @else
+                                <a href="{{ $kalimats->previousPageUrl() }}" rel="prev">Sebelumnya</a>
+                            @endif
+
+                            <span>Halaman {{ $kalimats->currentPage() }} dari {{ $kalimats->lastPage() }}</span>
+
+                            @if ($kalimats->hasMorePages())
+                                <a href="{{ $kalimats->nextPageUrl() }}" rel="next">Berikutnya</a>
+                            @else
+                                <span class="disabled">Berikutnya</span>
+                            @endif
+                        </nav>
+                    @endif
 
                 @elseif ($tab === 'grammar')
                     <table>
@@ -343,7 +391,23 @@
                             @endforelse
                         </tbody>
                     </table>
-                    <div style="margin-top: 16px;">{{ $grammars->links() }}</div>
+                    @if ($grammars->hasPages())
+                        <nav class="guru-admin-pagination" aria-label="Navigasi halaman grammar">
+                            @if ($grammars->onFirstPage())
+                                <span class="disabled">Sebelumnya</span>
+                            @else
+                                <a href="{{ $grammars->previousPageUrl() }}" rel="prev">Sebelumnya</a>
+                            @endif
+
+                            <span>Halaman {{ $grammars->currentPage() }} dari {{ $grammars->lastPage() }}</span>
+
+                            @if ($grammars->hasMorePages())
+                                <a href="{{ $grammars->nextPageUrl() }}" rel="next">Berikutnya</a>
+                            @else
+                                <span class="disabled">Berikutnya</span>
+                            @endif
+                        </nav>
+                    @endif
                 @endif
             </div>
         </section>

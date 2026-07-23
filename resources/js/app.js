@@ -78,6 +78,21 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  document.querySelectorAll('[data-clamp-max]').forEach((input) => {
+    const maxValue = Number(input.getAttribute('data-clamp-max'));
+    if (!Number.isFinite(maxValue)) return;
+
+    const clampValue = () => {
+      const currentValue = Number(input.value);
+      if (Number.isFinite(currentValue) && currentValue > maxValue) {
+        input.value = String(maxValue);
+      }
+    };
+
+    input.addEventListener('input', clampValue);
+    input.closest('form')?.addEventListener('submit', clampValue);
+  });
+
   // Initialize modules
   initUnitsModule();
   initMaterialsModule();

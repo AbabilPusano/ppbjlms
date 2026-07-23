@@ -13,14 +13,7 @@ class AdminStudentAccountController extends Controller
 {
     public function index(): View
     {
-        return view('admin-student-accounts-ui', [
-            'studentCount' => User::query()->where('role', 'siswa')->count(),
-            'recentStudents' => User::query()
-                ->where('role', 'siswa')
-                ->latest()
-                ->limit(8)
-                ->get(['name', 'username', 'email', 'created_at']),
-        ]);
+        return view('admin-student-accounts-ui');
     }
 
     public function store(Request $request): RedirectResponse
@@ -40,7 +33,7 @@ class AdminStudentAccountController extends Controller
             $password = $username;
 
             User::create([
-                'name' => 'Siswa '.strtoupper($username),
+                'name' => $username,
                 'username' => $username,
                 'email' => $username.'@student.local',
                 'password' => Hash::make($password),
@@ -55,7 +48,7 @@ class AdminStudentAccountController extends Controller
             ]);
 
             $accounts[] = [
-                'name' => 'Siswa '.strtoupper($username),
+                'name' => $username,
                 'username' => $username,
                 'password' => $password,
             ];

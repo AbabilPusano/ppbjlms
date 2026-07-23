@@ -56,20 +56,41 @@
             </div>
         @endif
 
-        <!-- Filter & Summary Row -->
-        <div class="guru-admin-panel" style="margin-bottom: 24px; padding: 20px;">
-            <form method="GET" action="{{ route('guru.penilaian.index') }}" style="display: flex; gap: 16px; align-items: flex-end; flex-wrap: wrap;">
-                <label class="guru-admin-field" style="margin: 0; flex: 1; min-width: 200px;">
-                    <span style="font-weight: 700; margin-bottom: 6px; display: block;">Filter Batch</span>
-                    <select name="batch" onchange="this.form.submit()" style="width: 100%; padding: 10px; border: 1px solid var(--line); border-radius: 8px; background: #fff; color: var(--ink);">
+        <div class="guru-student-filter">
+            <div class="guru-student-filter__title">
+                <span class="material-symbols-outlined" aria-hidden="true">tune</span>
+                <div>
+                    <span>Filter Murid</span>
+                    <strong>{{ $selectedBatch ?: 'Semua Batch' }}</strong>
+                </div>
+            </div>
+
+            <form method="GET" action="{{ route('guru.penilaian.index') }}" class="guru-student-filter__form">
+                <label class="guru-student-filter__search">
+                    <span>Cari</span>
+                    <span class="material-symbols-outlined" aria-hidden="true">search</span>
+                    <input type="search" name="q" value="{{ $search }}" placeholder="Cari nama atau username">
+                </label>
+
+                <label class="guru-student-filter__select">
+                    <span>Batch</span>
+                    <select name="batch" onchange="this.form.submit()">
                         <option value="">Semua Batch</option>
                         @foreach ($batches as $batch)
                             <option value="{{ $batch }}" {{ $selectedBatch === $batch ? 'selected' : '' }}>{{ $batch }}</option>
                         @endforeach
                     </select>
+                    <span class="material-symbols-outlined" aria-hidden="true">expand_more</span>
                 </label>
-                @if($selectedBatch)
-                    <a href="{{ route('guru.penilaian.index') }}" class="guru-unit-button" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center; height: 42px; border: 1px solid var(--line); background: #fff; color: var(--ink); padding: 0 16px; border-radius: 8px;">
+
+                <button type="submit" class="guru-student-filter__submit">
+                    <span class="material-symbols-outlined" aria-hidden="true">search</span>
+                    Cari
+                </button>
+
+                @if($selectedBatch || $search !== '')
+                    <a href="{{ route('guru.penilaian.index') }}" class="guru-student-filter__reset">
+                        <span class="material-symbols-outlined" aria-hidden="true">close</span>
                         Reset
                     </a>
                 @endif

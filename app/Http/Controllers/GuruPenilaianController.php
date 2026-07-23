@@ -12,6 +12,7 @@ class GuruPenilaianController extends Controller
     public function index(Request $request): View
     {
         $selectedBatch = $request->query('batch');
+        $search = trim((string) $request->query('q', ''));
 
         $batches = User::query()
             ->where('role', 'siswa')
@@ -26,6 +27,13 @@ class GuruPenilaianController extends Controller
             ->when($selectedBatch, function ($query, $batch) {
                 $query->where('batch', $batch);
             })
+            ->when($search !== '', function ($query) use ($search) {
+                $query->where(function ($studentQuery) use ($search) {
+                    $studentQuery
+                        ->where('name', 'like', "%{$search}%")
+                        ->orWhere('username', 'like', "%{$search}%");
+                });
+            })
             ->with(['latestProgress.node.unit'])
             ->orderBy('name', 'asc')
             ->paginate(30)
@@ -35,6 +43,7 @@ class GuruPenilaianController extends Controller
             'students' => $students,
             'batches' => $batches,
             'selectedBatch' => $selectedBatch,
+            'search' => $search,
         ]);
     }
 

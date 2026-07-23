@@ -51,7 +51,7 @@
             </div>
         </div>
 
-        <section class="guru-admin-grid" aria-label="Generator akun siswa">
+        <section class="guru-admin-grid guru-admin-grid--single" aria-label="Generator akun siswa">
             <form class="guru-admin-panel" action="{{ route('admin.student-accounts.store') }}" method="POST">
                 @csrf
                 <div class="guru-admin-panel__head">
@@ -85,7 +85,7 @@
 
                 <label class="guru-admin-field">
                     <span>Jumlah akun</span>
-                    <input name="count" type="number" value="{{ old('count', 10) }}" min="1" max="50" required>
+                    <input name="count" type="number" value="{{ old('count', 10) }}" min="1" max="50" data-clamp-max="50" required>
                     <small>Maksimal 50 akun setiap generate.</small>
                 </label>
 
@@ -95,21 +95,6 @@
                 </button>
             </form>
 
-            <aside class="guru-admin-panel guru-admin-panel--summary">
-                <span class="ds-section-eyebrow">Ringkasan</span>
-                <strong>{{ $studentCount }}</strong>
-                <p>Akun siswa tersimpan di database.</p>
-                <div class="guru-admin-mini-list">
-                    @forelse ($recentStudents as $student)
-                        <div>
-                            <span>{{ $student->username }}</span>
-                            <small>{{ $student->created_at?->format('d M Y') }}</small>
-                        </div>
-                    @empty
-                        <p>Belum ada akun siswa.</p>
-                    @endforelse
-                </div>
-            </aside>
         </section>
 
         @if (session('status') === 'student-accounts-generated' && count($generatedAccounts) > 0)

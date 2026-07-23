@@ -6412,6 +6412,11 @@ body {
   align-items: start;
 }
 
+.guru-admin-grid--single {
+  grid-template-columns: minmax(0, 720px);
+  justify-content: center;
+}
+
 .guru-admin-panel,
 .guru-admin-results {
   border: 2px solid #e5e7eb;
@@ -6562,6 +6567,182 @@ body {
 
 .guru-admin-results--list {
   margin-top: 0;
+}
+
+.guru-student-filter {
+  width: min(100%, 1180px);
+  margin: 0 auto 24px;
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  border: 1px solid rgba(36, 48, 54, 0.1);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 14px 34px rgba(17, 24, 39, 0.06);
+}
+
+.guru-student-filter__title {
+  min-width: 220px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.guru-student-filter__title>.material-symbols-outlined {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: #fff0f7;
+  color: #9d396f;
+  font-size: 22px;
+}
+
+.guru-student-filter__title span:not(.material-symbols-outlined),
+.guru-student-filter__select>span:first-child {
+  display: block;
+  color: #9ca3af;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.guru-student-filter__title strong {
+  display: block;
+  margin-top: 2px;
+  color: #111827;
+  font-size: 16px;
+  font-weight: 900;
+}
+
+.guru-student-filter__form {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+}
+
+.guru-student-filter__search,
+.guru-student-filter__select {
+  position: relative;
+  display: grid;
+  gap: 6px;
+}
+
+.guru-student-filter__search {
+  flex: 1;
+  min-width: 240px;
+}
+
+.guru-student-filter__select {
+  width: min(100%, 280px);
+}
+
+.guru-student-filter__search input,
+.guru-student-filter__select select {
+  width: 100%;
+  min-height: 48px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background: #f8f9fa;
+  color: #111827;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+}
+
+.guru-student-filter__search input {
+  padding: 0 14px 0 44px;
+}
+
+.guru-student-filter__select select {
+  padding: 0 44px 0 14px;
+  appearance: none;
+}
+
+.guru-student-filter__search input::placeholder {
+  color: #9ca3af;
+}
+
+.guru-student-filter__search input:hover,
+.guru-student-filter__search input:focus,
+.guru-student-filter__select select:hover,
+.guru-student-filter__select select:focus {
+  border-color: rgba(251, 133, 191, 0.72);
+  background: #fff;
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(251, 133, 191, 0.12);
+}
+
+.guru-student-filter__search>.material-symbols-outlined {
+  position: absolute;
+  left: 14px;
+  bottom: 12px;
+  color: #9d396f;
+  font-size: 22px;
+  pointer-events: none;
+}
+
+.guru-student-filter__select>.material-symbols-outlined {
+  position: absolute;
+  right: 14px;
+  bottom: 12px;
+  color: #9d396f;
+  font-size: 22px;
+  pointer-events: none;
+}
+
+.guru-student-filter__submit,
+.guru-student-filter__reset {
+  min-height: 48px;
+  margin-top: 20px;
+  padding: 0 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px solid rgba(157, 57, 111, 0.24);
+  border-radius: 10px;
+  background: #fff0f7;
+  color: #8f2f65;
+  font-size: 13px;
+  font-weight: 900;
+  transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+
+.guru-student-filter__submit {
+  border-color: rgba(157, 57, 111, 0.42);
+  background: #9d396f;
+  color: #fff;
+  cursor: pointer;
+}
+
+.guru-student-filter__reset:hover {
+  border-color: rgba(157, 57, 111, 0.44);
+  background: #fde7f2;
+  transform: translateY(-1px);
+}
+
+.guru-student-filter__submit:hover {
+  border-color: #8f2f65;
+  background: #8f2f65;
+  transform: translateY(-1px);
+}
+
+.guru-student-filter__reset {
+  text-decoration: none;
+}
+
+.guru-student-filter__submit .material-symbols-outlined,
+.guru-student-filter__reset .material-symbols-outlined {
+  font-size: 18px;
 }
 
 .guru-account-tabs {
@@ -10429,6 +10610,31 @@ body {
 @media (max-width: 900px) {
   .lesson-preview-badge {
     margin-left: 0;
+  }
+}
+
+@media (max-width: 720px) {
+  .guru-student-filter,
+  .guru-student-filter__form {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .guru-student-filter__title,
+  .guru-student-filter__search,
+  .guru-student-filter__select {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .guru-student-filter__form {
+    gap: 12px;
+  }
+
+  .guru-student-filter__submit,
+  .guru-student-filter__reset {
+    width: 100%;
+    margin-top: 0;
   }
 }
 
