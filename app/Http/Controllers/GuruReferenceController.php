@@ -7,6 +7,7 @@ use App\Models\Huruf;
 use App\Models\Kalimat;
 use App\Models\Kanji;
 use App\Models\Kata;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -17,6 +18,10 @@ class GuruReferenceController extends Controller
     public function index(Request $request): View
     {
         $tab = $request->query('tab', 'kanji');
+        $tab = in_array($tab, ['kanji', 'kata', 'kalimat', 'grammar'], true) ? $tab : 'kanji';
+        $selectedLevel = $request->query('level');
+        $selectedLevel = in_array($selectedLevel, ['N5', 'N4', 'N3', 'N2', 'N1'], true) ? $selectedLevel : null;
+        $search = trim((string) $request->query('q', ''));
 
         $hurufs = null;
         $kanjis = null;
@@ -25,13 +30,78 @@ class GuruReferenceController extends Controller
         $grammars = null;
 
         if ($tab === 'kanji') {
-            $kanjis = Kanji::query()->orderBy('kanji')->paginate(30)->withQueryString();
+            $kanjis = Kanji::query()
+                ->when($selectedLevel, fn ($query, $level) => $query->where('level', $level))
+                ->when($search !== '', function ($query) use ($search) {
+                    $query->where(function ($kanjiQuery) use ($search) {
+                        $kanjiQuery->where('kanji', 'like', "%{$search}%")
+                            ->orWhere('onyomi', 'like', "%{$search}%")
+                            ->orWhere('kunyomi', 'like', "%{$search}%")
+                            ->orWhere('makna', 'like', "%{$search}%");
+                    });
+                })
+                ->orderBy('kanji')
+                ->paginate(30)
+                ->withQueryString();
         } elseif ($tab === 'kata') {
-            $katas = Kata::with('kanji')->orderBy('kata')->paginate(30)->withQueryString();
+            $katas = Kata::with('kanji')
+                ->when($selectedLevel, fn ($query, $level) => $query->where('level', $level))
+                ->when($search !== '', function ($query) use ($search) {
+                    $query->where(function ($kataQuery) use ($search) {
+                        $kataQuery->where('kata', 'like', "%{$search}%")
+                            ->orWhere('kana', 'like', "%{$search}%")
+                            ->orWhere('romaji', 'like', "%{$search}%")
+                            ->orWhere('arti', 'like', "%{$search}%")
+                            ->orWhere('tipe_kata', 'like', "%{$search}%")
+                            ->orWhere('deskripsi', 'like', "%{$search}%")
+                            ->orWhereHas('kanji', function ($kanjiQuery) use ($search) {
+                                $kanjiQuery->where('kanji', 'like', "%{$search}%")
+                                    ->orWhere('makna', 'like', "%{$search}%");
+                            });
+                    });
+                })
+                ->orderBy('kata')
+                ->paginate(30)
+                ->withQueryString();
         } elseif ($tab === 'kalimat') {
-            $kalimats = Kalimat::with('katas')->orderBy('kalimat')->paginate(30)->withQueryString();
+            $kalimats = Kalimat::with('katas')
+                ->when($selectedLevel, function ($query, $level) {
+                    $query->whereHas('katas', fn ($kataQuery) => $kataQuery->where('level', $level));
+                })
+                ->when($search !== '', function ($query) use ($search) {
+                    $query->where(function ($kalimatQuery) use ($search) {
+                        $kalimatQuery->where('kalimat', 'like', "%{$search}%")
+                            ->orWhere('romaji', 'like', "%{$search}%")
+                            ->orWhere('arti', 'like', "%{$search}%")
+                            ->orWhere('deskripsi', 'like', "%{$search}%")
+                            ->orWhereHas('katas', function ($kataQuery) use ($search) {
+                                $kataQuery->where('kata', 'like', "%{$search}%")
+                                    ->orWhere('kana', 'like', "%{$search}%")
+                                    ->orWhere('romaji', 'like', "%{$search}%")
+                                    ->orWhere('arti', 'like', "%{$search}%");
+                            });
+                    });
+                })
+                ->orderBy('kalimat')
+                ->paginate(30)
+                ->withQueryString();
         } elseif ($tab === 'grammar') {
-            $grammars = Grammar::with('kalimat')->orderBy('struktur')->paginate(30)->withQueryString();
+            $grammars = Grammar::with('kalimat')
+                ->when($selectedLevel, fn ($query, $level) => $query->where('level', $level))
+                ->when($search !== '', function ($query) use ($search) {
+                    $query->where(function ($grammarQuery) use ($search) {
+                        $grammarQuery->where('struktur', 'like', "%{$search}%")
+                            ->orWhere('deskripsi', 'like', "%{$search}%")
+                            ->orWhereHas('kalimat', function ($kalimatQuery) use ($search) {
+                                $kalimatQuery->where('kalimat', 'like', "%{$search}%")
+                                    ->orWhere('romaji', 'like', "%{$search}%")
+                                    ->orWhere('arti', 'like', "%{$search}%");
+                            });
+                    });
+                })
+                ->orderBy('struktur')
+                ->paginate(30)
+                ->withQueryString();
         }
 
         // Shared dropdown data
@@ -49,10 +119,11 @@ class GuruReferenceController extends Controller
             'allKanjis' => $allKanjis,
             'allKalimats' => $allKalimats,
             'allKatas' => $allKatas,
+            'search' => $search,
+            'selectedLevel' => $selectedLevel,
+            'levels' => ['N5', 'N4', 'N3', 'N2', 'N1'],
         ]);
     }
-
-
 
     // --- KANJI CRUD ---
     public function storeKanji(Request $request): RedirectResponse
@@ -99,6 +170,7 @@ class GuruReferenceController extends Controller
     public function destroyKanji(Kanji $kanji): RedirectResponse
     {
         $kanji->delete();
+
         return redirect()->route('guru.referensi.index', ['tab' => 'kanji'])
             ->with('status', 'success')
             ->with('message', 'Kanji berhasil dihapus.');
@@ -158,6 +230,7 @@ class GuruReferenceController extends Controller
     public function destroyKata(Kata $kata): RedirectResponse
     {
         $kata->delete();
+
         return redirect()->route('guru.referensi.index', ['tab' => 'kata'])
             ->with('status', 'success')
             ->with('message', 'Kata berhasil dihapus.');
@@ -183,7 +256,7 @@ class GuruReferenceController extends Controller
             'deskripsi' => $validated['deskripsi'],
         ]);
 
-        if (!empty($validated['kata_ids'])) {
+        if (! empty($validated['kata_ids'])) {
             $kalimat->katas()->sync($validated['kata_ids']);
         }
 
@@ -222,6 +295,7 @@ class GuruReferenceController extends Controller
     {
         $kalimat->katas()->detach();
         $kalimat->delete();
+
         return redirect()->route('guru.referensi.index', ['tab' => 'kalimat'])
             ->with('status', 'success')
             ->with('message', 'Kalimat berhasil dihapus.');
@@ -269,22 +343,23 @@ class GuruReferenceController extends Controller
     public function destroyGrammar(Grammar $grammar): RedirectResponse
     {
         $grammar->delete();
+
         return redirect()->route('guru.referensi.index', ['tab' => 'grammar'])
             ->with('status', 'success')
             ->with('message', 'Grammar berhasil dihapus.');
     }
 
-    public function searchKanji(Request $request): \Illuminate\Http\JsonResponse
+    public function searchKanji(Request $request): JsonResponse
     {
         $search = $request->query('q');
         $query = Kanji::query()->orderBy('kanji');
 
-        if (!empty($search)) {
+        if (! empty($search)) {
             $query->where(function ($q) use ($search) {
                 $q->where('kanji', 'like', "%{$search}%")
-                  ->orWhere('makna', 'like', "%{$search}%")
-                  ->orWhere('onyomi', 'like', "%{$search}%")
-                  ->orWhere('kunyomi', 'like', "%{$search}%");
+                    ->orWhere('makna', 'like', "%{$search}%")
+                    ->orWhere('onyomi', 'like', "%{$search}%")
+                    ->orWhere('kunyomi', 'like', "%{$search}%");
             });
         }
 
@@ -298,20 +373,20 @@ class GuruReferenceController extends Controller
             ]),
             'pagination' => [
                 'more' => $paginator->hasMorePages(),
-            ]
+            ],
         ]);
     }
 
-    public function searchHuruf(Request $request): \Illuminate\Http\JsonResponse
+    public function searchHuruf(Request $request): JsonResponse
     {
         $search = $request->query('q');
         $query = Huruf::query()->orderBy('simbol');
 
-        if (!empty($search)) {
+        if (! empty($search)) {
             $query->where(function ($q) use ($search) {
                 $q->where('simbol', 'like', "%{$search}%")
-                  ->orWhere('cara_baca', 'like', "%{$search}%")
-                  ->orWhere('tipe', 'like', "%{$search}%");
+                    ->orWhere('cara_baca', 'like', "%{$search}%")
+                    ->orWhere('tipe', 'like', "%{$search}%");
             });
         }
 
@@ -326,20 +401,20 @@ class GuruReferenceController extends Controller
             ]),
             'pagination' => [
                 'more' => $paginator->hasMorePages(),
-            ]
+            ],
         ]);
     }
 
-    public function searchKata(Request $request): \Illuminate\Http\JsonResponse
+    public function searchKata(Request $request): JsonResponse
     {
         $search = $request->query('q');
         $query = Kata::with('kanji')->orderBy('kata');
 
-        if (!empty($search)) {
+        if (! empty($search)) {
             $query->where(function ($q) use ($search) {
                 $q->where('kata', 'like', "%{$search}%")
-                  ->orWhere('romaji', 'like', "%{$search}%")
-                  ->orWhere('arti', 'like', "%{$search}%");
+                    ->orWhere('romaji', 'like', "%{$search}%")
+                    ->orWhere('arti', 'like', "%{$search}%");
             });
         }
 
@@ -359,7 +434,7 @@ class GuruReferenceController extends Controller
             ]),
             'pagination' => [
                 'more' => $paginator->hasMorePages(),
-            ]
+            ],
         ]);
     }
 }

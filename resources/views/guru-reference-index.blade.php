@@ -140,25 +140,70 @@
             </div>
         @endif
 
+        @php($filterQuery = array_filter(['q' => $search, 'level' => $selectedLevel]))
+
         <!-- Tab Navigation -->
         <nav class="guru-account-tabs" aria-label="Pilih tabel referensi" style="margin-bottom: 20px;">
-            <a href="{{ route('guru.referensi.index', ['tab' => 'kanji']) }}" class="{{ $tab === 'kanji' ? 'active' : '' }}">
+            <a href="{{ route('guru.referensi.index', array_merge(['tab' => 'kanji'], $filterQuery)) }}" class="{{ $tab === 'kanji' ? 'active' : '' }}">
                 <span class="material-symbols-outlined" aria-hidden="true font-size: 20px;">draw</span>
                 Kanji
             </a>
-            <a href="{{ route('guru.referensi.index', ['tab' => 'kata']) }}" class="{{ $tab === 'kata' ? 'active' : '' }}">
+            <a href="{{ route('guru.referensi.index', array_merge(['tab' => 'kata'], $filterQuery)) }}" class="{{ $tab === 'kata' ? 'active' : '' }}">
                 <span class="material-symbols-outlined" aria-hidden="true font-size: 20px;">dictionary</span>
                 Kata
             </a>
-            <a href="{{ route('guru.referensi.index', ['tab' => 'kalimat']) }}" class="{{ $tab === 'kalimat' ? 'active' : '' }}">
+            <a href="{{ route('guru.referensi.index', array_merge(['tab' => 'kalimat'], $filterQuery)) }}" class="{{ $tab === 'kalimat' ? 'active' : '' }}">
                 <span class="material-symbols-outlined" aria-hidden="true font-size: 20px;">forum</span>
                 Kalimat
             </a>
-            <a href="{{ route('guru.referensi.index', ['tab' => 'grammar']) }}" class="{{ $tab === 'grammar' ? 'active' : '' }}">
+            <a href="{{ route('guru.referensi.index', array_merge(['tab' => 'grammar'], $filterQuery)) }}" class="{{ $tab === 'grammar' ? 'active' : '' }}">
                 <span class="material-symbols-outlined" aria-hidden="true font-size: 20px;">menu_book</span>
                 Grammar
             </a>
         </nav>
+
+        <div class="guru-student-filter">
+            <div class="guru-student-filter__title">
+                <span class="material-symbols-outlined" aria-hidden="true">tune</span>
+                <div>
+                    <span>Filter Referensi</span>
+                    <strong>{{ $selectedLevel ?: 'Semua Level' }}</strong>
+                </div>
+            </div>
+
+            <form method="GET" action="{{ route('guru.referensi.index') }}" class="guru-student-filter__form">
+                <input type="hidden" name="tab" value="{{ $tab }}">
+
+                <label class="guru-student-filter__search">
+                    <span>Cari</span>
+                    <span class="material-symbols-outlined" aria-hidden="true">search</span>
+                    <input type="search" name="q" value="{{ $search }}" placeholder="Cari data {{ $tab }}">
+                </label>
+
+                <label class="guru-student-filter__select">
+                    <span>Level</span>
+                    <select name="level" onchange="this.form.submit()">
+                        <option value="">Semua Level</option>
+                        @foreach ($levels as $level)
+                            <option value="{{ $level }}" {{ $selectedLevel === $level ? 'selected' : '' }}>{{ $level }}</option>
+                        @endforeach
+                    </select>
+                    <span class="material-symbols-outlined" aria-hidden="true">expand_more</span>
+                </label>
+
+                <button type="submit" class="guru-student-filter__submit">
+                    <span class="material-symbols-outlined" aria-hidden="true">search</span>
+                    Cari
+                </button>
+
+                @if ($selectedLevel || $search !== '')
+                    <a href="{{ route('guru.referensi.index', ['tab' => $tab]) }}" class="guru-student-filter__reset">
+                        <span class="material-symbols-outlined" aria-hidden="true">close</span>
+                        Reset
+                    </a>
+                @endif
+            </form>
+        </div>
 
         <!-- Main Listing Section -->
         <section class="guru-admin-results guru-admin-results--list" aria-label="Daftar Referensi">
