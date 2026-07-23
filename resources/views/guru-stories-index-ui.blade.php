@@ -127,6 +127,107 @@
     </main>
 </div>
 
+<style>
+.gs-section {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+.gs-section-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #f3f4f6;
+}
+.gs-level-badge {
+    background: #be185d;
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 13px;
+    padding: 4px 12px;
+    border-radius: 9999px;
+}
+.gs-section-head h2 {
+    font-size: 18px;
+    font-weight: 800;
+    margin: 0;
+    color: #111827;
+}
+.gs-section-head span {
+    font-size: 13px;
+    color: #6b7280;
+    margin-left: auto;
+}
+.gs-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.gs-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+    background: #f9fafb;
+    border: 1px solid #f3f4f6;
+    border-radius: 12px;
+    transition: all 0.15s ease;
+}
+.gs-item:hover {
+    background: #ffffff;
+    border-color: #fbcfe8;
+    box-shadow: 0 4px 12px rgba(190, 24, 93, 0.08);
+}
+.gs-item__icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: #fdf2f8;
+    color: #be185d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.gs-item__body {
+    flex: 1;
+    min-width: 0;
+}
+.gs-item__body h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #111827;
+    margin: 0 0 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.gs-item__body p {
+    font-size: 13px;
+    color: #6b7280;
+    margin: 0;
+}
+.gs-item__actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.guru-unit-button--danger {
+    background: #fef2f2 !important;
+    color: #dc2626 !important;
+    border-color: #fecaca !important;
+}
+.guru-unit-button--danger:hover {
+    background: #fee2e2 !important;
+    border-color: #fca5a5 !important;
+}
+</style>
+
 <script>
     // Hamburger menu toggle
     document.querySelector('[data-guru-menu]')?.addEventListener('click', () => {

@@ -31,6 +31,7 @@
         <nav class="guru-nav" aria-label="Navigasi {{ strtolower($currentRoleLabel) }}">
             <a href="{{ route('guru.dashboard') }}"><span class="material-symbols-outlined">home</span>Dashboard</a>
             <a href="{{ route('guru.units.index') }}"><span class="material-symbols-outlined">category</span>Unit Pembelajaran</a>
+            <a href="{{ route('guru.stories.index') }}" class="{{ request()->routeIs('guru.stories.*') ? 'active' : '' }}"><span class="material-symbols-outlined">menu_book</span>Kelola Cerita{!! request()->routeIs('guru.stories.*') ? '<i></i>' : '' !!}</a>
             @include('partials.admin-account-nav')
             <a href="{{ route('guru.penilaian.index') }}" class="active"><span class="material-symbols-outlined">checklist</span>Penilaian<i></i></a>
             <a href="{{ route('guru.referensi.index') }}" class="{{ request()->routeIs('guru.referensi.*') ? 'active' : '' }}"><span class="material-symbols-outlined">database</span>Bank Referensi{!! request()->routeIs('guru.referensi.*') ? '<i></i>' : '' !!}</a>

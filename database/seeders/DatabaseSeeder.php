@@ -59,6 +59,7 @@ class DatabaseSeeder extends Seeder
             LmsContentSeeder::class,
             HurufSeeder::class,
             KanjiSeeder::class,
+            KanjiN2Seeder::class,
         ]);
     }
 }
