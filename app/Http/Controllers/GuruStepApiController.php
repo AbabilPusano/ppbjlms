@@ -41,6 +41,25 @@ class GuruStepApiController extends Controller
         return response()->json(['exists' => false]);
     }
 
+    public function availableQuizCharacters(Node $node): JsonResponse
+    {
+        $nodeIds = Node::where('unitId', $node->unitId)
+            ->where('order', '<=', $node->order)
+            ->pluck('id');
+
+        $characters = NodeStep::whereIn('node_id', $nodeIds)
+            ->where('type', 'character')
+            ->whereNotNull('character_symbol')
+            ->where('character_symbol', '!=', '')
+            ->get(['character_symbol', 'character_pronunciation'])
+            ->unique('character_symbol')
+            ->values();
+
+        return response()->json([
+            'characters' => $characters
+        ]);
+    }
+
     public function index(Node $node): JsonResponse
     {
         $steps = $node->steps()

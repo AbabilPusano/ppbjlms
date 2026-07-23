@@ -211,7 +211,7 @@
                         <option value="text">Teks Pengantar</option>
                         <option value="character">Huruf Baru</option>
                         <option value="vocabulary">Kata Baru</option>
-                        <option value="quiz">Kuis Pilihan Ganda</option>
+                        <option value="quiz">Pertanyaan</option>
                     </select>
                 </label>
 
@@ -303,16 +303,48 @@
                 </div>
 
                 <!-- QUIZ TYPE SELECT -->
-                <div data-question-fields="quiz" hidden>
+                <div data-question-fields="quiz" hidden style="display: flex; flex-direction: column; gap: 16px;">
                     <label>
-                        <span>Tipe Kuis</span>
-                        <select name="quiz_type" data-quiz-type required>
-                            <option value="multiple_choice" selected>Pilihan Ganda</option>
+                        <span>Jenis Pertanyaan</span>
+                        <select name="quiz_question_type" data-quiz-question-type style="background: #fff; border: 1px solid #d6d0c5; padding: 8px; border-radius: 6px; width: 100%; box-sizing: border-box;">
+                            <option value="character" selected>Huruf</option>
+                            <option value="vocabulary" disabled>Kata (Belum Tersedia)</option>
+                            <option value="grammar" disabled>Grammar (Belum Tersedia)</option>
+                            <option value="sentence" disabled>Kalimat (Belum Tersedia)</option>
                         </select>
                     </label>
 
+                    <div data-quiz-question-fields="character" style="display: flex; flex-direction: column; gap: 16px;">
+                        <label>
+                            <span>Pilih Huruf Referensi (Kuis)</span>
+                            <div class="guru-character-select-wrapper" id="quiz-character-select" data-character-select>
+                                <div class="guru-character-select-control" style="border: 1px solid #d6d0c5; border-radius: 6px; display: flex; align-items: center; background: #fff; padding-right: 8px;">
+                                    <input type="text" class="guru-character-select-search" placeholder="Cari Huruf (Simbol / Romaji)..." autocomplete="off" style="border: none !important; outline: none !important; width: 100%; padding: 8px 12px; border-radius: 6px;">
+                                    <span class="material-symbols-outlined guru-character-select-arrow" style="cursor: pointer;">arrow_drop_down</span>
+                                </div>
+                                <div class="guru-character-select-dropdown" style="display: none;">
+                                    <div class="guru-character-select-options"></div>
+                                    <div class="guru-character-select-loading" style="display: none;">Memuat lebih banyak...</div>
+                                </div>
+                                <input type="hidden" name="quiz_character_symbol" class="guru-character-select-value">
+                                <input type="hidden" name="quiz_character_pronunciation" class="guru-character-select-pronunciation" id="quiz-character-pronunciation">
+                            </div>
+                        </label>
+                    </div>
+
+                    <div id="quiz-type-container" style="display: none; flex-direction: column; gap: 16px;">
+                        <label>
+                            <span>Tipe Kuis</span>
+                            <select name="quiz_type" data-quiz-type style="background: #fff; border: 1px solid #d6d0c5; padding: 8px; border-radius: 6px; width: 100%; box-sizing: border-box;">
+                                <option value="">-- Pilih Tipe Kuis --</option>
+                                <option value="romaji_to_kana">Romaji -> Kana</option>
+                                <option value="kana_to_romaji">Kana -> Romaji</option>
+                            </select>
+                        </label>
+                    </div>
+
                     <!-- MULTIPLE CHOICE FIELDS -->
-                    <div data-quiz-fields="multiple_choice" style="margin-top: 16px;">
+                    <div data-quiz-fields="multiple_choice" style="margin-top: 16px; display: flex; flex-direction: column; gap: 16px;">
                         <label>
                             <span>Instruksi Kuis (Perintah)</span>
                             <input name="quiz_instruction" type="text" placeholder="Contoh: PILIH JAWABAN YANG BENAR" value="PILIH JAWABAN YANG BENAR">
@@ -341,7 +373,7 @@
                         </div>
                         <label>
                             <span>Pilihan Jawaban yang Benar</span>
-                            <select name="quiz_correct_index">
+                            <select name="quiz_correct_index" style="background: #fff; border: 1px solid var(--border); padding: 8px; border-radius: 6px;">
                                 <option value="0">Pilihan 1</option>
                                 <option value="1">Pilihan 2</option>
                                 <option value="2">Pilihan 3</option>

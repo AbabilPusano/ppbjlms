@@ -41,7 +41,8 @@ export default function initQuestionsModule() {
             <strong style="font-family: var(--font-jp); font-size: 16px;">${item.kanji}</strong>
             <span style="color: #667085; font-size: 12px;">${item.makna}</span>
           `;
-          div.addEventListener('click', (e) => {
+          div.addEventListener('mousedown', (e) => {
+            e.preventDefault();
             e.stopPropagation();
             selectItem(item.id, `${item.kanji} (${item.makna})`);
             closeDropdown();
@@ -87,6 +88,7 @@ export default function initQuestionsModule() {
     const closeDropdown = () => {
       dropdown.style.display = 'none';
       searchInput.value = selectedId ? selectedText : '';
+      searchInput.blur();
     };
 
     let searchTimeout;
@@ -134,7 +136,8 @@ export default function initQuestionsModule() {
     const loadingIndicator = wrapper.querySelector('.guru-character-select-loading');
     const arrow = wrapper.querySelector('.guru-character-select-arrow');
     const form = wrapper.closest('form');
-    const pronunciationInput = form ? form.querySelector('[name="character_pronunciation"]') : null;
+    const pronunciationInput = wrapper.querySelector('.guru-character-select-pronunciation') || 
+                               (form ? form.querySelector('[name="character_pronunciation"]') : null);
 
     let page = 1;
     let hasMore = true;
@@ -168,7 +171,8 @@ export default function initQuestionsModule() {
             <strong style="font-family: var(--font-jp); font-size: 16px;">${item.simbol}</strong>
             <span style="color: #667085; font-size: 12px; text-transform: capitalize;">${item.tipe} (${item.cara_baca})</span>
           `;
-          div.addEventListener('click', (e) => {
+          div.addEventListener('mousedown', (e) => {
+            e.preventDefault();
             e.stopPropagation();
             selectItem(item.simbol, item.cara_baca);
             closeDropdown();
@@ -218,6 +222,7 @@ export default function initQuestionsModule() {
     const closeDropdown = () => {
       dropdown.style.display = 'none';
       searchInput.value = selectedSymbol ? selectedText : '';
+      searchInput.blur();
     };
 
     let searchTimeout;
@@ -312,6 +317,108 @@ export default function initQuestionsModule() {
       }
     }
 
+    let quizCharacterSelect = null;
+    const quizCharacterWrapper = root.querySelector('#quiz-character-select');
+
+    const triggerAutoQuizGeneration = async () => {
+      const charSymbol = root.querySelector('[name="quiz_character_symbol"]')?.value || '';
+      const charPronunciation = root.querySelector('#quiz-character-pronunciation')?.value || '';
+      const quizType = root.querySelector('[data-quiz-type]')?.value || '';
+      const quizQuestionType = root.querySelector('[data-quiz-question-type]')?.value || 'character';
+
+      if (!charSymbol || !quizType || quizQuestionType !== 'character') return;
+
+      try {
+        const res = await fetch(`/api/guru/nodes/${nodeId}/available-quiz-characters`);
+        const data = await res.json();
+        const list = (data.characters || []).filter(c => c.character_symbol && c.character_symbol.trim() !== '');
+
+        if (list.length < 4) {
+          if (stepFormError) {
+            stepFormError.textContent = 'belum cukup huruf untuk ditambahkan kuis';
+            stepFormError.hidden = false;
+          }
+          const submitBtn = stepForm?.querySelector('[data-question-submit]');
+          if (submitBtn) submitBtn.disabled = true;
+          return;
+        } else {
+          if (stepFormError && stepFormError.textContent === 'belum cukup huruf untuk ditambahkan kuis') {
+            stepFormError.hidden = true;
+            stepFormError.textContent = '';
+          }
+          const submitBtn = stepForm?.querySelector('[data-question-submit]');
+          if (submitBtn) submitBtn.disabled = false;
+        }
+
+        const otherChars = list.filter(c => c.character_symbol !== charSymbol);
+        const shuffled = otherChars.sort(() => 0.5 - Math.random());
+        const distractors = shuffled.slice(0, 3);
+
+        let questionText = '';
+        let options = [];
+
+        if (quizType === 'romaji_to_kana') {
+          questionText = charPronunciation;
+          const correctAns = charSymbol;
+          const distKanas = distractors.map(d => d.character_symbol);
+          options = [correctAns, ...distKanas];
+        } else if (quizType === 'kana_to_romaji') {
+          questionText = charSymbol;
+          const correctAns = charPronunciation;
+          const distRomaji = distractors.map(d => d.character_pronunciation);
+          options = [correctAns, ...distRomaji];
+        }
+
+        const correctVal = options[0];
+        const shuffledOptions = options.sort(() => 0.5 - Math.random());
+        const correctIndex = shuffledOptions.indexOf(correctVal);
+
+        if (stepForm) {
+          stepForm.elements.quiz_query.value = questionText;
+          stepForm.elements.quiz_option_0.value = shuffledOptions[0] || '';
+          stepForm.elements.quiz_option_1.value = shuffledOptions[1] || '';
+          stepForm.elements.quiz_option_2.value = shuffledOptions[2] || '';
+          stepForm.elements.quiz_option_3.value = shuffledOptions[3] || '';
+          stepForm.elements.quiz_correct_index.value = String(correctIndex);
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    if (quizCharacterWrapper) {
+      initCharacterSelect(quizCharacterWrapper);
+      quizCharacterSelect = quizCharacterWrapper;
+
+      const hiddenInput = quizCharacterWrapper.querySelector('.guru-character-select-value');
+      const quizTypeContainer = root.querySelector('#quiz-type-container');
+      const quizTypeSelect = root.querySelector('[data-quiz-type]');
+      const quizQuestionTypeSelect = root.querySelector('[data-quiz-question-type]');
+
+      if (hiddenInput) {
+        hiddenInput.addEventListener('change', () => {
+          const val = hiddenInput.value;
+          if (quizTypeContainer) {
+            quizTypeContainer.style.display = val ? 'flex' : 'none';
+          }
+          if (!val && quizTypeSelect) {
+            quizTypeSelect.value = '';
+          }
+          triggerAutoQuizGeneration();
+        });
+      }
+
+      if (quizTypeSelect) {
+        quizTypeSelect.addEventListener('change', () => {
+          triggerAutoQuizGeneration();
+        });
+      }
+
+      if (quizQuestionTypeSelect) {
+        quizQuestionTypeSelect.addEventListener('change', renderStepFields);
+      }
+    }
+
     const titleNode = root.querySelector('[data-question-title]');
     const subtitleNode = root.querySelector('[data-question-subtitle]');
     const loadingNode = root.querySelector('[data-questions-loading]');
@@ -378,17 +485,30 @@ export default function initQuestionsModule() {
       if (errorMessageNode) errorMessageNode.textContent = message;
     };
 
-    const renderStepFields = () => {
+    function renderStepFields() {
       const type = stepTypeSelect?.value || 'text';
       root.querySelectorAll('[data-question-fields]').forEach((fields) => {
         fields.hidden = fields.getAttribute('data-question-fields') !== type;
       });
 
       if (type === 'quiz') {
-        const quizType = quizTypeSelect?.value || 'multiple_choice';
-        root.querySelectorAll('[data-quiz-fields]').forEach((fields) => {
-          fields.hidden = fields.getAttribute('data-quiz-fields') !== quizType;
+        const quizQuestionType = root.querySelector('[data-quiz-question-type]')?.value || 'character';
+        root.querySelectorAll('[data-quiz-question-fields]').forEach((fields) => {
+          fields.style.display = fields.getAttribute('data-quiz-question-fields') === quizQuestionType ? 'block' : 'none';
         });
+
+        // Hide multiple choice inputs (question query, choices) when question type is character (auto generated)
+        const showMultipleChoiceFields = quizQuestionType !== 'character';
+        root.querySelectorAll('[data-quiz-fields]').forEach((fields) => {
+          fields.style.display = showMultipleChoiceFields ? 'block' : 'none';
+        });
+
+        // Show/hide quiz-type-container based on whether a character is selected
+        const quizCharSymbol = root.querySelector('[name="quiz_character_symbol"]')?.value || '';
+        const quizTypeContainer = root.querySelector('#quiz-type-container');
+        if (quizTypeContainer) {
+          quizTypeContainer.style.display = (quizQuestionType === 'character' && quizCharSymbol) ? 'flex' : 'none';
+        }
       }
     };
 
@@ -500,6 +620,9 @@ export default function initQuestionsModule() {
       if (stepCharacterSelect) {
         stepCharacterSelect.setValue('', '');
       }
+      if (quizCharacterSelect) {
+        quizCharacterSelect.setValue('', '');
+      }
       if (stepFormError) stepFormError.hidden = true;
       if (stepIdInput) stepIdInput.value = step?.id || '';
       if (stepModalTitle) stepModalTitle.textContent = step ? 'Edit Langkah' : 'Tambah Langkah';
@@ -537,6 +660,25 @@ export default function initQuestionsModule() {
           stepForm.elements.quiz_option_2.value = step.quiz_options?.[2] || '';
           stepForm.elements.quiz_option_3.value = step.quiz_options?.[3] || '';
           stepForm.elements.quiz_correct_index.value = String(step.quiz_correct_index ?? 0);
+
+          if (stepForm.elements.quiz_question_type) {
+            stepForm.elements.quiz_question_type.value = 'character';
+          }
+          if (quizCharacterSelect) {
+            quizCharacterSelect.setValue(step.character_symbol || '', step.character_pronunciation || '');
+          }
+
+          let detectedQuizType = '';
+          if (step.character_symbol && step.character_pronunciation) {
+            if (step.quiz_query === step.character_pronunciation) {
+              detectedQuizType = 'romaji_to_kana';
+            } else if (step.quiz_query === step.character_symbol) {
+              detectedQuizType = 'kana_to_romaji';
+            }
+          }
+          if (stepForm.elements.quiz_type) {
+            stepForm.elements.quiz_type.value = detectedQuizType;
+          }
         }
       } else if (stepForm) {
         stepForm.elements.type.value = 'text';
@@ -587,6 +729,8 @@ export default function initQuestionsModule() {
           String(formData.get('quiz_option_3') || ''),
         ];
         payload.quiz_correct_index = Number(formData.get('quiz_correct_index') || 0);
+        payload.character_symbol = String(formData.get('quiz_character_symbol') || '');
+        payload.character_pronunciation = String(formData.get('quiz_character_pronunciation') || '');
       }
 
       const submit = root.querySelector('[data-question-submit]');
