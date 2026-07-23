@@ -64,9 +64,7 @@ Route::middleware(['auth', 'role:guru,admin'])->group(function (): void {
 
     // Bank Referensi CRUD
     Route::get('/guru/referensi', [GuruReferenceController::class, 'index'])->name('guru.referensi.index');
-    Route::post('/guru/referensi/huruf', [GuruReferenceController::class, 'storeHuruf'])->name('guru.referensi.huruf.store');
-    Route::patch('/guru/referensi/huruf/{huruf}', [GuruReferenceController::class, 'updateHuruf'])->name('guru.referensi.huruf.update');
-    Route::delete('/guru/referensi/huruf/{huruf}', [GuruReferenceController::class, 'destroyHuruf'])->name('guru.referensi.huruf.destroy');
+
 
     Route::post('/guru/referensi/kanji', [GuruReferenceController::class, 'storeKanji'])->name('guru.referensi.kanji.store');
     Route::patch('/guru/referensi/kanji/{kanji}', [GuruReferenceController::class, 'updateKanji'])->name('guru.referensi.kanji.update');
@@ -140,5 +138,6 @@ Route::middleware(['auth', 'role:guru,admin'])->group(function (): void {
         Route::delete('/steps/{step}', [GuruStepApiController::class, 'destroy'])->name('steps.destroy');
         Route::patch('/steps/reorder', [GuruStepApiController::class, 'reorder'])->name('steps.reorder');
         Route::get('/kanjis/search', [GuruReferenceController::class, 'searchKanji'])->name('kanjis.search');
+        Route::get('/hurufs/search', [GuruReferenceController::class, 'searchHuruf'])->name('hurufs.search');
     });
 });

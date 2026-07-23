@@ -35,21 +35,7 @@ class GuruStepApiController extends Controller
         $validated = $this->validateStep($request);
         $node = Node::query()->findOrFail($validated['node_id']);
 
-        if ($validated['type'] === 'character') {
-            $symbol = $validated['character_symbol'] ?? null;
-            if ($symbol) {
-                if (\App\Models\Huruf::where('simbol', $symbol)->exists()) {
-                    return response()->json(['message' => 'Huruf dengan simbol tersebut sudah ada di database referensi.'], 422);
-                }
-                $tipe = preg_match('/[\x{30A0}-\x{30FF}]/u', $symbol) ? 'katakana' : 'hiragana';
-                \App\Models\Huruf::create([
-                    'id' => (string) Str::uuid(),
-                    'tipe' => $tipe,
-                    'simbol' => $symbol,
-                    'cara_baca' => $validated['character_pronunciation'] ?? '',
-                ]);
-            }
-        }
+
 
         if ($validated['type'] === 'vocabulary') {
             $kata = $validated['character_symbol'] ?? null;
@@ -93,21 +79,7 @@ class GuruStepApiController extends Controller
     {
         $validated = $this->validateStep($request, $step);
 
-        if ($validated['type'] === 'character') {
-            $symbol = $validated['character_symbol'] ?? null;
-            if ($symbol && $symbol !== $step->character_symbol) {
-                if (\App\Models\Huruf::where('simbol', $symbol)->exists()) {
-                    return response()->json(['message' => 'Huruf dengan simbol tersebut sudah ada di database referensi.'], 422);
-                }
-                $tipe = preg_match('/[\x{30A0}-\x{30FF}]/u', $symbol) ? 'katakana' : 'hiragana';
-                \App\Models\Huruf::create([
-                    'id' => (string) Str::uuid(),
-                    'tipe' => $tipe,
-                    'simbol' => $symbol,
-                    'cara_baca' => $validated['character_pronunciation'] ?? '',
-                ]);
-            }
-        }
+
 
         if ($validated['type'] === 'vocabulary') {
             $kata = $validated['character_symbol'] ?? null;
@@ -339,16 +311,18 @@ class GuruStepApiController extends Controller
                         $symbol = trim($row[2] ?? '');
                         $reading = trim($row[3] ?? '');
                         if ($symbol) {
-                            if (\App\Models\Huruf::where('simbol', $symbol)->exists()) {
-                                throw new \InvalidArgumentException("Huruf dengan simbol '{$symbol}' sudah ada di database referensi.");
+                            $exists = \App\Models\Huruf::where('simbol', $symbol)->exists();
+                            if (!$exists) {
+                                $tipe = preg_match('/[\x{30A0}-\x{30FF}]/u', $symbol) ? 'katakana' : 'hiragana';
+                                \App\Models\Huruf::create([
+                                    'id' => (string) Str::uuid(),
+                                    'tipe' => $tipe,
+                                    'simbol' => $symbol,
+                                    'cara_baca' => $reading,
+                                ]);
+                            } elseif (empty($reading)) {
+                                $reading = \App\Models\Huruf::where('simbol', $symbol)->value('cara_baca') ?? '';
                             }
-                            $tipe = preg_match('/[\x{30A0}-\x{30FF}]/u', $symbol) ? 'katakana' : 'hiragana';
-                            \App\Models\Huruf::create([
-                                'id' => (string) Str::uuid(),
-                                'tipe' => $tipe,
-                                'simbol' => $symbol,
-                                'cara_baca' => $reading,
-                            ]);
                         }
                         $stepData['character_symbol'] = $symbol;
                         $stepData['character_pronunciation'] = $reading;

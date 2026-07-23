@@ -16,7 +16,7 @@ class GuruReferenceController extends Controller
 {
     public function index(Request $request): View
     {
-        $tab = $request->query('tab', 'huruf');
+        $tab = $request->query('tab', 'kanji');
 
         $hurufs = null;
         $kanjis = null;
@@ -24,9 +24,7 @@ class GuruReferenceController extends Controller
         $kalimats = null;
         $grammars = null;
 
-        if ($tab === 'huruf') {
-            $hurufs = Huruf::query()->orderBy('tipe')->orderBy('simbol')->paginate(30)->withQueryString();
-        } elseif ($tab === 'kanji') {
+        if ($tab === 'kanji') {
             $kanjis = Kanji::query()->orderBy('kanji')->paginate(30)->withQueryString();
         } elseif ($tab === 'kata') {
             $katas = Kata::with('kanji')->orderBy('kata')->paginate(30)->withQueryString();
@@ -54,49 +52,7 @@ class GuruReferenceController extends Controller
         ]);
     }
 
-    // --- HURUF CRUD ---
-    public function storeHuruf(Request $request): RedirectResponse
-    {
-        $validated = $request->validate([
-            'tipe' => ['required', 'string', 'in:hiragana,katakana'],
-            'simbol' => ['required', 'string', 'max:50'],
-            'cara_baca' => ['required', 'string', 'max:50'],
-        ]);
 
-        Huruf::create([
-            'id' => (string) Str::uuid(),
-            'tipe' => $validated['tipe'],
-            'simbol' => $validated['simbol'],
-            'cara_baca' => $validated['cara_baca'],
-        ]);
-
-        return redirect()->route('guru.referensi.index', ['tab' => 'huruf'])
-            ->with('status', 'success')
-            ->with('message', 'Huruf baru berhasil ditambahkan.');
-    }
-
-    public function updateHuruf(Request $request, Huruf $huruf): RedirectResponse
-    {
-        $validated = $request->validate([
-            'tipe' => ['required', 'string', 'in:hiragana,katakana'],
-            'simbol' => ['required', 'string', 'max:50'],
-            'cara_baca' => ['required', 'string', 'max:50'],
-        ]);
-
-        $huruf->update($validated);
-
-        return redirect()->route('guru.referensi.index', ['tab' => 'huruf'])
-            ->with('status', 'success')
-            ->with('message', 'Huruf berhasil diperbarui.');
-    }
-
-    public function destroyHuruf(Huruf $huruf): RedirectResponse
-    {
-        $huruf->delete();
-        return redirect()->route('guru.referensi.index', ['tab' => 'huruf'])
-            ->with('status', 'success')
-            ->with('message', 'Huruf berhasil dihapus.');
-    }
 
     // --- KANJI CRUD ---
     public function storeKanji(Request $request): RedirectResponse
@@ -336,6 +292,34 @@ class GuruReferenceController extends Controller
                 'id' => $k->id,
                 'kanji' => $k->kanji,
                 'makna' => $k->makna,
+            ]),
+            'pagination' => [
+                'more' => $paginator->hasMorePages(),
+            ]
+        ]);
+    }
+
+    public function searchHuruf(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $search = $request->query('q');
+        $query = Huruf::query()->orderBy('simbol');
+
+        if (!empty($search)) {
+            $query->where(function ($q) use ($search) {
+                $q->where('simbol', 'like', "%{$search}%")
+                  ->orWhere('cara_baca', 'like', "%{$search}%")
+                  ->orWhere('tipe', 'like', "%{$search}%");
+            });
+        }
+
+        $paginator = $query->paginate(15);
+
+        return response()->json([
+            'results' => collect($paginator->items())->map(fn ($h) => [
+                'id' => $h->id,
+                'simbol' => $h->simbol,
+                'cara_baca' => $h->cara_baca,
+                'tipe' => $h->tipe,
             ]),
             'pagination' => [
                 'more' => $paginator->hasMorePages(),

@@ -52,6 +52,56 @@
     background: #f9fafb;
     border-top: 1px solid var(--border);
 }
+.guru-character-select-wrapper {
+    position: relative;
+    width: 100%;
+}
+.guru-character-select-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    max-height: 220px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    z-index: 1000;
+    margin-top: 4px;
+    display: flex;
+    flex-direction: column;
+}
+.guru-character-select-options {
+    overflow-y: auto;
+    max-height: 180px;
+    display: flex;
+    flex-direction: column;
+}
+.guru-character-select-option {
+    padding: 10px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #f2f4f7;
+}
+.guru-character-select-option:hover {
+    background: #f9fafb;
+}
+.guru-character-select-option.is-selected {
+    background: #f4f3ff;
+    color: var(--accent);
+    font-weight: 600;
+}
+.guru-character-select-loading {
+    padding: 10px;
+    text-align: center;
+    font-size: 12px;
+    color: #667085;
+    background: #f9fafb;
+    border-top: 1px solid var(--border);
+}
 </style>
 <div class="guru-shell" data-guru-questions data-material-id="{{ request()->route('material') }}">
     <header class="guru-topbar">
@@ -174,15 +224,25 @@
                 </div>
 
                 <!-- CHARACTER STEP FIELDS -->
-                <div data-question-fields="character" hidden>
+                <div data-question-fields="character" hidden style="display: flex; flex-direction: column; gap: 16px;">
                     <div class="guru-unit-form__grid">
                         <label>
-                            <span>Simbol Huruf</span>
-                            <input name="character_symbol" type="text" maxlength="50" placeholder="Contoh: あ">
+                            <span>Pilih Huruf Referensi</span>
+                            <div class="guru-character-select-wrapper" id="step-character-select" data-character-select>
+                                <div class="guru-character-select-control" style="border: 1px solid var(--border); border-radius: 6px; display: flex; align-items: center; background: #fff; padding-right: 8px;">
+                                    <input type="text" class="guru-character-select-search" placeholder="Cari Huruf (Simbol / Romaji)..." autocomplete="off" style="border: none !important; outline: none !important; width: 100%; padding: 8px 12px; border-radius: 6px;">
+                                    <span class="material-symbols-outlined guru-character-select-arrow" style="cursor: pointer;">arrow_drop_down</span>
+                                </div>
+                                <div class="guru-character-select-dropdown" style="display: none;">
+                                    <div class="guru-character-select-options"></div>
+                                    <div class="guru-character-select-loading" style="display: none;">Memuat lebih banyak...</div>
+                                </div>
+                                <input type="hidden" name="character_symbol" class="guru-character-select-value">
+                            </div>
                         </label>
                         <label>
                             <span>Cara Baca (Romaji/Arti)</span>
-                            <input name="character_pronunciation" type="text" maxlength="100" placeholder="Contoh: a">
+                            <input name="character_pronunciation" type="text" readonly style="background: #f5f5f5; cursor: not-allowed; border: 1px solid var(--border); padding: 8px; border-radius: 6px;" placeholder="Pilih huruf terlebih dahulu">
                         </label>
                     </div>
                 </div>

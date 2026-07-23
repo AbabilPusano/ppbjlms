@@ -126,6 +126,137 @@ export default function initQuestionsModule() {
     });
   }
 
+  function initCharacterSelect(wrapper) {
+    const searchInput = wrapper.querySelector('.guru-character-select-search');
+    const hiddenInput = wrapper.querySelector('.guru-character-select-value');
+    const dropdown = wrapper.querySelector('.guru-character-select-dropdown');
+    const optionsContainer = wrapper.querySelector('.guru-character-select-options');
+    const loadingIndicator = wrapper.querySelector('.guru-character-select-loading');
+    const arrow = wrapper.querySelector('.guru-character-select-arrow');
+    const form = wrapper.closest('form');
+    const pronunciationInput = form ? form.querySelector('[name="character_pronunciation"]') : null;
+
+    let page = 1;
+    let hasMore = true;
+    let isLoading = false;
+    let query = '';
+    let selectedSymbol = hiddenInput.value || '';
+    let selectedText = '';
+
+    const fetchHurufs = async (reset = false) => {
+      if (isLoading) return;
+      if (reset) {
+        page = 1;
+        hasMore = true;
+        optionsContainer.innerHTML = '';
+      }
+      if (!hasMore) return;
+
+      isLoading = true;
+      if (loadingIndicator) loadingIndicator.style.display = 'block';
+
+      try {
+        const res = await fetch(`/api/guru/hurufs/search?q=${encodeURIComponent(query)}&page=${page}`);
+        const data = await res.json();
+
+        data.results.forEach(item => {
+          const div = document.createElement('div');
+          div.className = `guru-character-select-option ${item.simbol === selectedSymbol ? 'is-selected' : ''}`;
+          div.setAttribute('data-symbol', item.simbol);
+          div.setAttribute('data-text', `${item.simbol} (${item.cara_baca})`);
+          div.innerHTML = `
+            <strong style="font-family: var(--font-jp); font-size: 16px;">${item.simbol}</strong>
+            <span style="color: #667085; font-size: 12px; text-transform: capitalize;">${item.tipe} (${item.cara_baca})</span>
+          `;
+          div.addEventListener('click', (e) => {
+            e.stopPropagation();
+            selectItem(item.simbol, item.cara_baca);
+            closeDropdown();
+          });
+          optionsContainer.appendChild(div);
+        });
+
+        hasMore = data.pagination.more;
+        page += 1;
+      } catch (e) {
+        console.error(e);
+      } finally {
+        isLoading = false;
+        if (loadingIndicator) loadingIndicator.style.display = 'none';
+      }
+    };
+
+    const selectItem = (symbol, pronunciation) => {
+      selectedSymbol = symbol;
+      hiddenInput.value = symbol;
+      selectedText = symbol ? `${symbol} (${pronunciation})` : '';
+      searchInput.value = selectedText;
+      searchInput.placeholder = symbol ? selectedText : 'Cari Huruf (Simbol / Romaji)...';
+
+      if (pronunciationInput) {
+        pronunciationInput.value = pronunciation || '';
+      }
+
+      hiddenInput.dispatchEvent(new Event('change', { bubbles: true }));
+
+      optionsContainer.querySelectorAll('.guru-character-select-option').forEach(opt => {
+        opt.classList.toggle('is-selected', opt.getAttribute('data-symbol') === symbol);
+      });
+    };
+
+    wrapper.setValue = (symbol, pronunciation) => {
+      selectItem(symbol, pronunciation);
+    };
+
+    const openDropdown = () => {
+      dropdown.style.display = 'flex';
+      if (optionsContainer.children.length === 0) {
+        fetchHurufs(true);
+      }
+    };
+
+    const closeDropdown = () => {
+      dropdown.style.display = 'none';
+      searchInput.value = selectedSymbol ? selectedText : '';
+    };
+
+    let searchTimeout;
+    searchInput.addEventListener('input', () => {
+      query = searchInput.value;
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        fetchHurufs(true);
+      }, 300);
+    });
+
+    searchInput.addEventListener('focus', () => {
+      searchInput.value = '';
+      openDropdown();
+    });
+
+    arrow.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (dropdown.style.display === 'none') {
+        openDropdown();
+        searchInput.focus();
+      } else {
+        closeDropdown();
+      }
+    });
+
+    optionsContainer.addEventListener('scroll', () => {
+      if (optionsContainer.scrollTop + optionsContainer.clientHeight >= optionsContainer.scrollHeight - 5) {
+        fetchHurufs();
+      }
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!wrapper.contains(e.target)) {
+        closeDropdown();
+      }
+    });
+  }
+
   document.querySelectorAll('[data-guru-questions]').forEach((root) => {
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
     const dragAutoScroller = createDragAutoScroller();
@@ -140,6 +271,13 @@ export default function initQuestionsModule() {
     if (kanjiWrapper) {
       initKanjiSelect(kanjiWrapper);
       stepKanjiSelect = kanjiWrapper;
+    }
+
+    let stepCharacterSelect = null;
+    const characterWrapper = root.querySelector('#step-character-select');
+    if (characterWrapper) {
+      initCharacterSelect(characterWrapper);
+      stepCharacterSelect = characterWrapper;
     }
 
     const titleNode = root.querySelector('[data-question-title]');
@@ -327,6 +465,9 @@ export default function initQuestionsModule() {
       if (stepKanjiSelect) {
         stepKanjiSelect.setValue('', '');
       }
+      if (stepCharacterSelect) {
+        stepCharacterSelect.setValue('', '');
+      }
       if (stepFormError) stepFormError.hidden = true;
       if (stepIdInput) stepIdInput.value = step?.id || '';
       if (stepModalTitle) stepModalTitle.textContent = step ? 'Edit Langkah' : 'Tambah Langkah';
@@ -338,8 +479,12 @@ export default function initQuestionsModule() {
         if (step.type === 'text') {
           stepForm.elements.content.value = step.content || '';
         } else if (step.type === 'character') {
-          stepForm.elements.character_symbol.value = step.character_symbol || '';
-          stepForm.elements.character_pronunciation.value = step.character_pronunciation || '';
+          if (stepCharacterSelect) {
+            stepCharacterSelect.setValue(step.character_symbol || '', step.character_pronunciation || '');
+          } else {
+            stepForm.elements.character_symbol.value = step.character_symbol || '';
+            stepForm.elements.character_pronunciation.value = step.character_pronunciation || '';
+          }
         } else if (step.type === 'vocabulary') {
           stepForm.elements.vocab_kata.value = step.character_symbol || '';
           stepForm.elements.vocab_romaji.value = step.character_pronunciation || '';

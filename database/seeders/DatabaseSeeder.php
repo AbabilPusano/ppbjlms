@@ -55,6 +55,10 @@ class DatabaseSeeder extends Seeder
             'league' => 'Bronze',
         ]);
 
-        $this->call(LmsContentSeeder::class);
+        $this->call([
+            LmsContentSeeder::class,
+            HurufSeeder::class,
+        ]);
     }
 }
+

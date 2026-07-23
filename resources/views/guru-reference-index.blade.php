@@ -142,10 +142,6 @@
 
         <!-- Tab Navigation -->
         <nav class="guru-account-tabs" aria-label="Pilih tabel referensi" style="margin-bottom: 20px;">
-            <a href="{{ route('guru.referensi.index', ['tab' => 'huruf']) }}" class="{{ $tab === 'huruf' ? 'active' : '' }}">
-                <span class="material-symbols-outlined" aria-hidden="true font-size: 20px;">translate</span>
-                Huruf
-            </a>
             <a href="{{ route('guru.referensi.index', ['tab' => 'kanji']) }}" class="{{ $tab === 'kanji' ? 'active' : '' }}">
                 <span class="material-symbols-outlined" aria-hidden="true font-size: 20px;">draw</span>
                 Kanji
@@ -178,40 +174,7 @@
 
             <!-- Tab content tables -->
             <div class="guru-admin-table">
-                @if ($tab === 'huruf')
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Simbol</th>
-                                <th>Tipe</th>
-                                <th>Cara Baca</th>
-                                <th class="guru-admin-table__action">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($hurufs as $h)
-                                <tr>
-                                    <td style="font-size: 20px; font-weight: 800; font-family: var(--font-jp);">{{ $h->simbol }}</td>
-                                    <td><span style="text-transform: capitalize; padding: 4px 8px; background: var(--paper-soft); border-radius: 4px; font-size: 12px; font-weight: bold;">{{ $h->tipe }}</span></td>
-                                    <td><code>{{ $h->cara_baca }}</code></td>
-                                    <td class="guru-admin-table__action">
-                                        <div style="display: flex; gap: 8px; justify-content: flex-end;">
-                                            <button class="guru-unit-button" style="padding: 6px 12px; font-size: 12px; border: 1px solid var(--line);" onclick="openEditHurufModal('{{ $h->id }}', '{{ $h->tipe }}', '{{ addslashes($h->simbol) }}', '{{ addslashes($h->cara_baca) }}')">Edit</button>
-                                            <form action="{{ route('guru.referensi.huruf.destroy', $h) }}" method="POST" onsubmit="return confirm('Hapus huruf ini?')">
-                                                @csrf @method('DELETE')
-                                                <button type="submit" class="guru-unit-button guru-unit-button--danger" style="padding: 6px 12px; font-size: 12px;">Hapus</button>
-                                            </form>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr><td colspan="4" class="guru-admin-table__empty">Data kosong.</td></tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                    <div style="margin-top: 16px;">{{ $hurufs->links() }}</div>
-
-                @elseif ($tab === 'kanji')
+                @if ($tab === 'kanji')
                     <table>
                         <thead>
                             <tr>
@@ -737,27 +700,7 @@ function openAddModal() {
     modal.style.display = 'flex';
 }
 
-function openEditHurufModal(id, tipe, simbol, cara_baca) {
-    const modal = document.getElementById('crudModal');
-    const form = document.getElementById('modalForm');
-    const methodPlaceholder = document.getElementById('methodPlaceholder');
-    
-    form.action = `/guru/referensi/huruf/${id}`;
-    methodPlaceholder.innerHTML = '<input type="hidden" name="_method" value="PATCH">';
-    
-    document.getElementById('modalTitle').textContent = 'Edit Huruf';
-    
-    // Populate Fields
-    document.querySelectorAll('.modal-fields-group').forEach(el => el.style.display = 'none');
-    const fields = document.getElementById('fields_huruf');
-    fields.style.display = 'flex';
-    
-    fields.querySelector('[name="tipe"]').value = tipe;
-    fields.querySelector('[name="simbol"]').value = simbol;
-    fields.querySelector('[name="cara_baca"]').value = cara_baca;
-    
-    modal.style.display = 'flex';
-}
+
 
 function openEditKanjiModal(id, kanji, onyomi, kunyomi, makna, level) {
     const modal = document.getElementById('crudModal');
