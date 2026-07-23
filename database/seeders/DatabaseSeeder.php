@@ -58,6 +58,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             LmsContentSeeder::class,
             HurufSeeder::class,
+            KanjiSeeder::class,
         ]);
     }
 }
