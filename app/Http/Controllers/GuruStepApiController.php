@@ -11,6 +11,36 @@ use Illuminate\Support\Str;
 
 class GuruStepApiController extends Controller
 {
+    public function checkCharacter(Request $request): JsonResponse
+    {
+        $symbol = $request->query('symbol');
+        $excludeStepId = $request->query('exclude_step_id');
+
+        if (!$symbol) {
+            return response()->json(['exists' => false]);
+        }
+
+        $query = NodeStep::query()
+            ->where('type', 'character')
+            ->where('character_symbol', $symbol);
+
+        if ($excludeStepId) {
+            $query->where('id', '!=', $excludeStepId);
+        }
+
+        $existingStep = $query->first();
+
+        if ($existingStep) {
+            $node = Node::query()->find($existingStep->node_id);
+            return response()->json([
+                'exists' => true,
+                'node_title' => $node ? $node->title : 'Lain',
+            ]);
+        }
+
+        return response()->json(['exists' => false]);
+    }
+
     public function index(Node $node): JsonResponse
     {
         $steps = $node->steps()
@@ -35,7 +65,20 @@ class GuruStepApiController extends Controller
         $validated = $this->validateStep($request);
         $node = Node::query()->findOrFail($validated['node_id']);
 
-
+        if ($validated['type'] === 'character') {
+            $char = $validated['character_symbol'] ?? null;
+            if ($char) {
+                $existingStep = NodeStep::query()
+                    ->where('type', 'character')
+                    ->where('character_symbol', $char)
+                    ->first();
+                if ($existingStep) {
+                    $existingNode = Node::query()->find($existingStep->node_id);
+                    $nodeName = $existingNode ? $existingNode->title : 'lain';
+                    return response()->json(['message' => "huruf sudah ada di node {$nodeName}"], 422);
+                }
+            }
+        }
 
         if ($validated['type'] === 'vocabulary') {
             $kata = $validated['character_symbol'] ?? null;
@@ -79,7 +122,21 @@ class GuruStepApiController extends Controller
     {
         $validated = $this->validateStep($request, $step);
 
-
+        if ($validated['type'] === 'character') {
+            $char = $validated['character_symbol'] ?? null;
+            if ($char && $char !== $step->character_symbol) {
+                $existingStep = NodeStep::query()
+                    ->where('type', 'character')
+                    ->where('character_symbol', $char)
+                    ->where('id', '!=', $step->id)
+                    ->first();
+                if ($existingStep) {
+                    $existingNode = Node::query()->find($existingStep->node_id);
+                    $nodeName = $existingNode ? $existingNode->title : 'lain';
+                    return response()->json(['message' => "huruf sudah ada di node {$nodeName}"], 422);
+                }
+            }
+        }
 
         if ($validated['type'] === 'vocabulary') {
             $kata = $validated['character_symbol'] ?? null;
@@ -311,6 +368,15 @@ class GuruStepApiController extends Controller
                         $symbol = trim($row[2] ?? '');
                         $reading = trim($row[3] ?? '');
                         if ($symbol) {
+                            $existingStep = NodeStep::query()
+                                ->where('type', 'character')
+                                ->where('character_symbol', $symbol)
+                                ->first();
+                            if ($existingStep) {
+                                $existingNode = Node::query()->find($existingStep->node_id);
+                                $nodeName = $existingNode ? $existingNode->title : 'lain';
+                                throw new \InvalidArgumentException("huruf sudah ada di node {$nodeName}");
+                            }
                             $exists = \App\Models\Huruf::where('simbol', $symbol)->exists();
                             if (!$exists) {
                                 $tipe = preg_match('/[\x{30A0}-\x{30FF}]/u', $symbol) ? 'katakana' : 'hiragana';

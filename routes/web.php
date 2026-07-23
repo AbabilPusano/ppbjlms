@@ -131,6 +131,7 @@ Route::middleware(['auth', 'role:guru,admin'])->group(function (): void {
         Route::delete('/questions/{question}', [GuruMaterialApiController::class, 'destroyQuestion'])->name('questions.destroy');
 
         // Node Steps API routes
+        Route::get('/steps/check-character', [GuruStepApiController::class, 'checkCharacter'])->name('steps.check-character');
         Route::get('/nodes/{node}/steps', [GuruStepApiController::class, 'index'])->name('steps.index');
         Route::post('/nodes/{node}/import-steps', [GuruStepApiController::class, 'importSteps'])->name('nodes.import-steps');
         Route::post('/steps', [GuruStepApiController::class, 'store'])->name('steps.store');

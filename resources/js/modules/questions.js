@@ -278,6 +278,38 @@ export default function initQuestionsModule() {
     if (characterWrapper) {
       initCharacterSelect(characterWrapper);
       stepCharacterSelect = characterWrapper;
+
+      const hiddenInput = characterWrapper.querySelector('.guru-character-select-value');
+      if (hiddenInput) {
+        hiddenInput.addEventListener('change', async () => {
+          const val = hiddenInput.value;
+          if (!val) return;
+
+          const stepId = stepIdInput?.value || '';
+
+          try {
+            const res = await fetch(`/api/guru/steps/check-character?symbol=${encodeURIComponent(val)}&exclude_step_id=${stepId}`);
+            const data = await res.json();
+            if (data.exists) {
+              if (stepFormError) {
+                stepFormError.textContent = `huruf sudah ada di node ${data.node_title}`;
+                stepFormError.hidden = false;
+              }
+              const submitBtn = stepForm?.querySelector('[data-question-submit]');
+              if (submitBtn) submitBtn.disabled = true;
+            } else {
+              if (stepFormError && stepFormError.textContent.startsWith('huruf sudah ada di node')) {
+                stepFormError.hidden = true;
+                stepFormError.textContent = '';
+              }
+              const submitBtn = stepForm?.querySelector('[data-question-submit]');
+              if (submitBtn) submitBtn.disabled = false;
+            }
+          } catch (e) {
+            console.error(e);
+          }
+        });
+      }
     }
 
     const titleNode = root.querySelector('[data-question-title]');
