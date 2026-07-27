@@ -326,12 +326,12 @@
                         <span>Jenis Pertanyaan</span>
                         <select name="quiz_question_type" data-quiz-question-type style="background: #fff; border: 1px solid #d6d0c5; padding: 8px; border-radius: 6px; width: 100%; box-sizing: border-box;">
                             <option value="character" selected>Huruf</option>
-                            <option value="vocabulary" disabled>Kata (Belum Tersedia)</option>
+                            <option value="vocabulary">Kata</option>
                             <option value="grammar" disabled>Grammar (Belum Tersedia)</option>
                             <option value="sentence" disabled>Kalimat (Belum Tersedia)</option>
                         </select>
                     </label>
-
+ 
                     <div data-quiz-question-fields="character" style="display: flex; flex-direction: column; gap: 16px;">
                         <label>
                             <span>Pilih Huruf Referensi (Kuis)</span>
@@ -346,6 +346,26 @@
                                 </div>
                                 <input type="hidden" name="quiz_character_symbol" class="guru-search-select-value">
                                 <input type="hidden" name="quiz_character_pronunciation" class="guru-search-select-pronunciation" id="quiz-character-pronunciation">
+                            </div>
+                        </label>
+                    </div>
+
+                    <div data-quiz-question-fields="vocabulary" style="display: none; flex-direction: column; gap: 16px;">
+                        <label>
+                            <span>Pilih Kata Referensi (Kuis)</span>
+                            <div class="guru-search-select-wrapper" id="quiz-kata-select" data-kata-select>
+                                <div class="guru-search-select-control">
+                                    <input type="text" class="guru-search-select-search" placeholder="Cari Kosakata (Jepang / Romaji / Arti)..." autocomplete="off">
+                                    <span class="material-symbols-outlined guru-search-select-arrow">arrow_drop_down</span>
+                                </div>
+                                <div class="guru-search-select-dropdown" style="display: none;">
+                                    <div class="guru-search-select-options"></div>
+                                    <div class="guru-search-select-loading" style="display: none;">Memuat lebih banyak...</div>
+                                </div>
+                                <input type="hidden" name="quiz_kata_id" class="guru-search-select-value">
+                                <input type="hidden" name="quiz_kata_symbol" id="quiz-kata-symbol">
+                                <input type="hidden" name="quiz_kata_pronunciation" id="quiz-kata-pronunciation">
+                                <input type="hidden" name="quiz_kata_meaning" id="quiz-kata-meaning">
                             </div>
                         </label>
                     </div>

@@ -287,6 +287,7 @@ export default function initQuestionsModule() {
     const stepIdInput = root.querySelector('[data-question-id]');
     const stepTypeSelect = root.querySelector('[data-question-type]');
     const quizTypeSelect = root.querySelector('[data-quiz-type]');
+    const quizQuestionTypeSelect = root.querySelector('[data-quiz-question-type]');
     const stepModalTitle = root.querySelector('[data-question-modal-title]');
     const stepFormError = root.querySelector('[data-question-form-error]');
     const importModal = root.querySelector('[data-step-import-modal]');
@@ -546,70 +547,140 @@ export default function initQuestionsModule() {
 
     let quizCharacterSelect = null;
     const quizCharacterWrapper = root.querySelector('#quiz-character-select');
+    let quizKataSelect = null;
+    const quizKataWrapper = root.querySelector('#quiz-kata-select');
 
     const triggerAutoQuizGeneration = async () => {
-      const charSymbol = root.querySelector('[name="quiz_character_symbol"]')?.value || '';
-      const charPronunciation = root.querySelector('#quiz-character-pronunciation')?.value || '';
-      const quizType = root.querySelector('[data-quiz-type]')?.value || '';
       const quizQuestionType = root.querySelector('[data-quiz-question-type]')?.value || 'character';
+      const quizType = root.querySelector('[data-quiz-type]')?.value || '';
 
-      if (!charSymbol || !quizType || quizQuestionType !== 'character') return;
+      if (quizQuestionType === 'character') {
+        const charSymbol = root.querySelector('[name="quiz_character_symbol"]')?.value || '';
+        const charPronunciation = root.querySelector('#quiz-character-pronunciation')?.value || '';
+        if (!charSymbol || !quizType) return;
 
-      try {
-        const res = await fetch(`/api/guru/nodes/${nodeId}/available-quiz-characters`);
-        const data = await res.json();
-        const list = (data.characters || []).filter(c => c.character_symbol && c.character_symbol.trim() !== '');
+        try {
+          const res = await fetch(`/api/guru/nodes/${nodeId}/available-quiz-characters`);
+          const data = await res.json();
+          const list = (data.characters || []).filter(c => c.character_symbol && c.character_symbol.trim() !== '');
 
-        if (list.length < 4) {
-          if (stepFormError) {
-            stepFormError.textContent = 'belum cukup huruf untuk ditambahkan kuis';
-            stepFormError.hidden = false;
+          if (list.length < 4) {
+            if (stepFormError) {
+              stepFormError.textContent = 'belum cukup huruf untuk ditambahkan kuis';
+              stepFormError.hidden = false;
+            }
+            const submitBtn = stepForm?.querySelector('[data-question-submit]');
+            if (submitBtn) submitBtn.disabled = true;
+            return;
+          } else {
+            if (stepFormError && (stepFormError.textContent === 'belum cukup huruf untuk ditambahkan kuis' || stepFormError.textContent === 'belum cukup kata untuk ditambahkan kuis')) {
+              stepFormError.hidden = true;
+              stepFormError.textContent = '';
+            }
+            const submitBtn = stepForm?.querySelector('[data-question-submit]');
+            if (submitBtn) submitBtn.disabled = false;
           }
-          const submitBtn = stepForm?.querySelector('[data-question-submit]');
-          if (submitBtn) submitBtn.disabled = true;
-          return;
-        } else {
-          if (stepFormError && stepFormError.textContent === 'belum cukup huruf untuk ditambahkan kuis') {
-            stepFormError.hidden = true;
-            stepFormError.textContent = '';
+
+          const otherChars = list.filter(c => c.character_symbol !== charSymbol);
+          const shuffled = otherChars.sort(() => 0.5 - Math.random());
+          const distractors = shuffled.slice(0, 3);
+
+          let questionText = '';
+          let options = [];
+
+          if (quizType === 'romaji_to_kana') {
+            questionText = charPronunciation;
+            const correctAns = charSymbol;
+            const distKanas = distractors.map(d => d.character_symbol);
+            options = [correctAns, ...distKanas];
+          } else if (quizType === 'kana_to_romaji') {
+            questionText = charSymbol;
+            const correctAns = charPronunciation;
+            const distRomaji = distractors.map(d => d.character_pronunciation);
+            options = [correctAns, ...distRomaji];
           }
-          const submitBtn = stepForm?.querySelector('[data-question-submit]');
-          if (submitBtn) submitBtn.disabled = false;
+
+          const correctVal = options[0];
+          const shuffledOptions = options.sort(() => 0.5 - Math.random());
+          const correctIndex = shuffledOptions.indexOf(correctVal);
+
+          if (stepForm) {
+            stepForm.elements.quiz_query.value = questionText;
+            stepForm.elements.quiz_option_0.value = shuffledOptions[0] || '';
+            stepForm.elements.quiz_option_1.value = shuffledOptions[1] || '';
+            stepForm.elements.quiz_option_2.value = shuffledOptions[2] || '';
+            stepForm.elements.quiz_option_3.value = shuffledOptions[3] || '';
+            stepForm.elements.quiz_correct_index.value = String(correctIndex);
+          }
+        } catch (e) {
+          console.error(e);
         }
+      } else if (quizQuestionType === 'vocabulary') {
+        const wordSymbol = root.querySelector('#quiz-kata-symbol')?.value || '';
+        const wordPronunciation = root.querySelector('#quiz-kata-pronunciation')?.value || '';
+        const wordMeaning = root.querySelector('#quiz-kata-meaning')?.value || '';
+        if (!wordSymbol || !quizType) return;
 
-        const otherChars = list.filter(c => c.character_symbol !== charSymbol);
-        const shuffled = otherChars.sort(() => 0.5 - Math.random());
-        const distractors = shuffled.slice(0, 3);
+        try {
+          const res = await fetch(`/api/guru/nodes/${nodeId}/available-quiz-words`);
+          const data = await res.json();
+          const list = (data.words || []).filter(w => w.character_symbol && w.character_symbol.trim() !== '');
 
-        let questionText = '';
-        let options = [];
+          if (list.length < 4) {
+            if (stepFormError) {
+              stepFormError.textContent = 'belum cukup kata untuk ditambahkan kuis';
+              stepFormError.hidden = false;
+            }
+            const submitBtn = stepForm?.querySelector('[data-question-submit]');
+            if (submitBtn) submitBtn.disabled = true;
+            return;
+          } else {
+            if (stepFormError && (stepFormError.textContent === 'belum cukup huruf untuk ditambahkan kuis' || stepFormError.textContent === 'belum cukup kata untuk ditambahkan kuis')) {
+              stepFormError.hidden = true;
+              stepFormError.textContent = '';
+            }
+            const submitBtn = stepForm?.querySelector('[data-question-submit]');
+            if (submitBtn) submitBtn.disabled = false;
+          }
 
-        if (quizType === 'romaji_to_kana') {
-          questionText = charPronunciation;
-          const correctAns = charSymbol;
-          const distKanas = distractors.map(d => d.character_symbol);
-          options = [correctAns, ...distKanas];
-        } else if (quizType === 'kana_to_romaji') {
-          questionText = charSymbol;
-          const correctAns = charPronunciation;
-          const distRomaji = distractors.map(d => d.character_pronunciation);
-          options = [correctAns, ...distRomaji];
+          const otherWords = list.filter(w => w.character_symbol !== wordSymbol);
+          const shuffled = otherWords.sort(() => 0.5 - Math.random());
+          const distractors = shuffled.slice(0, 3);
+
+          let questionText = '';
+          let options = [];
+
+          if (quizType === 'kata_to_meaning') {
+            questionText = wordSymbol;
+            const correctAns = wordMeaning;
+            const distMeanings = distractors.map(d => d.content);
+            options = [correctAns, ...distMeanings];
+          } else if (quizType === 'meaning_to_kata') {
+            questionText = wordMeaning;
+            const correctAns = wordSymbol;
+            const distSymbols = distractors.map(d => d.character_symbol);
+            options = [correctAns, ...distSymbols];
+          }
+
+          const correctVal = options[0];
+          const shuffledOptions = options.sort(() => 0.5 - Math.random());
+          const correctIndex = shuffledOptions.indexOf(correctVal);
+
+          if (stepForm) {
+            stepForm.elements.quiz_query.value = questionText;
+            stepForm.elements.quiz_option_0.value = shuffledOptions[0] || '';
+            stepForm.elements.quiz_option_1.value = shuffledOptions[1] || '';
+            stepForm.elements.quiz_option_2.value = shuffledOptions[2] || '';
+            stepForm.elements.quiz_option_3.value = shuffledOptions[3] || '';
+            stepForm.elements.quiz_correct_index.value = String(correctIndex);
+
+            // Set character_symbol and pronunciation for saving
+            stepForm.elements.quiz_character_symbol.value = wordSymbol;
+            stepForm.elements.quiz_character_pronunciation.value = wordPronunciation;
+          }
+        } catch (e) {
+          console.error(e);
         }
-
-        const correctVal = options[0];
-        const shuffledOptions = options.sort(() => 0.5 - Math.random());
-        const correctIndex = shuffledOptions.indexOf(correctVal);
-
-        if (stepForm) {
-          stepForm.elements.quiz_query.value = questionText;
-          stepForm.elements.quiz_option_0.value = shuffledOptions[0] || '';
-          stepForm.elements.quiz_option_1.value = shuffledOptions[1] || '';
-          stepForm.elements.quiz_option_2.value = shuffledOptions[2] || '';
-          stepForm.elements.quiz_option_3.value = shuffledOptions[3] || '';
-          stepForm.elements.quiz_correct_index.value = String(correctIndex);
-        }
-      } catch (e) {
-        console.error(e);
       }
     };
 
@@ -632,13 +703,11 @@ export default function initQuestionsModule() {
       quizCharacterSelect = quizCharacterWrapper;
 
       const hiddenInput = quizCharacterWrapper.querySelector('.guru-search-select-value');
-      const quizTypeContainer = root.querySelector('#quiz-type-container');
-      const quizTypeSelect = root.querySelector('[data-quiz-type]');
-      const quizQuestionTypeSelect = root.querySelector('[data-quiz-question-type]');
-
       if (hiddenInput) {
         hiddenInput.addEventListener('change', () => {
           const val = hiddenInput.value;
+          const quizTypeContainer = root.querySelector('#quiz-type-container');
+          const quizTypeSelect = root.querySelector('[data-quiz-type]');
           if (quizTypeContainer) {
             quizTypeContainer.style.display = val ? 'flex' : 'none';
           }
@@ -648,16 +717,65 @@ export default function initQuestionsModule() {
           triggerAutoQuizGeneration();
         });
       }
+    }
 
-      if (quizTypeSelect) {
-        quizTypeSelect.addEventListener('change', () => {
+    if (quizKataWrapper) {
+      const symbolInput = root.querySelector('#quiz-kata-symbol');
+      const pronunciationInput = root.querySelector('#quiz-kata-pronunciation');
+      const meaningInput = root.querySelector('#quiz-kata-meaning');
+
+      initSearchSelect(quizKataWrapper, {
+        url: (query, page) => `/api/guru/katas/search?q=${encodeURIComponent(query)}&page=${page}`,
+        mapItem: (item) => ({
+          id: item.id,
+          text: `${item.kata} (${item.romaji})`,
+          html: `<strong style="font-family: var(--font-jp); font-size: 16px;">${item.kata}</strong> <span style="color: #667085; font-size: 12px;">${item.romaji} - ${item.arti}</span>`
+        }),
+        placeholder: 'Cari Kosakata (Jepang / Romaji / Arti)...',
+        onSelect: (id, text, item) => {
+          if (item) {
+            if (symbolInput) symbolInput.value = item.kata || '';
+            if (pronunciationInput) pronunciationInput.value = item.romaji || '';
+            if (meaningInput) meaningInput.value = item.arti || '';
+          } else {
+            if (symbolInput) symbolInput.value = '';
+            if (pronunciationInput) pronunciationInput.value = '';
+            if (meaningInput) meaningInput.value = '';
+          }
+        }
+      });
+      quizKataSelect = quizKataWrapper;
+
+      const hiddenInput = quizKataWrapper.querySelector('.guru-search-select-value');
+      if (hiddenInput) {
+        hiddenInput.addEventListener('change', () => {
+          const val = hiddenInput.value;
+          const quizTypeContainer = root.querySelector('#quiz-type-container');
+          const quizTypeSelect = root.querySelector('[data-quiz-type]');
+          if (quizTypeContainer) {
+            quizTypeContainer.style.display = val ? 'flex' : 'none';
+          }
+          if (!val && quizTypeSelect) {
+            quizTypeSelect.value = '';
+          }
           triggerAutoQuizGeneration();
         });
       }
+    }
 
-      if (quizQuestionTypeSelect) {
-        quizQuestionTypeSelect.addEventListener('change', renderStepFields);
-      }
+    if (quizTypeSelect) {
+      quizTypeSelect.addEventListener('change', () => {
+        triggerAutoQuizGeneration();
+      });
+    }
+
+    if (quizQuestionTypeSelect) {
+      quizQuestionTypeSelect.addEventListener('change', () => {
+        if (quizCharacterSelect) quizCharacterSelect.setValue('', '');
+        if (quizKataSelect) quizKataSelect.setValue('', '');
+        if (quizTypeSelect) quizTypeSelect.value = '';
+        renderStepFields();
+      });
     }
 
     const escapeHtml = (value) => String(value ?? '')
@@ -716,17 +834,47 @@ export default function initQuestionsModule() {
           fields.style.display = fields.getAttribute('data-quiz-question-fields') === quizQuestionType ? 'block' : 'none';
         });
 
-        // Hide multiple choice inputs (question query, choices) when question type is character (auto generated)
-        const showMultipleChoiceFields = quizQuestionType !== 'character';
+        // Hide multiple choice inputs (question query, choices) when question type is character or vocabulary (auto generated)
+        const showMultipleChoiceFields = quizQuestionType !== 'character' && quizQuestionType !== 'vocabulary';
         root.querySelectorAll('[data-quiz-fields]').forEach((fields) => {
           fields.style.display = showMultipleChoiceFields ? 'block' : 'none';
         });
 
-        // Show/hide quiz-type-container based on whether a character is selected
-        const quizCharSymbol = root.querySelector('[name="quiz_character_symbol"]')?.value || '';
+        // Update Tipe Kuis dropdown options dynamically
+        const quizTypeSelect = root.querySelector('[data-quiz-type]');
+        if (quizTypeSelect) {
+          const currentVal = quizTypeSelect.value;
+          if (quizQuestionType === 'character') {
+            quizTypeSelect.innerHTML = `
+              <option value="">-- Pilih Tipe Kuis --</option>
+              <option value="romaji_to_kana">Romaji -> Kana</option>
+              <option value="kana_to_romaji">Kana -> Romaji</option>
+            `;
+            if (['romaji_to_kana', 'kana_to_romaji'].includes(currentVal)) {
+              quizTypeSelect.value = currentVal;
+            }
+          } else if (quizQuestionType === 'vocabulary') {
+            quizTypeSelect.innerHTML = `
+              <option value="">-- Pilih Tipe Kuis --</option>
+              <option value="kata_to_meaning">Kata -> Makna</option>
+              <option value="meaning_to_kata">Makna -> Kata</option>
+            `;
+            if (['kata_to_meaning', 'meaning_to_kata'].includes(currentVal)) {
+              quizTypeSelect.value = currentVal;
+            }
+          }
+        }
+
+        // Show/hide quiz-type-container based on whether a character or vocabulary is selected
+        let hasSelection = false;
+        if (quizQuestionType === 'character') {
+          hasSelection = !!(root.querySelector('[name="quiz_character_symbol"]')?.value);
+        } else if (quizQuestionType === 'vocabulary') {
+          hasSelection = !!(root.querySelector('[name="quiz_kata_id"]')?.value);
+        }
         const quizTypeContainer = root.querySelector('#quiz-type-container');
         if (quizTypeContainer) {
-          quizTypeContainer.style.display = (quizQuestionType === 'character' && quizCharSymbol) ? 'flex' : 'none';
+          quizTypeContainer.style.display = hasSelection ? 'flex' : 'none';
         }
       }
     };
@@ -847,6 +995,9 @@ export default function initQuestionsModule() {
       if (quizCharacterSelect) {
         quizCharacterSelect.setValue('', '');
       }
+      if (quizKataSelect) {
+        quizKataSelect.setValue('', '');
+      }
 
       if (vocabSearchSection) vocabSearchSection.style.display = 'flex';
       if (vocabManualSection) vocabManualSection.style.display = 'none';
@@ -904,19 +1055,41 @@ export default function initQuestionsModule() {
           stepForm.elements.quiz_option_3.value = step.quiz_options?.[3] || '';
           stepForm.elements.quiz_correct_index.value = String(step.quiz_correct_index ?? 0);
 
+          const qType = step.quiz_question_type || 'character';
           if (stepForm.elements.quiz_question_type) {
-            stepForm.elements.quiz_question_type.value = 'character';
+            stepForm.elements.quiz_question_type.value = qType;
           }
-          if (quizCharacterSelect) {
-            quizCharacterSelect.setValue(step.character_symbol || '', step.character_pronunciation || '');
+
+          if (qType === 'character') {
+            if (quizCharacterSelect) {
+              quizCharacterSelect.setValue(step.character_symbol || '', step.character_pronunciation || '');
+            }
+          } else if (qType === 'vocabulary') {
+            if (quizKataSelect) {
+              quizKataSelect.setValue(step.quiz_kata_id || '', `${step.character_symbol || ''} (${step.character_pronunciation || ''})`);
+            }
+            const symbolInput = root.querySelector('#quiz-kata-symbol');
+            const pronunciationInput = root.querySelector('#quiz-kata-pronunciation');
+            const meaningInput = root.querySelector('#quiz-kata-meaning');
+            if (symbolInput) symbolInput.value = step.character_symbol || '';
+            if (pronunciationInput) pronunciationInput.value = step.character_pronunciation || '';
+            if (meaningInput) meaningInput.value = step.quiz_kata_meaning || '';
           }
 
           let detectedQuizType = '';
-          if (step.character_symbol && step.character_pronunciation) {
-            if (step.quiz_query === step.character_pronunciation) {
-              detectedQuizType = 'romaji_to_kana';
-            } else if (step.quiz_query === step.character_symbol) {
-              detectedQuizType = 'kana_to_romaji';
+          if (step.character_symbol) {
+            if (qType === 'character') {
+              if (step.quiz_query === step.character_pronunciation) {
+                detectedQuizType = 'romaji_to_kana';
+              } else if (step.quiz_query === step.character_symbol) {
+                detectedQuizType = 'kana_to_romaji';
+              }
+            } else if (qType === 'vocabulary') {
+              if (step.quiz_query === step.character_symbol) {
+                detectedQuizType = 'kata_to_meaning';
+              } else {
+                detectedQuizType = 'meaning_to_kata';
+              }
             }
           }
           if (stepForm.elements.quiz_type) {

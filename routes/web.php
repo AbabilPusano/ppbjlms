@@ -133,6 +133,7 @@ Route::middleware(['auth', 'role:guru,admin'])->group(function (): void {
         // Node Steps API routes
         Route::get('/steps/check-character', [GuruStepApiController::class, 'checkCharacter'])->name('steps.check-character');
         Route::get('/nodes/{node}/available-quiz-characters', [GuruStepApiController::class, 'availableQuizCharacters'])->name('nodes.available-quiz-characters');
+        Route::get('/nodes/{node}/available-quiz-words', [GuruStepApiController::class, 'availableQuizWords'])->name('nodes.available-quiz-words');
         Route::get('/nodes/{node}/steps', [GuruStepApiController::class, 'index'])->name('steps.index');
         Route::post('/nodes/{node}/import-steps', [GuruStepApiController::class, 'importSteps'])->name('nodes.import-steps');
         Route::post('/steps', [GuruStepApiController::class, 'store'])->name('steps.store');

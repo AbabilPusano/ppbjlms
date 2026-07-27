@@ -60,6 +60,25 @@ class GuruStepApiController extends Controller
         ]);
     }
 
+    public function availableQuizWords(Node $node): JsonResponse
+    {
+        $nodeIds = Node::where('unitId', $node->unitId)
+            ->where('order', '<=', $node->order)
+            ->pluck('id');
+
+        $words = NodeStep::whereIn('node_id', $nodeIds)
+            ->where('type', 'vocabulary')
+            ->whereNotNull('character_symbol')
+            ->where('character_symbol', '!=', '')
+            ->get(['character_symbol', 'character_pronunciation', 'content'])
+            ->unique('character_symbol')
+            ->values();
+
+        return response()->json([
+            'words' => $words
+        ]);
+    }
+
     public function index(Node $node): JsonResponse
     {
         $steps = $node->steps()
@@ -307,6 +326,13 @@ class GuruStepApiController extends Controller
             $serialized['tipe_kata'] = $kataRecord?->tipe_kata;
             $serialized['deskripsi'] = $kataRecord?->deskripsi;
             $serialized['level'] = $kataRecord?->level;
+        }
+
+        if ($step->type === 'quiz') {
+            $kataRecord = \App\Models\Kata::where('kata', $step->character_symbol)->first();
+            $serialized['quiz_question_type'] = $kataRecord ? 'vocabulary' : 'character';
+            $serialized['quiz_kata_id'] = $kataRecord?->id;
+            $serialized['quiz_kata_meaning'] = $kataRecord?->arti;
         }
 
         return $serialized;

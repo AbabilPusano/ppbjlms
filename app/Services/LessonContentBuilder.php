@@ -7,6 +7,29 @@ use Illuminate\Support\Collection;
 
 class LessonContentBuilder
 {
+    public static function getStudiedKanjis(int|string $userId): array
+    {
+        $completedNodeIds = \App\Models\UserProgress::where('userId', $userId)
+            ->where('status', 'completed')
+            ->pluck('nodeId');
+
+        $vocabSymbols = \App\Models\NodeStep::whereIn('node_id', $completedNodeIds)
+            ->where('type', 'vocabulary')
+            ->pluck('character_symbol')
+            ->toArray();
+
+        $kanjisFromVocab = \App\Models\Kanji::whereHas('katasMany', function ($q) use ($vocabSymbols) {
+            $q->whereIn('kata', $vocabSymbols);
+        })->pluck('kanji')->toArray();
+
+        $kanjisFromCharSteps = \App\Models\NodeStep::whereIn('node_id', $completedNodeIds)
+            ->where('type', 'character')
+            ->pluck('character_symbol')
+            ->toArray();
+
+        return array_unique(array_merge($kanjisFromVocab, $kanjisFromCharSteps));
+    }
+
     /**
      * Build the lesson player payload from the authoring data for a node.
      *
@@ -66,11 +89,48 @@ class LessonContentBuilder
                         ];
                     })->all();
 
+                    $quizQuery = $step->quiz_query;
+                    $quizInstruction = $step->quiz_instruction;
+
+                    $kata = \App\Models\Kata::with('kanjis')->where('kata', $step->character_symbol)->first();
+                    if ($kata) {
+                        $user = auth()->user();
+                        $studiedKanjis = $user ? self::getStudiedKanjis($user->id) : [];
+
+                        $associatedKanjis = $kata->kanjis->pluck('kanji')->toArray();
+                        $allStudied = collect($associatedKanjis)->every(fn($k) => in_array($k, $studiedKanjis));
+
+                        if (!$allStudied) {
+                            if ($quizQuery === $kata->kata) {
+                                $quizQuery = $kata->kana;
+                            }
+                        }
+
+                        $options = collect($step->quiz_options)->map(function ($option, $index) use ($step, $studiedKanjis): array {
+                            $displayText = $option;
+                            $optKata = \App\Models\Kata::with('kanjis')->where('kata', $option)->first();
+                            if ($optKata) {
+                                $optKanjis = $optKata->kanjis->pluck('kanji')->toArray();
+                                $optAllStudied = collect($optKanjis)->every(fn($k) => in_array($k, $studiedKanjis));
+                                if (!$optAllStudied) {
+                                    $displayText = $optKata->kana;
+                                }
+                            }
+                            return [
+                                'id' => $index + 1,
+                                'text' => $displayText,
+                                'sub' => '',
+                                'image' => '',
+                                'correct' => $index === $step->quiz_correct_index,
+                            ];
+                        })->all();
+                    }
+
                     return [
                         'type' => 'select-image',
-                        'question' => $step->quiz_query,
-                        'instruction' => $step->quiz_instruction,
-                        'answer' => $step->quiz_options[$step->quiz_correct_index] ?? '',
+                        'question' => $quizQuery,
+                        'instruction' => $quizInstruction,
+                        'answer' => $options[$step->quiz_correct_index]['text'] ?? '',
                         'options' => $options,
                     ];
                 }
