@@ -310,6 +310,11 @@ export default function initMaterialsModule() {
         openModal(importModal);
       }
 
+      const exportBtn = target.closest('[data-export-unit]');
+      if (exportBtn) {
+        window.location.href = `/api/guru/units/${state.unitId}/export`;
+      }
+
       const detailButton = target.closest('[data-material-detail]');
       if (detailButton) {
         const { material, unit } = findMaterial(detailButton.getAttribute('data-material-detail'));

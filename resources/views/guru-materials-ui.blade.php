@@ -59,6 +59,10 @@
                     <span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>
                     KEMBALI KE UNIT
                 </a>
+                <button type="button" class="guru-unit-button" data-export-unit style="background-color: var(--background); border: 1px solid var(--border); color: var(--text-main); display: inline-flex; align-items: center; justify-content: center; gap: 4px;">
+                    <span class="material-symbols-outlined" aria-hidden="true">download</span>
+                    EKSPOR UNIT (JSON)
+                </button>
                 <button type="button" class="guru-unit-button" data-open-import-modal style="background-color: var(--background); border: 1px solid var(--border); color: var(--text-main); display: inline-flex; align-items: center; justify-content: center; gap: 4px;">
                     <span class="material-symbols-outlined" aria-hidden="true">upload_file</span>
                     TAMBAH BANYAK

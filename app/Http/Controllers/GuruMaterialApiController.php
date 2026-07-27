@@ -326,42 +326,55 @@ class GuruMaterialApiController extends Controller
     public function downloadTemplate(): \Symfony\Component\HttpFoundation\Response
     {
         $template = [
-            [
-                "title" => "Hanya Node Tanpa Isi"
-            ],
-            [
-                "title" => "Node dengan 1 Isi",
-                "steps" => [
-                    [
-                        "type" => "text",
-                        "content" => "Ini adalah isi teks pengantar."
+            "title" => "Contoh Unit Baru",
+            "description" => "Deskripsi Unit Baru",
+            "category_japanese" => "あいうえお",
+            "category_romaji" => "aiueo",
+            "materials" => [
+                [
+                    "title" => "Hanya Node Tanpa Isi",
+                    "type" => "lesson",
+                    "order" => 1,
+                    "steps" => []
+                ],
+                [
+                    "title" => "Node dengan 1 Isi",
+                    "type" => "lesson",
+                    "order" => 2,
+                    "steps" => [
+                        [
+                            "type" => "text",
+                            "content" => "Ini adalah isi teks pengantar."
+                        ]
                     ]
-                ]
-            ],
-            [
-                "title" => "Node dengan 4 Isi Berbeda",
-                "steps" => [
-                    [
-                        "type" => "text",
-                        "content" => "Pengantar belajar hiragana あ."
-                    ],
-                    [
-                        "type" => "character",
-                        "character_symbol" => "あ",
-                        "character_pronunciation" => "a"
-                    ],
-                    [
-                        "type" => "vocabulary",
-                        "character_symbol" => "食べる",
-                        "character_pronunciation" => "taberu",
-                        "content" => "Makan"
-                    ],
-                    [
-                        "type" => "quiz",
-                        "quiz_instruction" => "PILIH JAWABAN YANG BENAR",
-                        "quiz_query" => "a",
-                        "quiz_options" => ["a", "i", "u", "e"],
-                        "quiz_correct_index" => 0
+                ],
+                [
+                    "title" => "Node dengan 4 Isi Berbeda",
+                    "type" => "lesson",
+                    "order" => 3,
+                    "steps" => [
+                        [
+                            "type" => "text",
+                            "content" => "Pengantar belajar hiragana あ."
+                        ],
+                        [
+                            "type" => "character",
+                            "character_symbol" => "あ",
+                            "character_pronunciation" => "a"
+                        ],
+                        [
+                            "type" => "vocabulary",
+                            "character_symbol" => "食べる",
+                            "character_pronunciation" => "taberu",
+                            "content" => "Makan"
+                        ],
+                        [
+                            "type" => "quiz",
+                            "quiz_instruction" => "PILIH JAWABAN YANG BENAR",
+                            "quiz_query" => "a",
+                            "quiz_options" => ["a", "i", "u", "e"],
+                            "quiz_correct_index" => 0
+                        ]
                     ]
                 ]
             ]
@@ -369,6 +382,45 @@ class GuruMaterialApiController extends Controller
 
         return response()->json($template, 200, [
             'Content-Disposition' => 'attachment; filename="template-isi-unit.json"'
+        ], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+    }
+
+    public function export(Unit $unit): \Symfony\Component\HttpFoundation\Response
+    {
+        $unit->load(['nodes' => function ($query) {
+            $query->orderBy('order')->with(['steps' => function ($q) {
+                $q->orderBy('sort_order');
+            }]);
+        }]);
+
+        $exportedData = [
+            'title' => $unit->title,
+            'description' => $unit->description,
+            'category_japanese' => $unit->category_japanese,
+            'category_romaji' => $unit->category_romaji,
+            'materials' => $unit->nodes->map(fn (Node $node): array => [
+                'title' => $node->title,
+                'type' => $node->type,
+                'order' => $node->order,
+                'steps' => $node->steps->map(fn (NodeStep $step): array => [
+                    'type' => $step->type,
+                    'content' => $step->content,
+                    'character_symbol' => $step->character_symbol,
+                    'character_pronunciation' => $step->character_pronunciation,
+                    'quiz_instruction' => $step->quiz_instruction,
+                    'quiz_query' => $step->quiz_query,
+                    'quiz_options' => $step->quiz_options,
+                    'quiz_correct_index' => $step->quiz_correct_index,
+                    'sort_order' => $step->sort_order,
+                ])->toArray(),
+            ])->toArray(),
+        ];
+
+        $safeTitle = Str::slug($unit->title);
+        $filename = "export-unit-{$safeTitle}.json";
+
+        return response()->json($exportedData, 200, [
+            'Content-Disposition' => "attachment; filename=\"{$filename}\""
         ], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
     }
 
@@ -383,28 +435,39 @@ class GuruMaterialApiController extends Controller
         $data = json_decode($content, true);
 
         if (!is_array($data)) {
-            return response()->json(['message' => 'Format file JSON tidak valid. Harus berupa array.'], 422);
+            return response()->json(['message' => 'Format file JSON tidak valid. Harus berupa array atau object.'], 422);
         }
 
         try {
             DB::transaction(function () use ($data, $unit) {
-                foreach ($data as $nodeData) {
+                $materialsData = [];
+                if (isset($data['materials']) && is_array($data['materials'])) {
+                    $materialsData = $data['materials'];
+                    $unit->update([
+                        'title' => $data['title'] ?? $unit->title,
+                        'description' => $data['description'] ?? $unit->description,
+                        'category_japanese' => $data['category_japanese'] ?? $unit->category_japanese,
+                        'category_romaji' => $data['category_romaji'] ?? $unit->category_romaji,
+                    ]);
+                } else {
+                    $materialsData = $data;
+                }
+
+                foreach ($materialsData as $nodeData) {
                     if (empty($nodeData['title'])) {
                         throw new \InvalidArgumentException('Setiap node wajib memiliki judul ("title").');
                     }
 
-                    // Get next sort order for nodes (materials)
                     $nextMaterialOrder = ((int) Node::query()->where('unitId', $unit->id)->max('order')) + 1;
 
                     $node = Node::query()->create([
                         'id' => (string) Str::ulid(),
                         'unitId' => $unit->id,
                         'title' => $nodeData['title'],
-                        'type' => 'lesson',
-                        'order' => $nextMaterialOrder,
+                        'type' => $nodeData['type'] ?? 'lesson',
+                        'order' => $nodeData['order'] ?? $nextMaterialOrder,
                     ]);
 
-                    // Create steps if present
                     if (isset($nodeData['steps']) && is_array($nodeData['steps'])) {
                         foreach ($nodeData['steps'] as $idx => $stepData) {
                             if (empty($stepData['type']) || !in_array($stepData['type'], ['text', 'character', 'quiz', 'vocabulary'])) {
@@ -415,16 +478,15 @@ class GuruMaterialApiController extends Controller
                                 $symbol = trim($stepData['character_symbol'] ?? '');
                                 $reading = trim($stepData['character_pronunciation'] ?? '');
                                 if ($symbol) {
-                                    if (\App\Models\Huruf::where('simbol', $symbol)->exists()) {
-                                        throw new \InvalidArgumentException("Huruf dengan simbol '{$symbol}' sudah ada di database referensi.");
+                                    if (!\App\Models\Huruf::where('simbol', $symbol)->exists()) {
+                                        $tipe = preg_match('/[\x{30A0}-\x{30FF}]/u', $symbol) ? 'katakana' : 'hiragana';
+                                        \App\Models\Huruf::create([
+                                            'id' => (string) Str::uuid(),
+                                            'tipe' => $tipe,
+                                            'simbol' => $symbol,
+                                            'cara_baca' => $reading,
+                                        ]);
                                     }
-                                    $tipe = preg_match('/[\x{30A0}-\x{30FF}]/u', $symbol) ? 'katakana' : 'hiragana';
-                                    \App\Models\Huruf::create([
-                                        'id' => (string) Str::uuid(),
-                                        'tipe' => $tipe,
-                                        'simbol' => $symbol,
-                                        'cara_baca' => $reading,
-                                    ]);
                                 }
                             }
 
@@ -433,15 +495,14 @@ class GuruMaterialApiController extends Controller
                                 $reading = trim($stepData['character_pronunciation'] ?? '');
                                 $meaning = trim($stepData['content'] ?? '');
                                 if ($kata) {
-                                    if (\App\Models\Kata::where('kata', $kata)->exists()) {
-                                        throw new \InvalidArgumentException("Kata '{$kata}' sudah ada di database referensi.");
+                                    if (!\App\Models\Kata::where('kata', $kata)->exists()) {
+                                        \App\Models\Kata::create([
+                                            'id' => (string) Str::uuid(),
+                                            'kata' => $kata,
+                                            'romaji' => $reading,
+                                            'arti' => $meaning,
+                                        ]);
                                     }
-                                    \App\Models\Kata::create([
-                                        'id' => (string) Str::uuid(),
-                                        'kata' => $kata,
-                                        'romaji' => $reading,
-                                        'arti' => $meaning,
-                                    ]);
                                 }
                             }
 
@@ -456,7 +517,7 @@ class GuruMaterialApiController extends Controller
                                 'quiz_query' => $stepData['quiz_query'] ?? null,
                                 'quiz_options' => $stepData['quiz_options'] ?? null,
                                 'quiz_correct_index' => isset($stepData['quiz_correct_index']) ? (int)$stepData['quiz_correct_index'] : null,
-                                'sort_order' => $idx + 1,
+                                'sort_order' => $stepData['sort_order'] ?? ($idx + 1),
                             ]);
                         }
                     }

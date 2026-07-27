@@ -119,6 +119,7 @@ Route::middleware(['auth', 'role:guru,admin'])->group(function (): void {
         Route::delete('/units/{unit}', [GuruUnitApiController::class, 'destroy'])->name('units.destroy');
         Route::patch('/units/reorder', [GuruUnitApiController::class, 'reorder'])->name('units.reorder');
         Route::post('/units/{unit}/import', [GuruMaterialApiController::class, 'import'])->name('units.import');
+        Route::get('/units/{unit}/export', [GuruMaterialApiController::class, 'export'])->name('units.export');
         Route::get('/levels/{level}/materials', [GuruMaterialApiController::class, 'materials'])->name('levels.materials.index');
         Route::post('/materials', [GuruMaterialApiController::class, 'storeMaterial'])->name('materials.store');
         Route::put('/materials/{material}', [GuruMaterialApiController::class, 'updateMaterial'])->name('materials.update');
