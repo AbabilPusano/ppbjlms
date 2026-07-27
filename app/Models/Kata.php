@@ -21,6 +21,11 @@ class Kata extends Model
         return $this->belongsTo(Kanji::class, 'kanji_id');
     }
 
+    public function kanjis(): BelongsToMany
+    {
+        return $this->belongsToMany(Kanji::class, 'kata_kanji', 'kata_id', 'kanji_id')->withTimestamps();
+    }
+
     public function kalimats(): BelongsToMany
     {
         return $this->belongsToMany(Kalimat::class, 'kalimat_kata', 'kata_id', 'kalimat_id');

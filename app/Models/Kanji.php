@@ -19,4 +19,9 @@ class Kanji extends Model
     {
         return $this->hasMany(Kata::class, 'kanji_id');
     }
+
+    public function katasMany(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Kata::class, 'kata_kanji', 'kanji_id', 'kata_id')->withTimestamps();
+    }
 }

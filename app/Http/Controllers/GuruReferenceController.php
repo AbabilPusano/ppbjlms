@@ -44,7 +44,7 @@ class GuruReferenceController extends Controller
                 ->paginate(30)
                 ->withQueryString();
         } elseif ($tab === 'kata') {
-            $katas = Kata::with('kanji')
+            $katas = Kata::with(['kanji', 'kanjis'])
                 ->when($selectedLevel, fn ($query, $level) => $query->where('level', $level))
                 ->when($search !== '', function ($query) use ($search) {
                     $query->where(function ($kataQuery) use ($search) {
@@ -184,23 +184,34 @@ class GuruReferenceController extends Controller
             'kana' => ['nullable', 'string', 'max:191'],
             'romaji' => ['required', 'string', 'max:191'],
             'arti' => ['required', 'string', 'max:191'],
-            'kanji_id' => ['nullable', 'string', 'exists:kanjis,id'],
+            'kanji_id' => ['nullable', 'string'],
             'deskripsi' => ['nullable', 'string'],
             'tipe_kata' => ['nullable', 'string', 'max:191'],
             'level' => ['nullable', 'string', 'in:N5,N4,N3,N2,N1'],
         ]);
 
-        Kata::create([
+        $kanjiIds = [];
+        if (!empty($validated['kanji_id'])) {
+            $kanjiIds = array_filter(explode(',', $validated['kanji_id']));
+        }
+
+        $firstKanjiId = count($kanjiIds) > 0 ? $kanjiIds[0] : null;
+
+        $kata = Kata::create([
             'id' => (string) Str::uuid(),
             'kata' => $validated['kata'],
             'kana' => $validated['kana'],
             'romaji' => $validated['romaji'],
             'arti' => $validated['arti'],
-            'kanji_id' => $validated['kanji_id'],
+            'kanji_id' => $firstKanjiId,
             'deskripsi' => $validated['deskripsi'],
             'tipe_kata' => $validated['tipe_kata'],
             'level' => $validated['level'],
         ]);
+
+        if (count($kanjiIds) > 0) {
+            $kata->kanjis()->sync($kanjiIds);
+        }
 
         return redirect()->route('guru.referensi.index', ['tab' => 'kata'])
             ->with('status', 'success')
@@ -214,13 +225,31 @@ class GuruReferenceController extends Controller
             'kana' => ['nullable', 'string', 'max:191'],
             'romaji' => ['required', 'string', 'max:191'],
             'arti' => ['required', 'string', 'max:191'],
-            'kanji_id' => ['nullable', 'string', 'exists:kanjis,id'],
+            'kanji_id' => ['nullable', 'string'],
             'deskripsi' => ['nullable', 'string'],
             'tipe_kata' => ['nullable', 'string', 'max:191'],
             'level' => ['nullable', 'string', 'in:N5,N4,N3,N2,N1'],
         ]);
 
-        $kata->update($validated);
+        $kanjiIds = [];
+        if (!empty($validated['kanji_id'])) {
+            $kanjiIds = array_filter(explode(',', $validated['kanji_id']));
+        }
+
+        $firstKanjiId = count($kanjiIds) > 0 ? $kanjiIds[0] : null;
+
+        $kata->update([
+            'kata' => $validated['kata'],
+            'kana' => $validated['kana'],
+            'romaji' => $validated['romaji'],
+            'arti' => $validated['arti'],
+            'kanji_id' => $firstKanjiId,
+            'deskripsi' => $validated['deskripsi'],
+            'tipe_kata' => $validated['tipe_kata'],
+            'level' => $validated['level'],
+        ]);
+
+        $kata->kanjis()->sync($kanjiIds);
 
         return redirect()->route('guru.referensi.index', ['tab' => 'kata'])
             ->with('status', 'success')
@@ -408,7 +437,7 @@ class GuruReferenceController extends Controller
     public function searchKata(Request $request): JsonResponse
     {
         $search = $request->query('q');
-        $query = Kata::with('kanji')->orderBy('kata');
+        $query = Kata::with('kanjis')->orderBy('kata');
 
         if (! empty($search)) {
             $query->where(function ($q) use ($search) {
@@ -424,10 +453,11 @@ class GuruReferenceController extends Controller
             'results' => collect($paginator->items())->map(fn ($k) => [
                 'id' => $k->id,
                 'kata' => $k->kata,
+                'kana' => $k->kana,
                 'romaji' => $k->romaji,
                 'arti' => $k->arti,
-                'kanji_id' => $k->kanji_id,
-                'kanji_text' => $k->kanji ? $k->kanji->kanji : null,
+                'kanji_id' => $k->kanjis->pluck('id')->join(','),
+                'kanji_text' => $k->kanjis->map(fn($kj) => "{$kj->kanji} ({$kj->makna})")->join(', '),
                 'tipe_kata' => $k->tipe_kata,
                 'level' => $k->level,
                 'deskripsi' => $k->deskripsi,

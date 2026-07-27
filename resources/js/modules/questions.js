@@ -15,6 +15,91 @@ export default function initQuestionsModule() {
     let query = '';
     let selectedId = hiddenInput.value || '';
     let selectedText = '';
+    let selectedItems = []; // For multiple selection: array of objects {id, text}
+
+    let tagsContainer = null;
+    if (config.multiple) {
+      // Ensure control has wrapping styles
+      const control = wrapper.querySelector('.guru-search-select-control');
+      if (control) {
+        control.style.display = 'flex';
+        control.style.flexWrap = 'wrap';
+        control.style.alignItems = 'center';
+        control.style.gap = '4px';
+        control.style.padding = '4px 8px';
+        control.style.minHeight = '42px';
+        control.style.border = '1px solid #d6d0c5';
+        control.style.borderRadius = '6px';
+        control.style.background = '#fff';
+      }
+      
+      // Make input auto-width and adjust margin
+      if (searchInput) {
+        searchInput.style.width = 'auto';
+        searchInput.style.flex = '1';
+        searchInput.style.minWidth = '60px';
+        searchInput.style.padding = '4px 0';
+        searchInput.style.margin = '0';
+      }
+      
+      // Create tags container
+      tagsContainer = document.createElement('div');
+      tagsContainer.className = 'guru-search-select-tags';
+      tagsContainer.style.display = 'flex';
+      tagsContainer.style.flexWrap = 'wrap';
+      tagsContainer.style.gap = '4px';
+      if (control) {
+        control.insertBefore(tagsContainer, searchInput);
+      }
+    }
+
+    const updateMultipleDisplay = () => {
+      if (!tagsContainer) return;
+      tagsContainer.innerHTML = '';
+      const ids = selectedItems.map(item => item.id);
+      hiddenInput.value = ids.join(',');
+      
+      selectedItems.forEach(item => {
+        const tag = document.createElement('div');
+        tag.className = 'guru-search-select-tag';
+        tag.style.background = '#fef2f2';
+        tag.style.border = '1px solid #fecaca';
+        tag.style.borderRadius = '4px';
+        tag.style.padding = '2px 6px';
+        tag.style.fontSize = '12px';
+        tag.style.display = 'inline-flex';
+        tag.style.alignItems = 'center';
+        tag.style.gap = '4px';
+        tag.style.color = '#b91c1c';
+        tag.style.fontWeight = 'bold';
+        
+        // Just show the kanji character
+        const cleanText = item.text.split(' ')[0];
+        tag.innerHTML = `
+          <span style="font-family: var(--font-jp); font-size: 14px;">${cleanText}</span>
+          <span class="guru-search-select-tag-remove" style="cursor: pointer; font-weight: bold; color: #b91c1c; font-size: 14px; line-height: 1;">&times;</span>
+        `;
+        
+        tag.querySelector('.guru-search-select-tag-remove').addEventListener('click', (e) => {
+          e.stopPropagation();
+          selectedItems = selectedItems.filter(x => x.id !== item.id);
+          updateMultipleDisplay();
+          hiddenInput.dispatchEvent(new Event('change', { bubbles: true }));
+          
+          optionsContainer.querySelectorAll('.guru-search-select-option').forEach(opt => {
+            opt.classList.toggle('is-selected', selectedItems.some(x => x.id === opt.getAttribute('data-id')));
+          });
+        });
+        
+        tagsContainer.appendChild(tag);
+      });
+
+      if (selectedItems.length > 0) {
+        searchInput.placeholder = '';
+      } else {
+        searchInput.placeholder = config.placeholder || 'Cari...';
+      }
+    };
 
     const fetchItems = async (reset = false) => {
       if (isLoading) return;
@@ -36,15 +121,31 @@ export default function initQuestionsModule() {
         data.results.forEach(item => {
           const mapped = config.mapItem(item);
           const div = document.createElement('div');
-          div.className = `guru-search-select-option ${mapped.id === selectedId ? 'is-selected' : ''}`;
+          const isSelected = config.multiple 
+            ? selectedItems.some(x => x.id === mapped.id)
+            : mapped.id === selectedId;
+          div.className = `guru-search-select-option ${isSelected ? 'is-selected' : ''}`;
           div.setAttribute('data-id', mapped.id);
           div.setAttribute('data-text', mapped.text);
           div.innerHTML = mapped.html;
           div.addEventListener('mousedown', (e) => {
             e.preventDefault();
             e.stopPropagation();
-            selectItem(mapped.id, mapped.text, item);
-            closeDropdown();
+            if (config.multiple) {
+              const exists = selectedItems.some(x => x.id === mapped.id);
+              if (exists) {
+                selectedItems = selectedItems.filter(x => x.id !== mapped.id);
+              } else {
+                selectedItems.push({ id: mapped.id, text: mapped.text });
+              }
+              updateMultipleDisplay();
+              hiddenInput.dispatchEvent(new Event('change', { bubbles: true }));
+              div.classList.toggle('is-selected', !exists);
+              searchInput.value = '';
+            } else {
+              selectItem(mapped.id, mapped.text, item);
+              closeDropdown();
+            }
           });
           optionsContainer.appendChild(div);
         });
@@ -78,7 +179,41 @@ export default function initQuestionsModule() {
     };
 
     wrapper.setValue = (id, text, item = null) => {
-      selectItem(id, text, item);
+      if (config.multiple) {
+        if (!id) {
+          selectedItems = [];
+          updateMultipleDisplay();
+        } else {
+          const ids = String(id).split(',');
+          const texts = String(text || '').split(', ');
+          selectedItems = ids.map((idVal, idx) => ({
+            id: idVal,
+            text: texts[idx] || idVal
+          }));
+          updateMultipleDisplay();
+        }
+      } else {
+        selectItem(id, text, item);
+      }
+    };
+
+    // Helper to add single item programmatically (for auto-fill)
+    wrapper.addValue = (id, text) => {
+      if (config.multiple) {
+        const exists = selectedItems.some(x => x.id === id);
+        if (!exists) {
+          selectedItems.push({ id, text });
+          updateMultipleDisplay();
+          hiddenInput.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+      } else {
+        selectItem(id, text);
+      }
+    };
+
+    // Helper to get selected list
+    wrapper.getValues = () => {
+      return config.multiple ? selectedItems : (selectedId ? [{ id: selectedId, text: selectedText }] : []);
     };
 
     const openDropdown = () => {
@@ -90,7 +225,11 @@ export default function initQuestionsModule() {
 
     const closeDropdown = () => {
       dropdown.style.display = 'none';
-      searchInput.value = selectedId ? selectedText : '';
+      if (!config.multiple) {
+        searchInput.value = selectedId ? selectedText : '';
+      } else {
+        searchInput.value = '';
+      }
       searchInput.blur();
     };
 
@@ -135,6 +274,29 @@ export default function initQuestionsModule() {
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
     const dragAutoScroller = createDragAutoScroller();
     const nodeId = root.getAttribute('data-material-id');
+
+    const titleNode = root.querySelector('[data-question-title]');
+    const subtitleNode = root.querySelector('[data-question-subtitle]');
+    const loadingNode = root.querySelector('[data-questions-loading]');
+    const errorNode = root.querySelector('[data-questions-error]');
+    const errorMessageNode = root.querySelector('[data-questions-error-message]');
+    const emptyNode = root.querySelector('[data-questions-empty]');
+    const listNode = root.querySelector('[data-question-list]');
+    const stepModal = root.querySelector('[data-question-modal]');
+    const stepForm = root.querySelector('[data-question-form]');
+    const stepIdInput = root.querySelector('[data-question-id]');
+    const stepTypeSelect = root.querySelector('[data-question-type]');
+    const quizTypeSelect = root.querySelector('[data-quiz-type]');
+    const stepModalTitle = root.querySelector('[data-question-modal-title]');
+    const stepFormError = root.querySelector('[data-question-form-error]');
+    const importModal = root.querySelector('[data-step-import-modal]');
+    const importForm = root.querySelector('[data-step-import-form]');
+    const importFormError = root.querySelector('[data-step-import-error]');
+    const deleteSelectedBtn = root.querySelector('[data-delete-selected]');
+    const selectedCountSpan = root.querySelector('[data-selected-count]');
+    const selectAllContainer = root.querySelector('[data-select-all-container]');
+    const selectAllCheckbox = root.querySelector('#select-all-steps');
+
     const state = {
       node: null,
       steps: [],
@@ -150,7 +312,8 @@ export default function initQuestionsModule() {
           text: `${item.kanji} (${item.makna})`,
           html: `<strong style="font-family: var(--font-jp); font-size: 16px;">${item.kanji}</strong> <span style="color: #667085; font-size: 12px;">${item.makna}</span>`
         }),
-        placeholder: 'Cari Kanji (Karakter / Makna)...'
+        placeholder: 'Cari Kanji (Karakter / Makna)...',
+        multiple: true
       });
       stepKanjiSelect = kanjiWrapper;
     }
@@ -193,6 +356,91 @@ export default function initQuestionsModule() {
         }
       });
       stepKataSelect = kataWrapper;
+    }
+
+    function extractKanjis(text) {
+      const kanjiRegex = /[\u3005\u4e00-\u9faf]/g;
+      const matches = text.match(kanjiRegex);
+      return matches ? Array.from(new Set(matches)) : [];
+    }
+
+    if (stepForm && stepForm.elements.vocab_kata) {
+      const warningContainer = root.querySelector('#step-kanji-warning');
+      stepForm.elements.vocab_kata.addEventListener('input', async () => {
+        const val = stepForm.elements.vocab_kata.value || '';
+        const kanjis = extractKanjis(val);
+
+        // Remove selected kanjis that are no longer in the input field
+        if (stepKanjiSelect) {
+          const currentSelected = stepKanjiSelect.getValues();
+          const filtered = currentSelected.filter(item => {
+            const char = item.text.split(' ')[0];
+            return kanjis.includes(char);
+          });
+          if (filtered.length !== currentSelected.length) {
+            stepKanjiSelect.setValue(
+              filtered.map(x => x.id).join(','),
+              filtered.map(x => x.text).join(', ')
+            );
+          }
+        }
+
+        // Clean up warnings for kanjis that are no longer in the input
+        if (warningContainer) {
+          warningContainer.querySelectorAll('.kanji-warning-link').forEach(link => {
+            const char = link.getAttribute('data-kanji');
+            if (!kanjis.includes(char)) {
+              link.remove();
+            }
+          });
+        }
+
+        if (kanjis.length === 0) return;
+
+        for (const char of kanjis) {
+          // If warning is already displayed, skip
+          if (warningContainer && warningContainer.querySelector(`[data-kanji="${char}"]`)) {
+            continue;
+          }
+          // If already selected, skip
+          if (stepKanjiSelect && stepKanjiSelect.getValues().some(x => x.text.startsWith(char))) {
+            continue;
+          }
+
+          try {
+            const res = await fetch(`/api/guru/kanjis/search?q=${encodeURIComponent(char)}`);
+            const data = await res.json();
+            
+            // Double check if user changed input while fetching
+            if (!stepForm.elements.vocab_kata.value.includes(char)) {
+              continue;
+            }
+
+            const found = data.results.find(item => item.kanji === char);
+            if (found) {
+              if (stepKanjiSelect) {
+                stepKanjiSelect.addValue(found.id, `${found.kanji} (${found.makna})`);
+              }
+            } else {
+              if (warningContainer && !warningContainer.querySelector(`[data-kanji="${char}"]`)) {
+                const warningLink = document.createElement('a');
+                warningLink.href = `/guru/referensi?tab=kanji&add=1&kanji=${encodeURIComponent(char)}`;
+                warningLink.target = '_blank';
+                warningLink.className = 'kanji-warning-link';
+                warningLink.setAttribute('data-kanji', char);
+                warningLink.style.color = '#ef4444';
+                warningLink.style.textDecoration = 'underline';
+                warningLink.style.cursor = 'pointer';
+                warningLink.style.fontWeight = 'bold';
+                warningLink.textContent = `Kanji "${char}" belum ada di database, klik untuk menambahkan`;
+                warningContainer.appendChild(warningLink);
+              }
+            }
+          } catch (e) {
+            console.error(e);
+          }
+        }
+      });
     }
 
     if (vocabBtnCreateNew) {
@@ -411,28 +659,6 @@ export default function initQuestionsModule() {
         quizQuestionTypeSelect.addEventListener('change', renderStepFields);
       }
     }
-
-    const titleNode = root.querySelector('[data-question-title]');
-    const subtitleNode = root.querySelector('[data-question-subtitle]');
-    const loadingNode = root.querySelector('[data-questions-loading]');
-    const errorNode = root.querySelector('[data-questions-error]');
-    const errorMessageNode = root.querySelector('[data-questions-error-message]');
-    const emptyNode = root.querySelector('[data-questions-empty]');
-    const listNode = root.querySelector('[data-question-list]');
-    const stepModal = root.querySelector('[data-question-modal]');
-    const stepForm = root.querySelector('[data-question-form]');
-    const stepIdInput = root.querySelector('[data-question-id]');
-    const stepTypeSelect = root.querySelector('[data-question-type]');
-    const quizTypeSelect = root.querySelector('[data-quiz-type]');
-    const stepModalTitle = root.querySelector('[data-question-modal-title]');
-    const stepFormError = root.querySelector('[data-question-form-error]');
-    const importModal = root.querySelector('[data-step-import-modal]');
-    const importForm = root.querySelector('[data-step-import-form]');
-    const importFormError = root.querySelector('[data-step-import-error]');
-    const deleteSelectedBtn = root.querySelector('[data-delete-selected]');
-    const selectedCountSpan = root.querySelector('[data-selected-count]');
-    const selectAllContainer = root.querySelector('[data-select-all-container]');
-    const selectAllCheckbox = root.querySelector('#select-all-steps');
 
     const escapeHtml = (value) => String(value ?? '')
       .replaceAll('&', '&amp;')

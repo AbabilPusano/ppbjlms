@@ -27,17 +27,28 @@ class LessonContentBuilder
                 }
 
                 if ($step->type === 'vocabulary') {
-                    $kata = \App\Models\Kata::where('kata', $step->character_symbol)->first();
+                    $kata = \App\Models\Kata::with('kanjis')->where('kata', $step->character_symbol)->first();
                     $levelCode = $node->unit && $node->unit->level ? strtolower($node->unit->level->code) : '';
                     $isHurufLevel = ($levelCode === 'huruf');
                     $displayWord = $isHurufLevel ? ($kata?->kana ?? $step->character_symbol) : $step->character_symbol;
+
+                    $kanjiText = '';
+                    $kanjiMeaning = '';
+                    if ($kata && $kata->kanjis->isNotEmpty()) {
+                        $kanjiText = $kata->kanjis->pluck('kanji')->join(', ');
+                        $kanjiMeaning = $kata->kanjis->map(fn($k) => $k->makna)->join(', ');
+                    } elseif ($kata && $kata->kanji) {
+                        $kanjiText = $kata->kanji->kanji;
+                        $kanjiMeaning = $kata->kanji->makna;
+                    }
+
                     return [
                         'type' => 'new-vocabulary',
                         'letter' => $displayWord,
                         'reading' => $step->character_pronunciation,
                         'meaning' => $step->content,
-                        'kanji' => $kata && $kata->kanji ? $kata->kanji->kanji : '',
-                        'kanji_meaning' => $kata && $kata->kanji ? $kata->kanji->makna : '',
+                        'kanji' => $kanjiText,
+                        'kanji_meaning' => $kanjiMeaning,
                         'tipe_kata' => $kata?->tipe_kata ?? '',
                         'deskripsi' => $kata?->deskripsi ?? '',
                         'level' => $kata?->level ?? '',

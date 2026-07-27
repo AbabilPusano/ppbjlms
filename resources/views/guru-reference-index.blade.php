@@ -295,8 +295,16 @@
                                     <td><code>{{ $kt->romaji }}</code></td>
                                     <td style="font-weight: 600;">{{ $kt->arti }}</td>
                                     <td>
-                                        @if ($kt->kanji)
-                                            <span style="font-size: 16px; font-weight: bold; font-family: var(--font-jp); background: #fef2f2; border: 1px solid #fecaca; padding: 2px 6px; border-radius: 4px; color: #b91c1c;">
+                                        @if ($kt->kanjis && $kt->kanjis->isNotEmpty())
+                                            <div style="display: flex; flex-wrap: wrap; gap: 4px;">
+                                                @foreach ($kt->kanjis as $kanjiItem)
+                                                    <span style="font-size: 14px; font-weight: bold; font-family: var(--font-jp); background: #fef2f2; border: 1px solid #fecaca; padding: 2px 6px; border-radius: 4px; color: #b91c1c;">
+                                                        {{ $kanjiItem->kanji }} ({{ $kanjiItem->makna }})
+                                                    </span>
+                                                @endforeach
+                                            </div>
+                                        @elseif ($kt->kanji)
+                                            <span style="font-size: 14px; font-weight: bold; font-family: var(--font-jp); background: #fef2f2; border: 1px solid #fecaca; padding: 2px 6px; border-radius: 4px; color: #b91c1c;">
                                                 {{ $kt->kanji->kanji }} ({{ $kt->kanji->makna }})
                                             </span>
                                         @else
@@ -307,7 +315,11 @@
                                     <td><span style="font-weight: bold; color: var(--accent);">{{ $kt->level ?? '-' }}</span></td>
                                     <td class="guru-admin-table__action">
                                         <div style="display: flex; gap: 8px; justify-content: flex-end;">
-                                            <button class="guru-unit-button" style="padding: 6px 12px; font-size: 12px; border: 1px solid var(--line);" onclick="openEditKataModal('{{ $kt->id }}', '{{ addslashes($kt->kata) }}', '{{ addslashes($kt->kana) }}', '{{ addslashes($kt->romaji) }}', '{{ addslashes($kt->arti) }}', '{{ $kt->kanji_id }}', '{{ $kt->kanji ? addslashes($kt->kanji->kanji . " (" . $kt->kanji->makna . ")") : "" }}', '{{ addslashes($kt->tipe_kata) }}', '{{ addslashes($kt->deskripsi) }}', '{{ $kt->level }}')">Edit</button>
+                                            @php
+                                                $kanjiIds = $kt->kanjis->pluck('id')->join(',');
+                                                $kanjiTexts = $kt->kanjis->map(fn($k) => "{$k->kanji} ({$k->makna})")->join(', ');
+                                            @endphp
+                                            <button class="guru-unit-button" style="padding: 6px 12px; font-size: 12px; border: 1px solid var(--line);" onclick="openEditKataModal('{{ $kt->id }}', '{{ addslashes($kt->kata) }}', '{{ addslashes($kt->kana) }}', '{{ addslashes($kt->romaji) }}', '{{ addslashes($kt->arti) }}', '{{ $kanjiIds }}', '{{ addslashes($kanjiTexts) }}', '{{ addslashes($kt->tipe_kata) }}', '{{ addslashes($kt->deskripsi) }}', '{{ $kt->level }}')">Edit</button>
                                             <form action="{{ route('guru.referensi.kata.destroy', $kt) }}" method="POST" onsubmit="return confirm('Hapus kata ini?')">
                                                 @csrf @method('DELETE')
                                                 <button type="submit" class="guru-unit-button guru-unit-button--danger" style="padding: 6px 12px; font-size: 12px;">Hapus</button>
@@ -556,6 +568,7 @@
                         </div>
                         <input type="hidden" name="kanji_id" class="guru-kanji-select-value">
                     </div>
+                    <div id="kata-kanji-warning" class="kanji-warning-container" style="color: #ef4444; font-size: 12px; margin-top: 6px; display: flex; flex-direction: column; gap: 4px;"></div>
                 </label>
                 <label class="guru-admin-field" style="margin: 0; display: flex; flex-direction: column; gap: 6px;">
                     <span style="font-weight: 700;">Tipe Kata (Opsional)</span>
@@ -672,6 +685,86 @@ function initKanjiSelect(wrapper) {
   let query = '';
   let selectedId = hiddenInput.value || '';
   let selectedText = '';
+  let selectedItems = [];
+
+  // Ensure control has wrapping styles
+  const control = wrapper.querySelector('.guru-kanji-select-control');
+  if (control) {
+    control.style.display = 'flex';
+    control.style.flexWrap = 'wrap';
+    control.style.alignItems = 'center';
+    control.style.gap = '4px';
+    control.style.padding = '4px 8px';
+    control.style.minHeight = '42px';
+    control.style.border = '1px solid #d6d0c5';
+    control.style.borderRadius = '8px';
+    control.style.background = '#fff';
+  }
+
+  // Make input auto-width and adjust margin
+  if (searchInput) {
+    searchInput.style.width = 'auto';
+    searchInput.style.flex = '1';
+    searchInput.style.minWidth = '60px';
+    searchInput.style.padding = '4px 0';
+    searchInput.style.margin = '0';
+  }
+
+  // Create tags container
+  const tagsContainer = document.createElement('div');
+  tagsContainer.className = 'guru-kanji-select-tags';
+  tagsContainer.style.display = 'flex';
+  tagsContainer.style.flexWrap = 'wrap';
+  tagsContainer.style.gap = '4px';
+  if (control) {
+    control.insertBefore(tagsContainer, searchInput);
+  }
+
+  const updateMultipleDisplay = () => {
+    tagsContainer.innerHTML = '';
+    const ids = selectedItems.map(item => item.id);
+    hiddenInput.value = ids.join(',');
+
+    selectedItems.forEach(item => {
+      const tag = document.createElement('div');
+      tag.className = 'guru-kanji-select-tag';
+      tag.style.background = '#fef2f2';
+      tag.style.border = '1px solid #fecaca';
+      tag.style.borderRadius = '4px';
+      tag.style.padding = '2px 6px';
+      tag.style.fontSize = '12px';
+      tag.style.display = 'inline-flex';
+      tag.style.alignItems = 'center';
+      tag.style.gap = '4px';
+      tag.style.color = '#b91c1c';
+      tag.style.fontWeight = 'bold';
+
+      const cleanText = item.text.split(' ')[0];
+      tag.innerHTML = `
+        <span style="font-family: var(--font-jp); font-size: 14px;">${cleanText}</span>
+        <span class="guru-kanji-select-tag-remove" style="cursor: pointer; font-weight: bold; color: #b91c1c; font-size: 14px; line-height: 1;">&times;</span>
+      `;
+
+      tag.querySelector('.guru-kanji-select-tag-remove').addEventListener('click', (e) => {
+        e.stopPropagation();
+        selectedItems = selectedItems.filter(x => x.id !== item.id);
+        updateMultipleDisplay();
+        hiddenInput.dispatchEvent(new Event('change', { bubbles: true }));
+
+        optionsContainer.querySelectorAll('.guru-kanji-select-option').forEach(opt => {
+          opt.classList.toggle('is-selected', selectedItems.some(x => x.id === opt.getAttribute('data-id')));
+        });
+      });
+
+      tagsContainer.appendChild(tag);
+    });
+
+    if (selectedItems.length > 0) {
+      searchInput.placeholder = '';
+    } else {
+      searchInput.placeholder = 'Cari Kanji (Karakter / Makna)...';
+    }
+  };
 
   const fetchKanjis = async (reset = false) => {
     if (isLoading) return;
@@ -691,7 +784,8 @@ function initKanjiSelect(wrapper) {
 
       data.results.forEach(item => {
         const div = document.createElement('div');
-        div.className = `guru-kanji-select-option ${item.id === selectedId ? 'is-selected' : ''}`;
+        const isSelected = selectedItems.some(x => x.id === item.id);
+        div.className = `guru-kanji-select-option ${isSelected ? 'is-selected' : ''}`;
         div.setAttribute('data-id', item.id);
         div.setAttribute('data-text', `${item.kanji} (${item.makna})`);
         div.innerHTML = `
@@ -700,8 +794,16 @@ function initKanjiSelect(wrapper) {
         `;
         div.addEventListener('click', (e) => {
           e.stopPropagation();
-          selectItem(item.id, `${item.kanji} (${item.makna})`);
-          closeDropdown();
+          const exists = selectedItems.some(x => x.id === item.id);
+          if (exists) {
+            selectedItems = selectedItems.filter(x => x.id !== item.id);
+          } else {
+            selectedItems.push({ id: item.id, text: `${item.kanji} (${item.makna})` });
+          }
+          updateMultipleDisplay();
+          hiddenInput.dispatchEvent(new Event('change', { bubbles: true }));
+          div.classList.toggle('is-selected', !exists);
+          searchInput.value = '';
         });
         optionsContainer.appendChild(div);
       });
@@ -716,22 +818,32 @@ function initKanjiSelect(wrapper) {
     }
   };
 
-  const selectItem = (id, text) => {
-    selectedId = id;
-    selectedText = text;
-    hiddenInput.value = id;
-    searchInput.value = id ? text : '';
-    searchInput.placeholder = id ? text : 'Cari Kanji (Karakter / Makna)...';
-    
-    hiddenInput.dispatchEvent(new Event('change', { bubbles: true }));
-
-    optionsContainer.querySelectorAll('.guru-kanji-select-option').forEach(opt => {
-      opt.classList.toggle('is-selected', opt.getAttribute('data-id') === id);
-    });
+  wrapper.setValue = (id, text) => {
+    if (!id) {
+      selectedItems = [];
+      updateMultipleDisplay();
+    } else {
+      const ids = String(id).split(',');
+      const texts = String(text || '').split(', ');
+      selectedItems = ids.map((idVal, idx) => ({
+        id: idVal,
+        text: texts[idx] || idVal
+      }));
+      updateMultipleDisplay();
+    }
   };
 
-  wrapper.setValue = (id, text) => {
-    selectItem(id, text);
+  wrapper.addValue = (id, text) => {
+    const exists = selectedItems.some(x => x.id === id);
+    if (!exists) {
+      selectedItems.push({ id, text });
+      updateMultipleDisplay();
+      hiddenInput.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+  };
+
+  wrapper.getValues = () => {
+    return selectedItems;
   };
 
   const openDropdown = () => {
@@ -743,7 +855,7 @@ function initKanjiSelect(wrapper) {
 
   const closeDropdown = () => {
     dropdown.style.display = 'none';
-    searchInput.value = selectedId ? selectedText : '';
+    searchInput.value = '';
   };
 
   let searchTimeout;
@@ -783,11 +895,106 @@ function initKanjiSelect(wrapper) {
   });
 }
 
+function extractKanjis(text) {
+  const kanjiRegex = /[\u3005\u4e00-\u9faf]/g;
+  const matches = text.match(kanjiRegex);
+  return matches ? Array.from(new Set(matches)) : [];
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const wrapper = document.getElementById('kata-kanji-select');
     if (wrapper) {
         initKanjiSelect(wrapper);
         kataKanjiSelect = wrapper;
+    }
+
+    const kataInput = document.querySelector('#fields_kata [name="kata"]');
+    if (kataInput) {
+      const warningContainer = document.getElementById('kata-kanji-warning');
+      kataInput.addEventListener('input', async () => {
+        const val = kataInput.value || '';
+        const kanjis = extractKanjis(val);
+
+        // Remove selected kanjis that are no longer in the input field
+        if (kataKanjiSelect) {
+          const currentSelected = kataKanjiSelect.getValues ? kataKanjiSelect.getValues() : [];
+          const filtered = currentSelected.filter(item => {
+            const char = item.text.split(' ')[0];
+            return kanjis.includes(char);
+          });
+          if (filtered.length !== currentSelected.length) {
+            kataKanjiSelect.setValue(
+              filtered.map(x => x.id).join(','),
+              filtered.map(x => x.text).join(', ')
+            );
+          }
+        }
+
+        // Clean up warnings for kanjis that are no longer in the input
+        if (warningContainer) {
+          warningContainer.querySelectorAll('.kanji-warning-link').forEach(link => {
+            const char = link.getAttribute('data-kanji');
+            if (!kanjis.includes(char)) {
+              link.remove();
+            }
+          });
+        }
+
+        if (kanjis.length === 0) return;
+
+        for (const char of kanjis) {
+          // If warning is already displayed, skip
+          if (warningContainer && warningContainer.querySelector(`[data-kanji="${char}"]`)) {
+            continue;
+          }
+
+          try {
+            const res = await fetch(`/api/guru/kanjis/search?q=${encodeURIComponent(char)}`);
+            const data = await res.json();
+
+            // Double check if user changed input while fetching
+            if (!kataInput.value.includes(char)) {
+              continue;
+            }
+
+            const found = data.results.find(item => item.kanji === char);
+            if (found) {
+              if (kataKanjiSelect) {
+                kataKanjiSelect.addValue(found.id, `${found.kanji} (${found.makna})`);
+              }
+            } else {
+              if (warningContainer && !warningContainer.querySelector(`[data-kanji="${char}"]`)) {
+                const warningLink = document.createElement('a');
+                warningLink.href = `/guru/referensi?tab=kanji&add=1&kanji=${encodeURIComponent(char)}`;
+                warningLink.target = '_blank';
+                warningLink.className = 'kanji-warning-link';
+                warningLink.setAttribute('data-kanji', char);
+                warningLink.style.color = '#ef4444';
+                warningLink.style.textDecoration = 'underline';
+                warningLink.style.cursor = 'pointer';
+                warningLink.style.fontWeight = 'bold';
+                warningLink.textContent = `Kanji "${char}" belum ada di database, klik untuk menambahkan`;
+                warningContainer.appendChild(warningLink);
+              }
+            }
+          } catch (e) {
+            console.error(e);
+          }
+        }
+      });
+    }
+
+    // Auto-open add kanji modal if query parameters match
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('tab') === 'kanji' && urlParams.get('add') === '1') {
+        openAddModal();
+        const kanjiChar = urlParams.get('kanji');
+        if (kanjiChar) {
+            const kanjiInputField = document.querySelector('#fields_kanji [name="kanji"]');
+            if (kanjiInputField) {
+                kanjiInputField.value = kanjiChar;
+            }
+        }
     }
 });
 

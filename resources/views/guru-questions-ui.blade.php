@@ -293,6 +293,7 @@
                                     </div>
                                     <input type="hidden" name="vocab_kanji_id" class="guru-search-select-value">
                                 </div>
+                                <div id="step-kanji-warning" class="kanji-warning-container" style="color: #ef4444; font-size: 12px; margin-top: 6px; display: flex; flex-direction: column; gap: 4px;"></div>
                             </label>
                             <label>
                                 <span>Tipe Kata (Opsional)</span>
