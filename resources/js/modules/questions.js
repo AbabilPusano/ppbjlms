@@ -379,10 +379,22 @@ export default function initQuestionsModule() {
     const selectedCountSpan = root.querySelector('[data-selected-count]');
     const selectAllContainer = root.querySelector('[data-select-all-container]');
     const selectAllCheckbox = root.querySelector('#select-all-steps');
+    const stepFilter = root.querySelector('[data-step-filter]');
+    const stepTypeFilter = root.querySelector('[data-step-type-filter]');
+    const stepFilterLabel = root.querySelector('[data-step-filter-label]');
+    const filterEmptyNode = root.querySelector('[data-questions-filter-empty]');
 
     const state = {
       node: null,
       steps: [],
+      stepType: '',
+    };
+
+    const stepTypeLabels = {
+      text: 'Teks Pengantar',
+      character: 'Huruf Baru',
+      vocabulary: 'Kata Baru',
+      quiz: 'Pertanyaan',
     };
 
     let stepKanjiSelect = null;
@@ -1024,8 +1036,26 @@ export default function initQuestionsModule() {
       if (titleNode) titleNode.textContent = state.node?.title ? `Langkah Belajar: ${state.node.title}` : 'Langkah Pembelajaran';
       if (subtitleNode) subtitleNode.textContent = 'Kelola urutan dan isi langkah belajar (teks, pengenalan huruf, kuis).';
 
+      const visibleSteps = state.stepType
+        ? state.steps.filter((step) => step.type === state.stepType)
+        : state.steps;
+
+      if (stepFilter) {
+        stepFilter.hidden = state.steps.length === 0;
+      }
+      if (stepFilterLabel) {
+        stepFilterLabel.textContent = state.stepType ? stepTypeLabels[state.stepType] : 'Semua Jenis';
+      }
+      root.querySelectorAll('[data-reset-step-filter]').forEach((button) => {
+        if (button.classList.contains('guru-step-filter__reset')) {
+          button.hidden = !state.stepType;
+        }
+      });
+      if (filterEmptyNode) {
+        filterEmptyNode.hidden = state.steps.length === 0 || visibleSteps.length > 0;
+      }
       if (selectAllContainer) {
-        selectAllContainer.style.display = state.steps.length > 0 ? 'flex' : 'none';
+        selectAllContainer.style.display = visibleSteps.length > 0 ? 'flex' : 'none';
       }
       if (selectAllCheckbox) {
         selectAllCheckbox.checked = false;
@@ -1042,7 +1072,15 @@ export default function initQuestionsModule() {
       listNode.hidden = false;
       if (emptyNode) emptyNode.hidden = true;
 
-      listNode.innerHTML = state.steps.map((step, index) => {
+      if (visibleSteps.length === 0) {
+        listNode.hidden = true;
+        listNode.innerHTML = '';
+        updateDeleteSelectedButton();
+        return;
+      }
+
+      listNode.innerHTML = visibleSteps.map((step) => {
+        const index = state.steps.findIndex((item) => String(item.id) === String(step.id));
         let contentHtml = '';
         if (step.type === 'text') {
           contentHtml = `<p class="guru-step-preview-text">${escapeHtml(step.content || '').substring(0, 120)}...</p>`;
@@ -1435,10 +1473,20 @@ export default function initQuestionsModule() {
       if (target.closest('[data-retry-questions]')) {
         loadSteps();
       }
+
+      if (target.closest('[data-reset-step-filter]')) {
+        state.stepType = '';
+        if (stepTypeFilter) stepTypeFilter.value = '';
+        renderSteps();
+      }
     });
 
     stepTypeSelect?.addEventListener('change', renderStepFields);
     quizTypeSelect?.addEventListener('change', renderStepFields);
+    stepTypeFilter?.addEventListener('change', () => {
+      state.stepType = stepTypeFilter.value;
+      renderSteps();
+    });
 
     stepForm?.addEventListener('submit', (event) => {
       event.preventDefault();

@@ -165,6 +165,41 @@
             <button type="button" class="guru-unit-button guru-unit-button--primary" data-open-question-modal>Tambah langkah pertama</button>
         </section>
 
+        <div class="guru-student-filter guru-step-filter" data-step-filter hidden>
+            <div class="guru-student-filter__title">
+                <span class="material-symbols-outlined" aria-hidden="true">filter_list</span>
+                <div>
+                    <span>Filter Jenis Langkah</span>
+                    <strong data-step-filter-label>Semua Jenis</strong>
+                </div>
+            </div>
+
+            <div class="guru-student-filter__form">
+                <label class="guru-student-filter__select">
+                    <span>Jenis Langkah</span>
+                    <select data-step-type-filter aria-label="Filter berdasarkan jenis langkah">
+                        <option value="">Semua Jenis</option>
+                        <option value="text">Teks Pengantar</option>
+                        <option value="character">Huruf Baru</option>
+                        <option value="vocabulary">Kata Baru</option>
+                        <option value="quiz">Pertanyaan</option>
+                    </select>
+                    <span class="material-symbols-outlined" aria-hidden="true">expand_more</span>
+                </label>
+
+                <button type="button" class="guru-student-filter__reset guru-step-filter__reset" data-reset-step-filter hidden>
+                    <span class="material-symbols-outlined" aria-hidden="true">close</span>
+                    Reset
+                </button>
+            </div>
+        </div>
+
+        <section class="guru-units-state guru-step-filter-empty" data-questions-filter-empty hidden>
+            <span class="material-symbols-outlined" aria-hidden="true">filter_alt_off</span>
+            <p>Tidak ada langkah dengan jenis yang dipilih.</p>
+            <button type="button" class="guru-unit-button" data-reset-step-filter>Tampilkan Semua Jenis</button>
+        </section>
+
         <div class="guru-select-all-container" data-select-all-container style="display: none; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; background-color: var(--card-bg, #fff); padding: 12px 16px; border-radius: 8px; border: 1px solid var(--border, #eaecf0);">
             <label for="select-all-steps" style="cursor: pointer; font-size: 14px; font-weight: 500; color: var(--text-main);">Pilih Semua Langkah</label>
             <input type="checkbox" id="select-all-steps" style="width: 18px; height: 18px; cursor: pointer; accent-color: var(--accent);">

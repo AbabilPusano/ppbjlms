@@ -6900,6 +6900,9 @@ body {
 .guru-units-main>.guru-level-tabs,
 .guru-units-main>.guru-material-board,
 .guru-units-main>.guru-materials-summary,
+.guru-units-main>.guru-step-filter,
+.guru-units-main>.guru-select-all-container,
+.guru-units-main>.guru-step-filter-empty,
 .guru-units-main>.guru-question-list,
 .guru-units-main>.guru-tool-note,
 .guru-units-main>.gs-section,
@@ -7745,6 +7748,26 @@ body {
   background: #fff;
   overflow: hidden;
   box-shadow: 0 18px 44px rgba(17, 24, 39, 0.04);
+}
+
+.guru-step-filter {
+  margin-bottom: 12px;
+}
+
+.guru-step-filter .guru-student-filter__form {
+  flex: 0 1 430px;
+}
+
+.guru-step-filter .guru-student-filter__select {
+  width: min(100%, 300px);
+}
+
+.guru-step-filter__reset[hidden] {
+  display: none;
+}
+
+.guru-step-filter-empty {
+  margin-bottom: 12px;
 }
 
 .guru-inline-back {
@@ -10622,6 +10645,11 @@ body {
   .guru-student-filter__form {
     align-items: stretch;
     flex-direction: column;
+  }
+
+  .guru-step-filter .guru-student-filter__form {
+    width: 100%;
+    flex: 1 1 auto;
   }
 
   .guru-student-filter__title,
