@@ -91,6 +91,7 @@ class GuruStepApiController extends Controller
                     'id' => $node->id,
                     'title' => $node->title,
                     'type' => $node->type,
+                    'unit_id' => $node->unitId,
                     'level_name' => $node->unit && $node->unit->level ? $node->unit->level->name : null,
                     'unit_type' => $node->unit ? $node->unit->type : null,
                 ],
@@ -122,6 +123,18 @@ class GuruStepApiController extends Controller
 
         if ($validated['type'] === 'vocabulary') {
             $kata = $validated['character_symbol'] ?? null;
+            if ($kata) {
+                $existingStep = NodeStep::query()
+                    ->where('type', 'vocabulary')
+                    ->where('character_symbol', $kata)
+                    ->first();
+                if ($existingStep) {
+                    $existingNode = Node::query()->find($existingStep->node_id);
+                    $nodeName = $existingNode ? $existingNode->title : 'lain';
+                    return response()->json(['message' => "kata sudah ada di node {$nodeName}"], 422);
+                }
+            }
+
             $selectedId = $request->input('vocab_selected_id');
             if ($kata && empty($selectedId)) {
                 if (\App\Models\Kata::where('kata', $kata)->exists()) {
@@ -197,6 +210,19 @@ class GuruStepApiController extends Controller
 
         if ($validated['type'] === 'vocabulary') {
             $kata = $validated['character_symbol'] ?? null;
+            if ($kata && $kata !== $step->character_symbol) {
+                $existingStep = NodeStep::query()
+                    ->where('type', 'vocabulary')
+                    ->where('character_symbol', $kata)
+                    ->where('id', '!=', $step->id)
+                    ->first();
+                if ($existingStep) {
+                    $existingNode = Node::query()->find($existingStep->node_id);
+                    $nodeName = $existingNode ? $existingNode->title : 'lain';
+                    return response()->json(['message' => "kata sudah ada di node {$nodeName}"], 422);
+                }
+            }
+
             $selectedId = $request->input('vocab_selected_id');
             if ($kata && empty($selectedId)) {
                 if ($kata !== $step->character_symbol) {

@@ -17,6 +17,9 @@ export default function initQuestionsModule() {
     let selectedText = '';
     let selectedItems = []; // For multiple selection: array of objects {id, text}
 
+    let itemsMap = new Map();
+    let activeIndex = -1;
+
     let tagsContainer = null;
     if (config.multiple) {
       // Ensure control has wrapping styles
@@ -101,12 +104,28 @@ export default function initQuestionsModule() {
       }
     };
 
+    const getVisibleOptions = () => {
+      return Array.from(optionsContainer.querySelectorAll('.guru-search-select-option'));
+    };
+
+    const highlightOption = (index) => {
+      const opts = getVisibleOptions();
+      opts.forEach((opt, idx) => {
+        opt.classList.toggle('is-highlighted', idx === index);
+      });
+      if (index >= 0 && index < opts.length) {
+        opts[index].scrollIntoView({ block: 'nearest' });
+      }
+    };
+
     const fetchItems = async (reset = false) => {
       if (isLoading) return;
       if (reset) {
         page = 1;
         hasMore = true;
         optionsContainer.innerHTML = '';
+        itemsMap.clear();
+        activeIndex = -1;
       }
       if (!hasMore) return;
 
@@ -120,6 +139,8 @@ export default function initQuestionsModule() {
 
         data.results.forEach(item => {
           const mapped = config.mapItem(item);
+          itemsMap.set(mapped.id, item);
+
           const div = document.createElement('div');
           const isSelected = config.multiple 
             ? selectedItems.some(x => x.id === mapped.id)
@@ -149,6 +170,12 @@ export default function initQuestionsModule() {
           });
           optionsContainer.appendChild(div);
         });
+
+        const opts = getVisibleOptions();
+        if (opts.length > 0 && activeIndex === -1) {
+          activeIndex = 0;
+          highlightOption(0);
+        }
 
         hasMore = data.pagination.more;
         page += 1;
@@ -220,6 +247,12 @@ export default function initQuestionsModule() {
       dropdown.style.display = 'flex';
       if (optionsContainer.children.length === 0) {
         fetchItems(true);
+      } else {
+        const opts = getVisibleOptions();
+        if (opts.length > 0) {
+          activeIndex = 0;
+          highlightOption(0);
+        }
       }
     };
 
@@ -231,6 +264,7 @@ export default function initQuestionsModule() {
         searchInput.value = '';
       }
       searchInput.blur();
+      activeIndex = -1;
     };
 
     let searchTimeout;
@@ -245,6 +279,54 @@ export default function initQuestionsModule() {
     searchInput.addEventListener('focus', () => {
       searchInput.value = '';
       openDropdown();
+    });
+
+    searchInput.addEventListener('keydown', (e) => {
+      const opts = getVisibleOptions();
+      if (dropdown.style.display === 'none') {
+        if (e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'Enter') {
+          openDropdown();
+          e.preventDefault();
+        }
+        return;
+      }
+
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (opts.length === 0) return;
+        activeIndex = (activeIndex + 1) % opts.length;
+        highlightOption(activeIndex);
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (opts.length === 0) return;
+        activeIndex = (activeIndex - 1 + opts.length) % opts.length;
+        highlightOption(activeIndex);
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        if (activeIndex >= 0 && activeIndex < opts.length) {
+          const opt = opts[activeIndex];
+          const id = opt.getAttribute('data-id');
+          const text = opt.getAttribute('data-text');
+          
+          if (config.multiple) {
+            const exists = selectedItems.some(x => x.id === id);
+            if (exists) {
+              selectedItems = selectedItems.filter(x => x.id !== id);
+            } else {
+              selectedItems.push({ id, text });
+            }
+            updateMultipleDisplay();
+            hiddenInput.dispatchEvent(new Event('change', { bubbles: true }));
+            opt.classList.toggle('is-selected', !exists);
+            searchInput.value = '';
+          } else {
+            selectItem(id, text, itemsMap.get(id));
+            closeDropdown();
+          }
+        }
+      } else if (e.key === 'Escape') {
+        closeDropdown();
+      }
     });
 
     arrow.addEventListener('click', (e) => {
@@ -357,6 +439,13 @@ export default function initQuestionsModule() {
         }
       });
       stepKataSelect = kataWrapper;
+
+      const hiddenInput = kataWrapper.querySelector('.guru-search-select-value');
+      if (hiddenInput) {
+        hiddenInput.addEventListener('change', () => {
+          renderStepFields();
+        });
+      }
     }
 
     function extractKanjis(text) {
@@ -368,6 +457,7 @@ export default function initQuestionsModule() {
     if (stepForm && stepForm.elements.vocab_kata) {
       const warningContainer = root.querySelector('#step-kanji-warning');
       stepForm.elements.vocab_kata.addEventListener('input', async () => {
+        renderStepFields();
         const val = stepForm.elements.vocab_kata.value || '';
         const kanjis = extractKanjis(val);
 
@@ -465,6 +555,7 @@ export default function initQuestionsModule() {
         }
         if (vocabManualSection) vocabManualSection.style.display = 'flex';
         if (vocabSearchSection) vocabSearchSection.style.display = 'none';
+        renderStepFields();
       });
     }
 
@@ -489,6 +580,7 @@ export default function initQuestionsModule() {
         }
         if (vocabManualSection) vocabManualSection.style.display = 'none';
         if (vocabSearchSection) vocabSearchSection.style.display = 'flex';
+        renderStepFields();
       });
     }
 
@@ -515,6 +607,7 @@ export default function initQuestionsModule() {
       const hiddenInput = characterWrapper.querySelector('.guru-search-select-value');
       if (hiddenInput) {
         hiddenInput.addEventListener('change', async () => {
+          renderStepFields();
           const val = hiddenInput.value;
           if (!val) return;
 
@@ -557,7 +650,11 @@ export default function initQuestionsModule() {
       if (quizQuestionType === 'character') {
         const charSymbol = root.querySelector('[name="quiz_character_symbol"]')?.value || '';
         const charPronunciation = root.querySelector('#quiz-character-pronunciation')?.value || '';
-        if (!charSymbol || !quizType) return;
+        if (!charSymbol || !quizType) {
+          const submitBtn = stepForm?.querySelector('[data-question-submit]');
+          if (submitBtn) submitBtn.disabled = true;
+          return;
+        }
 
         try {
           const res = await fetch(`/api/guru/nodes/${nodeId}/available-quiz-characters`);
@@ -619,7 +716,11 @@ export default function initQuestionsModule() {
         const wordSymbol = root.querySelector('#quiz-kata-symbol')?.value || '';
         const wordPronunciation = root.querySelector('#quiz-kata-pronunciation')?.value || '';
         const wordMeaning = root.querySelector('#quiz-kata-meaning')?.value || '';
-        if (!wordSymbol || !quizType) return;
+        if (!wordSymbol || !quizType) {
+          const submitBtn = stepForm?.querySelector('[data-question-submit]');
+          if (submitBtn) submitBtn.disabled = true;
+          return;
+        }
 
         try {
           const res = await fetch(`/api/guru/nodes/${nodeId}/available-quiz-words`);
@@ -828,7 +929,15 @@ export default function initQuestionsModule() {
         fields.hidden = fields.getAttribute('data-question-fields') !== type;
       });
 
-      if (type === 'quiz') {
+      const submitBtn = stepForm?.querySelector('[data-question-submit]');
+
+      if (type === 'character') {
+        const hasChar = !!(root.querySelector('[name="character_symbol"]')?.value);
+        if (submitBtn) submitBtn.disabled = !hasChar;
+      } else if (type === 'vocabulary') {
+        const hasKata = !!(root.querySelector('[name="vocab_kata"]')?.value) || !!(root.querySelector('[name="vocab_selected_id"]')?.value);
+        if (submitBtn) submitBtn.disabled = !hasKata;
+      } else if (type === 'quiz') {
         const quizQuestionType = root.querySelector('[data-quiz-question-type]')?.value || 'character';
         root.querySelectorAll('[data-quiz-question-fields]').forEach((fields) => {
           fields.style.display = fields.getAttribute('data-quiz-question-fields') === quizQuestionType ? 'block' : 'none';
@@ -876,6 +985,22 @@ export default function initQuestionsModule() {
         if (quizTypeContainer) {
           quizTypeContainer.style.display = hasSelection ? 'flex' : 'none';
         }
+
+        if (submitBtn) {
+          if (quizQuestionType === 'character') {
+            const hasChar = !!(root.querySelector('[name="quiz_character_symbol"]')?.value);
+            const hasType = !!(root.querySelector('[data-quiz-type]')?.value);
+            submitBtn.disabled = !hasChar || !hasType;
+          } else if (quizQuestionType === 'vocabulary') {
+            const hasKata = !!(root.querySelector('[name="quiz_kata_id"]')?.value);
+            const hasType = !!(root.querySelector('[data-quiz-type]')?.value);
+            submitBtn.disabled = !hasKata || !hasType;
+          } else {
+            submitBtn.disabled = false;
+          }
+        }
+      } else {
+        if (submitBtn) submitBtn.disabled = false;
       }
     };
 
@@ -968,6 +1093,14 @@ export default function initQuestionsModule() {
         if (loadingNode) loadingNode.hidden = true;
         if (errorNode) errorNode.hidden = true;
         renderSteps();
+
+        if (state.node && state.node.unit_id) {
+          const backLinks = root.querySelectorAll('.guru-back a, .guru-inline-back');
+          backLinks.forEach(link => {
+            link.href = `/guru/units/${state.node.unit_id}/materials`;
+            link.innerHTML = '<span class="material-symbols-outlined" aria-hidden="true">arrow_back</span> Kembali ke Isi Unit';
+          });
+        }
       } catch (error) {
         setError(error.message || 'Gagal memuat langkah.');
       }

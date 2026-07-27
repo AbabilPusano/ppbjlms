@@ -2,6 +2,13 @@
 
 @section('body')
 <style>
+.guru-unit-button:disabled {
+    opacity: 0.55 !important;
+    background-color: #98a2b3 !important;
+    border-color: #98a2b3 !important;
+    color: #ffffff !important;
+    cursor: not-allowed !important;
+}
 .guru-search-select-wrapper {
     position: relative;
     width: 100%;
@@ -58,11 +65,12 @@
     align-items: center;
     border-bottom: 1px solid #f2f4f7;
 }
-.guru-search-select-option:hover {
-    background: #f9fafb;
+.guru-search-select-option:hover,
+.guru-search-select-option.is-highlighted {
+    background: #f0edf9 !important;
 }
 .guru-search-select-option.is-selected {
-    background: #f4f3ff;
+    background: #e1dbf7 !important;
     color: var(--accent);
     font-weight: 600;
 }

@@ -75,8 +75,10 @@
     border-top: 1px solid var(--line);
 }
 </style>
-@php($currentUser = auth()->user())
-@php($currentRoleLabel = $currentUser?->role === 'admin' ? 'Admin' : 'Guru')
+@php
+    $currentUser = auth()->user();
+    $currentRoleLabel = $currentUser?->role === 'admin' ? 'Admin' : 'Guru';
+@endphp
 
 <div class="guru-shell">
     <header class="guru-topbar">
@@ -141,7 +143,9 @@
             </div>
         @endif
 
-        @php($filterQuery = array_filter(['q' => $search, 'level' => $selectedLevel]))
+        @php
+            $filterQuery = array_filter(['q' => $search, 'level' => $selectedLevel]);
+        @endphp
 
         <!-- Tab Navigation -->
         <nav class="guru-account-tabs" aria-label="Pilih tabel referensi" style="margin-bottom: 20px;">
@@ -317,7 +321,9 @@
                                         <div style="display: flex; gap: 8px; justify-content: flex-end;">
                                             @php
                                                 $kanjiIds = $kt->kanjis->pluck('id')->join(',');
-                                                $kanjiTexts = $kt->kanjis->map(fn($k) => "{$k->kanji} ({$k->makna})")->join(', ');
+                                                $kanjiTexts = $kt->kanjis->map(function($k) {
+                                                    return $k->kanji . ' (' . $k->makna . ')';
+                                                })->join(', ');
                                             @endphp
                                             <button class="guru-unit-button" style="padding: 6px 12px; font-size: 12px; border: 1px solid var(--line);" onclick="openEditKataModal('{{ $kt->id }}', '{{ addslashes($kt->kata) }}', '{{ addslashes($kt->kana) }}', '{{ addslashes($kt->romaji) }}', '{{ addslashes($kt->arti) }}', '{{ $kanjiIds }}', '{{ addslashes($kanjiTexts) }}', '{{ addslashes($kt->tipe_kata) }}', '{{ addslashes($kt->deskripsi) }}', '{{ $kt->level }}')">Edit</button>
                                             <form action="{{ route('guru.referensi.kata.destroy', $kt) }}" method="POST" onsubmit="return confirm('Hapus kata ini?')">
