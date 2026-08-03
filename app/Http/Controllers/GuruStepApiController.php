@@ -165,17 +165,34 @@ class GuruStepApiController extends Controller
             }
         }
 
-        $sortOrder = $validated['sort_order'] ?? ((int) NodeStep::query()->where('node_id', $node->id)->max('sort_order')) + 1;
+        $type = $validated['type'];
+        $charSymbol = $validated['character_symbol'] ?? null;
+        $quizQuery = $validated['quiz_query'] ?? null;
+
+        if ($type === 'quiz' && $request->input('quiz_question_type') === 'random') {
+            $charSymbol = 'random';
+            $quizQuery = 'RANDOM_QUIZ';
+        }
+
+        $sortOrder = $validated['sort_order'] ?? null;
+        if ($sortOrder !== null) {
+            NodeStep::query()
+                ->where('node_id', $node->id)
+                ->where('sort_order', '>=', $sortOrder)
+                ->increment('sort_order');
+        } else {
+            $sortOrder = ((int) NodeStep::query()->where('node_id', $node->id)->max('sort_order')) + 1;
+        }
 
         $step = NodeStep::query()->create([
             'id' => (string) Str::ulid(),
             'node_id' => $node->id,
-            'type' => $validated['type'],
+            'type' => $type,
             'content' => $validated['content'] ?? null,
-            'character_symbol' => $validated['character_symbol'] ?? null,
+            'character_symbol' => $charSymbol,
             'character_pronunciation' => $validated['character_pronunciation'] ?? null,
             'quiz_instruction' => $validated['quiz_instruction'] ?? null,
-            'quiz_query' => $validated['quiz_query'] ?? null,
+            'quiz_query' => $quizQuery,
             'quiz_options' => $validated['quiz_options'] ?? null,
             'quiz_correct_index' => $validated['quiz_correct_index'] ?? null,
             'sort_order' => $sortOrder,
@@ -257,13 +274,20 @@ class GuruStepApiController extends Controller
             }
         }
 
+        $charSymbol = $validated['character_symbol'] ?? null;
+        $quizQuery = $validated['quiz_query'] ?? null;
+        if ($validated['type'] === 'quiz' && $request->input('quiz_question_type') === 'random') {
+            $charSymbol = 'random';
+            $quizQuery = 'RANDOM_QUIZ';
+        }
+
         $step->update([
             'type' => $validated['type'],
             'content' => $validated['content'] ?? null,
-            'character_symbol' => $validated['character_symbol'] ?? null,
+            'character_symbol' => $charSymbol,
             'character_pronunciation' => $validated['character_pronunciation'] ?? null,
             'quiz_instruction' => $validated['quiz_instruction'] ?? null,
-            'quiz_query' => $validated['quiz_query'] ?? null,
+            'quiz_query' => $quizQuery,
             'quiz_options' => $validated['quiz_options'] ?? null,
             'quiz_correct_index' => isset($validated['quiz_correct_index']) ? (int) $validated['quiz_correct_index'] : null,
             'sort_order' => $validated['sort_order'] ?? $step->sort_order,
@@ -315,6 +339,7 @@ class GuruStepApiController extends Controller
             'tipe_kata' => 'nullable|string|max:191',
             'deskripsi' => 'nullable|string',
             'level' => 'nullable|string|in:N5,N4,N3,N2,N1',
+            'quiz_question_type' => 'nullable|string|in:character,vocabulary,random',
         ]);
     }
 
@@ -355,10 +380,16 @@ class GuruStepApiController extends Controller
         }
 
         if ($step->type === 'quiz') {
-            $kataRecord = \App\Models\Kata::where('kata', $step->character_symbol)->first();
-            $serialized['quiz_question_type'] = $kataRecord ? 'vocabulary' : 'character';
-            $serialized['quiz_kata_id'] = $kataRecord?->id;
-            $serialized['quiz_kata_meaning'] = $kataRecord?->arti;
+            if ($step->character_symbol === 'random') {
+                $serialized['quiz_question_type'] = 'random';
+                $serialized['quiz_kata_id'] = null;
+                $serialized['quiz_kata_meaning'] = null;
+            } else {
+                $kataRecord = \App\Models\Kata::where('kata', $step->character_symbol)->first();
+                $serialized['quiz_question_type'] = $kataRecord ? 'vocabulary' : 'character';
+                $serialized['quiz_kata_id'] = $kataRecord?->id;
+                $serialized['quiz_kata_meaning'] = $kataRecord?->arti;
+            }
         }
 
         return $serialized;

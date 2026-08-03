@@ -80,7 +80,34 @@
     font-size: 12px;
     color: #667085;
     background: #f9fafb;
-    border-top: 1px solid var(--border);
+}
+.guru-question-card {
+    position: relative;
+}
+.guru-step-inline-add {
+    position: absolute;
+    right: 16px;
+    bottom: -16px;
+    display: none;
+    background: var(--accent, #6366f1);
+    color: white !important;
+    border: none;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16);
+    z-index: 10;
+    transition: all 0.2s ease;
+}
+.guru-step-inline-add:hover {
+    transform: scale(1.15);
+    background: #4f46e5;
+}
+.guru-question-card:hover .guru-step-inline-add {
+    display: inline-flex;
 }
 </style>
 <div class="guru-shell" data-guru-questions data-material-id="{{ request()->route('material') }}">
@@ -370,6 +397,7 @@
                         <select name="quiz_question_type" data-quiz-question-type style="background: #fff; border: 1px solid #d6d0c5; padding: 8px; border-radius: 6px; width: 100%; box-sizing: border-box;">
                             <option value="character" selected>Huruf</option>
                             <option value="vocabulary">Kata</option>
+                            <option value="random">Random (Acak)</option>
                             <option value="grammar" disabled>Grammar (Belum Tersedia)</option>
                             <option value="sentence" disabled>Kalimat (Belum Tersedia)</option>
                         </select>

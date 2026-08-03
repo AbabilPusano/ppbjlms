@@ -955,8 +955,8 @@ export default function initQuestionsModule() {
           fields.style.display = fields.getAttribute('data-quiz-question-fields') === quizQuestionType ? 'block' : 'none';
         });
 
-        // Hide multiple choice inputs (question query, choices) when question type is character or vocabulary (auto generated)
-        const showMultipleChoiceFields = quizQuestionType !== 'character' && quizQuestionType !== 'vocabulary';
+        // Hide multiple choice inputs (question query, choices) when question type is character or vocabulary or random (auto generated)
+        const showMultipleChoiceFields = quizQuestionType !== 'character' && quizQuestionType !== 'vocabulary' && quizQuestionType !== 'random';
         root.querySelectorAll('[data-quiz-fields]').forEach((fields) => {
           fields.style.display = showMultipleChoiceFields ? 'block' : 'none';
         });
@@ -1114,6 +1114,9 @@ export default function initQuestionsModule() {
               </button>
               <input type="checkbox" class="step-checkbox" value="${step.id}" style="width: 18px; height: 18px; cursor: pointer; accent-color: var(--accent); margin-left: 4px;">
             </div>
+            <button type="button" class="guru-step-inline-add" data-add-after-sort-order="${step.sort_order}" title="Tambah langkah setelah langkah ini">
+              <span class="material-symbols-outlined" style="font-size: 18px; vertical-align: middle;">add</span>
+            </button>
           </article>
         `;
       }).join('');
@@ -1320,6 +1323,11 @@ export default function initQuestionsModule() {
         payload.quiz_correct_index = Number(formData.get('quiz_correct_index') || 0);
         payload.character_symbol = String(formData.get('quiz_character_symbol') || '');
         payload.character_pronunciation = String(formData.get('quiz_character_pronunciation') || '');
+        payload.quiz_question_type = String(formData.get('quiz_question_type') || 'character');
+        if (payload.quiz_question_type === 'random') {
+          payload.character_symbol = 'random';
+          payload.quiz_query = 'RANDOM_QUIZ';
+        }
       }
 
       const submit = root.querySelector('[data-question-submit]');
@@ -1445,6 +1453,15 @@ export default function initQuestionsModule() {
 
       if (target.closest('[data-open-question-modal]')) {
         openStepModal();
+      }
+
+      const inlineAddButton = target.closest('.guru-step-inline-add');
+      if (inlineAddButton) {
+        const afterSortOrder = inlineAddButton.getAttribute('data-add-after-sort-order');
+        openStepModal();
+        if (stepForm && afterSortOrder) {
+          stepForm.elements.sort_order.value = String(parseInt(afterSortOrder) + 1);
+        }
       }
 
       const openImportBtn = target.closest('[data-open-import-modal]');

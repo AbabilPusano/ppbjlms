@@ -79,20 +79,78 @@ class LessonContentBuilder
                 }
 
                 if ($step->type === 'quiz') {
-                    $options = collect($step->quiz_options)->map(function ($option, $index) use ($step): array {
+                    $stepToMap = $step;
+                    if ($step->character_symbol === 'random') {
+                        // 1. Get all prior quiz steps in the current node (with lower sort_order)
+                        $priorQuizStepsInNode = \App\Models\NodeStep::where('node_id', $node->id)
+                            ->where('type', 'quiz')
+                            ->where('character_symbol', '!=', 'random')
+                            ->where('sort_order', '<', $step->sort_order)
+                            ->get();
+
+                        // 2. Get all quiz steps from nodes prior to this one in the same unit
+                        $priorNodeIds = \App\Models\Node::where('unitId', $node->unitId)
+                            ->where('order', '<', $node->order)
+                            ->pluck('id');
+
+                        $priorQuizStepsInOtherNodes = \App\Models\NodeStep::whereIn('node_id', $priorNodeIds)
+                            ->where('type', 'quiz')
+                            ->where('character_symbol', '!=', 'random')
+                            ->get();
+
+                        // Combine all candidate quiz steps
+                        $candidates = $priorQuizStepsInNode->concat($priorQuizStepsInOtherNodes);
+
+                        if ($candidates->isEmpty()) {
+                            // Fallback to ANY other quiz steps in this node
+                            $candidates = \App\Models\NodeStep::where('node_id', $node->id)
+                                ->where('type', 'quiz')
+                                ->where('character_symbol', '!=', 'random')
+                                ->get();
+                            
+                            if ($candidates->isEmpty()) {
+                                // Fallback to any quiz step in the same unit
+                                $unitNodeIds = \App\Models\Node::where('unitId', $node->unitId)->pluck('id');
+                                $candidates = \App\Models\NodeStep::whereIn('node_id', $unitNodeIds)
+                                    ->where('type', 'quiz')
+                                    ->where('character_symbol', '!=', 'random')
+                                    ->get();
+                            }
+                        }
+
+                        if ($candidates->isNotEmpty()) {
+                            $stepToMap = $candidates->random();
+                        } else {
+                            // Mock fallback
+                            return [
+                                'type' => 'select-image',
+                                'question' => 'Contoh Kuis (Kuis acak belum memiliki referensi)',
+                                'instruction' => 'PILIH JAWABAN YANG BENAR',
+                                'answer' => 'Benar',
+                                'options' => [
+                                    ['id' => 1, 'text' => 'Benar', 'sub' => '', 'image' => '', 'correct' => true],
+                                    ['id' => 2, 'text' => 'Salah', 'sub' => '', 'image' => '', 'correct' => false],
+                                    ['id' => 3, 'text' => 'Salah', 'sub' => '', 'image' => '', 'correct' => false],
+                                    ['id' => 4, 'text' => 'Salah', 'sub' => '', 'image' => '', 'correct' => false],
+                                ],
+                            ];
+                        }
+                    }
+
+                    $options = collect($stepToMap->quiz_options)->map(function ($option, $index) use ($stepToMap): array {
                         return [
                             'id' => $index + 1,
                             'text' => $option,
                             'sub' => '',
                             'image' => '',
-                            'correct' => $index === $step->quiz_correct_index,
+                            'correct' => $index === $stepToMap->quiz_correct_index,
                         ];
                     })->all();
 
-                    $quizQuery = $step->quiz_query;
-                    $quizInstruction = $step->quiz_instruction;
+                    $quizQuery = $stepToMap->quiz_query;
+                    $quizInstruction = $stepToMap->quiz_instruction;
 
-                    $kata = \App\Models\Kata::with('kanjis')->where('kata', $step->character_symbol)->first();
+                    $kata = \App\Models\Kata::with('kanjis')->where('kata', $stepToMap->character_symbol)->first();
                     if ($kata) {
                         $user = auth()->user();
                         $studiedKanjis = $user ? self::getStudiedKanjis($user->id) : [];
@@ -106,7 +164,7 @@ class LessonContentBuilder
                             }
                         }
 
-                        $options = collect($step->quiz_options)->map(function ($option, $index) use ($step, $studiedKanjis): array {
+                        $options = collect($stepToMap->quiz_options)->map(function ($option, $index) use ($stepToMap, $studiedKanjis): array {
                             $displayText = $option;
                             $optKata = \App\Models\Kata::with('kanjis')->where('kata', $option)->first();
                             if ($optKata) {
@@ -121,7 +179,7 @@ class LessonContentBuilder
                                 'text' => $displayText,
                                 'sub' => '',
                                 'image' => '',
-                                'correct' => $index === $step->quiz_correct_index,
+                                'correct' => $index === $stepToMap->quiz_correct_index,
                             ];
                         })->all();
                     }
@@ -130,7 +188,7 @@ class LessonContentBuilder
                         'type' => 'select-image',
                         'question' => $quizQuery,
                         'instruction' => $quizInstruction,
-                        'answer' => $options[$step->quiz_correct_index]['text'] ?? '',
+                        'answer' => $options[$stepToMap->quiz_correct_index]['text'] ?? '',
                         'options' => $options,
                     ];
                 }
