@@ -1148,10 +1148,17 @@ export default function initQuestionsModule() {
           contentHtml = `<p><strong>Kata:</strong> ${escapeHtml(displayWord || '-')} (${escapeHtml(step.character_pronunciation || '-')}) &nbsp;&nbsp;|&nbsp;&nbsp; <strong>Arti:</strong> ${escapeHtml(step.content || '-')}</p>`;
         } else if (step.type === 'quiz') {
           const options = step.quiz_options || [];
-          contentHtml = `
-            <p><strong>Pertanyaan:</strong> ${escapeHtml(step.quiz_query || '-')}</p>
-            <small style="color: #666;">Pilihan: ${options.map((opt, idx) => `[${idx === step.quiz_correct_index ? '<b>' + escapeHtml(opt) + '</b>' : escapeHtml(opt)}]`).join(' / ')}</small>
-          `;
+          if (step.quiz_query === 'RANDOM_QUIZ') {
+            contentHtml = `
+              <p><strong>Pertanyaan:</strong> Random (Kuis Acak: ${escapeHtml(step.character_symbol || '')})</p>
+              <small style="color: #666;">Pilihan: ${options.map((opt) => `[${escapeHtml(opt)}]`).join(' / ')}</small>
+            `;
+          } else {
+            contentHtml = `
+              <p><strong>Pertanyaan:</strong> ${escapeHtml(step.quiz_query || '-')}</p>
+              <small style="color: #666;">Pilihan: ${options.map((opt, idx) => `[${idx === step.quiz_correct_index ? '<b>' + escapeHtml(opt) + '</b>' : escapeHtml(opt)}]`).join(' / ')}</small>
+            `;
+          }
         }
 
         return `
@@ -1310,8 +1317,8 @@ export default function initQuestionsModule() {
             if (meaningInput) meaningInput.value = step.quiz_kata_meaning || '';
           }
 
-          let detectedQuizType = '';
-          if (step.character_symbol) {
+          let detectedQuizType = step.quiz_type || '';
+          if (!detectedQuizType && step.character_symbol) {
             if (qType === 'character') {
               if (step.quiz_query === step.character_pronunciation) {
                 detectedQuizType = 'romaji_to_kana';
@@ -1319,7 +1326,9 @@ export default function initQuestionsModule() {
                 detectedQuizType = 'kana_to_romaji';
               }
             } else if (qType === 'vocabulary') {
-              if (step.quiz_query === step.character_symbol) {
+              if (step.quiz_query === 'RANDOM_QUIZ') {
+                detectedQuizType = 'random';
+              } else if (step.quiz_query === step.character_symbol) {
                 detectedQuizType = 'kata_to_meaning';
               } else {
                 detectedQuizType = 'meaning_to_kata';

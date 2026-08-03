@@ -7,11 +7,16 @@ use Illuminate\Support\Collection;
 
 class LessonContentBuilder
 {
-    public static function getStudiedKanjis(int|string $userId): array
+    public static function getStudiedKanjis(int|string $userId, ?string $currentNodeId = null): array
     {
         $completedNodeIds = \App\Models\UserProgress::where('userId', $userId)
             ->where('status', 'completed')
-            ->pluck('nodeId');
+            ->pluck('nodeId')
+            ->toArray();
+
+        if ($currentNodeId) {
+            $completedNodeIds[] = $currentNodeId;
+        }
 
         $vocabSymbols = \App\Models\NodeStep::whereIn('node_id', $completedNodeIds)
             ->where('type', 'vocabulary')
@@ -152,7 +157,7 @@ class LessonContentBuilder
                         }
 
                         $user = auth()->user();
-                        $studiedKanjis = $user ? self::getStudiedKanjis($user->id) : [];
+                        $studiedKanjis = $user ? self::getStudiedKanjis($user->id, $node->id) : [];
 
                         // Resolve options
                         $resolvedOptions = [];
