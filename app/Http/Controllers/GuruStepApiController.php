@@ -147,12 +147,10 @@ class GuruStepApiController extends Controller
                     if (!$hasKanji) {
                         return response()->json(['message' => "kata sudah ada di node {$nodeName}"], 422);
                     } else {
-                        if ($existingTampilkanKanji) {
+                        if ($newTampilkanKanji && $existingTampilkanKanji) {
                             return response()->json(['message' => "kata sudah ada di node {$nodeName}"], 422);
-                        } else {
-                            if (!$newTampilkanKanji) {
-                                return response()->json(['message' => "kata sudah ada di node {$nodeName} (tanpa kanji)"], 422);
-                            }
+                        } elseif (!$newTampilkanKanji && !$existingTampilkanKanji) {
+                            return response()->json(['message' => "kata sudah ada di node {$nodeName} (tanpa kanji)"], 422);
                         }
                     }
                 }
@@ -285,12 +283,10 @@ class GuruStepApiController extends Controller
                     if (!$hasKanji) {
                         return response()->json(['message' => "kata sudah ada di node {$nodeName}"], 422);
                     } else {
-                        if ($existingTampilkanKanji) {
+                        if ($newTampilkanKanji && $existingTampilkanKanji) {
                             return response()->json(['message' => "kata sudah ada di node {$nodeName}"], 422);
-                        } else {
-                            if (!$newTampilkanKanji) {
-                                return response()->json(['message' => "kata sudah ada di node {$nodeName} (tanpa kanji)"], 422);
-                            }
+                        } elseif (!$newTampilkanKanji && !$existingTampilkanKanji) {
+                            return response()->json(['message' => "kata sudah ada di node {$nodeName} (tanpa kanji)"], 422);
                         }
                     }
                 }
@@ -633,5 +629,44 @@ class GuruStepApiController extends Controller
         }
 
         return response()->json(['message' => 'Langkah pembelajaran berhasil di-import.']);
+    }
+
+    public function checkLock(Request $request): JsonResponse
+    {
+        $kata = $request->query('kata');
+        $excludeStepId = $request->query('exclude_step_id');
+
+        if (empty($kata)) {
+            return response()->json([
+                'disabled' => false,
+                'force_value' => null,
+            ]);
+        }
+
+        $existingSteps = NodeStep::query()
+            ->where('type', 'vocabulary')
+            ->where('character_symbol', $kata);
+
+        if ($excludeStepId) {
+            $existingSteps->where('id', '!=', $excludeStepId);
+        }
+
+        $steps = $existingSteps->get();
+
+        if ($steps->isEmpty()) {
+            return response()->json([
+                'disabled' => false,
+                'force_value' => null,
+            ]);
+        }
+
+        $firstStep = $steps->first();
+        $existingTampilkanKanji = $firstStep->quiz_instruction !== '0';
+        $forceValue = !$existingTampilkanKanji;
+
+        return response()->json([
+            'disabled' => true,
+            'force_value' => $forceValue,
+        ]);
     }
 }

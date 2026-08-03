@@ -384,11 +384,39 @@ export default function initQuestionsModule() {
     const stepFilterLabel = root.querySelector('[data-step-filter-label]');
     const filterEmptyNode = root.querySelector('[data-questions-filter-empty]');
 
+    const fetchCheckLockStatus = async (kata) => {
+      const chk = root.querySelector('#vocab-tampilkan-kanji');
+      if (!chk) return;
+      if (!kata) {
+        chk.disabled = false;
+        return;
+      }
+      const stepId = stepIdInput ? stepIdInput.value : '';
+      try {
+        const res = await fetch(`/api/guru/katas/check-lock?kata=${encodeURIComponent(kata)}&exclude_step_id=${stepId}`);
+        const data = await res.json();
+        if (data.disabled) {
+          chk.disabled = true;
+          chk.checked = data.force_value;
+        } else {
+          chk.disabled = false;
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
     const toggleTampilkanKanjiCheckbox = (text) => {
       const container = root.querySelector('#vocab-tampilkan-kanji-container');
       if (!container) return;
       const hasKanji = /[\u4e00-\u9faf]/.test(text || '');
       container.style.display = hasKanji ? 'flex' : 'none';
+      if (hasKanji) {
+        fetchCheckLockStatus(text);
+      } else {
+        const chk = root.querySelector('#vocab-tampilkan-kanji');
+        if (chk) chk.disabled = false;
+      }
     };
 
     const state = {

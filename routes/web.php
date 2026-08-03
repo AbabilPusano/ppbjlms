@@ -144,5 +144,6 @@ Route::middleware(['auth', 'role:guru,admin'])->group(function (): void {
         Route::get('/kanjis/search', [GuruReferenceController::class, 'searchKanji'])->name('kanjis.search');
         Route::get('/hurufs/search', [GuruReferenceController::class, 'searchHuruf'])->name('hurufs.search');
         Route::get('/katas/search', [GuruReferenceController::class, 'searchKata'])->name('katas.search');
+        Route::get('/katas/check-lock', [GuruStepApiController::class, 'checkLock'])->name('katas.check-lock');
     });
 });
