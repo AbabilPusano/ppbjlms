@@ -174,6 +174,11 @@ class GuruStepApiController extends Controller
             $quizQuery = 'RANDOM_QUIZ';
         }
 
+        $content = $validated['content'] ?? null;
+        if ($type === 'quiz') {
+            $content = $request->input('quiz_type') ?? null;
+        }
+
         $sortOrder = $validated['sort_order'] ?? null;
         if ($sortOrder !== null) {
             NodeStep::query()
@@ -188,7 +193,7 @@ class GuruStepApiController extends Controller
             'id' => (string) Str::ulid(),
             'node_id' => $node->id,
             'type' => $type,
-            'content' => $validated['content'] ?? null,
+            'content' => $content,
             'character_symbol' => $charSymbol,
             'character_pronunciation' => $validated['character_pronunciation'] ?? null,
             'quiz_instruction' => $validated['quiz_instruction'] ?? null,
@@ -281,9 +286,14 @@ class GuruStepApiController extends Controller
             $quizQuery = 'RANDOM_QUIZ';
         }
 
+        $content = $validated['content'] ?? null;
+        if ($validated['type'] === 'quiz') {
+            $content = $request->input('quiz_type') ?? null;
+        }
+
         $step->update([
             'type' => $validated['type'],
-            'content' => $validated['content'] ?? null,
+            'content' => $content,
             'character_symbol' => $charSymbol,
             'character_pronunciation' => $validated['character_pronunciation'] ?? null,
             'quiz_instruction' => $validated['quiz_instruction'] ?? null,
@@ -380,6 +390,7 @@ class GuruStepApiController extends Controller
         }
 
         if ($step->type === 'quiz') {
+            $serialized['quiz_type'] = $step->content;
             if ($step->character_symbol === 'random') {
                 $serialized['quiz_question_type'] = 'random';
                 $serialized['quiz_kata_id'] = null;

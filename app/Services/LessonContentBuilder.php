@@ -58,18 +58,18 @@ class LessonContentBuilder
                     $kanjiText = '';
                     $kanjiMeaning = '';
                     if ($kata && $kata->kanjis->isNotEmpty()) {
-                        $kanjiText = $kata->kanjis->pluck('kanji')->join(', ');
-                        $kanjiMeaning = $kata->kanjis->map(fn($k) => $k->makna)->join(', ');
+                         $kanjiText = $kata->kanjis->pluck('kanji')->join(', ');
+                         $kanjiMeaning = $kata->kanjis->map(fn($k) => $k->makna)->join(', ');
                     } elseif ($kata && $kata->kanji) {
-                        $kanjiText = $kata->kanji->kanji;
-                        $kanjiMeaning = $kata->kanji->makna;
+                         $kanjiText = $kata->kanji->kanji;
+                         $kanjiMeaning = $kata->kanji->makna;
                     }
 
                     return [
                         'type' => 'new-vocabulary',
                         'letter' => $displayWord,
-                        'reading' => $step->character_pronunciation,
-                        'meaning' => $step->content,
+                        'reading' => $kata ? $kata->romaji : ($step->character_pronunciation ?? ''),
+                        'meaning' => $kata ? $kata->arti : ($step->content ?? ''),
                         'kanji' => $kanjiText,
                         'kanji_meaning' => $kanjiMeaning,
                         'tipe_kata' => $kata?->tipe_kata ?? '',
@@ -137,6 +137,81 @@ class LessonContentBuilder
                         }
                     }
 
+                    $kata = \App\Models\Kata::with('kanjis')->where('kata', $stepToMap->character_symbol)->first();
+                    if ($kata) {
+                        $quizType = $stepToMap->content; // We store quiz_type in content column
+                        if (!$quizType || $quizType === 'random') {
+                            $quizType = collect(['kata_to_meaning', 'meaning_to_kata'])->random();
+                        }
+
+                        $user = auth()->user();
+                        $studiedKanjis = $user ? self::getStudiedKanjis($user->id) : [];
+
+                        // Resolve options
+                        $resolvedOptions = [];
+                        foreach ($stepToMap->quiz_options as $option) {
+                            $optKata = \App\Models\Kata::with('kanjis')->where('kata', $option)->orWhere('arti', $option)->first();
+                            if ($optKata) {
+                                $isCorrect = ($optKata->kata === $kata->kata);
+                                if ($quizType === 'kata_to_meaning') {
+                                    $displayText = $optKata->arti;
+                                } else {
+                                    // meaning_to_kata
+                                    $displayText = $optKata->kata;
+                                    $optKanjis = $optKata->kanjis->pluck('kanji')->toArray();
+                                    $optAllStudied = collect($optKanjis)->every(fn($k) => in_array($k, $studiedKanjis));
+                                    if (!$optAllStudied) {
+                                        $displayText = $optKata->kana;
+                                    }
+                                }
+                                $resolvedOptions[] = [
+                                    'text' => $displayText,
+                                    'correct' => $isCorrect,
+                                ];
+                            } else {
+                                $resolvedOptions[] = [
+                                    'text' => $option,
+                                    'correct' => ($option === $stepToMap->quiz_options[$stepToMap->quiz_correct_index]),
+                                ];
+                            }
+                        }
+
+                        // Determine query
+                        if ($quizType === 'kata_to_meaning') {
+                            $quizQuery = $kata->kata;
+                            $associatedKanjis = $kata->kanjis->pluck('kanji')->toArray();
+                            $allStudied = collect($associatedKanjis)->every(fn($k) => in_array($k, $studiedKanjis));
+                            if (!$allStudied) {
+                                $quizQuery = $kata->kana;
+                            }
+                        } else {
+                            $quizQuery = $kata->arti;
+                        }
+
+                        $mappedOptions = collect($resolvedOptions)->map(function ($opt, $index): array {
+                            return [
+                                'id' => $index + 1,
+                                'text' => $opt['text'],
+                                'sub' => '',
+                                'image' => '',
+                                'correct' => $opt['correct'],
+                            ];
+                        })->all();
+
+                        $correctOption = collect($mappedOptions)->firstWhere('correct', true);
+                        $answerText = $correctOption ? $correctOption['text'] : '';
+                        $shuffledOptions = collect($mappedOptions)->shuffle()->values()->all();
+
+                        return [
+                            'type' => 'select-image',
+                            'question' => $quizQuery,
+                            'instruction' => $stepToMap->quiz_instruction,
+                            'answer' => $answerText,
+                            'options' => $shuffledOptions,
+                        ];
+                    }
+
+                    // Fallback for non-vocabulary steps (like character steps)
                     $options = collect($stepToMap->quiz_options)->map(function ($option, $index) use ($stepToMap): array {
                         return [
                             'id' => $index + 1,
@@ -147,51 +222,14 @@ class LessonContentBuilder
                         ];
                     })->all();
 
-                    $quizQuery = $stepToMap->quiz_query;
-                    $quizInstruction = $stepToMap->quiz_instruction;
-
-                    $kata = \App\Models\Kata::with('kanjis')->where('kata', $stepToMap->character_symbol)->first();
-                    if ($kata) {
-                        $user = auth()->user();
-                        $studiedKanjis = $user ? self::getStudiedKanjis($user->id) : [];
-
-                        $associatedKanjis = $kata->kanjis->pluck('kanji')->toArray();
-                        $allStudied = collect($associatedKanjis)->every(fn($k) => in_array($k, $studiedKanjis));
-
-                        if (!$allStudied) {
-                            if ($quizQuery === $kata->kata) {
-                                $quizQuery = $kata->kana;
-                            }
-                        }
-
-                        $options = collect($stepToMap->quiz_options)->map(function ($option, $index) use ($stepToMap, $studiedKanjis): array {
-                            $displayText = $option;
-                            $optKata = \App\Models\Kata::with('kanjis')->where('kata', $option)->first();
-                            if ($optKata) {
-                                $optKanjis = $optKata->kanjis->pluck('kanji')->toArray();
-                                $optAllStudied = collect($optKanjis)->every(fn($k) => in_array($k, $studiedKanjis));
-                                if (!$optAllStudied) {
-                                    $displayText = $optKata->kana;
-                                }
-                            }
-                            return [
-                                'id' => $index + 1,
-                                'text' => $displayText,
-                                'sub' => '',
-                                'image' => '',
-                                'correct' => $index === $stepToMap->quiz_correct_index,
-                            ];
-                        })->all();
-                    }
-
                     $correctOption = collect($options)->firstWhere('correct', true);
                     $answerText = $correctOption ? $correctOption['text'] : '';
                     $shuffledOptions = collect($options)->shuffle()->values()->all();
 
                     return [
                         'type' => 'select-image',
-                        'question' => $quizQuery,
-                        'instruction' => $quizInstruction,
+                        'question' => $stepToMap->quiz_query,
+                        'instruction' => $stepToMap->quiz_instruction,
                         'answer' => $answerText,
                         'options' => $shuffledOptions,
                     ];
