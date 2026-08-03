@@ -413,7 +413,7 @@ class GuruReferenceController extends Controller
 
         if (! empty($search)) {
             $query->where(function ($q) use ($search) {
-                $q->where('simbol', 'like', "%{$search}%")
+                $q->whereRaw('BINARY simbol like ?', ["%{$search}%"])
                     ->orWhere('cara_baca', 'like', "%{$search}%")
                     ->orWhere('tipe', 'like', "%{$search}%");
             });

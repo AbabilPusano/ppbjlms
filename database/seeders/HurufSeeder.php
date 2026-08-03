@@ -84,18 +84,24 @@ class HurufSeeder extends Seeder
             ['ピャ', 'pya'], ['ピュ', 'pyu'], ['ピョ', 'pyo'],
         ];
 
+        Huruf::query()->delete();
+
         foreach ($hiragana as $item) {
-            Huruf::updateOrCreate(
-                ['tipe' => 'hiragana', 'simbol' => $item[0]],
-                ['id' => (string) Str::uuid(), 'cara_baca' => $item[1]]
-            );
+            Huruf::create([
+                'id' => (string) Str::uuid(),
+                'tipe' => 'hiragana',
+                'simbol' => $item[0],
+                'cara_baca' => $item[1]
+            ]);
         }
 
         foreach ($katakana as $item) {
-            Huruf::updateOrCreate(
-                ['tipe' => 'katakana', 'simbol' => $item[0]],
-                ['id' => (string) Str::uuid(), 'cara_baca' => $item[1]]
-            );
+            Huruf::create([
+                'id' => (string) Str::uuid(),
+                'tipe' => 'katakana',
+                'simbol' => $item[0],
+                'cara_baca' => $item[1]
+            ]);
         }
     }
 }
