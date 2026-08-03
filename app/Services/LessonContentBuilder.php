@@ -15,6 +15,9 @@ class LessonContentBuilder
 
         $vocabSymbols = \App\Models\NodeStep::whereIn('node_id', $completedNodeIds)
             ->where('type', 'vocabulary')
+            ->where(function($q) {
+                $q->whereNull('quiz_instruction')->orWhere('quiz_instruction', '!=', '0');
+            })
             ->pluck('character_symbol')
             ->toArray();
 
@@ -53,16 +56,20 @@ class LessonContentBuilder
                     $kata = \App\Models\Kata::with('kanjis')->where('kata', $step->character_symbol)->first();
                     $levelCode = $node->unit && $node->unit->level ? strtolower($node->unit->level->code) : '';
                     $isHurufLevel = ($levelCode === 'huruf');
-                    $displayWord = $isHurufLevel ? ($kata?->kana ?? $step->character_symbol) : $step->character_symbol;
+                    
+                    $tampilkanKanji = $step->quiz_instruction !== '0';
+                    $displayWord = ($isHurufLevel || !$tampilkanKanji) ? ($kata?->kana ?? $step->character_symbol) : $step->character_symbol;
 
                     $kanjiText = '';
                     $kanjiMeaning = '';
-                    if ($kata && $kata->kanjis->isNotEmpty()) {
-                         $kanjiText = $kata->kanjis->pluck('kanji')->join(', ');
-                         $kanjiMeaning = $kata->kanjis->map(fn($k) => $k->makna)->join(', ');
-                    } elseif ($kata && $kata->kanji) {
-                         $kanjiText = $kata->kanji->kanji;
-                         $kanjiMeaning = $kata->kanji->makna;
+                    if ($tampilkanKanji) {
+                        if ($kata && $kata->kanjis->isNotEmpty()) {
+                             $kanjiText = $kata->kanjis->pluck('kanji')->join(', ');
+                             $kanjiMeaning = $kata->kanjis->map(fn($k) => $k->makna)->join(', ');
+                        } elseif ($kata && $kata->kanji) {
+                             $kanjiText = $kata->kanji->kanji;
+                             $kanjiMeaning = $kata->kanji->makna;
+                        }
                     }
 
                     return [

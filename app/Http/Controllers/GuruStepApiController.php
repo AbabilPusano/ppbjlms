@@ -124,14 +124,37 @@ class GuruStepApiController extends Controller
         if ($validated['type'] === 'vocabulary') {
             $kata = $validated['character_symbol'] ?? null;
             if ($kata) {
-                $existingStep = NodeStep::query()
+                $hasKanji = false;
+                $kataRecord = \App\Models\Kata::where('kata', $kata)->first();
+                if ($kataRecord) {
+                    $hasKanji = $kataRecord->kanjis()->exists();
+                } else {
+                    $hasKanji = (bool) preg_match('/[\x{4e00}-\x{9faf}]/u', $kata);
+                }
+
+                $newTampilkanKanji = $request->input('tampilkan_kanji') === '1' || $request->input('tampilkan_kanji') === 'true';
+
+                $existingSteps = NodeStep::query()
                     ->where('type', 'vocabulary')
                     ->where('character_symbol', $kata)
-                    ->first();
-                if ($existingStep) {
+                    ->get();
+
+                foreach ($existingSteps as $existingStep) {
+                    $existingTampilkanKanji = $existingStep->quiz_instruction !== '0';
                     $existingNode = Node::query()->find($existingStep->node_id);
                     $nodeName = $existingNode ? $existingNode->title : 'lain';
-                    return response()->json(['message' => "kata sudah ada di node {$nodeName}"], 422);
+
+                    if (!$hasKanji) {
+                        return response()->json(['message' => "kata sudah ada di node {$nodeName}"], 422);
+                    } else {
+                        if ($existingTampilkanKanji) {
+                            return response()->json(['message' => "kata sudah ada di node {$nodeName}"], 422);
+                        } else {
+                            if (!$newTampilkanKanji) {
+                                return response()->json(['message' => "kata sudah ada di node {$nodeName} (tanpa kanji)"], 422);
+                            }
+                        }
+                    }
                 }
             }
 
@@ -179,6 +202,11 @@ class GuruStepApiController extends Controller
             $content = $request->input('quiz_type') ?? null;
         }
 
+        $quizInstruction = $validated['quiz_instruction'] ?? null;
+        if ($type === 'vocabulary') {
+            $quizInstruction = $request->input('tampilkan_kanji') === '1' || $request->input('tampilkan_kanji') === 'true' ? '1' : '0';
+        }
+
         $sortOrder = $validated['sort_order'] ?? null;
         if ($sortOrder !== null) {
             NodeStep::query()
@@ -196,7 +224,7 @@ class GuruStepApiController extends Controller
             'content' => $content,
             'character_symbol' => $charSymbol,
             'character_pronunciation' => $validated['character_pronunciation'] ?? null,
-            'quiz_instruction' => $validated['quiz_instruction'] ?? null,
+            'quiz_instruction' => $quizInstruction,
             'quiz_query' => $quizQuery,
             'quiz_options' => $validated['quiz_options'] ?? null,
             'quiz_correct_index' => $validated['quiz_correct_index'] ?? null,
@@ -232,16 +260,39 @@ class GuruStepApiController extends Controller
 
         if ($validated['type'] === 'vocabulary') {
             $kata = $validated['character_symbol'] ?? null;
-            if ($kata && $kata !== $step->character_symbol) {
-                $existingStep = NodeStep::query()
+            if ($kata) {
+                $hasKanji = false;
+                $kataRecord = \App\Models\Kata::where('kata', $kata)->first();
+                if ($kataRecord) {
+                    $hasKanji = $kataRecord->kanjis()->exists();
+                } else {
+                    $hasKanji = (bool) preg_match('/[\x{4e00}-\x{9faf}]/u', $kata);
+                }
+
+                $newTampilkanKanji = $request->input('tampilkan_kanji') === '1' || $request->input('tampilkan_kanji') === 'true';
+
+                $existingSteps = NodeStep::query()
                     ->where('type', 'vocabulary')
                     ->where('character_symbol', $kata)
                     ->where('id', '!=', $step->id)
-                    ->first();
-                if ($existingStep) {
+                    ->get();
+
+                foreach ($existingSteps as $existingStep) {
+                    $existingTampilkanKanji = $existingStep->quiz_instruction !== '0';
                     $existingNode = Node::query()->find($existingStep->node_id);
                     $nodeName = $existingNode ? $existingNode->title : 'lain';
-                    return response()->json(['message' => "kata sudah ada di node {$nodeName}"], 422);
+
+                    if (!$hasKanji) {
+                        return response()->json(['message' => "kata sudah ada di node {$nodeName}"], 422);
+                    } else {
+                        if ($existingTampilkanKanji) {
+                            return response()->json(['message' => "kata sudah ada di node {$nodeName}"], 422);
+                        } else {
+                            if (!$newTampilkanKanji) {
+                                return response()->json(['message' => "kata sudah ada di node {$nodeName} (tanpa kanji)"], 422);
+                            }
+                        }
+                    }
                 }
             }
 
@@ -291,12 +342,17 @@ class GuruStepApiController extends Controller
             $content = $request->input('quiz_type') ?? null;
         }
 
+        $quizInstruction = $validated['quiz_instruction'] ?? null;
+        if ($validated['type'] === 'vocabulary') {
+            $quizInstruction = $request->input('tampilkan_kanji') === '1' || $request->input('tampilkan_kanji') === 'true' ? '1' : '0';
+        }
+
         $step->update([
             'type' => $validated['type'],
             'content' => $content,
             'character_symbol' => $charSymbol,
             'character_pronunciation' => $validated['character_pronunciation'] ?? null,
-            'quiz_instruction' => $validated['quiz_instruction'] ?? null,
+            'quiz_instruction' => $quizInstruction,
             'quiz_query' => $quizQuery,
             'quiz_options' => $validated['quiz_options'] ?? null,
             'quiz_correct_index' => isset($validated['quiz_correct_index']) ? (int) $validated['quiz_correct_index'] : null,
@@ -350,6 +406,7 @@ class GuruStepApiController extends Controller
             'deskripsi' => 'nullable|string',
             'level' => 'nullable|string|in:N5,N4,N3,N2,N1',
             'quiz_question_type' => 'nullable|string|in:character,vocabulary,random',
+            'tampilkan_kanji' => 'nullable|string',
         ]);
     }
 
@@ -387,6 +444,7 @@ class GuruStepApiController extends Controller
             $serialized['tipe_kata'] = $kataRecord?->tipe_kata;
             $serialized['deskripsi'] = $kataRecord?->deskripsi;
             $serialized['level'] = $kataRecord?->level;
+            $serialized['tampilkan_kanji'] = $step->quiz_instruction !== '0';
         }
 
         if ($step->type === 'quiz') {

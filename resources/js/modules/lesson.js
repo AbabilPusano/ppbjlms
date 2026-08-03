@@ -312,7 +312,7 @@ export default function initLessonModule() {
       const question = getCurrentQuestion();
       if (!question) return;
 
-      if (question.type === 'new-letter' || status !== 'none') {
+      if (question.type === 'new-letter' || question.type === 'new-vocabulary' || status !== 'none') {
         goNext();
         return;
       }

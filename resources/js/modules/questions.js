@@ -384,6 +384,13 @@ export default function initQuestionsModule() {
     const stepFilterLabel = root.querySelector('[data-step-filter-label]');
     const filterEmptyNode = root.querySelector('[data-questions-filter-empty]');
 
+    const toggleTampilkanKanjiCheckbox = (text) => {
+      const container = root.querySelector('#vocab-tampilkan-kanji-container');
+      if (!container) return;
+      const hasKanji = /[\u4e00-\u9faf]/.test(text || '');
+      container.style.display = hasKanji ? 'flex' : 'none';
+    };
+
     const state = {
       node: null,
       steps: [],
@@ -435,6 +442,7 @@ export default function initQuestionsModule() {
             stepForm.elements.vocab_kana.value = selectedKata.kana || '';
             stepForm.elements.vocab_romaji.value = selectedKata.romaji || '';
             stepForm.elements.vocab_arti.value = selectedKata.arti || '';
+            toggleTampilkanKanjiCheckbox(selectedKata.kata);
             if (stepKanjiSelect) {
               stepKanjiSelect.setValue(selectedKata.kanji_id || '', selectedKata.kanji_text || '');
             } else {
@@ -471,6 +479,7 @@ export default function initQuestionsModule() {
       stepForm.elements.vocab_kata.addEventListener('input', async () => {
         renderStepFields();
         const val = stepForm.elements.vocab_kata.value || '';
+        toggleTampilkanKanjiCheckbox(val);
         const kanjis = extractKanjis(val);
 
         // Remove selected kanjis that are no longer in the input field
@@ -548,6 +557,9 @@ export default function initQuestionsModule() {
 
     if (vocabBtnCreateNew) {
       vocabBtnCreateNew.addEventListener('click', () => {
+        toggleTampilkanKanjiCheckbox('');
+        const chk = root.querySelector('#vocab-tampilkan-kanji');
+        if (chk) chk.checked = true;
         if (stepForm) {
           stepForm.elements.vocab_kata.value = '';
           stepForm.elements.vocab_kana.value = '';
@@ -773,6 +785,11 @@ export default function initQuestionsModule() {
             const correctAns = wordSymbol;
             const distSymbols = distractors.map(d => d.character_symbol);
             options = [correctAns, ...distSymbols];
+          } else if (quizType === 'random') {
+            questionText = 'RANDOM_QUIZ';
+            const correctAns = wordSymbol;
+            const distSymbols = distractors.map(d => d.character_symbol);
+            options = [correctAns, ...distSymbols];
           }
 
           const correctVal = options[0];
@@ -975,12 +992,13 @@ export default function initQuestionsModule() {
               quizTypeSelect.value = currentVal;
             }
           } else if (quizQuestionType === 'vocabulary') {
-            quizTypeSelect.innerHTML = `
+             quizTypeSelect.innerHTML = `
               <option value="">-- Pilih Tipe Kuis --</option>
               <option value="kata_to_meaning">Kata -> Makna</option>
               <option value="meaning_to_kata">Makna -> Kata</option>
+              <option value="random">Random (Acak)</option>
             `;
-            if (['kata_to_meaning', 'meaning_to_kata'].includes(currentVal)) {
+            if (['kata_to_meaning', 'meaning_to_kata', 'random'].includes(currentVal)) {
               quizTypeSelect.value = currentVal;
             }
           }
@@ -1218,6 +1236,10 @@ export default function initQuestionsModule() {
             searchDetailInput.value = `${step.character_pronunciation || ''} (${step.content || ''})`;
           }
 
+          toggleTampilkanKanjiCheckbox(step.character_symbol);
+          const chk = root.querySelector('#vocab-tampilkan-kanji');
+          if (chk) chk.checked = (step.tampilkan_kanji !== false);
+
           stepForm.elements.vocab_kata.value = step.character_symbol || '';
           stepForm.elements.vocab_kana.value = step.kana || '';
           stepForm.elements.vocab_romaji.value = step.character_pronunciation || '';
@@ -1281,6 +1303,9 @@ export default function initQuestionsModule() {
           }
         }
       } else if (stepForm) {
+        toggleTampilkanKanjiCheckbox('');
+        const chk = root.querySelector('#vocab-tampilkan-kanji');
+        if (chk) chk.checked = true;
         stepForm.elements.type.value = 'text';
         stepForm.elements.sort_order.value = '';
       }
@@ -1321,6 +1346,8 @@ export default function initQuestionsModule() {
         payload.deskripsi = String(formData.get('vocab_deskripsi') || '');
         payload.level = String(formData.get('vocab_level') || '');
         payload.vocab_selected_id = String(formData.get('vocab_selected_id') || '');
+        const chk = root.querySelector('#vocab-tampilkan-kanji');
+        payload.tampilkan_kanji = chk ? (chk.checked ? '1' : '0') : '1';
       } else if (type === 'quiz') {
         payload.quiz_instruction = String(formData.get('quiz_instruction') || 'PILIH JAWABAN YANG BENAR');
         payload.quiz_query = String(formData.get('quiz_query') || '');

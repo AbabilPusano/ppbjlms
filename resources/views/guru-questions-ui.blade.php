@@ -309,6 +309,11 @@
 
                 <!-- VOCABULARY STEP FIELDS -->
                 <div data-question-fields="vocabulary" hidden style="display: flex; flex-direction: column; gap: 16px;">
+                    <!-- Tampilkan Kanji Checkbox -->
+                    <div id="vocab-tampilkan-kanji-container" style="display: none; align-items: center; gap: 8px; margin-bottom: 4px;">
+                        <input type="checkbox" name="tampilkan_kanji" id="vocab-tampilkan-kanji" value="1" checked style="width: 16px; height: 16px; cursor: pointer; accent-color: var(--accent);">
+                        <label for="vocab-tampilkan-kanji" style="font-size: 14px; font-weight: 500; color: var(--text-main); cursor: pointer;">Tampilkan Kanji</label>
+                    </div>
                     <!-- Search Section -->
                     <div id="vocab-search-section" style="display: flex; flex-direction: column; gap: 12px;">
                         <div class="guru-unit-form__grid">
