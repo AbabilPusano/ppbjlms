@@ -1036,6 +1036,16 @@ export default function initQuestionsModule() {
       if (titleNode) titleNode.textContent = state.node?.title ? `Langkah Belajar: ${state.node.title}` : 'Langkah Pembelajaran';
       if (subtitleNode) subtitleNode.textContent = 'Kelola urutan dan isi langkah belajar (teks, pengenalan huruf, kuis).';
 
+      const charCount = state.steps.filter(s => s.type === 'character').length;
+      const vocabCount = state.steps.filter(s => s.type === 'vocabulary').length;
+      const quizCount = state.steps.filter(s => s.type === 'quiz').length;
+      const statChar = root.querySelector('[data-stat-char]');
+      const statVocab = root.querySelector('[data-stat-vocab]');
+      const statQuiz = root.querySelector('[data-stat-quiz]');
+      if (statChar) statChar.textContent = String(charCount);
+      if (statVocab) statVocab.textContent = String(vocabCount);
+      if (statQuiz) statQuiz.textContent = String(quizCount);
+
       const visibleSteps = state.stepType
         ? state.steps.filter((step) => step.type === state.stepType)
         : state.steps;

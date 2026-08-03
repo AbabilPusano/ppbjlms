@@ -109,6 +109,18 @@
 .guru-question-card:hover .guru-step-inline-add {
     display: inline-flex;
 }
+.guru-material-type--character {
+    background: rgba(245, 158, 11, 0.1) !important;
+    color: #d97706 !important;
+}
+.guru-material-type--vocabulary {
+    background: rgba(16, 185, 129, 0.1) !important;
+    color: #059669 !important;
+}
+.guru-material-type--text {
+    background: rgba(107, 114, 128, 0.1) !important;
+    color: #4b5563 !important;
+}
 </style>
 <div class="guru-shell" data-guru-questions data-material-id="{{ request()->route('material') }}">
     <header class="guru-topbar">
@@ -158,6 +170,11 @@
                 </a>
                 <h1 data-question-title>LANGKAH PEMBELAJARAN</h1>
                 <p data-question-subtitle>Memuat unit...</p>
+                <div data-question-stats style="font-size: 13px; color: #667085; margin-top: 6px; display: flex; gap: 16px;">
+                    <span>Total Huruf Baru: <strong data-stat-char>0</strong></span>
+                    <span>Total Kata Baru: <strong data-stat-vocab>0</strong></span>
+                    <span>Total Kuis: <strong data-stat-quiz>0</strong></span>
+                </div>
             </div>
             <div class="guru-units-toolbar" style="display: flex; gap: 8px; align-items: center;">
                 <button type="button" class="guru-unit-button guru-unit-button--danger" data-delete-selected style="display: none; align-items: center; justify-content: center; gap: 4px;">
@@ -397,9 +414,9 @@
                         <select name="quiz_question_type" data-quiz-question-type style="background: #fff; border: 1px solid #d6d0c5; padding: 8px; border-radius: 6px; width: 100%; box-sizing: border-box;">
                             <option value="character" selected>Huruf</option>
                             <option value="vocabulary">Kata</option>
-                            <option value="random">Random (Acak)</option>
                             <option value="grammar" disabled>Grammar (Belum Tersedia)</option>
                             <option value="sentence" disabled>Kalimat (Belum Tersedia)</option>
+                            <option value="random">Random (Acak)</option>
                         </select>
                     </label>
  

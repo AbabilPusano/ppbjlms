@@ -442,6 +442,7 @@ class GuruReferenceController extends Controller
         if (! empty($search)) {
             $query->where(function ($q) use ($search) {
                 $q->where('kata', 'like', "%{$search}%")
+                    ->orWhere('kana', 'like', "%{$search}%")
                     ->orWhere('romaji', 'like', "%{$search}%")
                     ->orWhere('arti', 'like', "%{$search}%");
             });

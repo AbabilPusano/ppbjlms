@@ -184,12 +184,16 @@ class LessonContentBuilder
                         })->all();
                     }
 
+                    $correctOption = collect($options)->firstWhere('correct', true);
+                    $answerText = $correctOption ? $correctOption['text'] : '';
+                    $shuffledOptions = collect($options)->shuffle()->values()->all();
+
                     return [
                         'type' => 'select-image',
                         'question' => $quizQuery,
                         'instruction' => $quizInstruction,
-                        'answer' => $options[$stepToMap->quiz_correct_index]['text'] ?? '',
-                        'options' => $options,
+                        'answer' => $answerText,
+                        'options' => $shuffledOptions,
                     ];
                 }
 
