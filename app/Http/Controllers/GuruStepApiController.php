@@ -596,19 +596,19 @@ class GuruStepApiController extends Controller
                         $reading = trim($row[3] ?? '');
                         $meaning = trim($row[1] ?? '');
                         if ($kata) {
-                            if (\App\Models\Kata::where('kata', $kata)->exists()) {
-                                throw new \InvalidArgumentException("Kata '{$kata}' sudah ada di database referensi.");
+                            if (!\App\Models\Kata::where('kata', $kata)->exists()) {
+                                \App\Models\Kata::create([
+                                    'id' => (string) Str::uuid(),
+                                    'kata' => $kata,
+                                    'romaji' => $reading,
+                                    'arti' => $meaning,
+                                ]);
                             }
-                            \App\Models\Kata::create([
-                                'id' => (string) Str::uuid(),
-                                'kata' => $kata,
-                                'romaji' => $reading,
-                                'arti' => $meaning,
-                            ]);
                         }
                         $stepData['character_symbol'] = $kata;
                         $stepData['character_pronunciation'] = $reading;
                         $stepData['content'] = $meaning;
+                        $stepData['quiz_instruction'] = '1'; // default tampilkan_kanji = true
                     } elseif ($type === 'quiz') {
                         $stepData['quiz_instruction'] = !empty($row[4]) ? $row[4] : 'PILIH JAWABAN YANG BENAR';
                         $stepData['quiz_query'] = $row[5] ?? '';

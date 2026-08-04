@@ -402,17 +402,30 @@ class GuruMaterialApiController extends Controller
                 'title' => $node->title,
                 'type' => $node->type,
                 'order' => $node->order,
-                'steps' => $node->steps->map(fn (NodeStep $step): array => [
-                    'type' => $step->type,
-                    'content' => $step->content,
-                    'character_symbol' => $step->character_symbol,
-                    'character_pronunciation' => $step->character_pronunciation,
-                    'quiz_instruction' => $step->quiz_instruction,
-                    'quiz_query' => $step->quiz_query,
-                    'quiz_options' => $step->quiz_options,
-                    'quiz_correct_index' => $step->quiz_correct_index,
-                    'sort_order' => $step->sort_order,
-                ])->toArray(),
+                'steps' => $node->steps->map(function (NodeStep $step): array {
+                    $stepData = [
+                        'type' => $step->type,
+                        'content' => $step->content,
+                        'character_symbol' => $step->character_symbol,
+                        'character_pronunciation' => $step->character_pronunciation,
+                        'quiz_instruction' => $step->quiz_instruction,
+                        'quiz_query' => $step->quiz_query,
+                        'quiz_options' => $step->quiz_options,
+                        'quiz_correct_index' => $step->quiz_correct_index,
+                        'sort_order' => $step->sort_order,
+                    ];
+                    if ($step->type === 'vocabulary') {
+                        $kata = \App\Models\Kata::with('kanjis')->where('kata', $step->character_symbol)->first();
+                        if ($kata) {
+                            $stepData['kana'] = $kata->kana;
+                            $stepData['tipe_kata'] = $kata->tipe_kata;
+                            $stepData['deskripsi'] = $kata->deskripsi;
+                            $stepData['level'] = $kata->level;
+                            $stepData['kanjis'] = $kata->kanjis->pluck('kanji')->toArray();
+                        }
+                    }
+                    return $stepData;
+                })->toArray(),
             ])->toArray(),
         ];
 
@@ -491,20 +504,35 @@ class GuruMaterialApiController extends Controller
                             }
 
                             if ($stepData['type'] === 'vocabulary') {
-                                $kata = trim($stepData['character_symbol'] ?? '');
-                                $reading = trim($stepData['character_pronunciation'] ?? '');
-                                $meaning = trim($stepData['content'] ?? '');
-                                if ($kata) {
-                                    if (!\App\Models\Kata::where('kata', $kata)->exists()) {
-                                        \App\Models\Kata::create([
-                                            'id' => (string) Str::uuid(),
-                                            'kata' => $kata,
-                                            'romaji' => $reading,
-                                            'arti' => $meaning,
-                                        ]);
-                                    }
-                                }
-                            }
+                                 $kata = trim($stepData['character_symbol'] ?? '');
+                                 $reading = trim($stepData['character_pronunciation'] ?? '');
+                                 $meaning = trim($stepData['content'] ?? '');
+                                 if ($kata) {
+                                     $kataRecord = \App\Models\Kata::where('kata', $kata)->first();
+                                     if (!$kataRecord) {
+                                         $kanjiIds = [];
+                                         if (!empty($stepData['kanjis']) && is_array($stepData['kanjis'])) {
+                                             $kanjiIds = \App\Models\Kanji::whereIn('kanji', $stepData['kanjis'])->pluck('id')->toArray();
+                                         }
+                                         $firstKanjiId = count($kanjiIds) > 0 ? $kanjiIds[0] : null;
+
+                                         $kataRecord = \App\Models\Kata::create([
+                                             'id' => (string) Str::uuid(),
+                                             'kata' => $kata,
+                                             'kana' => $stepData['kana'] ?? '',
+                                             'romaji' => $reading,
+                                             'arti' => $meaning,
+                                             'kanji_id' => $firstKanjiId,
+                                             'tipe_kata' => $stepData['tipe_kata'] ?? null,
+                                             'deskripsi' => $stepData['deskripsi'] ?? null,
+                                             'level' => $stepData['level'] ?? null,
+                                         ]);
+                                         if (count($kanjiIds) > 0) {
+                                             $kataRecord->kanjis()->sync($kanjiIds);
+                                         }
+                                     }
+                                 }
+                             }
 
                             NodeStep::query()->create([
                                 'id' => (string) Str::ulid(),
