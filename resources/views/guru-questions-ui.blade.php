@@ -109,6 +109,12 @@
 .guru-question-card:hover .guru-step-inline-add {
     display: inline-flex;
 }
+.guru-question-card:hover .guru-quiz-add-btn {
+    display: inline-flex !important;
+}
+.guru-question-card--character {
+    background: #fef9c3 !important;
+}
 .guru-material-type--character {
     background: rgba(245, 158, 11, 0.1) !important;
     color: #d97706 !important;

@@ -1178,8 +1178,7 @@ export default function initQuestionsModule() {
         } else if (step.type === 'character') {
           contentHtml = `<p><strong>Huruf:</strong> ${escapeHtml(step.character_symbol || '-')} &nbsp;&nbsp;|&nbsp;&nbsp; <strong>Cara Baca:</strong> ${escapeHtml(step.character_pronunciation || '-')}</p>`;
         } else if (step.type === 'vocabulary') {
-          const isHurufLevel = (state.node && state.node.level_name && state.node.level_name.toLowerCase() === 'huruf');
-          const displayWord = isHurufLevel ? (step.kana || step.character_symbol) : step.character_symbol;
+          const displayWord = (step.tampilkan_kanji !== false) ? step.character_symbol : (step.kana || step.character_symbol);
           contentHtml = `<p><strong>Kata:</strong> ${escapeHtml(displayWord || '-')} (${escapeHtml(step.character_pronunciation || '-')}) &nbsp;&nbsp;|&nbsp;&nbsp; <strong>Arti:</strong> ${escapeHtml(step.content || '-')}</p>`;
         } else if (step.type === 'quiz') {
           const options = step.quiz_options || [];
@@ -1197,7 +1196,7 @@ export default function initQuestionsModule() {
         }
 
         return `
-          <article class="guru-question-card" data-question-card="${step.id}" draggable="true">
+          <article class="guru-question-card guru-question-card--${step.type}" data-question-card="${step.id}" draggable="true">
             <div class="guru-question-card__number" style="cursor: grab; display: flex; align-items: center; gap: 4px;">
               <span class="material-symbols-outlined" style="font-size: 18px; color: #aaa; vertical-align: middle;">drag_indicator</span>
               ${index + 1}
@@ -1207,6 +1206,11 @@ export default function initQuestionsModule() {
               <div style="margin-top: 8px;">${contentHtml}</div>
             </div>
             <div class="guru-unit-card__actions" style="display: flex; align-items: center; gap: 8px;">
+              ${(step.type === 'character' || step.type === 'vocabulary') ? `
+              <button type="button" class="guru-unit-button guru-quiz-add-btn" data-add-quick-quiz="${step.id}" title="Buat Langkah Pertanyaan Acak" style="display: none; align-items: center; justify-content: center; width: 36px; height: 36px; padding: 0; border-radius: 6px; border: 1px solid #d6d0c5; background: #fff;">
+                <span class="material-symbols-outlined" aria-hidden="true" style="font-size: 20px;">quiz</span>
+              </button>
+              ` : ''}
               <button type="button" class="guru-unit-button" data-edit-question="${step.id}">
                 <span class="material-symbols-outlined" aria-hidden="true">edit</span>Edit
               </button>
@@ -1399,6 +1403,65 @@ export default function initQuestionsModule() {
       }
 
       renderStepFields();
+      openModal(stepModal);
+    };
+
+    const openQuickQuizModal = (sourceStep) => {
+      stepForm?.reset();
+      if (stepKanjiSelect) stepKanjiSelect.setValue('', '');
+      if (stepKataSelect) stepKataSelect.setValue('', '');
+      if (stepCharacterSelect) stepCharacterSelect.setValue('', '');
+      if (quizCharacterSelect) quizCharacterSelect.setValue('', '');
+      if (quizKataSelect) quizKataSelect.setValue('', '');
+
+      if (vocabSearchSection) vocabSearchSection.style.display = 'flex';
+      if (vocabManualSection) vocabManualSection.style.display = 'none';
+      const searchDetailInput = root.querySelector('#vocab-search-detail');
+      if (searchDetailInput) searchDetailInput.value = '';
+
+      if (stepFormError) stepFormError.hidden = true;
+      if (stepIdInput) stepIdInput.value = '';
+      if (stepModalTitle) stepModalTitle.textContent = 'Tambah Langkah Pertanyaan';
+
+      if (stepForm) {
+        stepForm.elements.type.value = 'quiz';
+        stepForm.elements.sort_order.value = Number(sourceStep.sort_order || 0) + 1;
+      }
+
+      const qType = sourceStep.type === 'vocabulary' ? 'vocabulary' : 'character';
+      if (stepForm && stepForm.elements.quiz_question_type) {
+        stepForm.elements.quiz_question_type.value = qType;
+      }
+
+      renderStepFields();
+
+      if (qType === 'character') {
+        if (quizCharacterSelect) {
+          quizCharacterSelect.setValue(sourceStep.character_symbol || '', sourceStep.character_pronunciation || '');
+        }
+        const pronunciationInput = root.querySelector('#quiz-character-pronunciation');
+        if (pronunciationInput) pronunciationInput.value = sourceStep.character_pronunciation || '';
+      } else if (qType === 'vocabulary') {
+        if (quizKataSelect) {
+          quizKataSelect.setValue(sourceStep.kata_id || '', `${sourceStep.character_symbol || ''} (${sourceStep.character_pronunciation || ''})`);
+        }
+        const symbolInput = root.querySelector('#quiz-kata-symbol');
+        const pronunciationInput = root.querySelector('#quiz-kata-pronunciation');
+        const meaningInput = root.querySelector('#quiz-kata-meaning');
+        if (symbolInput) symbolInput.value = sourceStep.character_symbol || '';
+        if (pronunciationInput) pronunciationInput.value = sourceStep.character_pronunciation || '';
+        if (meaningInput) meaningInput.value = sourceStep.content || '';
+
+        toggleQuizTampilkanKanjiCheckbox(sourceStep.character_symbol);
+        const chk = root.querySelector('#quiz-tampilkan-kanji');
+        if (chk) chk.checked = true;
+      }
+
+      if (stepForm && stepForm.elements.quiz_type) {
+        stepForm.elements.quiz_type.value = 'random';
+      }
+
+      triggerAutoQuizGeneration();
       openModal(stepModal);
     };
 
@@ -1611,6 +1674,14 @@ export default function initQuestionsModule() {
       if (editButton) {
         const step = state.steps.find((item) => String(item.id) === String(editButton.getAttribute('data-edit-question')));
         openStepModal(step);
+      }
+
+      const quizAddBtn = target.closest('[data-add-quick-quiz]');
+      if (quizAddBtn) {
+        const step = state.steps.find((item) => String(item.id) === String(quizAddBtn.getAttribute('data-add-quick-quiz')));
+        if (step) {
+          openQuickQuizModal(step);
+        }
       }
 
       const deleteButton = target.closest('[data-delete-question]');
