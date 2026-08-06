@@ -22,7 +22,7 @@ class GuruStepApiController extends Controller
 
         $query = NodeStep::query()
             ->where('type', 'character')
-            ->where('character_symbol', $symbol);
+            ->whereRaw('BINARY character_symbol = ?', [$symbol]);
 
         if ($excludeStepId) {
             $query->where('id', '!=', $excludeStepId);
@@ -111,7 +111,7 @@ class GuruStepApiController extends Controller
             if ($char) {
                 $existingStep = NodeStep::query()
                     ->where('type', 'character')
-                    ->where('character_symbol', $char)
+                    ->whereRaw('BINARY character_symbol = ?', [$char])
                     ->first();
                 if ($existingStep) {
                     $existingNode = Node::query()->find($existingStep->node_id);
@@ -136,7 +136,7 @@ class GuruStepApiController extends Controller
 
                 $existingSteps = NodeStep::query()
                     ->where('type', 'vocabulary')
-                    ->where('character_symbol', $kata)
+                    ->whereRaw('BINARY character_symbol = ?', [$kata])
                     ->get();
 
                 foreach ($existingSteps as $existingStep) {
@@ -254,7 +254,7 @@ class GuruStepApiController extends Controller
                 $existingNode = Node::query()
                     ->where('id', '!=', $node->id)
                     ->whereHas('steps', function ($query) use ($symbol) {
-                        $query->where('type', 'character')->where('character_symbol', $symbol);
+                        $query->where('type', 'character')->whereRaw('BINARY character_symbol = ?', [$symbol]);
                     })
                     ->first();
 
@@ -280,7 +280,7 @@ class GuruStepApiController extends Controller
 
                 $existingSteps = NodeStep::query()
                     ->where('type', 'vocabulary')
-                    ->where('character_symbol', $kata)
+                    ->whereRaw('BINARY character_symbol = ?', [$kata])
                     ->where('id', '!=', $step->id)
                     ->get();
 
@@ -617,7 +617,7 @@ class GuruStepApiController extends Controller
                         if ($symbol) {
                             $existingStep = NodeStep::query()
                                 ->where('type', 'character')
-                                ->where('character_symbol', $symbol)
+                                ->whereRaw('BINARY character_symbol = ?', [$symbol])
                                 ->first();
                             if ($existingStep) {
                                 $existingNode = Node::query()->find($existingStep->node_id);
@@ -693,7 +693,7 @@ class GuruStepApiController extends Controller
 
         $existingSteps = NodeStep::query()
             ->where('type', 'vocabulary')
-            ->where('character_symbol', $kata);
+            ->whereRaw('BINARY character_symbol = ?', [$kata]);
 
         if ($excludeStepId) {
             $existingSteps->where('id', '!=', $excludeStepId);
