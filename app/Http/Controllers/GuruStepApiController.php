@@ -215,13 +215,22 @@ class GuruStepApiController extends Controller
             $sortOrder = ((int) NodeStep::query()->where('node_id', $node->id)->max('sort_order')) + 1;
         }
 
+        $charPron = $validated['character_pronunciation'] ?? null;
+        if ($type === 'quiz') {
+            if ($request->input('quiz_question_type') === 'vocabulary') {
+                $charPron = $request->input('quiz_tampilkan_kanji') === '1' || $request->input('quiz_tampilkan_kanji') === 'true' ? '1' : '0';
+            } else {
+                $charPron = null;
+            }
+        }
+
         $step = NodeStep::query()->create([
             'id' => (string) Str::ulid(),
             'node_id' => $node->id,
             'type' => $type,
             'content' => $content,
             'character_symbol' => $charSymbol,
-            'character_pronunciation' => $validated['character_pronunciation'] ?? null,
+            'character_pronunciation' => $charPron,
             'quiz_instruction' => $quizInstruction,
             'quiz_query' => $quizQuery,
             'quiz_options' => $validated['quiz_options'] ?? null,
@@ -343,11 +352,20 @@ class GuruStepApiController extends Controller
             $quizInstruction = $request->input('tampilkan_kanji') === '1' || $request->input('tampilkan_kanji') === 'true' ? '1' : '0';
         }
 
+        $charPron = $validated['character_pronunciation'] ?? null;
+        if ($validated['type'] === 'quiz') {
+            if ($request->input('quiz_question_type') === 'vocabulary') {
+                $charPron = $request->input('quiz_tampilkan_kanji') === '1' || $request->input('quiz_tampilkan_kanji') === 'true' ? '1' : '0';
+            } else {
+                $charPron = null;
+            }
+        }
+
         $step->update([
             'type' => $validated['type'],
             'content' => $content,
             'character_symbol' => $charSymbol,
-            'character_pronunciation' => $validated['character_pronunciation'] ?? null,
+            'character_pronunciation' => $charPron,
             'quiz_instruction' => $quizInstruction,
             'quiz_query' => $quizQuery,
             'quiz_options' => $validated['quiz_options'] ?? null,
@@ -403,6 +421,7 @@ class GuruStepApiController extends Controller
             'level' => 'nullable|string|in:N5,N4,N3,N2,N1',
             'quiz_question_type' => 'nullable|string|in:character,vocabulary,random',
             'tampilkan_kanji' => 'nullable|string',
+            'quiz_tampilkan_kanji' => 'nullable|string',
         ]);
     }
 
@@ -445,15 +464,44 @@ class GuruStepApiController extends Controller
 
         if ($step->type === 'quiz') {
             $serialized['quiz_type'] = $step->content;
+            $quizTampilkanKanji = $step->character_pronunciation !== '0';
+            $serialized['quiz_tampilkan_kanji'] = $quizTampilkanKanji;
+
             if ($step->character_symbol === 'random') {
                 $serialized['quiz_question_type'] = 'random';
                 $serialized['quiz_kata_id'] = null;
                 $serialized['quiz_kata_meaning'] = null;
+                $serialized['quiz_kata_romaji'] = null;
             } else {
                 $kataRecord = \App\Models\Kata::where('kata', $step->character_symbol)->first();
                 $serialized['quiz_question_type'] = $kataRecord ? 'vocabulary' : 'character';
                 $serialized['quiz_kata_id'] = $kataRecord?->id;
                 $serialized['quiz_kata_meaning'] = $kataRecord?->arti;
+                $serialized['quiz_kata_romaji'] = $kataRecord?->romaji;
+
+                if ($kataRecord && !$quizTampilkanKanji) {
+                    $serialized['character_symbol'] = $kataRecord->kana;
+                    if ($step->quiz_query === $step->character_symbol) {
+                        $serialized['quiz_query'] = $kataRecord->kana;
+                    }
+                }
+            }
+
+            if (!$quizTampilkanKanji && !empty($step->quiz_options)) {
+                $convertedOptions = [];
+                foreach ($step->quiz_options as $option) {
+                    $optKata = \App\Models\Kata::where('kata', $option)->orWhere('arti', $option)->first();
+                    if ($optKata) {
+                        if ($option === $optKata->kata) {
+                            $convertedOptions[] = $optKata->kana;
+                        } else {
+                            $convertedOptions[] = $option;
+                        }
+                    } else {
+                        $convertedOptions[] = $option;
+                    }
+                }
+                $serialized['quiz_options'] = $convertedOptions;
             }
         }
 

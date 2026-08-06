@@ -172,7 +172,8 @@ class LessonContentBuilder
                                     $displayText = $optKata->kata;
                                     $optKanjis = $optKata->kanjis->pluck('kanji')->toArray();
                                     $optAllStudied = collect($optKanjis)->every(fn($k) => in_array($k, $studiedKanjis));
-                                    if (!$optAllStudied) {
+                                    $stepAllowsKanji = ($stepToMap->character_pronunciation !== '0');
+                                    if (!$optAllStudied || !$stepAllowsKanji) {
                                         $displayText = $optKata->kana;
                                     }
                                 }
@@ -193,7 +194,8 @@ class LessonContentBuilder
                             $quizQuery = $kata->kata;
                             $associatedKanjis = $kata->kanjis->pluck('kanji')->toArray();
                             $allStudied = collect($associatedKanjis)->every(fn($k) => in_array($k, $studiedKanjis));
-                            if (!$allStudied) {
+                            $stepAllowsKanji = ($stepToMap->character_pronunciation !== '0');
+                            if (!$allStudied || !$stepAllowsKanji) {
                                 $quizQuery = $kata->kana;
                             }
                         } else {

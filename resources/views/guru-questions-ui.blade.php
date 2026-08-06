@@ -461,6 +461,11 @@
                                 <input type="hidden" name="quiz_kata_meaning" id="quiz-kata-meaning">
                             </div>
                         </label>
+                        <!-- Checkbox Tunjukkan Kanji Kuis -->
+                        <div id="quiz-tampilkan-kanji-container" style="display: none; align-items: center; gap: 8px; margin-top: 4px;">
+                            <input type="checkbox" name="quiz_tampilkan_kanji" id="quiz-tampilkan-kanji" value="1" checked style="width: 16px; height: 16px; cursor: pointer; accent-color: var(--accent);">
+                            <label for="quiz-tampilkan-kanji" style="font-size: 14px; font-weight: 500; color: var(--text-main); cursor: pointer;">Tunjukkan kanji jika ada</label>
+                        </div>
                     </div>
 
                     <div id="quiz-type-container" style="display: none; flex-direction: column; gap: 16px;">

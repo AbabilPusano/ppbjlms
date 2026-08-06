@@ -419,6 +419,12 @@ export default function initQuestionsModule() {
       }
     };
 
+    const toggleQuizTampilkanKanjiCheckbox = (text) => {
+      const container = root.querySelector('#quiz-tampilkan-kanji-container');
+      if (!container) return;
+      container.style.display = 'flex';
+    };
+
     const state = {
       node: null,
       steps: [],
@@ -895,10 +901,12 @@ export default function initQuestionsModule() {
             if (symbolInput) symbolInput.value = item.kata || '';
             if (pronunciationInput) pronunciationInput.value = item.romaji || '';
             if (meaningInput) meaningInput.value = item.arti || '';
+            toggleQuizTampilkanKanjiCheckbox(item.kata);
           } else {
             if (symbolInput) symbolInput.value = '';
             if (pronunciationInput) pronunciationInput.value = '';
             if (meaningInput) meaningInput.value = '';
+            toggleQuizTampilkanKanjiCheckbox('');
           }
         }
       });
@@ -923,6 +931,13 @@ export default function initQuestionsModule() {
 
     if (quizTypeSelect) {
       quizTypeSelect.addEventListener('change', () => {
+        triggerAutoQuizGeneration();
+      });
+    }
+
+    const quizTampilkanKanji = root.querySelector('#quiz-tampilkan-kanji');
+    if (quizTampilkanKanji) {
+      quizTampilkanKanji.addEventListener('change', () => {
         triggerAutoQuizGeneration();
       });
     }
@@ -1251,6 +1266,14 @@ export default function initQuestionsModule() {
         stepForm.elements.type.value = step.type || 'text';
         stepForm.elements.sort_order.value = step.sort_order ?? '';
 
+        if (step.type === 'quiz') {
+          const qType = step.quiz_question_type || 'character';
+          if (stepForm.elements.quiz_question_type) {
+            stepForm.elements.quiz_question_type.value = qType;
+          }
+        }
+        renderStepFields();
+
         if (step.type === 'text') {
           stepForm.elements.content.value = step.content || '';
         } else if (step.type === 'character') {
@@ -1307,14 +1330,17 @@ export default function initQuestionsModule() {
             }
           } else if (qType === 'vocabulary') {
             if (quizKataSelect) {
-              quizKataSelect.setValue(step.quiz_kata_id || '', `${step.character_symbol || ''} (${step.character_pronunciation || ''})`);
+              quizKataSelect.setValue(step.quiz_kata_id || '', `${step.character_symbol || ''} (${step.quiz_kata_romaji || ''})`);
             }
             const symbolInput = root.querySelector('#quiz-kata-symbol');
             const pronunciationInput = root.querySelector('#quiz-kata-pronunciation');
             const meaningInput = root.querySelector('#quiz-kata-meaning');
             if (symbolInput) symbolInput.value = step.character_symbol || '';
-            if (pronunciationInput) pronunciationInput.value = step.character_pronunciation || '';
+            if (pronunciationInput) pronunciationInput.value = step.quiz_kata_romaji || '';
             if (meaningInput) meaningInput.value = step.quiz_kata_meaning || '';
+            toggleQuizTampilkanKanjiCheckbox(step.character_symbol);
+            const chk = root.querySelector('#quiz-tampilkan-kanji');
+            if (chk) chk.checked = (step.quiz_tampilkan_kanji !== false);
           }
 
           let detectedQuizType = step.quiz_type || '';
@@ -1341,8 +1367,11 @@ export default function initQuestionsModule() {
         }
       } else if (stepForm) {
         toggleTampilkanKanjiCheckbox('');
-        const chk = root.querySelector('#vocab-tampilkan-kanji');
-        if (chk) chk.checked = true;
+        toggleQuizTampilkanKanjiCheckbox('');
+        const chkVocab = root.querySelector('#vocab-tampilkan-kanji');
+        if (chkVocab) chkVocab.checked = true;
+        const chkQuiz = root.querySelector('#quiz-tampilkan-kanji');
+        if (chkQuiz) chkQuiz.checked = true;
         stepForm.elements.type.value = 'text';
         stepForm.elements.sort_order.value = '';
       }
@@ -1395,12 +1424,19 @@ export default function initQuestionsModule() {
           String(formData.get('quiz_option_3') || ''),
         ];
         payload.quiz_correct_index = Number(formData.get('quiz_correct_index') || 0);
-        payload.character_symbol = String(formData.get('quiz_character_symbol') || '');
         payload.character_pronunciation = String(formData.get('quiz_character_pronunciation') || '');
         payload.quiz_question_type = String(formData.get('quiz_question_type') || 'character');
         if (payload.quiz_question_type === 'random') {
           payload.character_symbol = 'random';
           payload.quiz_query = 'RANDOM_QUIZ';
+        } else if (payload.quiz_question_type === 'vocabulary') {
+          payload.character_symbol = String(formData.get('quiz_kata_symbol') || '');
+        } else {
+          payload.character_symbol = String(formData.get('quiz_character_symbol') || '');
+        }
+        if (payload.quiz_question_type === 'vocabulary') {
+          const chk = root.querySelector('#quiz-tampilkan-kanji');
+          payload.quiz_tampilkan_kanji = chk ? (chk.checked ? '1' : '0') : '1';
         }
       }
 
