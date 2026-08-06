@@ -70,7 +70,16 @@ class GuruStepApiController extends Controller
             ->where('type', 'vocabulary')
             ->whereNotNull('character_symbol')
             ->where('character_symbol', '!=', '')
-            ->get(['character_symbol', 'character_pronunciation', 'content'])
+            ->get()
+            ->map(function ($step) {
+                $kataRecord = \App\Models\Kata::where('kata', $step->character_symbol)->first();
+                return [
+                    'character_symbol' => $step->character_symbol,
+                    'character_pronunciation' => $step->character_pronunciation,
+                    'content' => $step->content,
+                    'kana' => $kataRecord ? $kataRecord->kana : $step->character_symbol,
+                ];
+            })
             ->unique('character_symbol')
             ->values();
 
@@ -93,6 +102,7 @@ class GuruStepApiController extends Controller
                     'type' => $node->type,
                     'unit_id' => $node->unitId,
                     'level_name' => $node->unit && $node->unit->level ? $node->unit->level->name : null,
+                    'level_code' => $node->unit && $node->unit->level ? $node->unit->level->code : null,
                     'unit_type' => $node->unit ? $node->unit->type : null,
                 ],
                 'steps' => $steps,

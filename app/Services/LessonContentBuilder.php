@@ -167,6 +167,8 @@ class LessonContentBuilder
                                 $isCorrect = ($optKata->kata === $kata->kata);
                                 if ($quizType === 'kata_to_meaning') {
                                     $displayText = $optKata->arti;
+                                } elseif ($quizType === 'kana_to_romaji') {
+                                    $displayText = $optKata->romaji;
                                 } else {
                                     // meaning_to_kata
                                     $displayText = $optKata->kata;
@@ -198,6 +200,8 @@ class LessonContentBuilder
                             if (!$allStudied || !$stepAllowsKanji) {
                                 $quizQuery = $kata->kana;
                             }
+                        } elseif ($quizType === 'kana_to_romaji') {
+                            $quizQuery = $kata->kana;
                         } else {
                             $quizQuery = $kata->arti;
                         }
@@ -226,13 +230,48 @@ class LessonContentBuilder
                     }
 
                     // Fallback for non-vocabulary steps (like character steps)
-                    $options = collect($stepToMap->quiz_options)->map(function ($option, $index) use ($stepToMap): array {
+                    $chosenQuizType = $stepToMap->content; // content column holds the quiz_type
+                    if ($chosenQuizType === 'random') {
+                        $chosenQuizType = collect(['romaji_to_kana', 'kana_to_romaji'])->random();
+                    }
+
+                    $charRecord = \App\Models\Huruf::where('simbol', $stepToMap->character_symbol)->first();
+                    $quizQuery = $stepToMap->quiz_query;
+                    if ($stepToMap->quiz_query === 'RANDOM_QUIZ' && $charRecord) {
+                        if ($chosenQuizType === 'romaji_to_kana') {
+                            $quizQuery = $charRecord->cara_baca;
+                        } else {
+                            $quizQuery = $stepToMap->character_symbol;
+                        }
+                    }
+
+                    $resolvedOptions = [];
+                    foreach ($stepToMap->quiz_options as $index => $option) {
+                        $isCorrect = ($index === (int)$stepToMap->quiz_correct_index);
+                        $displayText = $option;
+
+                        if ($stepToMap->quiz_query === 'RANDOM_QUIZ') {
+                            $optHuruf = \App\Models\Huruf::where('simbol', $option)->first();
+                            if ($chosenQuizType === 'kana_to_romaji') {
+                                $displayText = $optHuruf ? $optHuruf->cara_baca : $option;
+                            } else {
+                                $displayText = $option;
+                            }
+                        }
+
+                        $resolvedOptions[] = [
+                            'text' => $displayText,
+                            'correct' => $isCorrect,
+                        ];
+                    }
+
+                    $options = collect($resolvedOptions)->map(function ($opt, $index): array {
                         return [
                             'id' => $index + 1,
-                            'text' => $option,
+                            'text' => $opt['text'],
                             'sub' => '',
                             'image' => '',
-                            'correct' => $index === $stepToMap->quiz_correct_index,
+                            'correct' => $opt['correct'],
                         ];
                     })->all();
 
@@ -242,7 +281,7 @@ class LessonContentBuilder
 
                     return [
                         'type' => 'select-image',
-                        'question' => $stepToMap->quiz_query,
+                        'question' => $quizQuery,
                         'instruction' => $stepToMap->quiz_instruction,
                         'answer' => $answerText,
                         'options' => $shuffledOptions,

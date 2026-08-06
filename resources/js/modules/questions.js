@@ -753,6 +753,11 @@ export default function initQuestionsModule() {
             const correctAns = charPronunciation;
             const distRomaji = distractors.map(d => d.character_pronunciation);
             options = [correctAns, ...distRomaji];
+          } else if (quizType === 'random') {
+            questionText = 'RANDOM_QUIZ';
+            const correctAns = charSymbol;
+            const distKanas = distractors.map(d => d.character_symbol);
+            options = [correctAns, ...distKanas];
           }
 
           const correctVal = options[0];
@@ -819,6 +824,12 @@ export default function initQuestionsModule() {
             const correctAns = wordSymbol;
             const distSymbols = distractors.map(d => d.character_symbol);
             options = [correctAns, ...distSymbols];
+          } else if (quizType === 'kana_to_romaji') {
+            const currentWord = list.find(w => w.character_symbol === wordSymbol);
+            questionText = currentWord ? currentWord.kana : wordSymbol;
+            const correctAns = wordPronunciation;
+            const distRomaji = distractors.map(d => d.character_pronunciation);
+            options = [correctAns, ...distRomaji];
           } else if (quizType === 'random') {
             questionText = 'RANDOM_QUIZ';
             const correctAns = wordSymbol;
@@ -1030,20 +1041,29 @@ export default function initQuestionsModule() {
               <option value="">-- Pilih Tipe Kuis --</option>
               <option value="romaji_to_kana">Romaji -> Kana</option>
               <option value="kana_to_romaji">Kana -> Romaji</option>
+              <option value="random">Random (Acak)</option>
             `;
-            if (['romaji_to_kana', 'kana_to_romaji'].includes(currentVal)) {
+            if (['romaji_to_kana', 'kana_to_romaji', 'random'].includes(currentVal)) {
               quizTypeSelect.value = currentVal;
             }
           } else if (quizQuestionType === 'vocabulary') {
-             quizTypeSelect.innerHTML = `
+             const isHurufLevel = state.node && (state.node.level_code === 'huruf' || (state.node.level_name || '').toLowerCase() === 'huruf');
+             let optionsHtml = `
               <option value="">-- Pilih Tipe Kuis --</option>
               <option value="kata_to_meaning">Kata -> Makna</option>
               <option value="meaning_to_kata">Makna -> Kata</option>
-              <option value="random">Random (Acak)</option>
-            `;
-            if (['kata_to_meaning', 'meaning_to_kata', 'random'].includes(currentVal)) {
-              quizTypeSelect.value = currentVal;
-            }
+             `;
+             if (isHurufLevel) {
+               optionsHtml += `<option value="kana_to_romaji">Kana -> Romaji</option>`;
+             }
+             optionsHtml += `<option value="random">Random (Acak)</option>`;
+             quizTypeSelect.innerHTML = optionsHtml;
+
+             const validVals = ['kata_to_meaning', 'meaning_to_kata', 'random'];
+             if (isHurufLevel) validVals.push('kana_to_romaji');
+             if (validVals.includes(currentVal)) {
+               quizTypeSelect.value = currentVal;
+             }
           }
         }
 
@@ -1346,7 +1366,9 @@ export default function initQuestionsModule() {
           let detectedQuizType = step.quiz_type || '';
           if (!detectedQuizType && step.character_symbol) {
             if (qType === 'character') {
-              if (step.quiz_query === step.character_pronunciation) {
+              if (step.quiz_query === 'RANDOM_QUIZ') {
+                detectedQuizType = 'random';
+              } else if (step.quiz_query === step.character_pronunciation) {
                 detectedQuizType = 'romaji_to_kana';
               } else if (step.quiz_query === step.character_symbol) {
                 detectedQuizType = 'kana_to_romaji';
